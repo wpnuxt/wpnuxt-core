@@ -1,0 +1,8 @@
+#import '~/queries/fragments/EditorBlock.fragment.gql';
+
+fragment CoreParagraph on CoreParagraph {
+  ...EditorBlock
+  attributes {
+    content
+  }
+}

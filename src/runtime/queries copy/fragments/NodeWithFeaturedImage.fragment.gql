@@ -1,0 +1,10 @@
+#import '~/queries/fragments/NodeWithFeaturedImageToMediaItemConnectionEdge.fragment.gql';
+
+fragment NodeWithFeaturedImage on NodeWithFeaturedImage {
+  featuredImage { 
+    ...NodeWithFeaturedImageToMediaItemConnectionEdge
+  }
+  featuredImageDatabaseId
+  featuredImageId
+  id
+}

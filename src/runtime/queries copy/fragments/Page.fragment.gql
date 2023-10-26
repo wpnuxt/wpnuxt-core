@@ -1,0 +1,26 @@
+#import '~/queries/fragments/ContentNode.fragment.gql';
+#import '~/queries/fragments/CoreGallery.fragment.gql';
+#import '~/queries/fragments/CoreImage.fragment.gql';
+#import '~/queries/fragments/CoreParagraph.fragment.gql';
+#import '~/queries/fragments/CoreQuote.fragment.gql';
+#import '~/queries/fragments/EditorBlock.fragment.gql';
+
+fragment Page on Page {
+  ...ContentNode
+  content
+  isFrontPage
+  isPostsPage
+  isPreview
+  isPrivacyPage
+  isRestricted
+  isRevision
+  title
+  editorBlocks {
+    name
+    ...CoreGallery
+    ...CoreImage
+    ...CoreParagraph
+    ...CoreQuote
+    ...EditorBlock
+  }
+}

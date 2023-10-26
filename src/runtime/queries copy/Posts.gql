@@ -1,0 +1,11 @@
+#import "~/queries/fragments/Post.fragment.gql"
+#import "~/queries/fragments/NodeWithExcerpt.fragment.gql"
+
+query Posts($limit: Int = 10) {
+  posts(first: $limit) {
+    nodes {
+      ...Post
+      ...NodeWithExcerpt
+    }
+  }
+}

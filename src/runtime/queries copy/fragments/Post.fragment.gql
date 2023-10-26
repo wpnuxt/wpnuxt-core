@@ -1,0 +1,23 @@
+
+#import '~/queries/fragments/ContentNode.fragment.gql';
+#import '~/queries/fragments/NodeWithFeaturedImage.fragment.gql';
+#import '~/queries/fragments/CoreGallery.fragment.gql';
+#import '~/queries/fragments/CoreImage.fragment.gql';
+#import '~/queries/fragments/CoreParagraph.fragment.gql';
+#import '~/queries/fragments/CoreQuote.fragment.gql';
+#import '~/queries/fragments/EditorBlock.fragment.gql';
+
+fragment Post on Post {
+  ...ContentNode
+  ...NodeWithFeaturedImage
+  content
+  title
+  editorBlocks {
+    name
+    ...CoreGallery
+    ...CoreImage
+    ...CoreParagraph
+    ...CoreQuote
+    ...EditorBlock
+  }
+}

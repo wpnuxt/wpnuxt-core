@@ -1,0 +1,10 @@
+fragment EditorBlock on EditorBlock {
+  apiVersion
+  blockEditorCategoryName
+  clientId
+  cssClassNames
+  isDynamic
+  name
+  parentClientId
+  renderedHtml
+}

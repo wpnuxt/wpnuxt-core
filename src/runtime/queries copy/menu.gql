@@ -1,0 +1,11 @@
+query Menu($id: ID! = "dGVybTo0") {
+  menu(id: $id) {
+    id
+    menuItems {
+      nodes {
+        label
+        uri
+      }
+    }
+  }
+}

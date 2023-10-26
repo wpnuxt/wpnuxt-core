@@ -1,0 +1,218 @@
+
+query Settings {
+  generalSettings {
+    title
+    description
+    url
+  }
+}
+query Menu($id: ID! = "dGVybTo0") {
+  menu(id: $id) {
+    id
+    menuItems {
+      nodes {
+        label
+        uri
+      }
+    }
+  }
+}
+fragment ContentNode on ContentNode {
+  # contentType
+  contentTypeName
+  databaseId
+  date
+  dateGmt
+  desiredSlug
+  # editingLockedBy
+  enclosure
+  # enqueuedScripts
+  # enqueuedStylesheets
+  guid
+  id
+  isContentNode
+  isPreview
+  isRestricted
+  isTermNode
+  # lastEditedBy
+  link
+  modified
+  modifiedGmt
+  previewRevisionDatabaseId
+  previewRevisionId
+  slug
+  status
+  # template
+  uri
+}
+fragment CoreGallery on CoreGallery {
+  ...EditorBlock
+  innerBlocks {
+    ...CoreImage
+  }
+}
+fragment CoreImage on CoreImage {
+  ...EditorBlock
+  attributes {
+    align
+    alt
+    anchor
+    aspectRatio
+    borderColor
+    caption
+    className
+    cssClassName
+    height
+    href
+    id
+    linkClass
+    linkDestination
+    linkTarget
+    lock
+    rel
+    scale
+    sizeSlug
+    src
+    style
+    title
+    url
+    width
+  }
+}
+fragment CoreParagraph on CoreParagraph {
+  ...EditorBlock
+  attributes {
+    content
+  }
+}
+fragment CoreQuote on CoreQuote {
+  ...EditorBlock
+}
+fragment EditorBlock on EditorBlock {
+  apiVersion
+  blockEditorCategoryName
+  clientId
+  cssClassNames
+  isDynamic
+  name
+  parentClientId
+  renderedHtml
+}
+fragment MediaItem on MediaItem {
+  altText
+  # ancestors
+  # author
+  authorDatabaseId
+  authorId
+  caption
+  # children
+  commentCount
+  commentStatus
+  # comments
+  # contentType
+  contentTypeName
+  databaseId
+  date
+  dateGmt
+  description
+  desiredSlug
+  # editingLockedBy
+  enclosure
+  # enqueuedScripts
+  # enqueuedStylesheets
+  fileSize
+  guid
+  id
+  isContentNode
+  isPreview
+  isRestricted
+  isTermNode
+  # lastEditedBy
+  link
+  # mediaDetails
+  mediaItemId
+  mediaItemUrl
+  mediaType
+  mimeType
+  modified
+  modifiedGmt
+  # parent
+  parentDatabaseId
+  parentId
+  previewRevisionDatabaseId
+  previewRevisionId
+  sizes
+  slug
+  sourceUrl
+  srcSet
+  status
+  # template
+  title
+  uri
+}
+fragment NodeWithExcerpt on NodeWithExcerpt {
+  excerpt
+  id
+}
+fragment NodeWithFeaturedImage on NodeWithFeaturedImage {
+  featuredImage {
+    ...NodeWithFeaturedImageToMediaItemConnectionEdge
+  }
+  featuredImageDatabaseId
+  featuredImageId
+  id
+}
+fragment NodeWithFeaturedImageToMediaItemConnectionEdge on NodeWithFeaturedImageToMediaItemConnectionEdge {
+  cursor
+  node {
+    ...MediaItem
+  }
+}
+fragment Page on Page {
+  ...ContentNode
+  content
+  isFrontPage
+  isPostsPage
+  isPreview
+  isPrivacyPage
+  isRestricted
+  isRevision
+  title
+  editorBlocks {
+    name
+    ...CoreGallery
+    ...CoreImage
+    ...CoreParagraph
+    ...CoreQuote
+    ...EditorBlock
+  }
+}
+fragment Post on Post {
+  ...ContentNode
+  ...NodeWithFeaturedImage
+  content
+  title
+  editorBlocks {
+    name
+    ...CoreGallery
+    ...CoreImage
+    ...CoreParagraph
+    ...CoreQuote
+    ...EditorBlock
+  }
+}
+
+query Posts($limit: Int = 10) {
+  posts(first: $limit) {
+    nodes {
+      ...Post
+      ...NodeWithExcerpt
+    }
+  }
+}
+query PostByUri($uri: String!) {
+  nodeByUri(uri: $uri) {
+    ...Page
+    ...Post
+  }
+}
