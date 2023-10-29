@@ -1,10 +1,10 @@
 navigation: false
 hero:
-  title: '<span class="font-serif">WP</span><span class="text-primary-400">Nuxt</span><br><br>Nuxt 3 <span class="text-primary-400">+</span> Headless <span class="font-serif">WordPress</span>'
+  title: '<span class="font-serif">WP</span><span class="text-primary-400">Nuxt</span><br><br>Nuxt 3 <span class="text-primary-400">+</span> headless <span class="font-serif">WordPress</span>'
   description: 'WPNuxt is a Nuxt Module that allows fetching content from WordPress as a headless CMS.'
   button: Get started
 sections:
-  - title: Use WordPress as a headless CMS<br><span class="text-primary-400">with a cutting edge Nuxt frontend</span>
+  - title: combine WordPress as a headless CMS<br><span class="text-primary-400">with a cutting edge Nuxt frontend</span>
     slot: features
     toolsCards:
       - title: 'Headless CMS'

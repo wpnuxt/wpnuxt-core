@@ -30,7 +30,7 @@ export default defineNuxtConfig({
   fontMetrics: {
     fonts: [
       'DM Sans',
-      'serif'
+      'EB Garamond'
     ]
   },
 
