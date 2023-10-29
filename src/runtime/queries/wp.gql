@@ -1,22 +1,3 @@
-
-query Settings {
-  generalSettings {
-    title
-    description
-    url
-  }
-}
-query Menu($id: ID! = "dGVybTo0") {
-  menu(id: $id) {
-    id
-    menuItems {
-      nodes {
-        label
-        uri
-      }
-    }
-  }
-}
 fragment ContentNode on ContentNode {
   # contentType
   contentTypeName
@@ -202,6 +183,13 @@ fragment Post on Post {
   }
 }
 
+query Pages($limit: Int = 10) {
+  pages(first: $limit) {
+    nodes {
+      ...Page
+    }
+  }
+}
 query Posts($limit: Int = 10) {
   posts(first: $limit) {
     nodes {
@@ -214,5 +202,23 @@ query PostByUri($uri: String!) {
   nodeByUri(uri: $uri) {
     ...Page
     ...Post
+  }
+}
+query Settings {
+  generalSettings {
+    title
+    description
+    url
+  }
+}
+query Menu($id: ID! = "dGVybTo0") {
+  menu(id: $id) {
+    id
+    menuItems {
+      nodes {
+        label
+        uri
+      }
+    }
   }
 }
