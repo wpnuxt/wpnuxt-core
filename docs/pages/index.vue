@@ -96,7 +96,10 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
         v-if="section.title"
         #title
       >
-        <span v-html="section?.title" />
+        <span
+          class="text-2xl md:text-4xl"
+          v-html="section?.title"
+        />
       </template>
 
       <template

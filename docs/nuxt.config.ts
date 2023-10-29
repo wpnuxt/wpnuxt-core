@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     preference: 'dark'
   },
   ui: {
-    icons: ['heroicons', 'simple-icons', 'ph']
+    icons: ['heroicons', 'simple-icons', 'ph', 'ant-design']
   },
 
   fontMetrics: {

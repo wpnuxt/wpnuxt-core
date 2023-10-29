@@ -25,6 +25,7 @@
     "h3": "^1.8.2"
   },
   "devDependencies": {
+    "@iconify-json/ant-design": "^1.1.10",
     "@nuxt/devtools": "^1.0.0",
     "@nuxt/ui": "^2.9.0",
     "@nuxt/ui-pro": "^0.3.1"
