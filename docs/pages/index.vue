@@ -78,27 +78,12 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
         <UButton
           size="xl"
           color="white"
-          icon="i-ph-video-duotone"
-          label="What is WPNuxt?"
-          @click="videoModalOpen = true"
+          icon="i-ph-monitor"
+          label="WPNuxt Demo"
+          to="https://demo.wpnuxt.com"
+          target="_blank"
         />
       </template>
-      <UModal
-        v-model="videoModalOpen"
-        :ui="{ width: 'sm:max-w-[560px]' }"
-      >
-        <div>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube-nocookie.com/embed/o9e12WbKrd8?si=BkxcagvrvXPsAWQh"
-            title="Nuxt Content in 3 minutes"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          />
-        </div>
-      </UModal>
     </ULandingHero>
 
     <ULandingSection
