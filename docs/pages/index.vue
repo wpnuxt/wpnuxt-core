@@ -3,7 +3,6 @@ definePageMeta({
   colorMode: 'dark'
 })
 
-const videoModalOpen = ref(false)
 const title = 'WPNuxt'
 const description = 'Use WordPress as a headless CMS with a Nuxt 3 frontend'
 
@@ -12,8 +11,8 @@ useSeoMeta({
   ogTitle: title,
   description,
   ogDescription: description,
-  ogImage: 'https://content.nuxt.com/social-card.png',
-  twitterImage: 'https://content.nuxt.com/social-card.png'
+  ogImage: 'https://wpnuxt.com/social-card.png',
+  twitterImage: 'https://wpnuxt.com/social-card.png'
 })
 
 const { data } = await useAsyncData('landing', () => {
