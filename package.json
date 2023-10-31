@@ -1,7 +1,7 @@
 {
   "name": "@vernaillen/wpnuxt",
   "version": "0.0.3",
-  "description": "WPNuxt Module",
+  "description": "WPNuxt",
   "repository": "vernaillen/wpnuxt-module",
   "license": "MIT",
   "type": "module",

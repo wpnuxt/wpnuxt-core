@@ -1,4 +1,4 @@
-# WPNuxt Module
+# WPNuxt
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -41,7 +41,7 @@ export default defineNuxtConfig({
 })
 ```
 
-That's it! You can now use the WPNuxt Module in your Nuxt app ✨
+That's it! You can now use the WPNuxt module in your Nuxt app ✨
 
 ## Development
 

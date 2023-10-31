@@ -17,7 +17,7 @@ const { data: surround } = await useAsyncData(`docs-${route.path}-surround`, () 
   }
 })
 
-const titleSuffix = 'WPNuxt Module'
+const titleSuffix = 'WPNuxt'
 
 useSeoMeta({
   title: `${page.value.title} - ${titleSuffix}`,
@@ -63,7 +63,7 @@ const vernaillenLinks = [
   {
     icon: 'i-ph-hand-heart-duotone',
     label: 'Become a Sponsor',
-    to: 'https://github.com/sponsors/nuxt',
+    to: 'https://github.com/sponsors/vernaillen',
     target: '_blank'
   },
   {
@@ -111,7 +111,7 @@ const vernaillenLinks = [
               dashed
             />
             <UPageLinks
-              title="WPNuxt Module"
+              title="WPNuxt"
               :links="vernaillenLinks"
             />
             <UDivider dashed />

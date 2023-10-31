@@ -2,7 +2,7 @@
 const route = useRoute()
 
 useServerSeoMeta({
-  ogSiteName: 'WPNuxt Module',
+  ogSiteName: 'WPNuxt',
   twitterCard: 'summary_large_image'
 })
 
@@ -59,7 +59,7 @@ provide('navigation', navigation)
     <template #right>
       <UColorModeButton v-if="!$colorMode.forced" />
       <UButton
-        aria-label="WPNuxt Module on GitHub"
+        aria-label="WPNuxt on GitHub"
         icon="i-simple-icons-github"
         to="https://github.com/vernaillen/wpnuxt-module"
         target="_blank"
@@ -103,7 +103,7 @@ provide('navigation', navigation)
     <template #right>
       <UColorModeButton v-if="!$colorMode.forced" />
       <UButton
-        aria-label="WPNuxt Module on GitHub"
+        aria-label="WPNuxt on GitHub"
         icon="i-simple-icons-github"
         to="https://github.com/vernaillen/wpnuxt-module"
         target="_blank"

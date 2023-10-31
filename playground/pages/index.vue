@@ -4,7 +4,7 @@ import { usePosts, usePages, useHead } from '#imports';
 const posts = await usePosts()
 const pages = await usePages()
 useHead({
-  title: "WPNuxt Module Playground"
+  title: "WPNuxt Playground"
 })
 </script>
 

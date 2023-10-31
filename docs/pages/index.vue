@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 const videoModalOpen = ref(false)
-const title = 'WPNuxt Module'
+const title = 'WPNuxt'
 const description = 'Use WordPress as a headless CMS with a Nuxt 3 frontend'
 
 useSeoMeta({
