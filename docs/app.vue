@@ -21,6 +21,11 @@ const links = [{
   icon: 'i-ph-play-duotone',
   to: '/playground'
 }, {
+  label: 'Demo',
+  icon: 'i-ph-monitor',
+  to: 'https://demo.wpnuxt.com',
+  target: '_blank'
+}, {
   label: 'Releases',
   icon: 'i-heroicons-rocket-launch-solid',
   to: 'https://github.com/vernaillen/wpnuxt-module/releases',
