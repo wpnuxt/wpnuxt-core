@@ -1,10 +1,17 @@
 navigation: false
 hero:
+  badges:
+    - label: this Nuxt module is still in alpha stage
+      variant: outline
+      icon: i-ph-warning
+      size: xs
+      trailing: true
+      to: '/getting-started/installation'
   title: '<span class="font-serif">WP</span><span class="text-primary-400">Nuxt</span><br><br>Nuxt 3 <span class="text-primary-400">+</span> headless <span class="font-serif">WordPress</span>'
   description: 'Easily fetch content from WordPress using composables and render it with Nuxt 3 components.<br>Supports Gutenberg blocks, allowing you to provide custom components for each block type.'
   button: Get started
 sections:
-  - title: combine the strength and ease of use of WordPress as a CMS<br><span class="text-primary-400">with a cutting edge Nuxt frontend</span>
+  - title: combine the ease of use of WordPress as a CMS<br><span class="text-primary-400">with a cutting edge Nuxt frontend</span>
     slot: features
     toolsCards:
       - title: 'Headless CMS'
