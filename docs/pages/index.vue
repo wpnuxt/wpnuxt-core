@@ -53,10 +53,6 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
           variant="soft"
           size="md"
         >
-          <UIcon
-            name="i-ph-warning"
-            class="mr-2"
-          />
           this brand new Nuxt module is still in alpha stage
         </UBadge>
       </div>
