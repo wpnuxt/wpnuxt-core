@@ -33,6 +33,7 @@
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",
     "@nuxt/kit": "^3.8.0",
+    "defu": "^6.1.3",
     "nuxt-graphql-middleware": "^4.0.0-beta.9"
   },
   "devDependencies": {

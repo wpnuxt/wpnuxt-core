@@ -11,10 +11,15 @@ export default defineNuxtModule<ModuleOptions>({
   // Default configuration options of the Nuxt module
   defaults: {},
   async setup (options, nuxt) {
+    console.log('Setting up wpnuxt-module, options: ', options)
     const resolver = createResolver(import.meta.url)
 
-    // todo: addto module configuration
-    const wordpressUrl = 'https://wpnuxt.vernaillen.com';
+    // TODO: test if wordpressUrl is provided!
+    // TODO: use showBlockInfo (once the core components are migrated)
+
+    nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
+      wordpressUrl: options.wordpressUrl
+    })
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addPlugin(resolver.resolve('./runtime/plugin'))
@@ -23,7 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     await installModule('nuxt-graphql-middleware', {
       debug: true,
-      graphqlEndpoint: `${wordpressUrl}/graphql`,
+      graphqlEndpoint: `${options.wordpressUrl}/graphql`,
       codegenConfig: {
         silent: false,
         skipTypename: true,
