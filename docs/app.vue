@@ -53,7 +53,7 @@ provide('navigation', navigation)
 <template>
   <UHeader :links="links">
     <template #logo>
-      <Logo class="h-6 w-auto" />
+      <LogoComponent class="h-6 w-auto" />
     </template>
 
     <template #right>
