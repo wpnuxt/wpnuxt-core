@@ -1,8 +1,11 @@
-import { defineNuxtModule, addImportsDir, addPlugin, createResolver, installModule } from '@nuxt/kit'
+import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, createResolver, installModule } from '@nuxt/kit'
 import defu from 'defu'
 
 // Module options TypeScript interface definition
-export interface ModuleOptions {}
+export interface ModuleOptions {
+  wordpressUrl: string
+  showBlockInfo?: boolean
+}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -10,7 +13,10 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'wpNuxt'
   },
   // Default configuration options of the Nuxt module
-  defaults: {},
+  defaults: {
+    wordpressUrl: 'http://localhost',
+    showBlockInfo: false
+  },
   async setup (options, nuxt) {
     console.log('Setting up wpnuxt-module, options: ', options)
     const resolver = createResolver(import.meta.url)
@@ -19,13 +25,17 @@ export default defineNuxtModule<ModuleOptions>({
     // TODO: use showBlockInfo (once the core components are migrated)
 
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
-      wordpressUrl: options.wordpressUrl
+      wordpressUrl: options.wordpressUrl!
     })
-
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addPlugin(resolver.resolve('./runtime/plugin'))
-
     addImportsDir(resolver.resolve('./runtime/composables'))
+
+    addComponentsDir({
+      path: resolver.resolve('./runtime/components'),
+      pathPrefix: false,
+      prefix: '',
+      global: true
+    })
 
     await installModule('nuxt-graphql-middleware', {
       debug: true,
@@ -53,5 +63,23 @@ export default defineNuxtModule<ModuleOptions>({
         resolver.resolve('./runtime/queries/**/*.gql'),
       ],
     })
-  }
+  },
 })
+
+declare module '@nuxt/schema' {
+  interface PublicRuntimeConfig {
+    wpNuxt: {
+      wordpressUrl: string
+      showBlockInfo?: boolean
+    }
+  }
+
+  interface ConfigSchema {
+    runtimeConfig: {
+      public?: {
+        wordpressUrl: string
+        showBlockInfo?: boolean
+      }
+    }
+  }
+}
