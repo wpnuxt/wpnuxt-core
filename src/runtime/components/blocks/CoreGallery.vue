@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { useImage, useRuntimeConfig } from '#imports';
 import type { CoreGallery, CoreImage } from '#graphql-operations';
-import { useImage } from '#imports';
 const img = useImage()
 const config = useRuntimeConfig();
 const wpUrl = config.public.wpNuxt.wordpressUrl

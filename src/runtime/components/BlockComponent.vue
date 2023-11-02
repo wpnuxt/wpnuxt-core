@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { computed, useRuntimeConfig } from '#imports';
 import type { EditorBlock } from '#graphql-operations';
 import CoreParagraphComponent from './blocks/CoreParagraph.vue';
 import CoreImageComponent from './blocks/CoreImage.vue';
 import CoreGalleryComponent from './blocks/CoreGallery.vue';
 import CoreQuoteComponent from './blocks/CoreQuote.vue';
 import EditorBlockComponent from './blocks/EditorBlock.vue';
-import { computed } from '#imports';
 
 const config = useRuntimeConfig();
 const showBlockInfo = config.public.showBlockInfo
