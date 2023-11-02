@@ -8,6 +8,7 @@
     "generate": "nuxi generate"
   },
   "devDependencies": {
+    "@nuxt/image": "^1.0.0",
     "nuxt": "latest"
   }
 }
