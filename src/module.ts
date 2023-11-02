@@ -14,7 +14,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
-    wordpressUrl: 'http://localhost',
+    wordpressUrl: 'https://wpnuxt.vernaillen.com',
     showBlockInfo: false
   },
   async setup (options, nuxt) {

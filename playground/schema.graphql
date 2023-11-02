@@ -121,6 +121,9 @@ type Category implements DatabaseIdentifier & HierarchicalNode & HierarchicalTer
     where: CategoryToCategoryConnectionWhereArgs
   ): CategoryToCategoryConnection
 
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """Connection between the Category type and the ContentNode type"""
   contentNodes(
     """
@@ -247,6 +250,9 @@ type Category implements DatabaseIdentifier & HierarchicalNode & HierarchicalTer
 
   """The name of the taxonomy that the object is associated with"""
   taxonomyName: String
+
+  """"""
+  templates: [String]
 
   """The ID of the term group that this term object belongs to"""
   termGroupId: Int
@@ -1308,6 +1314,81 @@ enum CommentsConnectionOrderbyEnum {
   USER_ID
 }
 
+"""GraphQL representation of WordPress Conditional Tags."""
+type ConditionalTags {
+  """Determines whether the query is for an existing archive page."""
+  isArchive: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing attachment page."""
+  isAttachment: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing author archive page."""
+  isAuthor: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing category archive page."""
+  isCategory: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing date archive."""
+  isDate: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing day archive."""
+  isDay: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for the front page of the site."""
+  isFrontPage: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for the blog homepage."""
+  isHome: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing month archive."""
+  isMonth: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether this site has more than one author."""
+  isMultiAuthor: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing single page."""
+  isPage: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether currently in a page template."""
+  isPageTemplate: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """
+  Determines whether the query is for an existing post type archive page.
+  """
+  isPostTypeArchive: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for a post or page preview."""
+  isPreview: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for the Privacy Policy page."""
+  isPrivacyPolicy: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for a search."""
+  isSearch: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing single post."""
+  isSingle: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """
+  Determines whether the query is for an existing single post of any post type (post, attachment, page, custom post types).
+  """
+  isSingular: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether a post is sticky."""
+  isSticky: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing tag archive page."""
+  isTag: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """
+  Determines whether the query is for an existing custom taxonomy archive page.
+  """
+  isTax: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
+  """Determines whether the query is for an existing year archive."""
+  isYear: Boolean @deprecated(reason: "Deprecated in favor of using Next.js pages")
+}
+
 """
 A plural connection from one Node Type in the Graph to another Node Type, with support for relational data via &quot;edges&quot;.
 """
@@ -1324,6 +1405,9 @@ interface Connection {
 
 """Nodes used to manage content"""
 interface ContentNode implements Node & UniformResourceIdentifiable {
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """Connection between the ContentNode type and the ContentType type"""
   contentType: ContentNodeToContentTypeConnectionEdge
 
@@ -1442,6 +1526,9 @@ interface ContentNode implements Node & UniformResourceIdentifiable {
 
   """The template assigned to a node of content"""
   template: ContentTemplate
+
+  """"""
+  templates: [String]
 
   """The unique resource identifier path"""
   uri: String
@@ -1620,6 +1707,9 @@ type ContentType implements Node & UniformResourceIdentifiable {
   """Whether this content type should can be exported."""
   canExport: Boolean
 
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """Connection between the ContentType type and the Taxonomy type"""
   connectedTaxonomies(
     """
@@ -1766,6 +1856,9 @@ type ContentType implements Node & UniformResourceIdentifiable {
   Whether to generate and allow a UI for managing this content type in the admin.
   """
   showUi: Boolean
+
+  """"""
+  templates: [String]
 
   """The unique resource identifier path"""
   uri: String
@@ -10341,6 +10434,45 @@ type GeneralSettings {
   url: String
 }
 
+"""Input for the generateAuthorizationCode mutation."""
+input GenerateAuthorizationCodeInput {
+  """
+  This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """Email for WordPress user"""
+  email: String
+
+  """Password for WordPress user"""
+  password: String
+
+  """Username for WordPress user"""
+  username: String
+}
+
+"""The payload for the generateAuthorizationCode mutation."""
+type GenerateAuthorizationCodePayload {
+  """
+  If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """Authorization code used for requesting refresh/access tokens"""
+  code: String
+
+  """Error encountered during user authentication, if any"""
+  error: String
+}
+
+"""Types of styles to load"""
+enum GlobalStylesheetTypesEnum {
+  BASE_LAYOUT_STYLES
+  PRESETS
+  STYLES
+  VARIABLES
+}
+
 """Content node with hierarchical (parent/child) relationships"""
 interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & HierarchicalNode & Node & UniformResourceIdentifiable {
   """
@@ -10390,6 +10522,9 @@ interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & 
     """Arguments for filtering the connection"""
     where: HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs
   ): HierarchicalContentNodeToContentNodeChildrenConnection
+
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
 
   """Connection between the ContentNode type and the ContentType type"""
   contentType: ContentNodeToContentTypeConnectionEdge
@@ -10518,6 +10653,9 @@ interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & 
 
   """The template assigned to a node of content"""
   template: ContentTemplate
+
+  """"""
+  templates: [String]
 
   """The unique resource identifier path"""
   uri: String
@@ -10763,6 +10901,9 @@ interface HierarchicalNode implements DatabaseIdentifier & Node {
 
 """Term node with hierarchical (parent/child) relationships"""
 interface HierarchicalTermNode implements DatabaseIdentifier & HierarchicalNode & Node & TermNode & UniformResourceIdentifiable {
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """The number of objects connected to the object"""
   count: Int
 
@@ -10839,6 +10980,9 @@ interface HierarchicalTermNode implements DatabaseIdentifier & HierarchicalNode 
 
   """The name of the taxonomy that the object is associated with"""
   taxonomyName: String
+
+  """"""
+  templates: [String]
 
   """The ID of the term group that this term object belongs to"""
   termGroupId: Int
@@ -10971,6 +11115,9 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
     """Arguments for filtering the connection"""
     where: MediaItemToCommentConnectionWhereArgs
   ): MediaItemToCommentConnection
+
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
 
   """Connection between the ContentNode type and the ContentType type"""
   contentType: ContentNodeToContentTypeConnectionEdge
@@ -11146,6 +11293,9 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
 
   """The template assigned to a node of content"""
   template: ContentTemplate
+
+  """"""
+  templates: [String]
 
   """
   The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
@@ -11679,6 +11829,9 @@ interface MenuItemConnectionPageInfo implements PageInfo & WPPageInfo {
 
 """Nodes that can be linked to as Menu Items"""
 interface MenuItemLinkable implements DatabaseIdentifier & Node & UniformResourceIdentifiable {
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """The unique identifier stored in the database"""
   databaseId: Int!
 
@@ -11690,6 +11843,9 @@ interface MenuItemLinkable implements DatabaseIdentifier & Node & UniformResourc
 
   """Whether the node is a Term"""
   isTermNode: Boolean!
+
+  """"""
+  templates: [String]
 
   """The unique resource identifier path"""
   uri: String
@@ -12475,6 +12631,9 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
     where: PageToCommentConnectionWhereArgs
   ): PageToCommentConnection
 
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """The content of the post."""
   content(
     """Format of the field output"""
@@ -12677,6 +12836,9 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
 
   """The template assigned to a node of content"""
   template: ContentTemplate
+
+  """"""
+  templates: [String]
 
   """
   The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
@@ -13201,6 +13363,9 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
     where: PostToCommentConnectionWhereArgs
   ): PostToCommentConnection
 
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """The content of the post."""
   content(
     """Format of the field output"""
@@ -13440,6 +13605,9 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
   """The template assigned to the node"""
   template: ContentTemplate
 
+  """"""
+  templates: [String]
+
   """Connection between the Post type and the TermNode type"""
   terms(
     """
@@ -13585,6 +13753,9 @@ interface PostEditorBlock implements EditorBlock {
 
 """The postFormat type"""
 type PostFormat implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable {
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """Connection between the PostFormat type and the ContentNode type"""
   contentNodes(
     """
@@ -13705,6 +13876,9 @@ type PostFormat implements DatabaseIdentifier & MenuItemLinkable & Node & TermNo
 
   """The name of the taxonomy that the object is associated with"""
   taxonomyName: String
+
+  """"""
+  templates: [String]
 
   """The ID of the term group that this term object belongs to"""
   termGroupId: Int
@@ -15350,6 +15524,12 @@ type RootMutation {
     input: DeleteUserInput!
   ): DeleteUserPayload
 
+  """The generateAuthorizationCode mutation"""
+  generateAuthorizationCode(
+    """Input for the generateAuthorizationCode mutation"""
+    input: GenerateAuthorizationCodeInput!
+  ): GenerateAuthorizationCodePayload
+
   """Increase the count."""
   increaseCount(
     """The count to increase"""
@@ -15580,6 +15760,14 @@ type RootQuery {
 
   """Fields of the &#039;GeneralSettings&#039; settings group"""
   generalSettings: GeneralSettings
+
+  """
+  Returns the stylesheet resulting of merging core, theme, and user data.
+  """
+  globalStylesheet(
+    """Types of styles to load."""
+    types: [GlobalStylesheetTypesEnum]
+  ): String
 
   """An object of the mediaItem Type. """
   mediaItem(
@@ -17864,6 +18052,9 @@ type Settings {
 
 """The tag type"""
 type Tag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable {
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """Connection between the Tag type and the ContentNode type"""
   contentNodes(
     """
@@ -17984,6 +18175,9 @@ type Tag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Un
 
   """The name of the taxonomy that the object is associated with"""
   taxonomyName: String
+
+  """"""
+  templates: [String]
 
   """The ID of the term group that this term object belongs to"""
   termGroupId: Int
@@ -18556,6 +18750,9 @@ type TaxonomyToTermNodeConnectionPageInfo implements PageInfo & TermNodeConnecti
 Terms are nodes within a Taxonomy, used to group and relate other nodes.
 """
 interface TermNode implements Node & UniformResourceIdentifiable {
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """The number of objects connected to the object"""
   count: Int
 
@@ -18626,6 +18823,9 @@ interface TermNode implements Node & UniformResourceIdentifiable {
 
   """The name of the taxonomy that the object is associated with"""
   taxonomyName: String
+
+  """"""
+  templates: [String]
 
   """The ID of the term group that this term object belongs to"""
   termGroupId: Int
@@ -18889,6 +19089,9 @@ interface ThemeConnectionPageInfo implements PageInfo & WPPageInfo {
 
 """Any node that has a URI"""
 interface UniformResourceIdentifiable implements Node {
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """The unique resource identifier path"""
   id: ID!
 
@@ -18897,6 +19100,9 @@ interface UniformResourceIdentifiable implements Node {
 
   """Whether the node is a Term"""
   isTermNode: Boolean!
+
+  """"""
+  templates: [String]
 
   """The unique resource identifier path"""
   uri: String
@@ -19485,6 +19691,9 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
     where: UserToCommentConnectionWhereArgs
   ): UserToCommentConnection
 
+  """"""
+  conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
+
   """Identifies the primary key from the database."""
   databaseId: Int!
 
@@ -19696,10 +19905,16 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
   """
   shouldShowAdminToolbar: Boolean
 
+  """"""
+  shouldShowFaustToolbar: Boolean
+
   """
   The slug for the user. This field is equivalent to WP_User-&gt;user_nicename
   """
   slug: String
+
+  """"""
+  templates: [String]
 
   """The unique resource identifier path"""
   uri: String
