@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from '#imports';
+import { ref, useRuntimeConfig } from '#imports';
 
 const config = useRuntimeConfig();
 const wpUrl = config.public.wpNuxt.wordpressUrl
