@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['../src/module'],
+  modules: ['../src/module', "@nuxt/image"],
   wpNuxt: {
     wordpressUrl: 'https://wpnuxt.vernaillen.com',
     showBlockInfo: false,
