@@ -5,6 +5,7 @@ import CoreImageComponent from './blocks/CoreImage.vue';
 import CoreGalleryComponent from './blocks/CoreGallery.vue';
 import CoreQuoteComponent from './blocks/CoreQuote.vue';
 import EditorBlockComponent from './blocks/EditorBlock.vue';
+import { computed } from '#imports';
 
 const config = useRuntimeConfig();
 const showBlockInfo = config.public.showBlockInfo
@@ -27,6 +28,13 @@ const componentToRender = computed(() => {
 </script>
 
 <template>
-    <BlockAttr v-if="componentToRender && showBlockInfo" :block="block"/>
-    <component v-if="componentToRender" :is="componentToRender" :block="block" />
+  <BlockAttr
+    v-if="componentToRender && showBlockInfo"
+    :block="block"
+  />
+  <component
+    :is="componentToRender"
+    v-if="componentToRender"
+    :block="block"
+  />
 </template>

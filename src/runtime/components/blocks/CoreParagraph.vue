@@ -5,6 +5,6 @@ defineProps<{
 }>();
 </script>
 
-<template>  
-    <p v-html="block?.attributes?.content"/>
+<template>
+  <p v-html="block?.attributes?.content" />
 </template>

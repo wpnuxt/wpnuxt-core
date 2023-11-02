@@ -6,5 +6,5 @@ defineProps<{
 </script>
 
 <template>
-    <p v-html="block.renderedHtml"></p>
+  <p v-html="block.renderedHtml" />
 </template>

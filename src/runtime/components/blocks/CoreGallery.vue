@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { CoreGallery, CoreImage } from '#graphql-operations';
+import { useImage } from '#imports';
 const img = useImage()
 const config = useRuntimeConfig();
-const wpUrl = config.public.wordpressUrl
+const wpUrl = config.public.wpNuxt.wordpressUrl
 const props = defineProps<{
     block: CoreGallery
 }>();
@@ -29,7 +30,7 @@ props.block?.innerBlocks?.forEach((innerBlock) => {
         v-if="imgBlock"
         class="galleryImgWrapper rounded-lg overflow-hidden relative mb-4 md:mb-6  shadow-md hover:shadow-xl"
       >
-        <Image
+        <ImageComponent
           :url="imgBlock.attributes?.url"
           class="rounded-lg cursor-pointer w-full"
           :width="300"

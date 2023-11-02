@@ -7,5 +7,7 @@ defineProps<{
 </script>
 
 <template>
-    <div class="text-xs my-2">{{ block.name }} - {{ block?.attributes }}</div>
+  <div class="text-xs my-2">
+    {{ block.name }} - {{ block?.attributes }}
+  </div>
 </template>
