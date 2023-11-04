@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { computed, useRuntimeConfig } from '#imports';
+import { computed, resolveComponent, useRuntimeConfig } from '#imports';
 import type { EditorBlock } from '#graphql-operations';
-import CoreParagraphComponent from './blocks/CoreParagraph.vue';
-import CoreImageComponent from './blocks/CoreImage.vue';
-import CoreGalleryComponent from './blocks/CoreGallery.vue';
-import CoreQuoteComponent from './blocks/CoreQuote.vue';
-import EditorBlockComponent from './blocks/EditorBlock.vue';
 
 const config = useRuntimeConfig();
 const showBlockInfo = config.public.showBlockInfo
@@ -15,16 +10,21 @@ const props = defineProps<{
 }>();
 const componentToRender = computed(() => {
     if (props.block.parentClientId === null || props.block.parentClientId === undefined) {
-        if (props.block.name === 'core/paragraph') return CoreParagraphComponent
-        else if (props.block.name === 'core/image') return CoreImageComponent
-        else if (props.block.name === 'core/gallery') return CoreGalleryComponent
-        else if (props.block.name === 'core/quote') return CoreQuoteComponent
-        else return EditorBlockComponent
+        if (props.block.name === 'core/paragraph') {
+            return resolveComponent('CoreParagraph')
+        } else if (props.block.name === 'core/image') {
+            return resolveComponent('CoreImage')
+        } else if (props.block.name === 'core/gallery') {
+            return resolveComponent('CoreGallery')
+        } else if (props.block.name === 'core/quote') {
+            return resolveComponent('CoreQuote')
+        } else {
+            return resolveComponent('EditorBlock')
+        }
     } else {
         return undefined
     }
 })
-
 </script>
 
 <template>

@@ -32,12 +32,7 @@ if (post?.data?.title) {
         published: {{ post.data.date }}
       </div>
       <div v-if="post.data.editorBlocks">
-        <div
-          v-for="block, index in post.data.editorBlocks"
-          :key="index"
-        >
-          <p v-html="block.renderedHtml" />
-        </div>
+        <BlockRenderer :blocks="post.data.editorBlocks" />
       </div>
     </main>
   </div>

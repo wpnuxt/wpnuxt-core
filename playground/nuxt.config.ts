@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     '@nuxt/image'
   ],
   wpNuxt: {
-    wordpressUrl: 'https://wpnuxt.vernaillen.com',
+    wordpressUrl: 'https://wordpress.wpnuxt.com',
     showBlockInfo: false,
   },
   devtools: { enabled: true }
