@@ -18,7 +18,7 @@ if (imgUrl.value.indexOf(wpUrl) > -1) {
   <NuxtImg
     v-if="imgUrl"
     :src="imgUrl"
-    :width="width ? width : undefined"
-    :height="height ? height : undefined"
+    :width="width"
+    :height="height"
   />
 </template>

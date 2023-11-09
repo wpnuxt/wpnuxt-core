@@ -1,42 +1,29 @@
 <script setup lang="ts">
-import { usePosts, usePages, useHead } from '#imports';
-
 const posts = await usePosts()
-const pages = await usePages()
+const settings = await useSettings()
+
 useHead({
-  title: "WPNuxt Playground"
+  title: settings.title
 })
 </script>
 
 <template>
-  <div>
-    <h2>Posts:</h2>
-    <div
-      v-if="posts"
-      class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-    >
-      <div
+  <ULandingSection
+    id="posts"
+    :title="settings.title"
+    :headline="settings.description"
+    description="WordPress posts are shown below as cards. WordPress pages are listed above in the header."
+  >
+    <UPageGrid>
+      <ULandingCard
         v-for="post, index in posts.data"
         :key="index"
+        :title="post.title"
+        :description="post.date.split('T')[0]"
+        :to="post.uri"
       >
-        <NuxtLink :to="post.uri">
-          {{ post.title }}
-        </NuxtLink>
-      </div>
-    </div>
-    <h2>Pages:</h2>
-    <div
-      v-if="pages"
-      class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-    >
-      <div
-        v-for="page, index in pages.data"
-        :key="index"
-      >
-        <NuxtLink :to="page.uri">
-          {{ page.title }}
-        </NuxtLink>
-      </div>
-    </div>
-  </div>
+        <span v-html="post.excerpt" />
+      </ULandingCard>
+    </UPageGrid>
+  </ULandingSection>
 </template>

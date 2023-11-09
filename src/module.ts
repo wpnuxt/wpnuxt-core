@@ -1,4 +1,4 @@
-import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, createResolver, installModule } from '@nuxt/kit'
+import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteMiddleware, addServerHandler, createResolver, installModule, addServerImports, addServerImportsDir, addTemplate } from '@nuxt/kit'
 import defu from 'defu'
 import fs from 'fs'
 
@@ -31,11 +31,38 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin(resolver.resolve('./runtime/plugin'))
     addImportsDir(resolver.resolve('./runtime/composables'))
 
+    addRouteMiddleware({
+      name: 'auth',
+      path: resolver.resolve('./runtime/middleware/auth.ts'),
+      global: true
+    })
     addComponentsDir({
       path: resolver.resolve('./runtime/components'),
       pathPrefix: false,
       prefix: '',
       global: true
+    })
+
+    nuxt.hook('pages:extend', (pages) => {
+      pages.push({
+        name: 'preview',
+        path: '/preview',
+        file: resolver.resolve('./runtime/pages/preview.vue'),
+      });
+      pages.push({
+        name: 'auth',
+        path: '/auth',
+        file: resolver.resolve('./runtime/pages/auth.vue'),
+      });
+    });
+
+    addServerHandler({
+      route: '/api/tokensFromCode',
+      handler: resolver.resolve('./runtime/server/api/tokensFromCode.post.ts')
+    })
+    addServerHandler({
+      route: '/api/tokensFromRefreshToken',
+      handler: resolver.resolve('./runtime/server/api/tokensFromRefreshToken.post.ts')
     })
 
     // Register user block components
@@ -77,11 +104,28 @@ export default defineNuxtModule<ModuleOptions>({
           },
         },
       },
+      codegenSchemaConfig: {
+        urlSchemaOptions: {
+          headers: {
+            Authorization: 'server-token',
+          },
+        },
+      },
       outputDocuments: true,
       autoImportPatterns: [
         resolver.resolve('./runtime/queries/**/*.gql'),
       ],
     })
+    const resolvedPath = resolver.resolve('./runtime/app/graphqlMiddleware.serverOptions.ts')
+    const template = addTemplate({
+        filename: 'graphqlMiddleware.serverOptions.ts',
+        write: true,
+        getContents: () => `export { default } from '${resolvedPath}'`
+      })
+    nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
+    nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
+    nuxt.options.nitro.externals.inline.push(template.dst)
+    nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
   },
 })
 

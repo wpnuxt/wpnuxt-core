@@ -16,8 +16,8 @@
     "@nuxtjs/plausible": "^0.2.3",
     "@vueuse/core": "^10.5.0",
     "@vueuse/nuxt": "^10.5.0",
-    "nuxt": "^3.8.0",
-    "nuxt-og-image": "^2.2.3"
+    "nuxt": "^3.8.1",
+    "nuxt-og-image": "^2.2.4"
   },
   "resolutions": {
     "h3": "^1.8.2"
@@ -26,9 +26,9 @@
     "@iconify-json/ant-design": "^1.1.10",
     "@iconify-json/heroicons": "^1.1.13",
     "@iconify-json/ph": "^1.1.6",
-    "@iconify-json/simple-icons": "^1.1.76",
+    "@iconify-json/simple-icons": "^1.1.77",
     "@nuxt/devtools": "^1.0.0",
     "@nuxt/ui": "^2.10.0",
-    "@nuxt/ui-pro": "^0.3.1"
+    "@nuxt/ui-pro": "^0.4.2"
   }
 }

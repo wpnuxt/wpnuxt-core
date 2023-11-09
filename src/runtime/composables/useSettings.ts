@@ -1,15 +1,19 @@
-import { useNuxtData, ref, useFetch, createError } from "#imports"
+import { useNuxtData, ref, useFetch, createError, useTokens } from "#imports"
 
 const _useSettings = async () => {
     const cacheKey = 'settings'
     const cachedSettings = useNuxtData(cacheKey)
     const settings = ref()
+    const tokens = useTokens()
 
     if (cachedSettings.data.value) {
         settings.value = cachedSettings.data.value
     } else {
         const { data, refresh, pending, error } = await useFetch("/api/graphql_middleware/query/Settings", {
             key: cacheKey,
+            headers: {
+              Authorization: tokens.authorizationHeader
+            },
             transform (data: any) {
                 return data.data.generalSettings;
             }
@@ -21,7 +25,14 @@ const _useSettings = async () => {
     }
     return {
         title: settings.value?.title,
-        url: settings.value?.url
+        description: settings.value?.description,
+        url: settings.value?.url,
+        email: settings.value?.email,
+        dateFormat: settings.value?.dateFormat,
+        language: settings.value?.language,
+        startOfWeek: settings.value?.startOfWeek,
+        timezone: settings.value?.timezone,
+        timeFormat: settings.value?.timeFormat,
     }
 }
 

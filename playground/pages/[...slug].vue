@@ -1,11 +1,9 @@
 
 <script setup lang="ts">
-import { usePost, useRoute, useHead } from '#imports';
-
 const route = useRoute();
-const uri = route.params.slug
-
-const post = await usePost(uri[0])
+const viewer = await useViewer()
+const post = await usePostByUri(route.params.slug[0])
+const wpUri = useWPUri()
 if (post?.data?.title) {
     useHead({
         title: post.data.title
@@ -13,27 +11,49 @@ if (post?.data?.title) {
 }
 </script>
 <template>
-  <div v-if="post?.data">
-    <nav>
-      <NuxtLink to="/">
-        Back
-      </NuxtLink>
-    </nav>
-    <main>
-      <img
-        v-if="post.data.featuredImage?.node?.sourceUrl"
-        :src="post.data.featuredImage?.node?.sourceUrl"
-        style="height: 200px;"
-      >
-      <h1>
-        {{ post.data.title }}
-      </h1>
-      <div>
-        published: {{ post.data.date }}
-      </div>
-      <div v-if="post.data.editorBlocks">
-        <BlockRenderer :blocks="post.data.editorBlocks" />
-      </div>
-    </main>
-  </div>
+  <UContainer>
+    <UPage v-if="post?.data">
+      <UPageHeader :title="post.data.title" />
+      <UPageBody>
+        <BlockRenderer
+          v-if="post.data.editorBlocks"
+          :blocks="post.data.editorBlocks"
+        />
+      </UPageBody>
+      <template #left>
+        <UAside>
+          <UButton
+            icon="i-heroicons-arrow-left"
+            variant="soft"
+            size="sm"
+            to="/"
+          />
+          <div
+            v-if="post.data.featuredImage?.node?.sourceUrl"
+            class="test-sm mt-10"
+          >
+            featured image:
+            <ImageComponent
+              :url="post.data.featuredImage?.node?.sourceUrl"
+              class="rounded-lg shadow-md mt-2"
+            />
+          </div>
+          <div class="test-sm mt-10">
+            published:
+            {{ post.data.date.split('T')[0] }}
+          </div>
+          <div
+            v-if="viewer?.username"
+            class="test-sm mt-5"
+          >
+            <UButton
+              size="xs"
+              icon="i-heroicons-pencil"
+              :to="wpUri.postEdit(post.data.databaseId)"
+            />
+          </div>
+        </UAside>
+      </template>
+    </UPage>
+  </UContainer>
 </template>
