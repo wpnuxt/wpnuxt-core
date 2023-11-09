@@ -33,7 +33,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     addRouteMiddleware({
       name: 'auth',
-      path: resolver.resolve('./runtime/middleware/auth.ts'),
+      path: resolver.resolve('./runtime/middleware/auth'),
       global: true
     })
     addComponentsDir({
@@ -58,11 +58,11 @@ export default defineNuxtModule<ModuleOptions>({
 
     addServerHandler({
       route: '/api/tokensFromCode',
-      handler: resolver.resolve('./runtime/server/api/tokensFromCode.post.ts')
+      handler: resolver.resolve('./runtime/server/api/tokensFromCode.post')
     })
     addServerHandler({
       route: '/api/tokensFromRefreshToken',
-      handler: resolver.resolve('./runtime/server/api/tokensFromRefreshToken.post.ts')
+      handler: resolver.resolve('./runtime/server/api/tokensFromRefreshToken.post')
     })
 
     // Register user block components
@@ -116,9 +116,9 @@ export default defineNuxtModule<ModuleOptions>({
         resolver.resolve('./runtime/queries/**/*.gql'),
       ],
     })
-    const resolvedPath = resolver.resolve('./runtime/app/graphqlMiddleware.serverOptions.ts')
+    const resolvedPath = resolver.resolve('./runtime/app/graphqlMiddleware.serverOptions')
     const template = addTemplate({
-        filename: 'graphqlMiddleware.serverOptions.ts',
+        filename: 'graphqlMiddleware.serverOptions',
         write: true,
         getContents: () => `export { default } from '${resolvedPath}'`
       })
