@@ -16,7 +16,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (event.context.accessToken && !to.path.startsWith('/preview')) {
       return navigateTo(previewUrl)
     } else {
-      return navigateTo(`${config.public.wpNuxt.wordpressUrl}/generate?redirect_uri=${previewUrl}`, { external: true })
+      return login(previewUrl)
     }
   } else {
     const tokens = ref()
@@ -41,14 +41,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   }
 })
 
-function login () {
+function login (redirect_uri?: string) {
   const config = useRuntimeConfig();
-  const redirect_uri = `${config.public.frontendSiteUrl}/auth`;
-  /*if (to.query.redirect && to.query.redirect !== '/login') {
-    redirect_uri = `${config.public.frontendSiteUrl}${to.query.redirect.toString()}`;
-  } else if (to.path.startsWith('/auth') || to.path.startsWith('/preview') || to.path.startsWith('/test')) {
-    redirect_uri = `${config.public.frontendSiteUrl}${to.path}`;
-  }*/
+  if (!redirect_uri) {
+    redirect_uri = `${config.public.frontendSiteUrl}/auth`
+  }
   const loginUrl = `${config.public.wpNuxt.wordpressUrl}/generate?redirect_uri=${redirect_uri}`;
-  return navigateTo(loginUrl, { external: true })
+  return navigateTo(loginUrl, { external: true, replace: true })
 }
