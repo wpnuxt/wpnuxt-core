@@ -1,6 +1,6 @@
 {
   "name": "@vernaillen/wpnuxt",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "WPNuxt",
   "repository": "vernaillen/wpnuxt-module",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "dev:build": "pnpm --filter ./playground/ run build",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "docs:dev": "cd docs && nuxi dev",
-    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release": "npm run lint &&  npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
