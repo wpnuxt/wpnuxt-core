@@ -4,7 +4,7 @@ const _usePageById = async (id: number, asPreview?: boolean) => {
   const page = ref()
   const cacheKey = computed(() => `page-${id}`)
 
-  const tokens = await useTokens()
+  const tokens = useTokens()
   const cachedPage = useNuxtData(cacheKey.value)
 
   if (cachedPage.data.value) {
@@ -20,7 +20,7 @@ const _usePageById = async (id: number, asPreview?: boolean) => {
         Authorization: tokens.authorizationHeader
       },
       transform (data) {
-        return data.data.page;
+        return data?.data?.page;
       }
     })
     if (error.value) {

@@ -1,4 +1,5 @@
 import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteMiddleware, addServerHandler, createResolver, installModule, addServerImports, addServerImportsDir, addTemplate } from '@nuxt/kit'
+import { existsSync } from 'node:fs'
 import defu from 'defu'
 import fs from 'fs'
 
@@ -43,11 +44,17 @@ export default defineNuxtModule<ModuleOptions>({
       global: true
     })
 
+    const userPreviewPath = '~/pages/preview.vue'
+      .replace(/^(~~|@@)/, nuxt.options.rootDir)
+      .replace(/^(~|@)/, nuxt.options.srcDir)
+    const userPreviewPageExists = existsSync(userPreviewPath)
+    const previewPagePath = userPreviewPageExists ? userPreviewPath : './runtime/pages/preview.vue'
+
     nuxt.hook('pages:extend', (pages) => {
       pages.push({
         name: 'preview',
         path: '/preview',
-        file: resolver.resolve('./runtime/pages/preview.vue'),
+        file: resolver.resolve(previewPagePath),
       });
       pages.push({
         name: 'auth',

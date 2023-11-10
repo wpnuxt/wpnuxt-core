@@ -18,7 +18,7 @@ const links = pages.data.map((page) => ({
         to="/auth"
         icon="i-heroicons-user"
         variant="soft"
-        size="xs"
+        size="sm"
       >
         <span
           v-if="viewer?.username"
