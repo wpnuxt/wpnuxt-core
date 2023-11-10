@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useViewer, useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref } from '#imports';
+import { useViewer, useWPUri, useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref } from '#imports';
 const route = useRoute();
 const config = useRuntimeConfig();
 const requestEvent = useRequestEvent();
+const wpUri = useWPUri();
 const { code, logout } = route.query;
 const tokens = ref()
 
@@ -47,5 +48,28 @@ const viewer = await useViewer();
         Log in
       </UButton>
     </div>
+    <h3>WordPress links:</h3>
+    <ul>
+      <li>
+        <NuxtLink :to="wpUri.admin">
+          Dashboard
+        </NuxtLink>
+      </li>
+      <li>
+        <NuxtLink :to="wpUri.pagesAdmin">
+          Pages
+        </NuxtLink>
+      </li>
+      <li>
+        <NuxtLink :to="wpUri.postsAdmin">
+          Posts
+        </NuxtLink>
+      </li>
+      <li>
+        <NuxtLink :to="wpUri.settingsEdit">
+          Settings
+        </NuxtLink>
+      </li>
+    </ul>
   </UContainer>
 </template>
