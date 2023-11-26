@@ -9,8 +9,8 @@
   },
   "devDependencies": {
     "@iconify-json/heroicons": "^1.1.13",
-    "@nuxt/image": "^1.0.0",
-    "@nuxt/ui-pro": "^0.4.2",
-    "nuxt": "^3.8.1"
+    "@nuxt/image": "^1.1.0",
+    "@nuxt/ui-pro": "^0.5.0",
+    "nuxt": "^3.8.2"
   }
 }
