@@ -30,7 +30,10 @@ jobs:
           paths:
             - ./node_modules
       - run:
-          name: Build
+          name: Docs Build
+          command: pnpm run docs:build
+      - run:
+          name: Module Build
           command: pnpm run build
       - run:
           name: Lint
