@@ -43,7 +43,7 @@ jobs:
           command: pnpm run lint
       - run:
           name: Test
-          command: pnpm run test
+          command: pnpm run coverage
       - sonarcloud/scan
       - slack/notify:
           channel: circleci
