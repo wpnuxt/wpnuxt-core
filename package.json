@@ -18,6 +18,7 @@
     "dist"
   ],
   "scripts": {
+    "build": "npm run prepack",
     "prepack": "nuxt-module-build build",
     "dev": "pnpm --filter ./playground/ run dev",
     "dev:build": "pnpm --filter ./playground/ run build",
