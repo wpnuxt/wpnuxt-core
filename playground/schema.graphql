@@ -2411,6 +2411,9 @@ type CoreButtonAttributes implements BlockWithSupportsAnchor {
   """The &quot;style&quot; field on the &quot;CoreButton&quot; block"""
   style: BlockAttributesObject
 
+  """The &quot;tagName&quot; field on the &quot;CoreButton&quot; block"""
+  tagName: String
+
   """The &quot;text&quot; field on the &quot;CoreButton&quot; block"""
   text: String
 
@@ -2422,6 +2425,9 @@ type CoreButtonAttributes implements BlockWithSupportsAnchor {
 
   """The &quot;title&quot; field on the &quot;CoreButton&quot; block"""
   title: String
+
+  """The &quot;type&quot; field on the &quot;CoreButton&quot; block"""
+  type: String
 
   """The &quot;url&quot; field on the &quot;CoreButton&quot; block"""
   url: String
@@ -4059,6 +4065,9 @@ type CoreDetailsAttributes {
   """The &quot;gradient&quot; field on the &quot;CoreDetails&quot; block"""
   gradient: String
 
+  """The &quot;layout&quot; field on the &quot;CoreDetails&quot; block"""
+  layout: BlockAttributesObject
+
   """The &quot;lock&quot; field on the &quot;CoreDetails&quot; block"""
   lock: BlockAttributesObject
 
@@ -4279,11 +4288,35 @@ type CoreFootnotes implements EditorBlock & PageEditorBlock & PostEditorBlock {
 
 """Attributes of the CoreFootnotes Block Type"""
 type CoreFootnotesAttributes {
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CoreFootnotes&quot; block
+  """
+  backgroundColor: String
+
+  """
+  The &quot;borderColor&quot; field on the &quot;CoreFootnotes&quot; block
+  """
+  borderColor: String
+
   """The &quot;className&quot; field on the &quot;CoreFootnotes&quot; block"""
   className: String
 
+  """
+  The &quot;fontFamily&quot; field on the &quot;CoreFootnotes&quot; block
+  """
+  fontFamily: String
+
+  """The &quot;fontSize&quot; field on the &quot;CoreFootnotes&quot; block"""
+  fontSize: String
+
   """The &quot;lock&quot; field on the &quot;CoreFootnotes&quot; block"""
   lock: BlockAttributesObject
+
+  """The &quot;style&quot; field on the &quot;CoreFootnotes&quot; block"""
+  style: BlockAttributesObject
+
+  """The &quot;textColor&quot; field on the &quot;CoreFootnotes&quot; block"""
+  textColor: String
 }
 
 """A block used for editing the site"""
@@ -4765,6 +4798,9 @@ type CoreImageAttributes implements BlockWithSupportsAnchor {
 
   """The &quot;id&quot; field on the &quot;CoreImage&quot; block"""
   id: Float
+
+  """The &quot;lightbox&quot; field on the &quot;CoreImage&quot; block"""
+  lightbox: BlockAttributesObject
 
   """The &quot;linkClass&quot; field on the &quot;CoreImage&quot; block"""
   linkClass: String
@@ -6644,6 +6680,11 @@ type CorePostContentAttributes {
   align: String
 
   """
+  The &quot;backgroundColor&quot; field on the &quot;CorePostContent&quot; block
+  """
+  backgroundColor: String
+
+  """
   The &quot;className&quot; field on the &quot;CorePostContent&quot; block
   """
   className: String
@@ -6658,6 +6699,11 @@ type CorePostContentAttributes {
   """
   fontSize: String
 
+  """
+  The &quot;gradient&quot; field on the &quot;CorePostContent&quot; block
+  """
+  gradient: String
+
   """The &quot;layout&quot; field on the &quot;CorePostContent&quot; block"""
   layout: BlockAttributesObject
 
@@ -6666,6 +6712,11 @@ type CorePostContentAttributes {
 
   """The &quot;style&quot; field on the &quot;CorePostContent&quot; block"""
   style: BlockAttributesObject
+
+  """
+  The &quot;textColor&quot; field on the &quot;CorePostContent&quot; block
+  """
+  textColor: String
 }
 
 """A block used for editing the site"""
@@ -7515,6 +7566,11 @@ type CoreQueryAttributes {
   """The &quot;className&quot; field on the &quot;CoreQuery&quot; block"""
   className: String
 
+  """
+  The &quot;enhancedPagination&quot; field on the &quot;CoreQuery&quot; block
+  """
+  enhancedPagination: Boolean
+
   """The &quot;layout&quot; field on the &quot;CoreQuery&quot; block"""
   layout: BlockAttributesObject
 
@@ -7849,6 +7905,11 @@ type CoreQueryPaginationNumbersAttributes {
   The &quot;lock&quot; field on the &quot;CoreQueryPaginationNumbers&quot; block
   """
   lock: BlockAttributesObject
+
+  """
+  The &quot;midSize&quot; field on the &quot;CoreQueryPaginationNumbers&quot; block
+  """
+  midSize: Float
 
   """
   The &quot;style&quot; field on the &quot;CoreQueryPaginationNumbers&quot; block
@@ -10254,14 +10315,25 @@ interface EditorBlock {
 
 """Asset enqueued by the CMS"""
 interface EnqueuedAsset {
-  """@todo"""
-  args: Boolean
+  """The inline code to be run after the asset is loaded."""
+  after: [String]
+
+  """Deprecated"""
+  args: Boolean @deprecated(reason: "Use `EnqueuedAsset.media` instead.")
+
+  """The inline code to be run before the asset is loaded."""
+  before: [String]
+
+  """
+  The HTML conditional comment for the enqueued asset. E.g. IE 6, lte IE 7, etc
+  """
+  conditional: String
 
   """Dependencies needed to use this asset"""
-  dependencies: [EnqueuedScript]
+  dependencies: [EnqueuedAsset]
 
   """Extra information needed for the script"""
-  extra: String
+  extra: String @deprecated(reason: "Use `EnqueuedScript.extraData` instead.")
 
   """The handle of the enqueued asset"""
   handle: String
@@ -10278,25 +10350,42 @@ interface EnqueuedAsset {
 
 """Script enqueued by the CMS"""
 type EnqueuedScript implements EnqueuedAsset & Node {
-  """@todo"""
-  args: Boolean
+  """The inline code to be run after the asset is loaded."""
+  after: [String]
+
+  """Deprecated"""
+  args: Boolean @deprecated(reason: "Use `EnqueuedAsset.media` instead.")
+
+  """The inline code to be run before the asset is loaded."""
+  before: [String]
+
+  """
+  The HTML conditional comment for the enqueued asset. E.g. IE 6, lte IE 7, etc
+  """
+  conditional: String
 
   """Dependencies needed to use this asset"""
   dependencies: [EnqueuedScript]
 
   """Extra information needed for the script"""
-  extra: String
+  extra: String @deprecated(reason: "Use `EnqueuedScript.extraData` instead.")
+
+  """Extra data supplied to the enqueued script"""
+  extraData: String
 
   """The handle of the enqueued asset"""
   handle: String
 
-  """The ID of the enqueued asset"""
+  """The global ID of the enqueued script"""
   id: ID!
 
   """The source of the asset"""
   src: String
 
-  """The version of the enqueued asset"""
+  """The loading strategy to use on the script tag"""
+  strategy: ScriptLoadingStrategyEnum
+
+  """The version of the enqueued script"""
   version: String
 }
 
@@ -10342,25 +10431,58 @@ interface EnqueuedScriptConnectionPageInfo implements PageInfo & WPPageInfo {
 
 """Stylesheet enqueued by the CMS"""
 type EnqueuedStylesheet implements EnqueuedAsset & Node {
-  """@todo"""
-  args: Boolean
+  """The inline code to be run after the asset is loaded."""
+  after: [String]
+
+  """Deprecated"""
+  args: Boolean @deprecated(reason: "Use `EnqueuedAsset.media` instead.")
+
+  """The inline code to be run before the asset is loaded."""
+  before: [String]
+
+  """
+  The HTML conditional comment for the enqueued asset. E.g. IE 6, lte IE 7, etc
+  """
+  conditional: String
 
   """Dependencies needed to use this asset"""
-  dependencies: [EnqueuedScript]
+  dependencies: [EnqueuedStylesheet]
 
   """Extra information needed for the script"""
-  extra: String
+  extra: String @deprecated(reason: "Use `EnqueuedScript.extraData` instead.")
 
   """The handle of the enqueued asset"""
   handle: String
 
-  """The ID of the enqueued asset"""
+  """The global ID of the enqueued stylesheet"""
   id: ID!
+
+  """Whether the enqueued style is RTL or not"""
+  isRtl: Boolean
+
+  """The media attribute to use for the link"""
+  media: String
+
+  """
+  The absolute path to the enqueued style. Set when the stylesheet is meant to load inline.
+  """
+  path: String
+
+  """The `rel` attribute to use for the link"""
+  rel: String
 
   """The source of the asset"""
   src: String
 
-  """The version of the enqueued asset"""
+  """Optional suffix, used in combination with RTL"""
+  suffix: String
+
+  """
+  The title of the enqueued style. Used for preferred/alternate stylesheets.
+  """
+  title: String
+
+  """The version of the enqueued style"""
   version: String
 }
 
@@ -17964,6 +18086,15 @@ type RootQueryToUserRoleConnectionPageInfo implements PageInfo & UserRoleConnect
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""The strategy to use when loading the script"""
+enum ScriptLoadingStrategyEnum {
+  """Use the script `async` attribute"""
+  ASYNC
+
+  """Use the script `defer` attribute"""
+  DEFER
 }
 
 """Input for the sendPasswordResetEmail mutation."""

@@ -1,14 +1,5 @@
 export default defineNuxtConfig({
   extends: '@nuxt/ui-pro',
-  devtools: { enabled: true },
-
-  nitro: {
-    prerender: {
-      routes: [
-        '/api/search.json'
-      ]
-    }
-  },
   modules: [
     '@nuxt/content',
     '@nuxt/ui',
@@ -19,7 +10,15 @@ export default defineNuxtConfig({
     'nuxt-og-image',
     '@nuxtjs/plausible'
   ],
+  devtools: { enabled: true },
 
+  nitro: {
+    prerender: {
+      routes: [
+        '/api/search.json'
+      ]
+    }
+  },
   colorMode: {
     preference: 'dark'
   },
