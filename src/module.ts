@@ -90,6 +90,10 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
+    await installModule('nuxt-multi-cache', {
+      route: {
+        enabled: true
+    })
     await installModule('nuxt-graphql-middleware', {
       debug: true,
       graphqlEndpoint: `${options.wordpressUrl}/graphql`,
@@ -123,14 +127,23 @@ export default defineNuxtModule<ModuleOptions>({
         resolver.resolve('./runtime/queries/**/*.gql'),
       ],
     })
+    const resolvedMCPath = resolver.resolve('./runtime/app/multiCache.serverOptions')
+    const templateMC = addTemplate({
+        filename: 'multiCache.serverOptions',
+        write: true,
+        getContents: () => `export { default } from '${resolvedMCPath}'`
+    })
+    nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
+    nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
+    nuxt.options.nitro.externals.inline.push(templateMC.dst)
+    nuxt.options.alias['#multi-cache-server-options'] = templateMC.dst
+
     const resolvedPath = resolver.resolve('./runtime/app/graphqlMiddleware.serverOptions')
     const template = addTemplate({
         filename: 'graphqlMiddleware.serverOptions',
         write: true,
         getContents: () => `export { default } from '${resolvedPath}'`
-      })
-    nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
-    nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
+    })
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
   },

@@ -1,56 +1,36 @@
 import { ref, computed, useNuxtData, useFetch, createError } from "#imports"
 
 const _usePostByUri = async (uri: string) => {
-    const post = ref()
-    const cacheKey = computed(() => `post-${uri}`)
-    const cachedPost = useNuxtData(cacheKey.value)
-
-    if (cachedPost.data.value) {
-        post.value = cachedPost.data.value
-    } else {
-        const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PostByUri/", {
-            key: cacheKey.value,
-            params: {
-                uri: uri
-            },
-            transform (data) {
-                return data.data.nodeByUri;
-            }
-        })
-        if (error.value) {
-            throw createError({ statusCode: 500, message: 'Error fetching PostByUri', fatal: true })
+    const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PostByUri/", {
+        params: {
+            uri: uri
+        },
+        transform (data) {
+            return data.data.nodeByUri;
         }
-        post.value = data.value
+    })
+    if (error.value) {
+        throw createError({ statusCode: 500, message: 'Error fetching PostByUri', fatal: true })
     }
     return {
-        data: post.value
+        data: data.value
     }
 }
 const _usePostById = async (id: number, asPreview?: boolean) => {
-  const post = ref()
-  const cacheKey = computed(() => `post-${id}`)
-  const cachedPost = useNuxtData(cacheKey.value)
-
-  if (cachedPost.data.value) {
-    post.value = cachedPost.data.value
-  } else {
-    const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PostById/", {
-      key: cacheKey.value,
-      params: {
-        id: id,
-        asPreview: asPreview ? true : false
-      },
-      transform (data) {
-        return data.data.post;
-      }
-    })
-    if (error.value) {
-      throw createError({ statusCode: 500, message: 'Error fetching PostById', fatal: true })
+  const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PostById/", {
+    params: {
+      id: id,
+      asPreview: asPreview ? true : false
+    },
+    transform (data) {
+      return data.data.post;
     }
-    post.value = data.value
+  })
+  if (error.value) {
+    throw createError({ statusCode: 500, message: 'Error fetching PostById', fatal: true })
   }
   return {
-    data: post.value
+    data: data.value
   }
 }
 
