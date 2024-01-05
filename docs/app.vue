@@ -17,13 +17,14 @@ const links = [{
   icon: 'i-heroicons-book-open-solid',
   to: '/get-started/installation'
 }, {
-  label: 'Playground',
-  icon: 'i-ph-play-duotone',
-  to: '/playground'
-}, {
   label: 'Demo',
   icon: 'i-ph-monitor',
   to: 'https://demo.wpnuxt.com',
+  target: '_blank'
+}, {
+  label: 'Open Demo in StackBlitz',
+  icon: 'i-ph-play-duotone',
+  to: 'https://stackblitz.com/github/vernaillen/wpnuxt-demo',
   target: '_blank'
 }, {
   label: 'Releases',

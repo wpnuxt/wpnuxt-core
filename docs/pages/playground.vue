@@ -18,7 +18,7 @@ defineOgImage({
     <ClientOnly>
       <iframe
         class="dark:bg-gray-950"
-        :src="`https://stackblitz.com/github/vernaillen/wpnuxt-module/`"
+        :src="`https://stackblitz.com/github/vernaillen/wpnuxt-demo`"
         width="100%"
         height="100%"
       />
