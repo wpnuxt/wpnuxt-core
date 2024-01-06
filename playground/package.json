@@ -11,6 +11,6 @@
     "@iconify-json/heroicons": "^1.1.19",
     "@nuxt/image": "^1.1.0",
     "@nuxt/ui-pro": "^0.6.1",
-    "nuxt": "^3.9.0"
+    "nuxt": "^3.9.1"
   }
 }
