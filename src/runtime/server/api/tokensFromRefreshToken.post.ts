@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
             'The apiClientSecret must be specified to use the auth middleware',
         );
     }
-    if (!body || !body.refreshToken) {
+        if (!body || !body.refreshToken) {
         throw new Error(
             'The request must contain a refreshToken',
         );

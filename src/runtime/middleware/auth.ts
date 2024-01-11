@@ -9,7 +9,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   } else if (to.path === '/logout') {
     return navigateTo('/auth?logout=true')
   } else if (to.path === '/auth' && to.query.logout === 'true') {
-    return
+    const rtCookie = useCookie(`${config.public.frontendSiteUrl}-rt`);
+    rtCookie.value = null;
+    return navigateTo(`${config.public.wpNuxt.wordpressUrl}/wp-login.php?action=logout`, { external: true })
   } else if (to.query.preview === 'true') {
     const previewId = to.query.p;
     const previewUrl = `${config.public.frontendSiteUrl}/preview?preview_id=${previewId}`
