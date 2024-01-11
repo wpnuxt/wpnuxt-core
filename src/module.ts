@@ -94,6 +94,9 @@ export default defineNuxtModule<ModuleOptions>({
       route: {
         enabled: true
       },
+      component: {
+        enabled: true
+      },
       api: {
         enabled: true,
         prefix: '/__nuxt_multi_cache',
