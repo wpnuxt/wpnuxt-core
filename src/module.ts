@@ -93,6 +93,12 @@ export default defineNuxtModule<ModuleOptions>({
     await installModule('nuxt-multi-cache', {
       route: {
         enabled: true
+      },
+      api: {
+        enabled: true,
+        prefix: '/__nuxt_multi_cache',
+        authorization: 'hunter2',
+        cacheTagInvalidationDelay: 60000
       }
     })
     await installModule('nuxt-graphql-middleware', {

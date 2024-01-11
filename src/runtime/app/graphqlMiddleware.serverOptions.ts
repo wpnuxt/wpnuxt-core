@@ -8,12 +8,20 @@ const cachePaths = [
 ]
 export default defineGraphqlServerOptions({
 
-  serverFetchOptions: function (event) {    
-    if (cachePaths.some(path => event?.path.startsWith(`/api/graphql_middleware/query/${path}`))) {
+  serverFetchOptions: function (event) {
+    /*if (cachePaths.some(path => event?.path.startsWith(`/api/graphql_middleware/query/${path}`))) {
+      console.log('cacheable', event?.path)
       useRouteCache((helper) => {
         helper.setMaxAge(3600).setCacheable()
       }, event)
-    }
+    } else {
+      console.log('not cacheable', event?.path)
+    }*/
+
+    // Cache all routes for 7 days.
+    useRouteCache((helper) => {
+      helper.setCacheable().setMaxAge(604800)
+    }, event)
     return {
       headers: {
         Authorization: getHeader(event, 'Authorization'),
