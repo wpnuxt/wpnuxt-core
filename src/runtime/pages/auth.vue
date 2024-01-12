@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import { useViewer, useWPUri, useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref } from '#imports';
+import { loginUser, logoutUser, getCurrentUserName, useSettings, useWPUri, useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref } from '#imports';
+import { useViewer } from '../../../dist/runtime/composables/useViewer';
 const route = useRoute();
 const config = useRuntimeConfig();
 const requestEvent = useRequestEvent();
 const wpUri = useWPUri();
-const { code, logout } = route.query;
+const { code } = route.query;
 const tokens = ref()
+const userName = ref<string>()
+const settings = await useViewer()
 
 const rtCookie = useCookie(`${config.public.frontendSiteUrl}-rt`, { httpOnly: true, maxAge: 300 });
-if (logout ) {
-  rtCookie.value = null;
-} else if (rtCookie.value) {
+if (rtCookie.value) {
   const refreshToken = rtCookie.value;
   tokens.value = await useFetch('/api/tokensFromRefreshToken', {
     method: 'POST',
     body: { refreshToken: refreshToken }
   });
   rtCookie.value = tokens.value.data.tokens.refreshToken
+  userName.value = await loginUser()
 } else if (code) {
   tokens.value = await useFetch('/api/tokensFromCode', {
     method: 'POST',
@@ -24,21 +26,26 @@ if (logout ) {
   });
   rtCookie.value = tokens.value?.data?.tokens?.refreshToken;
   if (requestEvent) requestEvent.context.accessToken = tokens.value?.data?.tokens?.accessToken;
+  userName.value = await loginUser()
+} else {
+  userName.value = await getCurrentUserName()
 }
-const viewer = await useViewer();
+
+const logOut = async () => {
+  rtCookie.value = null;
+  await logoutUser()
+  userName.value = undefined;
+  navigateTo('/logout')
+}
 </script>
 
 <template>
   <UContainer class="mt-5 prose dark:prose-invert">
-    <div v-if="viewer?.username">
+    <div v-if="userName">
       <h3>
-        Logged in as {{ viewer.username }}
+        Logged in as {{ userName }}
       </h3>
-      {{ viewer.email }}<br><br>
-      <UButton
-        to="/logout"
-        :external="true"
-      >
+      <UButton @click="logOut">
         Log out
       </UButton>
     </div>

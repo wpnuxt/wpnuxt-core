@@ -1,4 +1,4 @@
-import { defineNuxtRouteMiddleware, ref, useFetch, useCookie, navigateTo, useRequestEvent, useRuntimeConfig } from "#imports"
+import { defineNuxtRouteMiddleware, ref, useFetch, useCookie, navigateTo, useRequestEvent, useRuntimeConfig, loginUser, logoutUser } from "#imports"
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const config = useRuntimeConfig();
@@ -12,10 +12,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const rtCookie = useCookie(`${config.public.frontendSiteUrl}-rt`);
     rtCookie.value = null;
     return navigateTo(`${config.public.wpNuxt.wordpressUrl}/wp-login.php?action=logout`, { external: true })
+    //return navigateTo('/')
   } else if (to.query.preview === 'true') {
     const previewId = to.query.p;
     const previewUrl = `${config.public.frontendSiteUrl}/preview?preview_id=${previewId}`
     if (event.context.accessToken && !to.path.startsWith('/preview')) {
+      loginUser()
       return navigateTo(previewUrl)
     } else {
       return login(previewUrl)
@@ -35,6 +37,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       if (process.server) {
         const event = useRequestEvent()
         event.context.accessToken = tokens.value?.data?.tokens?.accessToken;
+        loginUser()
       }
     //} else if (to.path.startsWith('/preview') || to.path.startsWith('/test')) {
       // if we have no acces token and trying to access a protected route, redirect to login

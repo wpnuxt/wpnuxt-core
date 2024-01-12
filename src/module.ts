@@ -90,6 +90,7 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
+    await installModule('@vueuse/nuxt', {})
     await installModule('nuxt-multi-cache', {
       route: {
         enabled: true
