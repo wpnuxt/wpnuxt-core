@@ -1,6 +1,6 @@
 {
   "name": "@vernaillen/wpnuxt",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "WPNuxt",
   "repository": "vernaillen/wpnuxt-module",
   "license": "MIT",
@@ -36,7 +36,7 @@
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",
     "@nuxt/kit": "^3.9.1",
-    "@vueuse/core": "^10.7.1",
+    "@vueuse/nuxt": "^10.7.1",
     "defu": "^6.1.4",
     "nuxt-graphql-middleware": "^4.0.0-beta.9",
     "nuxt-multi-cache": "^3.1.1"
