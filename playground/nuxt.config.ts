@@ -15,7 +15,8 @@ export default defineNuxtConfig({
   },
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
-    showBlockInfo: false,
+    showBlockInfo: true,
+    debug: true
   },
   image: {
     provider: 'twicpics',

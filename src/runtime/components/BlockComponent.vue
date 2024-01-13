@@ -3,7 +3,7 @@ import { computed, resolveComponent, useRuntimeConfig } from '#imports';
 import type { EditorBlock } from '#graphql-operations';
 
 const config = useRuntimeConfig();
-const showBlockInfo = config.public.showBlockInfo
+const showBlockInfo = config.public.wpNuxt.showBlockInfo
 
 const props = defineProps<{
     block: EditorBlock

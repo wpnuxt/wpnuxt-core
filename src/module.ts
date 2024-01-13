@@ -1,4 +1,4 @@
-import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteMiddleware, addServerHandler, createResolver, installModule, addServerImports, addServerImportsDir, addTemplate } from '@nuxt/kit'
+import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteMiddleware, addServerHandler, createResolver, installModule, addServerImports, addServerImportsDir, addTemplate, useLogger } from '@nuxt/kit'
 import { existsSync } from 'node:fs'
 import defu from 'defu'
 import fs from 'fs'
@@ -7,6 +7,7 @@ import fs from 'fs'
 export interface ModuleOptions {
   wordpressUrl: string
   showBlockInfo?: boolean
+  debug?: boolean
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -17,17 +18,33 @@ export default defineNuxtModule<ModuleOptions>({
   // Default configuration options of the Nuxt module
   defaults: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
-    showBlockInfo: false
+    showBlockInfo: false,
+    debug: false
   },
   async setup (options, nuxt) {
-    console.log('ℹ WPNuxt: Connecting GraphQL to', options.wordpressUrl)
+    const logger = useLogger('WPNuxt', {
+      level: options.debug ? 4 : 3,
+      fancy: true,
+      formatOptions: {
+           // columns: 80,
+           colors: true,
+           compact: true,
+           date: true,
+      },
+    })
+    logger.start('WPNuxt ::: Starting setup ::: ')
+    logger.info('Connecting GraphQL to', options.wordpressUrl)
+    logger.debug('Debug mode enabled')
+
     const resolver = createResolver(import.meta.url)
 
     // TODO: test if wordpressUrl is provided!
     // TODO: use showBlockInfo (once the core components are migrated)
 
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
-      wordpressUrl: options.wordpressUrl!
+      wordpressUrl: options.wordpressUrl!,
+      showBlockInfo: options.showBlockInfo!,
+      debug: options.debug!
     })
     addPlugin(resolver.resolve('./runtime/plugin'))
     addImportsDir(resolver.resolve('./runtime/composables'))
@@ -157,6 +174,8 @@ export default defineNuxtModule<ModuleOptions>({
     })
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
+
+    logger.success("WPNuxt ::: Finished setup ::: ");
   },
 })
 
@@ -165,6 +184,7 @@ declare module '@nuxt/schema' {
     wpNuxt: {
       wordpressUrl: string
       showBlockInfo?: boolean
+      debug?: boolean
     }
   }
 
@@ -173,6 +193,7 @@ declare module '@nuxt/schema' {
       public?: {
         wordpressUrl: string
         showBlockInfo?: boolean
+        debug?: boolean
       }
     }
   }

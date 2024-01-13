@@ -1,6 +1,7 @@
-import { ref, computed, useNuxtData, useFetch, createError } from "#imports"
+import { ref, computed, useNuxtData, useFetch, createError, useWPNuxtLogger } from "#imports"
 
 const _usePostByUri = async (uri: string) => {
+    const logger = useWPNuxtLogger()
     const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PostByUri/", {
         params: {
             uri: uri
@@ -10,13 +11,16 @@ const _usePostByUri = async (uri: string) => {
         }
     })
     if (error.value) {
+        logger.error('usePostByUri, error: ', error.value)
         throw createError({ statusCode: 500, message: 'Error fetching PostByUri', fatal: true })
     }
+    logger.debug('usePostByUri: fetched post from WordPress: ', data.value.title)
     return {
         data: data.value
     }
 }
 const _usePostById = async (id: number, asPreview?: boolean) => {
+  const logger = useWPNuxtLogger()
   const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PostById/", {
     params: {
       id: id,
@@ -27,8 +31,10 @@ const _usePostById = async (id: number, asPreview?: boolean) => {
     }
   })
   if (error.value) {
+    logger.error('usePostByUId, error: ', error.value)
     throw createError({ statusCode: 500, message: 'Error fetching PostById', fatal: true })
   }
+  logger.debug('usePostById: fetched post from WordPress: ', data.value.title)
   return {
     data: data.value
   }
