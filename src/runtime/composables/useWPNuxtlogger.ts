@@ -1,4 +1,4 @@
-import useRuntimeConfig from '#imports'
+import { useRuntimeConfig } from '#imports'
 import { createConsola } from 'consola'
 import { ref } from 'vue'
 
