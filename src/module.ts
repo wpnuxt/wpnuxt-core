@@ -24,7 +24,6 @@ export default defineNuxtModule<ModuleOptions>({
   async setup (options, nuxt) {
     const logger = useLogger('WPNuxt', {
       level: options.debug ? 4 : 3,
-      fancy: true,
       formatOptions: {
            // columns: 80,
            colors: true,
