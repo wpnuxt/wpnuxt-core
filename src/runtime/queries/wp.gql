@@ -227,9 +227,10 @@ query Settings {
     timeFormat
   }
 }
-query Menu($id: ID! = "dGVybTo0") {
-  menu(id: $id) {
+query Menu($name: ID! = "main", $idType: MenuNodeIdTypeEnum! = NAME) {
+  menu(id: $name, idType: $idType) {
     id
+    name
     menuItems {
       nodes {
         label

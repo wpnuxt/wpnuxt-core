@@ -1,15 +1,20 @@
 import { ref, useNuxtData, useFetch, createError, useTokens } from "#imports"
 
-const _useMenu = async () => {
+const _useMenu = async (name?: string) => {
     const menu = ref()
-    const cacheKey = 'menu'
+    const cacheKey = 'menu-' + name ? name : 'main'
     const cachedMenu = useNuxtData(cacheKey.value)
     const tokens = useTokens()
+
+    console.log('useMenu, slug: ', name)
 
     if (cachedMenu.data.value) {
         menu.value = cachedMenu.data.value
     } else {
         const { data, error } = await useFetch('/api/graphql_middleware/query/Menu', {
+            params: {
+              name: name
+            },
             key: cacheKey,
             headers: {
               Authorization: tokens.authorizationHeader

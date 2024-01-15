@@ -3,16 +3,16 @@ import { ref, computed, useNuxtData, useTokens, useFetch, createError, useWPNuxt
 const _usePageById = async (id: number, asPreview?: boolean) => {
   const logger = useWPNuxtLogger()
   const page = ref()
-  //const cacheKey = computed(() => `page-${id}`)
+  const cacheKey = computed(() => `page-${id}`)
 
   const tokens = useTokens()
-  //const cachedPage = useNuxtData(cacheKey.value)
+  const cachedPage = useNuxtData(cacheKey.value)
 
-  /*if (cachedPage.data.value) {
+  if (cachedPage.data.value) {
     page.value = cachedPage.data.value
-  } else {*/
+  } else {
     const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PageById/", {
-      //key: cacheKey.value,
+      key: cacheKey.value,
       params: {
         id: id,
         asPreview: asPreview
@@ -28,9 +28,8 @@ const _usePageById = async (id: number, asPreview?: boolean) => {
       logger.error('usePageById, error: ', error.value)
       throw createError({ statusCode: 500, message: 'Error fetching PageById', fatal: true })
     }
-    logger.debug('usePageById: fetched page from WordPress: ', data.value.title)
     page.value = data.value
-  //}
+  }
   return {
     data: page.value
   }

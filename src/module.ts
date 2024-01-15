@@ -33,6 +33,8 @@ export default defineNuxtModule<ModuleOptions>({
     })
     logger.start('WPNuxt ::: Starting setup ::: ')
     logger.info('Connecting GraphQL to', options.wordpressUrl)
+    logger.info('Configured frontendUrl:', nuxt.options.runtimeConfig.public.frontendSiteUrl)
+
     logger.debug('Debug mode enabled')
 
     const resolver = createResolver(import.meta.url)
@@ -108,6 +110,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     await installModule('@vueuse/nuxt', {})
     await installModule('nuxt-multi-cache', {
+      debug: true,
       route: {
         enabled: true
       },
