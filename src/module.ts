@@ -124,6 +124,18 @@ export default defineNuxtModule<ModuleOptions>({
         cacheTagInvalidationDelay: 60000
       }
     })
+
+    const userQueryPath = '~/queries/'
+      .replace(/^(~~|@@)/, nuxt.options.rootDir)
+      .replace(/^(~|@)/, nuxt.options.srcDir)
+    logger.debug('Checking user query path:', userQueryPath)
+    const userQueryPathExists = existsSync(userQueryPath)
+    logger.debug('User query path exists:', userQueryPathExists)
+    const queryPaths = userQueryPathExists
+      ? [ resolver.resolve(userQueryPath + '**/*.gql'), resolver.resolve('./runtime/queries/**/*.gql')]
+      : [ resolver.resolve('./runtime/queries/**/*.gql')]
+    logger.debug('Loading query paths:', queryPaths)
+
     await installModule('nuxt-graphql-middleware', {
       debug: true,
       graphqlEndpoint: `${options.wordpressUrl}/graphql`,
@@ -153,9 +165,7 @@ export default defineNuxtModule<ModuleOptions>({
         },
       },
       outputDocuments: true,
-      autoImportPatterns: [
-        resolver.resolve('./runtime/queries/**/*.gql'),
-      ],
+      autoImportPatterns: queryPaths
     })
     const resolvedMCPath = resolver.resolve('./runtime/app/multiCache.serverOptions')
     const templateMC = addTemplate({

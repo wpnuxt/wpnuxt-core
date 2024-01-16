@@ -4,7 +4,7 @@
  * @version 0.0.1
  */
 /*
-Plugin Name: WPNuxt Hooks
+Plugin Name: WPNuxt: Hooks
 Plugin URI: https://wpnuxt.com
 Description: WordPress hooks for WPNuxt. Invalidate Nuxt cache on post update. Depends on the Faust.js™ plugin.
 Author: Wouter Vernaillen
