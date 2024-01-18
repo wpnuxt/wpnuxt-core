@@ -7,16 +7,12 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '../src/module',
   ],
-  runtimeConfig: {
-    faustSecretKey: '',
-    public: {
-      frontendSiteUrl: 'http://localhost:3000'
-    }
-  },
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
-    showBlockInfo: true,
-    debug: true
+    frontendUrl: 'https://demo.wpnuxt.com',
+    faustSecretKey: '',
+    showBlockInfo: false,
+    debug: false
   },
   image: {
     provider: 'twicpics',

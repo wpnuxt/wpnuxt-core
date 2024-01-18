@@ -13,13 +13,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     return navigateTo('/auth?logout=true')
   } else if (to.path === '/auth' && to.query.logout === 'true') {
     logger.debug('auth middleware, redirect to wordpress logout')
-    const rtCookie = useCookie(`${config.public.frontendSiteUrl}-rt`);
+    const rtCookie = useCookie(`${config.public.wpNuxt.frontendUrl}-rt`);
     rtCookie.value = null;
     return navigateTo(`${config.public.wpNuxt.wordpressUrl}/wp-login.php?action=logout`, { external: true })
     //return navigateTo('/')
   } else if (to.query.preview === 'true') {
     const previewId = to.query.p;
-    const previewUrl = `${config.public.frontendSiteUrl}/preview?preview_id=${previewId}`
+    const previewUrl = `${config.public.wpNuxt.frontendUrl}/preview?preview_id=${previewId}`
     if (event.context.accessToken && !to.path.startsWith('/preview')) {
       loginUser()
       return navigateTo(previewUrl)
@@ -28,7 +28,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     }
   } else {
     const tokens = ref()
-    const rtCookie = useCookie(`${config.public.frontendSiteUrl}-rt`, { httpOnly: true, maxAge: 300 });
+    const rtCookie = useCookie(`${config.public.wpNuxt.frontendUrl}-rt`, { httpOnly: true, maxAge: 300 });
     if (rtCookie.value) {
       logger.debug('auth middleware: found cookie with refreshToken, fetching new access token')
       const refreshToken = rtCookie.value;
@@ -55,7 +55,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 function login (redirect_uri?: string) {
   const config = useRuntimeConfig();
   if (!redirect_uri) {
-    redirect_uri = `${config.public.frontendSiteUrl}/auth`
+    redirect_uri = `${config.public.wpNuxt.frontendUrl}/auth`
   }
   const loginUrl = `${config.public.wpNuxt.wordpressUrl}/generate?redirect_uri=${redirect_uri}`;
   return navigateTo(loginUrl, { external: true, replace: true })

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { loginUser, logoutUser, getCurrentUserName, useSettings, useWPUri, useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref } from '#imports';
-import { useViewer } from '../../../dist/runtime/composables/useViewer';
 const route = useRoute();
 const config = useRuntimeConfig();
 const requestEvent = useRequestEvent();
@@ -8,9 +7,8 @@ const wpUri = useWPUri();
 const { code } = route.query;
 const tokens = ref()
 const userName = ref<string>()
-const settings = await useViewer()
 
-const rtCookie = useCookie(`${config.public.frontendSiteUrl}-rt`, { httpOnly: true, maxAge: 300 });
+const rtCookie = useCookie(`${config.public.wpNuxt.frontendUrl}-rt`, { httpOnly: true, maxAge: 300 });
 if (rtCookie.value) {
   const refreshToken = rtCookie.value;
   tokens.value = await useFetch('/api/tokensFromRefreshToken', {

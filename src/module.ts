@@ -2,10 +2,13 @@ import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteM
 import { existsSync } from 'node:fs'
 import defu from 'defu'
 import fs from 'fs'
+require('dotenv').config({ path: __dirname+'/.env' });
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {
   wordpressUrl: string
+  frontendUrl: string
+  faustSecretKey?: string
   showBlockInfo?: boolean
   debug?: boolean
 }
@@ -18,12 +21,21 @@ export default defineNuxtModule<ModuleOptions>({
   // Default configuration options of the Nuxt module
   defaults: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
+    frontendUrl: 'https://demo.wpnuxt.com',
+    faustSecretKey: '',
     showBlockInfo: false,
     debug: false
   },
   async setup (options, nuxt) {
+    nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
+      wordpressUrl: process.env.WPNUXT_WORDPRESS_URL ? process.env.WPNUXT_WORDPRESS_URL : options.wordpressUrl!,
+      frontendUrl: process.env.WPNUXT_FRONTEND_URL ? process.env.WPNUXT_FRONTEND_URL : options.frontendUrl!,
+      faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!,
+      showBlockInfo: process.env.WPNUXT_SHOW_BLOCK_INFO ? process.env.WPNUXT_SHOW_BLOCK_INFO === 'true' : options.showBlockInfo!,
+      debug: process.env.WPNUXT_DEBUG ? process.env.WPNUXT_DEBUG === 'true' : options.debug!
+    })
     const logger = useLogger('WPNuxt', {
-      level: options.debug ? 4 : 3,
+      level: nuxt.options.runtimeConfig.public.wpNuxt.debug ? 4 : 3,
       formatOptions: {
            // columns: 80,
            colors: true,
@@ -32,9 +44,8 @@ export default defineNuxtModule<ModuleOptions>({
       },
     })
     logger.start('WPNuxt ::: Starting setup ::: ')
-    logger.info('Connecting GraphQL to', options.wordpressUrl)
-    logger.info('Configured frontendUrl:', nuxt.options.runtimeConfig.public.frontendSiteUrl)
-
+    logger.info('Connecting GraphQL to', nuxt.options.runtimeConfig.public.wpNuxt.wordpressUrl)
+    logger.info('Configured frontendUrl:', nuxt.options.runtimeConfig.public.wpNuxt.frontendUrl)
     logger.debug('Debug mode enabled')
 
     const resolver = createResolver(import.meta.url)
@@ -42,11 +53,6 @@ export default defineNuxtModule<ModuleOptions>({
     // TODO: test if wordpressUrl is provided!
     // TODO: use showBlockInfo (once the core components are migrated)
 
-    nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
-      wordpressUrl: options.wordpressUrl!,
-      showBlockInfo: options.showBlockInfo!,
-      debug: options.debug!
-    })
     addPlugin(resolver.resolve('./runtime/plugin'))
     addImportsDir(resolver.resolve('./runtime/composables'))
 
@@ -138,7 +144,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     await installModule('nuxt-graphql-middleware', {
       debug: true,
-      graphqlEndpoint: `${options.wordpressUrl}/graphql`,
+      graphqlEndpoint: `${nuxt.options.runtimeConfig.public.wpNuxt.wordpressUrl}/graphql`,
       codegenConfig: {
         silent: false,
         skipTypename: true,
@@ -195,6 +201,8 @@ declare module '@nuxt/schema' {
   interface PublicRuntimeConfig {
     wpNuxt: {
       wordpressUrl: string
+      frontendUrl: string
+      faustSecretKey?: string
       showBlockInfo?: boolean
       debug?: boolean
     }
@@ -203,9 +211,13 @@ declare module '@nuxt/schema' {
   interface ConfigSchema {
     runtimeConfig: {
       public?: {
-        wordpressUrl: string
-        showBlockInfo?: boolean
-        debug?: boolean
+        wpNuxt: {
+          wordpressUrl: string
+          frontendUrl: string
+          faustSecretKey?: string
+          showBlockInfo?: boolean
+          debug?: boolean
+        }
       }
     }
   }
