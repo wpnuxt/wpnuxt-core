@@ -1,7 +1,8 @@
-import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteMiddleware, addServerHandler, createResolver, installModule, addServerImports, addServerImportsDir, addTemplate, useLogger } from '@nuxt/kit'
+import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, useLogger } from '@nuxt/kit'
 import { existsSync } from 'node:fs'
 import defu from 'defu'
 import fs from 'fs'
+import type { NitroRuntimeConfig, NitroRuntimeConfigApp } from 'nitropack'
 require('dotenv').config({ path: __dirname+'/.env' });
 
 // Module options TypeScript interface definition
@@ -30,9 +31,12 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
       wordpressUrl: process.env.WPNUXT_WORDPRESS_URL ? process.env.WPNUXT_WORDPRESS_URL : options.wordpressUrl!,
       frontendUrl: process.env.WPNUXT_FRONTEND_URL ? process.env.WPNUXT_FRONTEND_URL : options.frontendUrl!,
-      faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!,
       showBlockInfo: process.env.WPNUXT_SHOW_BLOCK_INFO ? process.env.WPNUXT_SHOW_BLOCK_INFO === 'true' : options.showBlockInfo!,
       debug: process.env.WPNUXT_DEBUG ? process.env.WPNUXT_DEBUG === 'true' : options.debug!
+    })
+    // we're not putting the secret in public config, so it goes into runtimeConfig
+    nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
+      faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!
     })
     const logger = useLogger('WPNuxt', {
       level: nuxt.options.runtimeConfig.public.wpNuxt.debug ? 4 : 3,
@@ -134,9 +138,7 @@ export default defineNuxtModule<ModuleOptions>({
     const userQueryPath = '~/queries/'
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
       .replace(/^(~|@)/, nuxt.options.srcDir)
-    logger.debug('Checking user query path:', userQueryPath)
     const userQueryPathExists = existsSync(userQueryPath)
-    logger.debug('User query path exists:', userQueryPathExists)
     const queryPaths = userQueryPathExists
       ? [ resolver.resolve(userQueryPath + '**/*.gql'), resolver.resolve('./runtime/queries/**/*.gql')]
       : [ resolver.resolve('./runtime/queries/**/*.gql')]
@@ -198,11 +200,18 @@ export default defineNuxtModule<ModuleOptions>({
 })
 
 declare module '@nuxt/schema' {
+  interface RuntimeConfig {
+    app: NitroRuntimeConfigApp
+    /** Only available on the server. */
+    nitro?: NitroRuntimeConfig['nitro']
+    public: PublicRuntimeConfig
+    faustSecretKey: string
+  }
+
   interface PublicRuntimeConfig {
     wpNuxt: {
       wordpressUrl: string
       frontendUrl: string
-      faustSecretKey?: string
       showBlockInfo?: boolean
       debug?: boolean
     }
@@ -214,7 +223,6 @@ declare module '@nuxt/schema' {
         wpNuxt: {
           wordpressUrl: string
           frontendUrl: string
-          faustSecretKey?: string
           showBlockInfo?: boolean
           debug?: boolean
         }
