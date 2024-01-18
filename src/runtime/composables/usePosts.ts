@@ -30,7 +30,6 @@ const _useLatestPost = async () => {
 
     if (cachedPosts.data.value) {
         post.value = cachedPosts.data.value
-        console.log('useLatestPost, got post from cache: ', post.value)
     } else {
         const { data, refresh, pending, error } = await useFetch("/api/graphql_middleware/query/LatestPost", {
             key: cacheKey,
@@ -41,7 +40,6 @@ const _useLatestPost = async () => {
         if (error.value) {
             throw createError({ statusCode: 500, message: 'Error fetching latest post', fatal: true })
         }
-        console.log('useLatestPost, successfully fetched post: ', data.value)
         post.value = data.value
     }
     return {

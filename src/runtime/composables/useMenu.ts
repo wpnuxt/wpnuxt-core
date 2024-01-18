@@ -6,8 +6,6 @@ const _useMenu = async (name?: string) => {
     const cachedMenu = useNuxtData(cacheKey.value)
     const tokens = useTokens()
 
-    console.log('useMenu, slug: ', name)
-
     if (cachedMenu.data.value) {
         menu.value = cachedMenu.data.value
     } else {

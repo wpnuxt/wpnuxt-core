@@ -6,7 +6,7 @@ const logger = ref()
 
 export function useWPNuxtLogger () {
   const config = useRuntimeConfig()
-  if (!logger.value) initLogger(config.public.wpNuxt.debug)
+  if (!logger.value) initLogger(config.public.wpNuxt.debug ? config.public.wpNuxt.debug : false)
   return logger.value
 }
 

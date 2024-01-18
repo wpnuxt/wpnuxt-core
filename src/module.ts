@@ -116,7 +116,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     await installModule('@vueuse/nuxt', {})
     await installModule('nuxt-multi-cache', {
-      debug: true,
+      debug: nuxt.options.runtimeConfig.public.wpNuxt.debug,
       route: {
         enabled: true
       },
@@ -143,7 +143,7 @@ export default defineNuxtModule<ModuleOptions>({
     logger.debug('Loading query paths:', queryPaths)
 
     await installModule('nuxt-graphql-middleware', {
-      debug: true,
+      debug: nuxt.options.runtimeConfig.public.wpNuxt.debug,
       graphqlEndpoint: `${nuxt.options.runtimeConfig.public.wpNuxt.wordpressUrl}/graphql`,
       codegenConfig: {
         silent: false,
