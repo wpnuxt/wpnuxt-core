@@ -2,7 +2,6 @@ import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteM
 import { existsSync } from 'node:fs'
 import defu from 'defu'
 import fs from 'fs'
-import type { NitroRuntimeConfig, NitroRuntimeConfigApp } from 'nitropack'
 require('dotenv').config({ path: __dirname+'/.env' });
 
 // Module options TypeScript interface definition
@@ -10,6 +9,7 @@ export interface ModuleOptions {
   wordpressUrl: string
   frontendUrl: string
   faustSecretKey?: string
+  defaultMenuName?: string
   showBlockInfo?: boolean
   debug?: boolean
 }
@@ -24,6 +24,7 @@ export default defineNuxtModule<ModuleOptions>({
     wordpressUrl: 'https://wordpress.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
+    defaultMenuName: 'main',
     showBlockInfo: false,
     debug: false
   },
@@ -31,11 +32,12 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
       wordpressUrl: process.env.WPNUXT_WORDPRESS_URL ? process.env.WPNUXT_WORDPRESS_URL : options.wordpressUrl!,
       frontendUrl: process.env.WPNUXT_FRONTEND_URL ? process.env.WPNUXT_FRONTEND_URL : options.frontendUrl!,
+      defaultMenuName: process.env.WPNUXT_DEFAULT_MENU_NAME ? process.env.WPNUXT_DEFAULT_MENU_NAME : options.defaultMenuName!,
       showBlockInfo: process.env.WPNUXT_SHOW_BLOCK_INFO ? process.env.WPNUXT_SHOW_BLOCK_INFO === 'true' : options.showBlockInfo!,
       debug: process.env.WPNUXT_DEBUG ? process.env.WPNUXT_DEBUG === 'true' : options.debug!
     })
     // we're not putting the secret in public config, so it goes into runtimeConfig
-    nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
+    nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {
       faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!
     })
     const logger = useLogger('WPNuxt', {
@@ -200,29 +202,33 @@ export default defineNuxtModule<ModuleOptions>({
 })
 
 declare module '@nuxt/schema' {
+
   interface RuntimeConfig {
-    app: NitroRuntimeConfigApp
-    /** Only available on the server. */
-    nitro?: NitroRuntimeConfig['nitro']
-    public: PublicRuntimeConfig
-    faustSecretKey: string
+    wpNuxt: {
+      faustSecretKey: string
+    }
   }
 
   interface PublicRuntimeConfig {
     wpNuxt: {
       wordpressUrl: string
       frontendUrl: string
+      defaultMenuName?: string
       showBlockInfo?: boolean
       debug?: boolean
     }
   }
 
   interface ConfigSchema {
+    wpNuxt: {
+      faustSecretKey: string
+    }
     runtimeConfig: {
       public?: {
         wpNuxt: {
           wordpressUrl: string
           frontendUrl: string
+          defaultMenuName?: string
           showBlockInfo?: boolean
           debug?: boolean
         }

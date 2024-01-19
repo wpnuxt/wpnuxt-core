@@ -2,8 +2,10 @@ import { ref, useNuxtData, useFetch, createError, useTokens } from "#imports"
 
 const _useMenu = async (name?: string) => {
     const menu = ref()
-    const cacheKey = 'menu-' + name ? name : 'main'
-    const cachedMenu = useNuxtData(cacheKey.value)
+    const config = useRuntimeConfig()
+    const menuName = name && name.length > 0 ? name : config.public.wpNuxt.defaultMenuName
+    const cacheKey =  'menu-' + menuName
+    const cachedMenu = useNuxtData(cacheKey)
     const tokens = useTokens()
 
     if (cachedMenu.data.value) {
@@ -11,7 +13,7 @@ const _useMenu = async (name?: string) => {
     } else {
         const { data, error } = await useFetch('/api/graphql_middleware/query/Menu', {
             params: {
-              name: name
+              name: menuName
             },
             key: cacheKey,
             headers: {
