@@ -4,7 +4,7 @@ const _useViewer = async () => {
   const viewer = ref()
   const tokens = useTokens()
 
-  const { data, refresh, pending, error } = await useFetch("/api/graphql_middleware/query/Viewer", {
+  const { data, error } = await useFetch("/api/graphql_middleware/query/Viewer", {
     headers: {
       Authorization: tokens.authorizationHeader
     },

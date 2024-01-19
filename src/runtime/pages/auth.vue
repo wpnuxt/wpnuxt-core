@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { loginUser, logoutUser, getCurrentUserName, useSettings, useWPUri, useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref } from '#imports';
+import { loginUser, logoutUser, getCurrentUserName, useWPUri, useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref } from '#imports';
 const route = useRoute();
 const config = useRuntimeConfig();
 const requestEvent = useRequestEvent();
@@ -39,42 +39,44 @@ const logOut = async () => {
 
 <template>
   <UContainer class="mt-5 prose dark:prose-invert">
-    <div v-if="userName">
-      <h3>
-        Logged in as {{ userName }}
-      </h3>
-      <UButton @click="logOut">
-        Log out
-      </UButton>
-    </div>
-    <div v-else>
-      <h3>Not logged in</h3>
-      <UButton to="/login">
-        Log in
-      </UButton>
-    </div>
-    <h3>WordPress links:</h3>
-    <ul>
-      <li>
-        <NuxtLink :to="wpUri.admin">
-          Dashboard
-        </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink :to="wpUri.pagesAdmin">
-          Pages
-        </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink :to="wpUri.postsAdmin">
-          Posts
-        </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink :to="wpUri.settingsEdit">
-          Settings
-        </NuxtLink>
-      </li>
-    </ul>
+    <ClientOnly>
+      <div v-if="userName">
+        <h3>
+          Logged in as {{ userName }}
+        </h3>
+        <UButton @click="logOut">
+          Log out
+        </UButton>
+      </div>
+      <div v-else>
+        <h3>Not logged in</h3>
+        <UButton to="/login">
+          Log in
+        </UButton>
+      </div>
+      <h3>WordPress links:</h3>
+      <ul>
+        <li>
+          <NuxtLink :to="wpUri.admin">
+            Dashboard
+          </NuxtLink>
+        </li>
+        <li>
+          <NuxtLink :to="wpUri.pagesAdmin">
+            Pages
+          </NuxtLink>
+        </li>
+        <li>
+          <NuxtLink :to="wpUri.postsAdmin">
+            Posts
+          </NuxtLink>
+        </li>
+        <li>
+          <NuxtLink :to="wpUri.settingsEdit">
+            Settings
+          </NuxtLink>
+        </li>
+      </ul>
+    </ClientOnly>
   </UContainer>
 </template>

@@ -8,7 +8,7 @@ const _usePages = async () => {
     if (cachedPages.data.value) {
         pages.value = cachedPages.data.value
     } else {
-        const { data, refresh, pending, error } = await useFetch("/api/graphql_middleware/query/Pages", {
+        const { data, error } = await useFetch("/api/graphql_middleware/query/Pages", {
             key: cacheKey,
             transform (data: any) {
                 return data.data.pages.nodes;

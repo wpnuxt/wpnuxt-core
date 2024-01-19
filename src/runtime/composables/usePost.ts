@@ -13,7 +13,7 @@ const _usePostByUri = async (uri: string) => {
       post.value = cachedPost.data.value
       logger.debug('usePostByUri, got post from cache: ', post.value.title)
     } else {
-      const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PostByUri/", {
+      const { data, error } = await useFetch("/api/graphql_middleware/query/PostByUri/", {
           key: cacheKey.value,
           params: {
               uri: uri
@@ -43,7 +43,7 @@ const _usePostByUri = async (uri: string) => {
 const _usePostById = async (id: number, asPreview?: boolean) => {
   const logger = useWPNuxtLogger()
   const tokens = useTokens()
-  const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PostById/", {
+  const { data, error } = await useFetch("/api/graphql_middleware/query/PostById/", {
     params: {
       id: id,
       asPreview: asPreview ? true : false

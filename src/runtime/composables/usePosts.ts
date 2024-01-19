@@ -1,4 +1,4 @@
-import { useNuxtData, ref, useFetch, createError , useGraphqlQuery } from "#imports"
+import { useNuxtData, ref, useFetch, createError } from "#imports"
 
 const _usePosts = async () => {
     const cacheKey = 'allPosts'
@@ -8,7 +8,7 @@ const _usePosts = async () => {
     if (cachedPosts.data.value) {
         posts.value = cachedPosts.data.value
     } else {
-        const { data, refresh, pending, error } = await useFetch("/api/graphql_middleware/query/Posts", {
+        const { data, error } = await useFetch("/api/graphql_middleware/query/Posts", {
             key: cacheKey,
             transform (data: any) {
                 return data.data.posts.nodes;
@@ -31,7 +31,7 @@ const _useLatestPost = async () => {
     if (cachedPosts.data.value) {
         post.value = cachedPosts.data.value
     } else {
-        const { data, refresh, pending, error } = await useFetch("/api/graphql_middleware/query/LatestPost", {
+        const { data, error } = await useFetch("/api/graphql_middleware/query/LatestPost", {
             key: cacheKey,
             transform (data: any) {
                 return data.data.posts.nodes[0];

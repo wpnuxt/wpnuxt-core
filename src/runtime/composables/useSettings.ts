@@ -9,7 +9,7 @@ const _useSettings = async () => {
     if (cachedSettings.data.value) {
         settings.value = cachedSettings.data.value
     } else {
-        const { data, refresh, pending, error } = await useFetch("/api/graphql_middleware/query/Settings", {
+        const { data, error } = await useFetch("/api/graphql_middleware/query/Settings", {
             key: cacheKey,
             headers: {
               Authorization: tokens.authorizationHeader

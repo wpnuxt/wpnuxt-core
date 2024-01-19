@@ -11,7 +11,7 @@ const _usePageById = async (id: number, asPreview?: boolean) => {
   if (cachedPage.data.value) {
     page.value = cachedPage.data.value
   } else {
-    const { data, pending, refresh, error } = await useFetch("/api/graphql_middleware/query/PageById/", {
+    const { data, error } = await useFetch("/api/graphql_middleware/query/PageById/", {
       key: cacheKey.value,
       params: {
         id: id,

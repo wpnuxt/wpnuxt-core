@@ -3,7 +3,7 @@ import { readBody } from 'h3';
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig();
-    const apiClientSecret = config.faustSecretKey;
+    const apiClientSecret = config.wpNuxt.faustSecretKey;
     const body = await readBody(event)
 
     if (!apiClientSecret) {
