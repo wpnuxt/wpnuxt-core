@@ -1,4 +1,4 @@
-import { ref, useNuxtData, useFetch, createError, useTokens } from "#imports"
+import { ref, useNuxtData, useFetch, createError, useTokens, useRuntimeConfig } from "#imports"
 
 const _useMenu = async (name?: string) => {
     const menu = ref()
