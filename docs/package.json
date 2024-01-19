@@ -25,6 +25,6 @@
     "@iconify-json/ph": "^1.1.10",
     "@iconify-json/simple-icons": "^1.1.88",
     "@nuxt/devtools": "^1.0.8",
-    "@nuxt/ui-pro": "^0.7.0"
+    "@nuxt/ui-pro": "^0.7.3"
   }
 }
