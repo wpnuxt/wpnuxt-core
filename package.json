@@ -51,8 +51,10 @@
     "@vue/test-utils": "^2.4.3",
     "changelogen": "^0.5.5",
     "eslint": "^8.56.0",
+    "happy-dom": "^13.2.0",
     "nuxt": "^3.9.3",
+    "playwright-core": "^1.41.1",
     "vitest": "^1.2.1",
-    "vitest-environment-nuxt": "^1.0.0"
+    "untyped": "1.4.0"
   }
 }
