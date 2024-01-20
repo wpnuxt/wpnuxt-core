@@ -10,6 +10,6 @@ describe('ssr', async () => {
   it('renders the index page', async () => {
     // Get response to a server-rendered page with `$fetch`.
     const html = await $fetch('/')
-    expect(html).toContain('<title>WPNuxt</title>')
+    expect(html).toContain('<title>WPNuxt Demo</title>')
   })
 })
