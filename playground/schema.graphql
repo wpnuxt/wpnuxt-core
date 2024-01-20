@@ -951,7 +951,7 @@ enum CommentStatusEnum {
   """Comments with the Spam status"""
   SPAM
 
-  """Comments with the Bin status"""
+  """Comments with the Trash status"""
   TRASH
 }
 
@@ -4753,6 +4753,9 @@ type CoreImage implements BlockWithSupportsAnchor & EditorBlock & PageEditorBloc
 
   """Whether the block is Dynamic (server rendered)"""
   isDynamic: Boolean!
+
+  """Media Details of the CoreImage Block Type"""
+  mediaDetails: MediaDetails
 
   """The name of the block"""
   name: String
@@ -11543,9 +11546,6 @@ enum MediaItemSizeEnum {
   """MediaItem with the medium_large size"""
   MEDIUM_LARGE
 
-  """MediaItem with the post-thumbnail size"""
-  POST_THUMBNAIL
-
   """MediaItem with the thumbnail size"""
   THUMBNAIL
 
@@ -11996,7 +11996,7 @@ enum MenuItemNodeIdTypeEnum {
 }
 
 """Deprecated in favor of MenuItemLinkeable Interface"""
-union MenuItemObjectUnion = Category | Page | Post | PostFormat | Tag
+union MenuItemObjectUnion = Category | Page | Post | Tag
 
 """Connection between the MenuItem type and the Menu type"""
 type MenuItemToMenuConnectionEdge implements Edge & MenuConnectionEdge & OneToOneConnection {
@@ -13874,7 +13874,7 @@ interface PostEditorBlock implements EditorBlock {
 }
 
 """The postFormat type"""
-type PostFormat implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable {
+type PostFormat implements DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable {
   """"""
   conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
 
@@ -18875,6 +18875,30 @@ type TaxonomyToTermNodeConnectionPageInfo implements PageInfo & TermNodeConnecti
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""The template assigned to the node"""
+type Template_PageNoTitle implements ContentTemplate {
+  """The name of the template"""
+  templateName: String
+}
+
+"""The template assigned to the node"""
+type Template_PageWithSidebar implements ContentTemplate {
+  """The name of the template"""
+  templateName: String
+}
+
+"""The template assigned to the node"""
+type Template_PageWithWideImage implements ContentTemplate {
+  """The name of the template"""
+  templateName: String
+}
+
+"""The template assigned to the node"""
+type Template_SingleWithSidebar implements ContentTemplate {
+  """The name of the template"""
+  templateName: String
 }
 
 """

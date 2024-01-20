@@ -23,6 +23,7 @@ useHead({
         :to="post.uri"
       >
         <img
+          v-if="post.data?.featuredImage?.node?.sourceUrl"
           :src="post.featuredImage.node.sourceUrl"
           class="w-full rounded-md"
         >

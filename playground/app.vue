@@ -1,10 +1,17 @@
 <script setup lang="ts">
-const pages = await usePages()
+const menu = await useMenu('main')
 const viewer = await useViewer()
-const links = pages.data.map((page) => ({
-  label: page.title,
+const wpLinks = menu.menu.value.map((page) => ({
+  label: page.label,
   to: page.uri
 }))
+const links = [
+  ...wpLinks,
+  {
+    label: 'Test',
+    to: '/test'
+  }
+]
 </script>
 
 <template>
