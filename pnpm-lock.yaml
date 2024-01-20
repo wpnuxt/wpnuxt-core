@@ -73,8 +73,8 @@ importers:
         specifier: ^1.41.1
         version: 1.41.1
       untyped:
-        specifier: 1.4.0
-        version: 1.4.0
+        specifier: 1.4.2
+        version: 1.4.2
       vitest:
         specifier: ^1.2.1
         version: 1.2.1(@types/node@20.11.5)(happy-dom@13.2.0)
@@ -2395,7 +2395,7 @@ packages:
       ufo: 1.3.2
       unctx: 2.3.1
       unimport: 3.7.1(rollup@3.29.4)
-      untyped: 1.4.0
+      untyped: 1.4.2
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -2434,7 +2434,7 @@ packages:
       std-env: 3.7.0
       ufo: 1.3.2
       unimport: 3.7.1(rollup@3.29.4)
-      untyped: 1.4.0
+      untyped: 1.4.2
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -7783,7 +7783,7 @@ packages:
       unimport: 3.7.1(rollup@3.29.4)
       unplugin: 1.6.0
       unplugin-vue-router: 0.7.0(rollup@3.29.4)(vue-router@4.2.5)(vue@3.4.15)
-      untyped: 1.4.0
+      untyped: 1.4.2
       vue: 3.4.15(typescript@5.3.3)
       vue-bundle-renderer: 2.0.0
       vue-devtools-stub: 0.1.0
@@ -9769,7 +9769,7 @@ packages:
       rollup-plugin-dts: 6.1.0(rollup@3.29.4)(typescript@5.3.3)
       scule: 1.2.0
       typescript: 5.3.3
-      untyped: 1.4.0
+      untyped: 1.4.2
     transitivePeerDependencies:
       - sass
       - supports-color
@@ -9984,8 +9984,8 @@ packages:
       consola: 3.2.3
       pathe: 1.1.2
 
-  /untyped@1.4.0:
-    resolution: {integrity: sha512-Egkr/s4zcMTEuulcIb7dgURS6QpN7DyqQYdf+jBtiaJvQ+eRsrtWUoX84SbvQWuLkXsOjM+8sJC9u6KoMK/U7Q==}
+  /untyped@1.4.2:
+    resolution: {integrity: sha512-nC5q0DnPEPVURPhfPQLahhSTnemVtPzdx7ofiRxXpOB2SYnb3MfdU3DVGyJdS8Lx+tBWeAePO8BfU/3EgksM7Q==}
     hasBin: true
     dependencies:
       '@babel/core': 7.23.7
