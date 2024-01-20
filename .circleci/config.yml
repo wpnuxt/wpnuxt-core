@@ -30,9 +30,6 @@ jobs:
           paths:
             - ./node_modules
       - run:
-          name: Docs Build
-          command: pnpm run docs:build
-      - run:
           name: Module Build
           command: pnpm run build
       - run:
@@ -53,8 +50,8 @@ workflows:
   flow:
     jobs:
       - build:
-          context: 
-            - Slack            
+          context:
+            - Slack
             - SonarCloud
 
 # VS Code Extension Version: 1.5.1
