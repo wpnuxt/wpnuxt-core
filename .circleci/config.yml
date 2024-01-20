@@ -30,11 +30,11 @@ jobs:
           paths:
             - ./node_modules
       - run:
-          name: Module Build
-          command: pnpm run build
-      - run:
           name: Playground Build
           command: pnpm run dev:build
+      - run:
+          name: Module Build
+          command: pnpm run build
       - run:
           name: Lint
           command: pnpm run lint
