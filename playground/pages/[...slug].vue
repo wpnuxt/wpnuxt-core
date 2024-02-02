@@ -1,7 +1,7 @@
 
 <script setup lang="ts">
 const route = useRoute();
-const viewer = await useViewer()
+const userName = getCurrentUserName()
 const post = await usePostByUri(route.params.slug[0])
 const wpUri = useWPUri()
 if (post?.data?.title) {
@@ -43,7 +43,7 @@ if (post?.data?.title) {
             {{ post.data.date.split('T')[0] }}
           </div>
           <div
-            v-if="viewer?.username"
+            v-if="userName"
             class="test-sm mt-5"
           >
             <UButton

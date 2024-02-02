@@ -193,7 +193,7 @@ type Category implements DatabaseIdentifier & HierarchicalNode & HierarchicalTer
     last: Int
   ): TermNodeToEnqueuedStylesheetConnection
 
-  """The unique resource identifier path"""
+  """The globally unique ID for the object"""
   id: ID!
 
   """Whether the node is a Content Node"""
@@ -1479,7 +1479,7 @@ interface ContentNode implements Node & UniformResourceIdentifiable {
   """
   guid: String
 
-  """The unique resource identifier path"""
+  """The globally unique ID for the object"""
   id: ID!
 
   """Whether the node is a Content Node"""
@@ -11957,7 +11957,7 @@ interface MenuItemLinkable implements DatabaseIdentifier & Node & UniformResourc
   """The unique identifier stored in the database"""
   databaseId: Int!
 
-  """The unique resource identifier path"""
+  """The globally unique ID for the object"""
   id: ID!
 
   """Whether the node is a Content Node"""
@@ -13947,7 +13947,7 @@ type PostFormat implements DatabaseIdentifier & Node & TermNode & UniformResourc
     last: Int
   ): TermNodeToEnqueuedStylesheetConnection
 
-  """The unique resource identifier path"""
+  """The globally unique ID for the object"""
   id: ID!
 
   """Whether the node is a Content Node"""
@@ -18255,7 +18255,7 @@ type Tag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Un
     last: Int
   ): TermNodeToEnqueuedStylesheetConnection
 
-  """The unique resource identifier path"""
+  """The globally unique ID for the object"""
   id: ID!
 
   """Whether the node is a Content Node"""
@@ -18955,7 +18955,7 @@ interface TermNode implements Node & UniformResourceIdentifiable {
     last: Int
   ): TermNodeToEnqueuedStylesheetConnection
 
-  """The unique resource identifier path"""
+  """The globally unique ID for the object"""
   id: ID!
 
   """Whether the node is a Content Node"""
@@ -19247,7 +19247,7 @@ interface UniformResourceIdentifiable implements Node {
   """"""
   conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
 
-  """The unique resource identifier path"""
+  """The globally unique ID for the object"""
   id: ID!
 
   """Whether the node is a Content Node"""

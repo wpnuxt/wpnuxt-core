@@ -1,6 +1,10 @@
 <script setup lang="ts">
 const menu = await useMenu('main')
-const viewer = await useViewer()
+const userName = ref<String>()
+userName.value = getCurrentUserName()
+watch(() => getCurrentUserName(), (newVal) => {
+    userName.value = newVal
+})
 const wpLinks = menu.menu.value.map((page) => ({
   label: page.label,
   to: page.uri
@@ -28,10 +32,10 @@ const links = [
         size="sm"
       >
         <span
-          v-if="viewer?.username"
+          v-if="userName"
           class="ml-2"
         >
-          {{ viewer.username }}
+          {{ userName }}
         </span>
         <span
           v-else
