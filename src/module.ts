@@ -132,7 +132,7 @@ export default defineNuxtModule<ModuleOptions>({
       api: {
         enabled: true,
         prefix: '/__nuxt_multi_cache',
-        authorization: 'hunter2',
+        authorization: 'wpnuxt-cache',
         cacheTagInvalidationDelay: 60000
       }
     })

@@ -56,4 +56,5 @@ Temporary Items
 .apdisk
 playground/.vercel/
 
-wordpress-files/
+wordpress/files/
+playground/schema.graphql

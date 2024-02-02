@@ -1,11 +1,17 @@
 version: "3.6"
 services:
- wordpress:
+
+ wordpress.local:
    image: wordpress:latest
-   container_name: wordpress
+   container_name: wpnuxt-wordpress
+   healthcheck:
+    test: ["CMD", "curl", "-f", "http://wordpress.local/graphql"]
+    interval: 200s
+    timeout: 200s
+    retries: 5
    volumes:
-     - ./wordpress-files:/var/www/html
-     - ./wpnuxt-wp-hook:/var/www/html/wp-content/plugins/wpnuxt-wp-hook
+     - ./wordpress/files:/var/www/html
+     - ./wordpress/wpnuxt-hooks:/var/www/html/wp-content/plugins/wpnuxt-hooks
    environment:
      - WORDPRESS_DB_NAME=wordpress
      - WORDPRESS_TABLE_PREFIX=wp_
@@ -15,20 +21,22 @@ services:
      - WORDPRESS_ADMIN_USERNAME=admin
      - WORDPRESS_ADMIN_PASSWORD=admin123
      - WORDPRESS_ADMIN_EMAIL=admin@example.com
-     - WORDPRESS_URL=localhost:8080
-     - WORDPRESS_TITLE=WPNuxt wordpress
+     - WORDPRESS_URL=wordpress.local
+     - WORDPRESS_TITLE=WPNuxt Demo
    depends_on:
      - db
      - phpmyadmin
    restart: always
    ports:
-     - 8080:80
+     - 80:80
 
  wordpress-cli:
    image: wordpress:cli
-   container_name: wordpress-cli
+   container_name: wpnuxt-wordpress-cli
    volumes:
-     - ./wordpress-files:/var/www/html
+     - ./wordpress/files:/var/www/html
+     - ./wordpress/wpnuxt-hooks.zip:/tmp/wpnuxt-hooks.zip
+     - ./wordpress/wpInstall.sh:/tmp/wpInstall.sh
    environment:
      - WORDPRESS_DB_NAME=wordpress
      - WORDPRESS_TABLE_PREFIX=wp_
@@ -37,37 +45,17 @@ services:
      - WORDPRESS_DB_PASSWORD=password
    command: >
       /bin/sh -c '
-      sleep 5;
-      wp core install --allow-root --url="http://localhost:8080" --title=WPNuxt --admin_user=admin --admin_password=admin123 --admin_email=wouter@vernaillen.dev;
-      wp plugin delete hello;
-      wp plugin update-all;
-      wp plugin install --activate "enable-cors";
-      wp plugin install --activate "faustwp";
-      wp plugin install --activate "wp-graphql";
-      wp plugin install --activate "https://github.com/wpengine/wp-graphql-content-blocks/releases/download/v2.0.0/wp-graphql-content-blocks.zip";
-      wp plugin activate --all;
-      wp option update permalink_structure /%postname%/;
-      wp option patch insert faustwp_settings enable_telemetry false;
-      wp option patch insert faustwp_settings frontend_uri http://localhost:3000;
-      wp option patch insert faustwp_settings disable_theme true;
-      wp option patch insert faustwp_settings enable_image_source true;
-      wp option patch insert faustwp_settings secret_key 64489e3c-1166-498a-9a6e-51cbb4c14ab2;
-      wp option add graphql_general_settings {} --format=json;
-      wp option patch insert graphql_general_settings public_introspection_enabled on;
-      wp post create --post_type=post --post_title="Test Post" --post_status=publish;
-      wp menu create main;
-      wp menu location assign main primary;
-      wp menu item add-post main 4 --title="Test Post";
-      wp menu item add-custom main WPNuxtDocs https://wpnuxt.com;
+      sleep 7;
+      /tmp/wpInstall.sh;
       '
    depends_on:
-    - wordpress
+    - wordpress.local
     - db
     - phpmyadmin
 
  db:
    image: mariadb:latest
-   container_name: db
+   container_name: wpnuxt-db
    volumes:
      - db_data:/var/lib/mysql
    environment:
@@ -81,7 +69,7 @@ services:
    depends_on:
      - db
    image: phpmyadmin/phpmyadmin:latest
-   container_name: phpmyadmin
+   container_name: wpnuxt-phpmyadmin
    restart: always
    ports:
      - 8180:80
