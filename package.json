@@ -20,7 +20,8 @@
   "scripts": {
     "build": "npm run prepack",
     "prepack": "nuxt-module-build build",
-    "dev": "pnpm --filter ./playground/ run dev --host app.local --port 3000",
+    "generate": "pnpm --filter ./playground/ run generate",
+    "dev": "pnpm --filter ./playground/ run dev --host app.local --port 3001",
     "dev:build": "pnpm --filter ./playground/ run build",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run lint &&  npm run prepack && changelogen --release && npm publish && git push --follow-tags",
@@ -35,7 +36,8 @@
     "wp:start-all-silent": "docker-compose up -d",
     "wp:cli": "docker-compose up wordpress-cli",
     "wp:stop": "docker-compose down",
-    "wp:delete": "docker-compose down --volumes --remove-orphans --rmi local  && rm -rf ./wordpress/files"
+    "wp:delete": "docker-compose down --volumes --remove-orphans --rmi local  && rm -rf ./wordpress/files",
+    "production-test": "pnpm run prepack && pnpm --filter ./playground/ run build && pnpm --filter ./playground/ run generate && npx serve ./playground/.output/index.mjs"
   },
   "dependencies": {
     "@graphql-codegen/cli": "^5.0.2",
