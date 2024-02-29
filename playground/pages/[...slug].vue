@@ -12,7 +12,10 @@ if (post?.data?.title) {
 </script>
 <template>
   <div>
-    <StagingBanner v-if="isStaging" :post="post" />
+    <StagingBanner
+      v-if="isStaging"
+      :post="post"
+    />
     <UContainer>
       <UPage v-if="post?.data">
         <UPageHeader :title="post.data.title" />
