@@ -1,11 +1,13 @@
 <script setup lang="ts">
+const config = useRuntimeConfig();
+const stagingUrl = config.public.wpNuxt.stagingUrl
 const menu = await useMenu('main')
 const userName = ref<String>()
 userName.value = getCurrentUserName()
 watch(() => getCurrentUserName(), (newVal) => {
     userName.value = newVal
 })
-const wpLinks = menu.menu.value.map((page) => ({
+const wpLinks = menu.data.map((page) => ({
   label: page.label,
   to: page.uri
 }))
@@ -16,43 +18,39 @@ const links = [
     to: '/test'
   }
 ]
+const isStaging = useWPNuxt().isStaging
 </script>
 
 <template>
-  <UHeader :links="links">
-    <template #logo>
-      <WPNuxtLogo /> <span class="text-lg">playground</span>
-    </template>
-    <template #right>
-      <UColorModeButton variant="soft" />
-      <UButton
-        to="/auth"
-        icon="i-heroicons-user"
-        variant="soft"
-        size="sm"
-      >
-        <span
-          v-if="userName"
-          class="ml-2"
+  <StagingBanner v-if="isStaging" />
+  <div :class="isStaging ? 'mt-[34px]' : 'mt-0'">
+    <UHeader :links="links">
+      <template #logo>
+        <WPNuxtLogo /> <span class="text-lg">playground</span>
+      </template>
+      <template #right>
+        <UColorModeButton variant="soft" />
+        <UButton
+          v-if="!isStaging"
+          :to="stagingUrl"
+          icon="i-heroicons-pencil"
+          variant="soft"
+          size="sm"
         >
-          {{ userName }}
-        </span>
-        <span
-          v-else
-          class="text-sm"
-        >Sign in</span>
-      </UButton>
-    </template>
-  </UHeader>
-  <UMain>
-    <NuxtPage />
-  </UMain>
-  <UFooter :links="links">
-    <template #left>
-      <span class="text-sm">a Proof of Concept by <NuxtLink
-        href="https://vernaillen.dev"
-        target="_blank"
-      >Wouter Vernaillen</NuxtLink></span>
-    </template>
-  </UFooter>
+          Staging
+        </UButton>
+      </template>
+    </UHeader>
+    <UMain>
+      <NuxtPage />
+    </UMain>
+    <UFooter :links="links">
+      <template #left>
+        <span class="text-sm">a Proof of Concept by <NuxtLink
+          href="https://vernaillen.dev"
+          target="_blank"
+        >Wouter Vernaillen</NuxtLink></span>
+      </template>
+    </UFooter>
+  </div>
 </template>

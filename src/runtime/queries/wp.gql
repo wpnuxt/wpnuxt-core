@@ -261,3 +261,12 @@ query Viewer {
     uri
   }
 }
+query Revisions {
+  revisions {
+    nodes {
+      date
+      uri
+      isPreview
+    }
+  }
+}

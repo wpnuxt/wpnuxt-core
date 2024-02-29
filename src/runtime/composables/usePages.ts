@@ -1,27 +1,24 @@
-import { useNuxtData, ref, useFetch, createError } from "#imports"
+import { useFetch, createError, useWPNuxtLogger, useTokens } from "#imports"
 
 const _usePages = async () => {
-    const cacheKey = 'allPages'
-    const cachedPages = useNuxtData(cacheKey)
-    const pages = ref()
+  const logger = useWPNuxtLogger()
+  const tokens = useTokens()
 
-    if (cachedPages.data.value) {
-        pages.value = cachedPages.data.value
-    } else {
-        const { data, error } = await useFetch("/api/graphql_middleware/query/Pages", {
-            key: cacheKey,
-            transform (data: any) {
-                return data.data.pages.nodes;
-            }
-        });
-        if (error.value) {
-            throw createError({ statusCode: 500, message: 'Error fetching pages', fatal: true })
-        }
-        pages.value = data.value
+  const { data, error } = await useFetch("/api/graphql_middleware/query/Pages", {
+    headers: {
+      Authorization: tokens.authorizationHeader
+    },
+    transform (data: any) {
+        return data.data.pages.nodes;
     }
-    return {
-        data: pages.value
-    }
+  });
+  if (error.value) {
+    logger.error('usePages, error: ', error.value)
+    throw createError({ statusCode: error.value.status, message: error.value.message, fatal: true })
+  }
+  return {
+    data: data.value
+  }
 }
 
 export const usePages = _usePages

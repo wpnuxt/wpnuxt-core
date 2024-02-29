@@ -1,35 +1,28 @@
-import { ref, useNuxtData, useFetch, createError, useTokens, useRuntimeConfig } from "#imports"
+import { useFetch, createError, useTokens, useRuntimeConfig, useWPNuxtLogger } from "#imports"
 
 const _useMenu = async (name?: string) => {
-    const menu = ref()
+    const logger = useWPNuxtLogger()
     const config = useRuntimeConfig()
     const menuName = name && name.length > 0 ? name : config.public.wpNuxt.defaultMenuName
-    const cacheKey =  'menu-' + menuName
-    const cachedMenu = useNuxtData(cacheKey)
     const tokens = useTokens()
 
-    if (cachedMenu.data.value) {
-        menu.value = cachedMenu.data.value
-    } else {
-        const { data, error } = await useFetch('/api/graphql_middleware/query/Menu', {
-            params: {
-              name: menuName
-            },
-            key: cacheKey,
-            headers: {
-              Authorization: tokens.authorizationHeader
-            },
-            transform (data: any) {
-                return data.data.menu.menuItems.nodes;
-            }
-        });
-        if (error.value) {
-            throw createError({ statusCode: 500, message: 'Error fetching menu', fatal: true })
+    const { data, error } = await useFetch('/api/graphql_middleware/query/Menu', {
+        params: {
+          name: menuName
+        },
+        headers: {
+          Authorization: tokens.authorizationHeader
+        },
+        transform (data: any) {
+            return data.data.menu.menuItems.nodes;
         }
-        menu.value = data.value
+    });
+    if (error.value) {
+        logger.error('useMenu, error: ', error.value)
+        throw createError({ statusCode: error.value.status, message: error.value.message, fatal: true })
     }
     return {
-        menu
+      data: data.value
     }
 }
 

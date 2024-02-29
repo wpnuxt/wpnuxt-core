@@ -1,43 +1,32 @@
-import { ref, computed, useNuxtData, useTokens, useFetch, createError, useWPNuxtLogger } from "#imports"
+import { useTokens, useFetch, createError, useWPNuxtLogger } from "#imports"
 
 const _usePostByUri = async (uri: string) => {
     const logger = useWPNuxtLogger()
-    const post = ref()
-    const cacheKey = computed(() => `postByUri-${uri}`)
     const tokens = useTokens()
-    const cachedPost = useNuxtData(cacheKey.value)
 
     logger.debug('usePostByUri, fetching post for uri: ', uri)
-
-    if (cachedPost.data.value) {
-      post.value = cachedPost.data.value
-      logger.debug('usePostByUri, got post from cache: ', post.value.title)
+    const { data, error } = await useFetch("/api/graphql_middleware/query/PostByUri/", {
+        params: {
+            uri: uri
+        },
+        headers: {
+          Authorization: tokens.authorizationHeader
+        },
+        transform (data) {
+            return data.data.nodeByUri;
+        }
+    })
+    if (error.value) {
+        logger.error('usePostByUri, error: ', error.value)
+        throw createError({ statusCode: error.value.status, message: error.value.message, fatal: true })
+    }
+    if (data?.value) {
+      logger.debug('usePostByUri, successfully fetched post: ', data.value.title)
     } else {
-      const { data, error } = await useFetch("/api/graphql_middleware/query/PostByUri/", {
-          key: cacheKey.value,
-          params: {
-              uri: uri
-          },
-          headers: {
-            Authorization: tokens.authorizationHeader
-          },
-          transform (data) {
-              return data.data.nodeByUri;
-          }
-      })
-      if (error.value) {
-          logger.error('usePostByUri, error: ', error.value)
-          throw createError({ statusCode: 500, message: 'Error fetching PostByUri', fatal: true })
-      }
-      if (data?.value) {
-        logger.debug('usePostByUri, successfully fetched post: ', data.value.title)
-      } else {
-        logger.debug('usePostByUri, data is empty')
-      }
-      post.value = data.value
+      logger.debug('usePostByUri, data is empty')
     }
     return {
-        data: post.value
+      data: data.value
     }
 }
 const _usePostById = async (id: number, asPreview?: boolean) => {

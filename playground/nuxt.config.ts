@@ -7,12 +7,22 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '../src/module',
   ],
+  experimental: {
+    payloadExtraction: true
+  },
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
+    stagingUrl: 'https://staging.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
     showBlockInfo: false,
     debug: false
+  },
+  graphqlMiddleware: {
+    downloadSchema: false,
+  },
+  ui: {
+    icons: ['heroicons', 'uil', 'mdi']
   },
   image: {
     provider: 'twicpics',

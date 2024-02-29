@@ -21,5 +21,5 @@ export function initLogger (debug: boolean) {
          date: true,
     },
   }).withTag('WPNuxt')
-  logger.value.info("initLogger ::: ", debug)
+  logger.value.debug("initLogger ::: ", debug)
 }

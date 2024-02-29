@@ -7,6 +7,7 @@ require('dotenv').config({ path: __dirname+'/.env' });
 // Module options TypeScript interface definition
 export interface ModuleOptions {
   wordpressUrl: string
+  stagingUrl: string
   frontendUrl: string
   faustSecretKey?: string
   defaultMenuName?: string
@@ -22,6 +23,7 @@ export default defineNuxtModule<ModuleOptions>({
   // Default configuration options of the Nuxt module
   defaults: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
+    stagingUrl: 'https://staging.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
     defaultMenuName: 'main',
@@ -31,6 +33,7 @@ export default defineNuxtModule<ModuleOptions>({
   async setup (options, nuxt) {
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
       wordpressUrl: process.env.WPNUXT_WORDPRESS_URL ? process.env.WPNUXT_WORDPRESS_URL : options.wordpressUrl!,
+      stagingUrl: process.env.WPNUXT_STAGING_URL ? process.env.WPNUXT_STAGING_URL : options.stagingUrl!,
       frontendUrl: process.env.WPNUXT_FRONTEND_URL ? process.env.WPNUXT_FRONTEND_URL : options.frontendUrl!,
       defaultMenuName: process.env.WPNUXT_DEFAULT_MENU_NAME ? process.env.WPNUXT_DEFAULT_MENU_NAME : options.defaultMenuName!,
       showBlockInfo: process.env.WPNUXT_SHOW_BLOCK_INFO ? process.env.WPNUXT_SHOW_BLOCK_INFO === 'true' : options.showBlockInfo!,
@@ -51,7 +54,8 @@ export default defineNuxtModule<ModuleOptions>({
     })
     logger.start('WPNuxt ::: Starting setup ::: ')
     logger.info('Connecting GraphQL to', nuxt.options.runtimeConfig.public.wpNuxt.wordpressUrl)
-    logger.info('Configured frontendUrl:', nuxt.options.runtimeConfig.public.wpNuxt.frontendUrl)
+    logger.info('stagingUrl:', nuxt.options.runtimeConfig.public.wpNuxt.stagingUrl)
+    logger.info('frontendUrl:', nuxt.options.runtimeConfig.public.wpNuxt.frontendUrl)
     logger.debug('Debug mode enabled')
 
     const resolver = createResolver(import.meta.url)
@@ -121,7 +125,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     await installModule('@vueuse/nuxt', {})
-    await installModule('nuxt-multi-cache', {
+    /*await installModule('nuxt-multi-cache', {
       debug: nuxt.options.runtimeConfig.public.wpNuxt.debug,
       route: {
         enabled: true
@@ -135,7 +139,7 @@ export default defineNuxtModule<ModuleOptions>({
         authorization: 'wpnuxt-cache',
         cacheTagInvalidationDelay: 60000
       }
-    })
+    })*/
 
     const userQueryPath = '~/queries/'
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
@@ -177,16 +181,16 @@ export default defineNuxtModule<ModuleOptions>({
       outputDocuments: true,
       autoImportPatterns: queryPaths
     })
-    const resolvedMCPath = resolver.resolve('./runtime/app/multiCache.serverOptions')
+    /*const resolvedMCPath = resolver.resolve('./runtime/app/multiCache.serverOptions')
     const templateMC = addTemplate({
         filename: 'multiCache.serverOptions',
         write: true,
         getContents: () => `export { default } from '${resolvedMCPath}'`
-    })
+    })*/
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
-    nuxt.options.nitro.externals.inline.push(templateMC.dst)
-    nuxt.options.alias['#multi-cache-server-options'] = templateMC.dst
+    /*nuxt.options.nitro.externals.inline.push(templateMC.dst)
+    nuxt.options.alias['#multi-cache-server-options'] = templateMC.dst*/
 
     const resolvedPath = resolver.resolve('./runtime/app/graphqlMiddleware.serverOptions')
     const template = addTemplate({
@@ -212,6 +216,7 @@ declare module '@nuxt/schema' {
   interface PublicRuntimeConfig {
     wpNuxt: {
       wordpressUrl: string
+      stagingUrl: string
       frontendUrl: string
       defaultMenuName?: string
       showBlockInfo?: boolean
@@ -227,6 +232,7 @@ declare module '@nuxt/schema' {
       public?: {
         wpNuxt: {
           wordpressUrl: string
+          stagingUrl: string
           frontendUrl: string
           defaultMenuName?: string
           showBlockInfo?: boolean
