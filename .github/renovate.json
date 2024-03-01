@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>vernaillen/renovate-config"
+    "github>nuxt/renovate-config-nuxt"
   ],
   "assignees": [
     "vernaillen"
