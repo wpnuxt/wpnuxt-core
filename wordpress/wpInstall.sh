@@ -35,7 +35,7 @@ else
 
   echo "----------------- starting plugin configuration: ------------------";
 
-  wp option patch insert faustwp_settings frontend_uri "http://app.local:3000";
+  wp option patch insert faustwp_settings frontend_uri "http://localhost:3001";
   wp option patch insert faustwp_settings disable_theme 1;
   wp option patch insert faustwp_settings enable_redirects 1;
   wp option patch insert faustwp_settings enable_rewrites 1;
@@ -44,21 +44,34 @@ else
   wp option patch insert faustwp_settings secret_key 64489e3c-1166-498a-9a6e-51cbb4c14ab2;
   wp option add graphql_general_settings {} --format=json;
   wp option patch insert graphql_general_settings public_introspection_enabled on;
+  wp option patch insert graphql_general_settings show_graphiql_link_in_admin_bar off;
 
   echo "----------------- creating content: -------------------------------";
 
+  ls -al /tmp;
+  ls -al /tmp/demo-content;
   wp menu create main;
-  post_id="$(wp post create --post_type=page --post_title="Test Page" --post_content="This is my test page" --post_status=publish --porcelain)";
+  post_id="$(wp post create /tmp/demo-content/testpage-content.txt --post_type=page --post_title="Test Page" --post_status=publish --porcelain)";
   wp menu item add-post main $post_id --title="Test Page";
-  wp menu item add-custom main WP-Admin http://wordpress.local/wp-admin;
   wp menu location assign main primary;
   wp menu location list;
 
   wp option add wpnuxt_installed 1;
-  echo "----------------- WPNuxt installed successfully: --------------------";
+
 fi
 
-echo "----------------- (re-)install WPNuxt Hooks: -----------------------";
+  echo "----------------- install WPNuxt WordPress Plugin: -----------------------";
 
-wp plugin is-installed "wpnuxt-hooks";
-if [ $? == 1 ]; then wp plugin install --activate /tmp/wpnuxt-hooks.zip; fi
+  cd /tmp;
+  #zip -r wpnuxt-hooks.zip ./wpnuxt-hooks;
+  #cp wpnuxt-hooks.zip /var/www/html/;
+  zip -r wpnuxt-plugin.zip ./wpnuxt-plugin;
+  cd /var/www/html;
+
+  #wp plugin is-installed "wpnuxt-hooks";
+  #if [ $? == 1 ]; then wp plugin install --activate /tmp/wpnuxt-hooks.zip; fi
+
+  wp plugin is-installed "wpnuxt-plugin";
+  if [ $? == 1 ]; then wp plugin install --activate /tmp/wpnuxt-plugin.zip; fi
+
+  echo "----------------- WPNuxt installed successfully: --------------------";

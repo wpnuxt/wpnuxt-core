@@ -1,6 +1,6 @@
 FROM node:21-slim
 #FROM node:21-alpine as base
-ENV NODE_ENV=development
+#ENV NODE_ENV=production
 WORKDIR /src
 
 # Build
@@ -21,5 +21,8 @@ RUN pnpm install
 #COPY --from=build /src/package.json /src/pnpm-lock.yaml ./
 #COPY --from=build /src/node_modules /src/node_modules
 
+#RUN pnpm generate
+
 #CMD [ "ls", "-al", "/src" ]
-CMD [ "pnpm", "run", "dev" ]
+CMD [ "pnpm", "run", "production-test" ]
+#CMD [ "npx", "serve", "playground/.output/public" ]

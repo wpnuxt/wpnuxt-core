@@ -1,0 +1,6 @@
+FROM wordpress:cli
+
+USER root
+RUN apk update && apk add zip
+
+USER www-data

@@ -1,0 +1,3 @@
+This is my test page
+<br><br>
+Content is loaded from the file demo-content/testpage-content.txt

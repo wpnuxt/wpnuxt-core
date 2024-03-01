@@ -23,7 +23,8 @@ services:
       retries: 5
     volumes:
       - ./wordpress/files:/var/www/html
-      - ./wordpress/wpnuxt-hooks:/var/www/html/wp-content/plugins/wpnuxt-hooks
+      - ./wordpress/wpnuxt-plugin:/var/www/html/wp-content/plugins/wpnuxt-plugin
+      #- ./wordpress/wpnuxt-hooks:/var/www/html/wp-content/plugins/wpnuxt-hooks
     environment:
       - WORDPRESS_DB_NAME=wordpress
       - WORDPRESS_TABLE_PREFIX=wp_
@@ -43,13 +44,15 @@ services:
       - 80:80
 
   wordpress-cli:
-    image: wordpress:cli
+    build:
+      dockerfile: ./Dockerfile-cli
     container_name: wpnuxt-wordpress-cli
     volumes:
       - ./wordpress/files:/var/www/html
-      - ./wordpress/wpnuxt-hooks.zip:/tmp/wpnuxt-hooks.zip
+      - ./wordpress/wpnuxt-plugin:/tmp/wpnuxt-plugin
       - ./wordpress/demo-content:/tmp/demo-content
       - ./wordpress/wpInstall.sh:/tmp/wpInstall.sh
+      #- ./wordpress/wpnuxt-hooks:/tmp/wpnuxt-hooks
     environment:
       - WORDPRESS_DB_NAME=wordpress
       - WORDPRESS_TABLE_PREFIX=wp_
