@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import type { Post } from '#build/graphql-operations';
+import { useRuntimeConfig, ref, watch, useHead } from '#imports';
+import { useWPUri } from '../composables/useWPUri';
+import { getCurrentUserName } from '../composables/user';
+import type { Post } from '#graphql-operations';
 defineProps<{
   post?: Post
 }>()
@@ -9,7 +12,7 @@ const wordpressUrl = config.public.wpNuxt.wordpressUrl
 const wpUri = useWPUri()
 const userName = ref<String>()
 userName.value = getCurrentUserName()
-watch(() => getCurrentUserName(), (newVal, oldVal) => {
+watch(() => getCurrentUserName(), (newVal) => {
     userName.value = newVal
 })
 useHead({
@@ -25,7 +28,7 @@ useHead({
 <template>
   <div
     id="wpadminbar"
-    class="h-[34px] w-full fixed top-0 bg-gray-50 shadow-lg z-[100]"
+    class="h-[34px] w-full fixed top-0 bg-gray-50 border-b border-gray-100 shadow-lg z-[100]"
   >
     <UContainer class="p-1">
       <div class="grid grid-cols-2">
@@ -47,15 +50,15 @@ useHead({
             </UButton>
           </div>
           <div
-            v-if="post?.data"
+            v-if="post"
             class="inline-flex"
           >
             <UButton
               size="2xs"
               icon="i-heroicons-pencil"
-              :to="wpUri.postEdit(post.data.databaseId)"
+              :to="wpUri.postEdit('' + post.databaseId)"
             >
-              Edit {{ post.data.contentTypeName }}
+              Edit {{ post.contentTypeName }}
             </UButton>
           </div>
         </div>
@@ -69,25 +72,6 @@ useHead({
             trailing-icon="i-uil-external-link-alt"
           >
             Open live site
-          </UButton>
-          <UButton
-            :to="userName ? '/auth': '/login'"
-            icon="i-heroicons-user"
-            variant="solid"
-            size="2xs"
-          >
-            <span
-              v-if="userName"
-              class="hidden sm:inline-block"
-            >
-              {{ userName }}
-            </span>
-            <span
-              v-else
-              class="hidden sm:inline-block"
-            >
-              Sign in
-            </span>
           </UButton>
         </div>
       </div>

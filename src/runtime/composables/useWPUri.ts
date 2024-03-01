@@ -11,7 +11,7 @@ const _useWPUri = () => {
   const postEdit = (path: string) => {
     if (path)
       return base + '/wp-admin/post.php?post=' + path + '&action=edit'
-    else postAdmin
+    else return postAdmin
   }
 
   return {

@@ -2,18 +2,10 @@ import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteM
 import { existsSync } from 'node:fs'
 import defu from 'defu'
 import fs from 'fs'
+import type { ModuleOptions } from './types';
 require('dotenv').config({ path: __dirname+'/.env' });
 
-// Module options TypeScript interface definition
-export interface ModuleOptions {
-  wordpressUrl: string
-  stagingUrl: string
-  frontendUrl: string
-  faustSecretKey?: string
-  defaultMenuName?: string
-  showBlockInfo?: boolean
-  debug?: boolean
-}
+export type { ModuleOptions } from './types'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {

@@ -13,7 +13,6 @@ export function useWPNuxtLogger () {
 export function initLogger (debug: boolean) {
   logger.value = createConsola({
     level:  debug ? 4 : 3,
-    fancy: true,
     formatOptions: {
          // columns: 80,
          colors: true,

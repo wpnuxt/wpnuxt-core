@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { loginUser, logoutUser, getCurrentUserName, useWPUri, useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref } from '#imports';
+import { useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref, navigateTo } from '#imports';
+import { useWPUri } from '../composables/useWPUri';
+import { getCurrentUserName, loginUser, logoutUser } from '../composables/user';
 const route = useRoute();
 const config = useRuntimeConfig();
 const requestEvent = useRequestEvent();
@@ -67,7 +69,7 @@ const logOut = async () => {
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink :to="wpUri.postsAdmin">
+          <NuxtLink :to="wpUri.postAdmin">
             Posts
           </NuxtLink>
         </li>

@@ -5,8 +5,8 @@ const config = useRuntimeConfig();
 const wpUrl = config.public.wpNuxt.wordpressUrl
 const props = defineProps<{
     url: string
-    width?: number
-    height?: number
+    width?: string
+    height?: string
 }>();
 const imgUrl = ref(props.url)
 if (imgUrl.value.indexOf(wpUrl) > -1) {

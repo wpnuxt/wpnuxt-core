@@ -1,20 +1,13 @@
 <script setup lang="ts">
-import { useImage, useRuntimeConfig } from '#imports';
 import type { CoreGallery, CoreImage } from '#graphql-operations';
-const img = useImage()
-const config = useRuntimeConfig();
-const wpUrl = config.public.wpNuxt.wordpressUrl
 const props = defineProps<{
     block: CoreGallery
 }>();
-const images: string[] = []
+const imageBlocks: CoreImage[] = []
 props.block?.innerBlocks?.forEach((innerBlock) => {
     if (innerBlock && innerBlock.name === 'core/image') {
         const imgBlock = innerBlock as CoreImage
-        if (imgBlock.attributes?.url && imgBlock.attributes.url.indexOf(wpUrl) > -1) {
-            const imgUrl = img(imgBlock.attributes.url.replace(wpUrl, ''))
-            images.push(imgUrl)
-        }
+        imageBlocks.push(imgBlock)
     }
 })
 </script>
@@ -22,7 +15,7 @@ props.block?.innerBlocks?.forEach((innerBlock) => {
 <template>
   <div class="columns-2 md:columns-3 lg:columns-4 mx-[-8px] mb-20">
     <div
-      v-for="(imgBlock, index) in block?.innerBlocks"
+      v-for="(imgBlock, index) in imageBlocks"
       :key="index"
       class="px-0 md:px-1"
     >
@@ -33,7 +26,7 @@ props.block?.innerBlocks?.forEach((innerBlock) => {
         <ImageComponent
           :url="imgBlock.attributes?.url"
           class="rounded-lg cursor-pointer w-full"
-          :width="300"
+          width="300"
         />
       </div>
     </div>

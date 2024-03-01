@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { EditorBlock } from '#graphql-operations';
+import type { CoreBlock } from '#graphql-operations';
 
 defineProps<{
-    block: EditorBlock
+    block: CoreBlock
 }>();
 </script>
 

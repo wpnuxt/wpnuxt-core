@@ -1,9 +1,10 @@
+import { useLocalStorage } from "@vueuse/core"
+import { useViewer } from "./useViewer"
 
-import { useViewer, useLocalStorage } from "#imports"
-const currentUserId = useLocalStorage<Number>('CURRENT_USER_ID', null)
-const currentUserName = useLocalStorage<String>('CURRENT_USER_NAME', null)
+const currentUserId = useLocalStorage<number>('CURRENT_USER_ID', null)
+const currentUserName = useLocalStorage<string>('CURRENT_USER_NAME', null)
 
-export async function loginUser(): Promise<String> {
+export async function loginUser(): Promise<string> {
   const viewer = await useViewer()
   currentUserId.value = viewer.userId
   if (viewer.firstName === undefined || viewer.firstName === null || viewer.firstName === '') {
@@ -19,10 +20,10 @@ export function logoutUser() {
   currentUserName.value = undefined
 }
 
-export function getCurrentUserId(): Number {
+export function getCurrentUserId(): number {
   return currentUserId.value
 }
 
-export function getCurrentUserName(): String {
+export function getCurrentUserName(): string {
   return currentUserName.value
 }

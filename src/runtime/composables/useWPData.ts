@@ -1,4 +1,5 @@
-import { useFetch, createError, useTokens } from "#imports"
+import { useFetch, createError } from "#imports"
+import { useTokens } from "./useTokens";
 
 const _useWPData = async (name: string) => {
   const tokens = useTokens()

@@ -3,7 +3,7 @@ import { getQuery } from 'h3'
 
 export default defineMultiCacheOptions({
   route: {
-    buildCacheKey(event) {
+    buildCacheKey(event: any) {
       const path = event.path
 
       // Handle specific routes that need query strings.

@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { useRoute, usePageById, useWPUri, ref } from '#imports';
-import type { Page } from '#graphql-operations';
+import { useRoute, ref } from '#imports';
+import type { EditorBlock, Page } from '#graphql-operations';
+import { useWPUri } from '../composables/useWPUri';
+import { usePageById } from '../composables/usePage';
 const route = useRoute();
 const { preview_id: previewId } = route.query;
 
-const postEditUrl = useWPUri().postEdit(previewId);
+const postEditUrl = useWPUri().postEdit(previewId?.toString() || '');
 const page = ref<Page>()
 if (previewId) {
   const id = Number.parseInt(previewId.toString());
   const data = await usePageById(id, true)
   page.value = data?.data
 }
-
 </script>
 
 <template>
@@ -23,7 +24,7 @@ if (previewId) {
     <hr>
     <BlockRenderer
       v-if="page"
-      :blocks="page?.editorBlocks"
+      :blocks="(page?.editorBlocks || []) as EditorBlock[]"
     />
     <div v-else>
       Oops, page === null

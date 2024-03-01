@@ -1,4 +1,6 @@
-import { useFetch, createError, useTokens, useRuntimeConfig, useWPNuxtLogger } from "#imports"
+import { useFetch, createError, useRuntimeConfig } from "#imports"
+import { useTokens } from "./useTokens";
+import { useWPNuxtLogger } from "./useWPNuxtlogger";
 
 const _useMenu = async (name?: string) => {
     const logger = useWPNuxtLogger()

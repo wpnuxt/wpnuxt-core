@@ -1,4 +1,6 @@
-import { useTokens, useFetch, createError, useWPNuxtLogger } from "#imports"
+import { useFetch, createError } from "#imports"
+import { useTokens } from "./useTokens";
+import { useWPNuxtLogger } from "./useWPNuxtlogger";
 
 const _usePostByUri = async (uri: string) => {
     const logger = useWPNuxtLogger()
@@ -12,7 +14,7 @@ const _usePostByUri = async (uri: string) => {
         headers: {
           Authorization: tokens.authorizationHeader
         },
-        transform (data) {
+        transform (data: any) {
             return data.data.nodeByUri;
         }
     })
@@ -40,7 +42,7 @@ const _usePostById = async (id: number, asPreview?: boolean) => {
     headers: {
       Authorization: tokens.authorizationHeader
     },
-    transform (data) {
+    transform (data: any) {
       return data.data.post;
     }
   })

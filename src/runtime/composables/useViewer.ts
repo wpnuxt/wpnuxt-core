@@ -1,4 +1,5 @@
-import { ref, useFetch, createError, useTokens } from "#imports"
+import { ref, useFetch, createError } from "#imports"
+import { useTokens } from "./useTokens";
 
 const _useViewer = async () => {
   const viewer = ref()

@@ -1,5 +1,6 @@
-import { defineNuxtRouteMiddleware, ref, useFetch, useCookie, navigateTo, useRequestEvent, useRuntimeConfig, loginUser } from "#imports"
+import { defineNuxtRouteMiddleware, ref, useFetch, useCookie, navigateTo, useRequestEvent, useRuntimeConfig } from "#imports"
 import { useWPNuxtLogger } from "../composables/useWPNuxtlogger";
+import { loginUser } from "../composables/user";
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const config = useRuntimeConfig();
@@ -20,7 +21,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   } else if (to.query.preview === 'true') {
     const previewId = to.query.p;
     const previewUrl = `${config.public.wpNuxt.frontendUrl}/preview?preview_id=${previewId}`
-    if (event.context.accessToken && !to.path.startsWith('/preview')) {
+    if (event?.context.accessToken && !to.path.startsWith('/preview')) {
       loginUser()
       return navigateTo(previewUrl)
     } else {
@@ -42,8 +43,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
       logger.debug('auth middleware: got an access token, logging in the user')
       if (process.server) {
         const event = useRequestEvent()
-        event.context.accessToken = tokens.value?.data?.tokens?.accessToken;
-        loginUser()
+        if (event) {
+          event.context.accessToken = tokens.value?.data?.tokens?.accessToken;
+          loginUser()
+        }
       }
     //} else if (to.path.startsWith('/preview') || to.path.startsWith('/test')) {
       // if we have no acces token and trying to access a protected route, redirect to login

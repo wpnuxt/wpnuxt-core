@@ -14,7 +14,7 @@ if (post?.data?.title) {
   <div>
     <StagingBanner
       v-if="isStaging"
-      :post="post"
+      :post="post.data"
     />
     <UContainer>
       <UPage v-if="post?.data">
