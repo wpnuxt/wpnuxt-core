@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  slack: circleci/slack@4.12.6
+  slack: circleci/slack@4.13.1
   sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
