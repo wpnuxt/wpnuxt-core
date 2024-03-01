@@ -44,8 +44,12 @@ if (post?.data?.title) {
               />
             </div>
             <div class="test-sm mt-10">
-              published:
+              published:<br>
               {{ post.data.date.split('T')[0] }}
+            </div>
+            <div class="test-sm mt-10">
+              meta:<br>
+              {{ post.data.seo.metaDesc }}
             </div>
             <div
               v-if="isStaging"

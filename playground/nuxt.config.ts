@@ -16,10 +16,11 @@ export default defineNuxtConfig({
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
     showBlockInfo: false,
-    debug: false
+    debug: false,
+    replaceSchema: true
   },
   graphqlMiddleware: {
-    downloadSchema: false,
+    downloadSchema: true,
   },
   ui: {
     icons: ['heroicons', 'uil', 'mdi']
