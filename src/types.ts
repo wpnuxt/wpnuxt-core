@@ -6,4 +6,5 @@ export interface ModuleOptions {
   defaultMenuName?: string
   showBlockInfo?: boolean
   debug?: boolean
+  replaceSchema?: boolean
 }

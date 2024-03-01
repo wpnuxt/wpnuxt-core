@@ -20,7 +20,8 @@ export default defineNuxtModule<ModuleOptions>({
     faustSecretKey: '',
     defaultMenuName: 'main',
     showBlockInfo: false,
-    debug: false
+    debug: false,
+    replaceSchema: false
   },
   async setup (options, nuxt) {
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
@@ -29,7 +30,8 @@ export default defineNuxtModule<ModuleOptions>({
       frontendUrl: process.env.WPNUXT_FRONTEND_URL ? process.env.WPNUXT_FRONTEND_URL : options.frontendUrl!,
       defaultMenuName: process.env.WPNUXT_DEFAULT_MENU_NAME ? process.env.WPNUXT_DEFAULT_MENU_NAME : options.defaultMenuName!,
       showBlockInfo: process.env.WPNUXT_SHOW_BLOCK_INFO ? process.env.WPNUXT_SHOW_BLOCK_INFO === 'true' : options.showBlockInfo!,
-      debug: process.env.WPNUXT_DEBUG ? process.env.WPNUXT_DEBUG === 'true' : options.debug!
+      debug: process.env.WPNUXT_DEBUG ? process.env.WPNUXT_DEBUG === 'true' : options.debug!,
+      replaceSchema: process.env.WPNUXT_REPLACE_SCHEMA ? process.env.WPNUXT_REPLACE_SCHEMA === 'true' : options.replaceSchema!
     })
     // we're not putting the secret in public config, so it goes into runtimeConfig
     nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {
@@ -137,9 +139,14 @@ export default defineNuxtModule<ModuleOptions>({
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
       .replace(/^(~|@)/, nuxt.options.srcDir)
     const userQueryPathExists = existsSync(userQueryPath)
-    const queryPaths = userQueryPathExists
-      ? [ resolver.resolve(userQueryPath + '**/*.gql'), resolver.resolve('./runtime/queries/**/*.gql')]
-      : [ resolver.resolve('./runtime/queries/**/*.gql')]
+    let queryPaths
+    if (userQueryPathExists && options.replaceSchema) {
+      queryPaths = [ resolver.resolve(userQueryPath + '**/*.gql')]
+    } else if (userQueryPathExists && !options.replaceSchema) {
+      queryPaths = [ resolver.resolve(userQueryPath + '**/*.gql'), resolver.resolve('./runtime/queries/**/*.gql')]
+    } else {
+      queryPaths = [ resolver.resolve('./runtime/queries/**/*.gql')]
+    }
     logger.debug('Loading query paths:', queryPaths)
 
     await installModule('nuxt-graphql-middleware', {
@@ -213,6 +220,7 @@ declare module '@nuxt/schema' {
       defaultMenuName?: string
       showBlockInfo?: boolean
       debug?: boolean
+      replaceSchema?: boolean
     }
   }
 
@@ -229,6 +237,7 @@ declare module '@nuxt/schema' {
           defaultMenuName?: string
           showBlockInfo?: boolean
           debug?: boolean
+          replaceSchema?: boolean
         }
       }
     }
