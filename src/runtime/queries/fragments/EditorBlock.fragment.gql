@@ -1,5 +1,4 @@
 fragment EditorBlock on EditorBlock {
-  attributes
   apiVersion
   blockEditorCategoryName
   clientId

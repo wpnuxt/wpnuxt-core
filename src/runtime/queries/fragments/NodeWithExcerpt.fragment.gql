@@ -1,4 +1,4 @@
 fragment NodeWithExcerpt on NodeWithExcerpt {
-    excerpt
-    id
+  excerpt
+  id
 }

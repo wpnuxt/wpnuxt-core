@@ -28,7 +28,8 @@ useHead({
 <template>
   <div
     id="wpadminbar"
-    class="h-[34px] w-full fixed top-0 bg-gray-50 border-b border-gray-100 shadow-lg z-[100]"
+    class="h-[34px] w-full fixed top-0 bg-gray-50 border-b border-gray-100 shadow-lg"
+    style="z-index: 9999;"
   >
     <UContainer class="p-1">
       <div class="grid grid-cols-2">

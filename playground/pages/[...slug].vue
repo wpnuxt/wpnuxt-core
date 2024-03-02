@@ -47,7 +47,10 @@ if (post?.data?.title) {
               published:<br>
               {{ post.data.date.split('T')[0] }}
             </div>
-            <div class="test-sm mt-10">
+            <div
+              v-if="post.data.seo"
+              class="test-sm mt-10"
+            >
               meta:<br>
               {{ post.data.seo.metaDesc }}
             </div>

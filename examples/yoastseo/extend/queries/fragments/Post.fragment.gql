@@ -20,4 +20,9 @@ fragment Post on Post {
     ...CoreQuote
     ...EditorBlock
   }
+  seo {
+    metaDesc
+    title
+    fullHead
+  }
 }

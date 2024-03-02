@@ -1,7 +1,7 @@
 #import '~/queries/fragments/NodeWithFeaturedImageToMediaItemConnectionEdge.fragment.gql';
 
 fragment NodeWithFeaturedImage on NodeWithFeaturedImage {
-  featuredImage { 
+  featuredImage {
     ...NodeWithFeaturedImageToMediaItemConnectionEdge
   }
   featuredImageDatabaseId

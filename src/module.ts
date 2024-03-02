@@ -135,19 +135,19 @@ export default defineNuxtModule<ModuleOptions>({
       }
     })*/
 
-    const userQueryPath = '~/queries/'
+    const queryOutputPath = resolver.resolve(nuxt.options.rootDir + '/queries/')
+
+    const userQueryPath = '~/extend/queries/'
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
       .replace(/^(~|@)/, nuxt.options.srcDir)
     const userQueryPathExists = existsSync(userQueryPath)
-    let queryPaths
-    if (userQueryPathExists && options.replaceSchema) {
-      queryPaths = [ resolver.resolve(userQueryPath + '**/*.gql')]
-    } else if (userQueryPathExists && !options.replaceSchema) {
-      queryPaths = [ resolver.resolve(userQueryPath + '**/*.gql'), resolver.resolve('./runtime/queries/**/*.gql')]
-    } else {
-      queryPaths = [ resolver.resolve('./runtime/queries/**/*.gql')]
+
+    fs.cpSync(resolver.resolve('./runtime/queries/'), queryOutputPath, {recursive: true})
+    if (userQueryPathExists) {
+      logger.debug('Extending queries:', userQueryPath)
+      fs.cpSync(resolver.resolve(userQueryPath), queryOutputPath, {recursive: true})
     }
-    logger.debug('Loading query paths:', queryPaths)
+    logger.debug('Copied merged queries in folder:', queryOutputPath)
 
     await installModule('nuxt-graphql-middleware', {
       debug: nuxt.options.runtimeConfig.public.wpNuxt.debug,
@@ -162,11 +162,13 @@ export default defineNuxtModule<ModuleOptions>({
         disableOnBuild: false,
         schema: {
         } as any,
-        documents: [resolver.resolve('!./graphql/**/*')],
+        documents: [
+          resolver.resolve('!./graphql/**/*')
+        ],
         generates: {
           './graphql/': {
             preset: 'client',
-            plugins: [],
+            plugins: ['typescript-operations'],
           },
         },
       },
@@ -178,7 +180,7 @@ export default defineNuxtModule<ModuleOptions>({
         },
       },
       outputDocuments: true,
-      autoImportPatterns: queryPaths
+      autoImportPatterns: queryOutputPath
     })
     /*const resolvedMCPath = resolver.resolve('./runtime/app/multiCache.serverOptions')
     const templateMC = addTemplate({

@@ -58,3 +58,24 @@ playground/.vercel/
 
 wordpress/files/
 playground/schema.graphql
+playground/queries/Menu.gql
+playground/queries/Page.gql
+playground/queries/Pages.gql
+playground/queries/Post.gql
+playground/queries/PostByUri.gql
+playground/queries/Posts.gql
+playground/queries/Revisions.gql
+playground/queries/Settings.gql
+playground/queries/Viewer.gql
+playground/queries/fragments/ContentNode.fragment.gql
+playground/queries/fragments/CoreGallery.fragment.gql
+playground/queries/fragments/CoreImage.fragment.gql
+playground/queries/fragments/CoreParagraph.fragment.gql
+playground/queries/fragments/CoreQuote.fragment.gql
+playground/queries/fragments/EditorBlock.fragment.gql
+playground/queries/fragments/MediaItem.fragment.gql
+playground/queries/fragments/NodeWithExcerpt.fragment.gql
+playground/queries/fragments/NodeWithFeaturedImage.fragment.gql
+playground/queries/fragments/NodeWithFeaturedImageToMediaItemConnectionEdge.fragment.gql
+playground/queries/fragments/Page.fragment.gql
+playground/queries/fragments/Post.fragment.gql
