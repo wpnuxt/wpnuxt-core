@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v0.2.4
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.3...v0.2.4)
+
 ## v0.2.3
 
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.2...v0.2.3)
