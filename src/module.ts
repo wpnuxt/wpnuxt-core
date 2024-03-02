@@ -119,7 +119,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     await installModule('@vueuse/nuxt', {})
-    /*await installModule('nuxt-multi-cache', {
+    await installModule('nuxt-multi-cache', {
       debug: nuxt.options.runtimeConfig.public.wpNuxt.debug,
       route: {
         enabled: true
@@ -133,7 +133,7 @@ export default defineNuxtModule<ModuleOptions>({
         authorization: 'wpnuxt-cache',
         cacheTagInvalidationDelay: 60000
       }
-    })*/
+    })
 
     const queryOutputPath = resolver.resolve(nuxt.options.rootDir + '/queries/')
 
@@ -182,16 +182,16 @@ export default defineNuxtModule<ModuleOptions>({
       outputDocuments: true,
       autoImportPatterns: queryOutputPath
     })
-    /*const resolvedMCPath = resolver.resolve('./runtime/app/multiCache.serverOptions')
+    const resolvedMCPath = resolver.resolve('./runtime/app/multiCache.serverOptions')
     const templateMC = addTemplate({
         filename: 'multiCache.serverOptions',
         write: true,
         getContents: () => `export { default } from '${resolvedMCPath}'`
-    })*/
+    })
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
-    /*nuxt.options.nitro.externals.inline.push(templateMC.dst)
-    nuxt.options.alias['#multi-cache-server-options'] = templateMC.dst*/
+    nuxt.options.nitro.externals.inline.push(templateMC.dst)
+    nuxt.options.alias['#multi-cache-server-options'] = templateMC.dst
 
     const resolvedPath = resolver.resolve('./runtime/app/graphqlMiddleware.serverOptions')
     const template = addTemplate({
