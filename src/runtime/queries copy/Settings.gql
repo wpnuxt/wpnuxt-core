@@ -1,7 +1,0 @@
-query Settings {
-  generalSettings {
-    title
-    description
-    url
-  }
-}
