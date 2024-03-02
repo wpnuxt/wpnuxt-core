@@ -43,6 +43,7 @@ useHead({
             <UButton
               size="2xs"
               variant="outline"
+              color="gray"
               icon="i-mdi-wordpress"
               :to="wpUri.admin"
               class="mr-2"
@@ -68,6 +69,7 @@ useHead({
             size="2xs"
             class="shadow-md align-top mr-2"
             variant="outline"
+            color="gray"
             :to="frontendUrl"
             target="_blank"
             trailing-icon="i-uil-external-link-alt"
