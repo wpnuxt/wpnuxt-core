@@ -1,5 +1,5 @@
-import { useFetch, createError, useRuntimeConfig, ref, useNuxtData, } from "#imports"
-import { useTokens } from "./useTokens";
+import { useFetch, createError, useRuntimeConfig, ref, useNuxtData, computed } from "#imports"
+import { useTokens } from "./useTokens"
 import { useWPNuxtLogger } from "./useWPNuxtlogger";
 
 const _useMenu = async (name?: string) => {
@@ -8,13 +8,14 @@ const _useMenu = async (name?: string) => {
     const config = useRuntimeConfig()
     const menuName = name && name.length > 0 ? name : config.public.wpNuxt.defaultMenuName
     const tokens = useTokens()
-    const cacheKey =  'menu-' + menuName
-    const cachedMenu = useNuxtData(cacheKey)
+    const cacheKey =  computed(() => `menu-${name}`)
+    const cachedMenu = useNuxtData(cacheKey.value)
 
     if (cachedMenu.data.value) {
       menu.value = cachedMenu.data.value
     } else {
       const { data, error } = await useFetch('/api/graphql_middleware/query/Menu', {
+          key: cacheKey.value,
           params: {
             name: menuName
           },
