@@ -135,7 +135,7 @@ export default defineNuxtModule<ModuleOptions>({
       }
     })
 
-    const queryOutputPath = resolver.resolve(nuxt.options.rootDir + '/queries/')
+    const queryOutputPath = resolver.resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/queries/')
 
     const userQueryPath = '~/extend/queries/'
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
