@@ -12,7 +12,6 @@ const _usePostByUri = async (uri: string) => {
     if (cachedPost.data.value) {
       post.value = cachedPost.data.value
     } else {
-      logger.debug('usePostByUri, fetching post for uri: ', uri)
       const { data, error } = await useFetch("/api/graphql_middleware/query/PostByUri/", {
           key: cacheKey.value,
           params: {
@@ -30,11 +29,6 @@ const _usePostByUri = async (uri: string) => {
           throw createError({ statusCode: error.value.status, message: error.value.message, fatal: true })
       }
       post.value = data.value
-    }
-    if (post.value) {
-      logger.debug('usePostByUri, successfully fetched post: ', post.value.title)
-    } else {
-      logger.debug('usePostByUri, data is empty')
     }
     return {
       data: post.value
