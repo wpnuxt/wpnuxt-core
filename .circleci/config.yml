@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@4.13.1
-  sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
   pnpm-executor:
@@ -38,7 +37,6 @@ jobs:
       - run:
           name: Lint
           command: pnpm run lint
-      - sonarcloud/scan
       - slack/notify:
           channel: circleci
           event: always
@@ -49,6 +47,3 @@ workflows:
       - build:
           context:
             - Slack
-            - SonarCloud
-
-# VS Code Extension Version: 1.5.1
