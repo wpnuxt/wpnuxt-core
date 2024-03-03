@@ -79,3 +79,4 @@ playground/queries/fragments/NodeWithFeaturedImage.fragment.gql
 playground/queries/fragments/NodeWithFeaturedImageToMediaItemConnectionEdge.fragment.gql
 playground/queries/fragments/Page.fragment.gql
 playground/queries/fragments/Post.fragment.gql
+examples/yoastseo/schema.graphql
