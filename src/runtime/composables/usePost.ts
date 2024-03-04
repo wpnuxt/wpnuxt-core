@@ -5,25 +5,30 @@ import { useWPNuxtLogger } from "./useWPNuxtlogger";
 const _usePostByUri = async (uri: string) => {
     const post = ref()
     const logger = useWPNuxtLogger()
+    const nuxtApp = useNuxtApp()
     const tokens = useTokens()
-    const cacheKey =  computed(() => `post-${uri}`)
-    const cachedPost = useNuxtData(cacheKey.value)
+    const cacheKey =  'post-'  + uri
+    const { data: cachedPost } = useNuxtData(cacheKey);
 
-    if (cachedPost.data.value) {
-      post.value = cachedPost.data.value
+    if (cachedPost.value) {
+      post.value = cachedPost.value
     } else {
-      const { data, error } = await useFetch("/api/graphql_middleware/query/PostByUri/", {
-          key: cacheKey.value,
+      const { data, error } = await useFetch<any>("/api/graphql_middleware/query/PostByUri/", {
           params: {
               uri: uri
           },
+          key: cacheKey,
           headers: {
             Authorization: tokens.authorizationHeader
           },
           transform (data: any) {
               return data.data.nodeByUri;
+          },
+          getCachedData(key: string) {
+            return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
           }
       })
+
       if (error.value) {
           logger.error('usePostByUri, error: ', error.value)
           throw createError({ statusCode: error.value.status, message: error.value.message, fatal: true })

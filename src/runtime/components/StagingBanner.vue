@@ -24,7 +24,13 @@ useHead({
 })
 
 const route = useRoute();
-const uri = route.path === '/' ? 'home' : route.path
+let uri = route.path === '/' ? 'home' : route.path
+if (uri.startsWith('/')) {
+    uri = uri.substring(1)
+}
+if (uri.endsWith('/')) {
+    uri = uri.substring(0, uri.length - 1)
+}
 const post = await usePostByUri(uri)
 if (post?.data?.title) {
     useHead({
