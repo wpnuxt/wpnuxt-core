@@ -1,4 +1,4 @@
-import { useFetch, createError, useRuntimeConfig, ref, useNuxtData, useNuxtApp, computed } from "#imports"
+import { useFetch, createError, useRuntimeConfig, ref, useNuxtData, useNuxtApp } from "#imports"
 import { useTokens } from "./useTokens"
 import { useWPNuxtLogger } from "./useWPNuxtlogger";
 
