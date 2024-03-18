@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.2.10
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.9...v0.2.10)
+
+### 🏡 Chore
+
+- Package updates ([003a7b4](https://github.com/vernaillen/wpnuxt-module/commit/003a7b4))
+- Package updates nuxt 3.11.0 ([4c88971](https://github.com/vernaillen/wpnuxt-module/commit/4c88971))
+
+### ❤️ Contributors
+
+- Wouter Vernaillen <wouter@vernaillen.com>
+
 ## v0.2.9
 
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.8...v0.2.9)
