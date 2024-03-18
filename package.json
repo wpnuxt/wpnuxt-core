@@ -44,7 +44,7 @@
     "production-test": "pnpm --filter ./playground/ run build && pnpm run prepack && pnpm --filter ./playground/ run generate && npx serve ./playground/.output/public"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.10.3",
+    "@nuxt/kit": "^3.11.0",
     "@vueuse/nuxt": "^10.9.0",
     "defu": "^6.1.4",
     "nuxt-graphql-middleware": "^4.0.0",
@@ -57,21 +57,21 @@
     "@nuxt/devtools": "^1.0.8",
     "@nuxt/eslint-config": "^0.2.0",
     "@nuxt/module-builder": "^0.5.5",
-    "@nuxt/schema": "^3.10.3",
-    "@nuxt/test-utils": "^3.11.0",
+    "@nuxt/schema": "^3.11.0",
+    "@nuxt/test-utils": "^3.12.0",
     "@rollup/rollup-linux-arm64-gnu": "^4.13.0",
     "@rollup/rollup-linux-arm64-musl": "^4.13.0",
-    "@types/node": "20.11.26",
-    "@vitest/coverage-v8": "^1.3.1",
-    "@vue/test-utils": "^2.4.4",
+    "@types/node": "20.11.28",
+    "@vitest/coverage-v8": "^1.4.0",
+    "@vue/test-utils": "^2.4.5",
     "changelogen": "^0.5.5",
     "eslint": "^8.57.0",
-    "happy-dom": "^13.8.2",
-    "nuxt": "^3.10.3",
+    "happy-dom": "^13.9.0",
+    "nuxt": "^3.11.0",
     "playwright-core": "^1.42.1",
     "typescript": "^5.4.2",
     "untyped": "1.4.2",
-    "vitest": "^1.3.1",
+    "vitest": "^1.4.0",
     "vue-tsc": "^2.0.6"
   }
 }
