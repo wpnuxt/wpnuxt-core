@@ -1,4 +1,5 @@
 import { useFetch, createError } from "#imports"
+import { getRelativeImagePath } from "../util/images";
 import { useTokens } from "./useTokens";
 import { useWPNuxtLogger } from "./useWPNuxtlogger";
 
@@ -15,7 +16,11 @@ const _usePageById = async (id: number, asPreview?: boolean) => {
       Authorization: tokens.authorizationHeader
     },
     transform (data: any) {
-      return data?.data?.page;
+      if(data?.data?.page?.featuredImage?.node?.sourceUrl) {
+        data.data.page.featuredImage.node.relativePath =
+          getRelativeImagePath(data.data.page.featuredImage.node.sourceUrl)
+      }
+      return data?.data?.page
     }
   })
   if (error.value) {
