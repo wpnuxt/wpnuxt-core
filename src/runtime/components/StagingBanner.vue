@@ -46,12 +46,12 @@ if (post?.data?.title) {
   >
     <UContainer class="p-1">
       <div class="flex w-full">
-        <div class="grow text-left align-top">
-          <div class="inline-flex mr-6 sm:mr-10">
+        <div class="grow text-left align-top overflow-hidden">
+          <div class="hidden sm:inline-flex mr-6 sm:mr-10">
             <WPNuxtLogo class="-mt-2 inline-flex" />
           </div>
           <div
-            class="inline-flex"
+            class="inline-block"
           >
             <UButton
               size="2xs"
@@ -73,7 +73,7 @@ if (post?.data?.title) {
               icon="i-heroicons-pencil"
               :to="wpUri.postEdit('' + post.data.databaseId)"
             >
-              Edit {{ post.data.contentTypeName }}
+              Edit <span class="hidden sm:inline-flex">{{ post.data.contentTypeName }}</span>
             </UButton>
           </div>
         </div>
