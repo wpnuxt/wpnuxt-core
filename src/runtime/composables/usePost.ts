@@ -1,8 +1,10 @@
-import { useFetch, createError, ref, useNuxtData, computed, useNuxtApp } from "#imports"
+import { useFetch, createError, ref, useNuxtData, computed, useNuxtApp, useRuntimeConfig } from "#imports"
+import { getRelativeImagePath } from "../util/images";
 import { useTokens } from "./useTokens";
 import { useWPNuxtLogger } from "./useWPNuxtlogger";
 
 const _usePostByUri = async (uri: string) => {
+    if (!uri || uri === 'undefined' || uri === '_nuxt'  || uri === '__nuxt' ) return
     const post = ref()
     const logger = useWPNuxtLogger()
     const nuxtApp = useNuxtApp()
@@ -22,6 +24,10 @@ const _usePostByUri = async (uri: string) => {
             Authorization: tokens.authorizationHeader
           },
           transform (data: any) {
+              if(data?.data?.nodeByUri?.featuredImage?.node?.sourceUrl) {
+                data.data.nodeByUri.featuredImage.node.relativePath =
+                  getRelativeImagePath(data.data.nodeByUri.featuredImage.node.sourceUrl)
+              }
               return data.data.nodeByUri;
           },
           getCachedData(key: string) {
@@ -59,6 +65,10 @@ const _usePostById = async (id: number, asPreview?: boolean) => {
         Authorization: tokens.authorizationHeader
       },
       transform (data: any) {
+        if (data?.data?.post?.featuredImage?.node?.sourceUrl) {
+            data.data.post.featuredImage.node.relativePath =
+              getRelativeImagePath(data.data.post.featuredImage.node.sourceUrl)
+        }
         return data.data.post;
       }
     })

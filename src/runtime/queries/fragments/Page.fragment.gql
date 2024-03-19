@@ -1,4 +1,5 @@
 #import '~/queries/fragments/ContentNode.fragment.gql';
+#import '~/queries/fragments/NodeWithFeaturedImage.fragment.gql';
 #import '~/queries/fragments/CoreGallery.fragment.gql';
 #import '~/queries/fragments/CoreImage.fragment.gql';
 #import '~/queries/fragments/CoreParagraph.fragment.gql';
@@ -7,6 +8,7 @@
 
 fragment Page on Page {
   ...ContentNode
+  ...NodeWithFeaturedImage
   content
   isFrontPage
   isPostsPage
