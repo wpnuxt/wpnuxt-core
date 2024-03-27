@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.2.14
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.13...v0.2.14)
+
+### 🏡 Chore
+
+- **release:** V0.2.13 ([765ab34](https://github.com/vernaillen/wpnuxt-module/commit/765ab34))
+
+### ❤️ Contributors
+
+- Wouter Vernaillen <wouter@vernaillen.com>
+
 ## v0.2.13
 
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.12...v0.2.13)
