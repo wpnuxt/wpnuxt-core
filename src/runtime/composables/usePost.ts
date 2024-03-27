@@ -1,4 +1,4 @@
-import { useFetch, createError, ref, useNuxtData, computed, useNuxtApp, useRuntimeConfig } from "#imports"
+import { useFetch, createError, ref, useNuxtData, computed, useNuxtApp } from "#imports"
 import { getRelativeImagePath } from "../util/images";
 import { useTokens } from "./useTokens";
 import { useWPNuxtLogger } from "./useWPNuxtlogger";

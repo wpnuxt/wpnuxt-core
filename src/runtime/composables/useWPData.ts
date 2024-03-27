@@ -1,23 +1,28 @@
-import { useFetch, createError } from "#imports"
-import { useTokens } from "./useTokens";
+import { useFetch, createError, ref, useNuxtData } from "#imports"
 
-const _useWPData = async (name: string) => {
-  const tokens = useTokens()
+const _useWPData = async (queryName: string) => {
 
-  const { data, error } = await useFetch("/api/graphql_middleware/query/" + name, {
-    headers: {
-      Authorization: tokens.authorizationHeader
-    },
-    transform (data: any) {
-        return data.data[name.toLowerCase()].nodes;
+  const posts = ref()
+  const cacheKey =  'wpdataext-' + queryName
+  const cachedPosts = useNuxtData(cacheKey)
+
+  if (cachedPosts.data.value) {
+    posts.value = cachedPosts.data.value
+  } else {
+    const { data, error } = await useFetch("/api/graphql_middleware/query/" + queryName, {
+      key: cacheKey,
+      transform (data: any) {
+          return data.data[queryName.toLowerCase()].nodes;
+      }
+    });
+    if (error.value) {
+        console.error(error.value)
+        throw createError({ statusCode: 500, message: 'Error fetching ' + queryName, fatal: true })
     }
-  });
-  if (error.value) {
-      console.error(error.value)
-      throw createError({ statusCode: 500, message: 'Error fetching ' + name, fatal: true })
+    posts.value = data.value
   }
   return {
-      data: data.value
+      data: posts.value
   }
 }
 
