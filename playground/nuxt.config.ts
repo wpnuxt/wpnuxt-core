@@ -17,7 +17,8 @@ export default defineNuxtConfig({
     faustSecretKey: '',
     showBlockInfo: false,
     debug: false,
-    replaceSchema: false
+    replaceSchema: false,
+    enableMultiCache: true
   },
   graphqlMiddleware: {
     downloadSchema: true,
