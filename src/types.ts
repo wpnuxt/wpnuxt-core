@@ -7,4 +7,5 @@ export interface ModuleOptions {
   showBlockInfo?: boolean
   debug?: boolean
   replaceSchema?: boolean
+  enableMultiCache?: boolean
 }
