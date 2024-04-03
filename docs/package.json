@@ -1,0 +1,29 @@
+{
+  "name": "nuxt-ui-pro-template-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@iconify-json/heroicons": "^1.1.20",
+    "@iconify-json/simple-icons": "^1.1.97",
+    "@nuxt/content": "^2.12.1",
+    "@nuxt/fonts": "^0.6.1",
+    "@nuxt/ui-pro": "^1.1.0",
+    "nuxt": "^3.11.1",
+    "nuxt-og-image": "3.0.0-rc.49"
+  },
+  "devDependencies": {
+    "@nuxt/eslint-config": "^0.2.0",
+    "@nuxthq/studio": "^1.0.13",
+    "eslint": "^8.57.0",
+    "vue-tsc": "^2.0.7"
+  }
+}
