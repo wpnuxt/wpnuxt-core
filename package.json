@@ -33,6 +33,8 @@
     "test:watch": "vitest watch",
     "coverage": "vitest run --coverage",
     "typecheck": "vue-tsc --noEmit",
+    "docs:dev": "pnpm --filter ./docs/ run dev",
+    "docs:build": "pnpm --filter ./docs/ run build",
     "wp:start": "docker-compose up wordpress.local wordpress-cli db phpmyadmin",
     "wp:start-silent": "docker-compose up -d wordpress.local wordpress-cli db phpmyadmin",
     "wp:start-all": "docker-compose up",
