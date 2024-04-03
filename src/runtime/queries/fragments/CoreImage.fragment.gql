@@ -8,7 +8,6 @@ fragment CoreImage on CoreImage {
     anchor
     aspectRatio
     borderColor
-    caption
     className
     cssClassName
     height
