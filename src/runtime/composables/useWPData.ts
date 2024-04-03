@@ -3,7 +3,7 @@ import { useFetch, createError, ref, useNuxtData } from "#imports"
 const _useWPData = async (queryName: string) => {
 
   const posts = ref()
-  const cacheKey =  'wpdataext-' + queryName
+  const cacheKey =  'wpdata-' + queryName
   const cachedPosts = useNuxtData(cacheKey)
 
   if (cachedPosts.data.value) {
