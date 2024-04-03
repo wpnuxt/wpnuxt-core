@@ -58,8 +58,12 @@ const links = computed(() => [toc?.bottom?.edit && {
       <UContentToc :title="toc?.title" :links="page.body?.toc?.links">
         <template v-if="toc?.bottom" #bottom>
           <div class="hidden lg:block space-y-6" :class="{ '!mt-6': page.body?.toc?.links?.length }">
+            <UDivider v-if="toc.wpnuxt?.links?.length" type="dashed" />
+            <UPageLinks
+              :title="toc.wpnuxt.title"
+              :links="toc.wpnuxt.links"
+            />
             <UDivider v-if="page.body?.toc?.links?.length" type="dashed" />
-
             <UPageLinks :title="toc.bottom.title" :links="links" />
           </div>
         </template>

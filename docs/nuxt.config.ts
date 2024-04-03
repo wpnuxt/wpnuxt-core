@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     }
   },
   ui: {
-    icons: ['heroicons', 'simple-icons']
+    icons: ['heroicons', 'simple-icons', 'ph', 'ant-design']
   },
   routeRules: {
     '/api/search.json': { prerender: true },

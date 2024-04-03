@@ -1,68 +1,70 @@
-title: 'Nuxt UI Pro - Docs template'
-description: Nuxt UI Pro is a collection of premium Vue components built on top of Nuxt UI to create beautiful & responsive Nuxt applications in minutes.
 navigation: false
+title: WPNuxt
+description: Use WordPress as a headless CMS with a Nuxt 3 frontend
 hero:
-  title: 'Build your docs in seconds'
-  description: 'Create your documentation in seconds with this template!'
-  orientation: horizontal
-  headline:
-    label: Made with Nuxt UI Pro
-    to: https://ui.nuxt.com/pro
-    icon: i-heroicons-arrow-top-right-on-square-20-solid
-  links:
-    - label: Get started
-      icon: i-heroicons-arrow-right-20-solid
+  badges:
+    - label: this Nuxt module is still in alpha stage
+      variant: outline
+      icon: i-ph-warning
+      size: xs
       trailing: true
-      to: '/getting-started'
-      size: lg
-    - label: Use this template
-      icon: i-simple-icons-github
-      size: lg
-      color: gray
-      to: https://github.com/nuxt-ui-pro/docs
-      target: _blank
-  code: |
-    ```bash [Terminal]
-    npx nuxi init -t github:nuxt-ui-pro/docs
-    ```
-features:
-  title: 'All-in-one docs template'
-  links:
-    - label: 'Explore Nuxt UI Pro'
-      icon: 'i-simple-icons-nuxtdotjs'
-      trailingIcon: 'i-heroicons-arrow-right-20-solid'
-      color: 'gray'
-      to: 'https://ui.nuxt.com/pro'
-      target: '_blank'
-      size: lg
-  items:
-    - title: 'Nuxt 3'
-      description: 'Powered by Nuxt 3 for optimal performances and SEO.'
-      icon: 'i-simple-icons-nuxtdotjs'
-      to: 'https://nuxt.com'
-      target: '_blank'
-    - title: 'Markdown'
-      description: 'Write your pages with MDC thanks to Nuxt Content.'
-      icon: 'i-simple-icons-markdown'
-      to: 'https://content.nuxt.com'
-      target: '_blank'
-    - title: 'Nuxt UI'
-      description: 'Offers a very large set of full customizable components.'
-      icon: 'i-heroicons-sparkles-20-solid'
-      to: 'https://ui.nuxt.com'
-      target: '_blank'
-    - title: 'TypeScript'
-      description: 'A fully typed development experience.'
-      icon: 'i-simple-icons-typescript'
-      to: 'https://www.typescriptlang.org'
-      target: '_blank'
-    - title: 'Nuxt Studio'
-      description: 'Supported by Nuxt Studio for fast updates and previews.'
-      icon: 'i-simple-icons-nuxtdotjs'
-      to: 'https://nuxt.studio'
-      target: '_blank'
-    - title: 'Search'
-      description: 'A full-text search modal empowered by Fuse.js.'
-      icon: 'i-heroicons-magnifying-glass-20-solid'
-      to: 'https://ui.nuxt.com/pro/components/docs/docs-search'
-      target: '_blank'
+      to: '/getting-started/installation'
+  title: '<span class="font-serif">WP</span><span class="text-primary-400">Nuxt</span><br><br>Nuxt 3 <span class="text-primary-400">+</span> headless <span class="font-serif">WordPress</span>'
+  description: 'Easily fetch content from WordPress using composables and render it with Nuxt 3 components.<br>Supports Gutenberg blocks, allowing you to provide custom components for each block type.'
+  button: Get started
+sections:
+  - title: combine the ease of use of WordPress as a CMS<br><span class="text-primary-400">with a cutting edge Nuxt frontend</span>
+    slot: features
+    toolsCards:
+      - title: 'Headless CMS'
+        description: 'Fetch content from WordPress in your Vue components with powerful composables.'
+        icon: 'i-ph-files'
+        to: ''
+      - title: 'Render Gutenberg blocks as Vue components'
+        description: 'Create custom components to render specific types of WordPress Gutenberg Blocks'
+        icon: 'i-ph-funnel'
+        to: ''
+      - title: 'Deploy on the edge'
+        description: "WPNuxt is compatible with Edge Functions"
+        icon: 'i-ph-rocket-launch'
+        to: ''
+      - title: 'Server-side api calls'
+        description: "WordPress content is fetched on the server using GraphQL api calls and cached on the server"
+        icon: 'i-ant-design-api-outlined'
+        to: ''
+  - title: 'Easy to use <br><span class="text-primary">Composables</span>'
+    description: 'Fetch posts, pages, menus or settings from WordPress with simple composables:<br>usePosts()<br>usePages()<br>useMenus()<br>useSettings()'
+    class: 'dark bg-gray-900'
+    align: left
+    links:
+      - label: 'Check all composables'
+        icon: i-ph-layout-duotone
+        to: '/getting-started/composables'
+        color: black
+        size: md
+      - label: 'Check the source code'
+        icon: i-ph-app-window-duotone
+        to: 'https://github.com/vernaillen/wpnuxt-module/tree/main/src/runtime/composables'
+        color: gray
+        size: md
+    slot: code
+    code: |
+      ```vue [app.vue]
+      <script setup lang="ts">
+      const posts = usePosts()
+      </script>
+
+      <template>
+        <div id="app">
+          <div v-if="posts">
+            <div v-for="post, index in posts.data" :key="index" >
+              <NuxtLink :to="post.uri">
+                {{ post.title }}
+              </NuxtLink>
+              <br>
+              {{ post.excerpt }}
+            </div>
+          </div>
+        </div>
+      </template>
+      ```
