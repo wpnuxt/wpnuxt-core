@@ -46,7 +46,7 @@
     "production-test": "pnpm --filter ./playground/ run build && pnpm run prepack && pnpm --filter ./playground/ run generate && npx serve ./playground/.output/public"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.11.1",
+    "@nuxt/kit": "^3.11.2",
     "@vueuse/nuxt": "^10.9.0",
     "defu": "^6.1.4",
     "nuxt-graphql-middleware": "^4.0.0",
@@ -59,7 +59,7 @@
     "@nuxt/devtools": "^1.1.5",
     "@nuxt/eslint-config": "^0.2.0",
     "@nuxt/module-builder": "^0.5.5",
-    "@nuxt/schema": "^3.11.1",
+    "@nuxt/schema": "^3.11.2",
     "@nuxt/test-utils": "^3.12.0",
     "@rollup/rollup-linux-arm64-gnu": "^4.14.0",
     "@rollup/rollup-linux-arm64-musl": "^4.14.0",
@@ -69,7 +69,7 @@
     "changelogen": "^0.5.5",
     "eslint": "^8.57.0",
     "happy-dom": "^14.4.0",
-    "nuxt": "^3.11.1",
+    "nuxt": "^3.11.2",
     "playwright-core": "^1.42.1",
     "typescript": "^5.4.3",
     "untyped": "1.4.2",
