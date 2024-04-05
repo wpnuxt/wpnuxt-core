@@ -41,7 +41,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
     if (tokens.value?.data?.tokens?.accessToken) {
       logger.debug('auth middleware: got an access token, logging in the user')
-      if (process.server) {
+      if (import.meta.server) {
         const event = useRequestEvent()
         if (event) {
           event.context.accessToken = tokens.value?.data?.tokens?.accessToken;
