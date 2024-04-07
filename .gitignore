@@ -61,3 +61,5 @@ playground/schema.graphql
 playground/queries/
 examples/yoastseo/test-src/queries/
 examples/yoastseo/test-src/schema.graphql
+tests/fixtures/basic/queries/
+tests/fixtures/basic/schema.graphql
