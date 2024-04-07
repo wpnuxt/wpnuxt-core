@@ -20,10 +20,10 @@
     "@nuxt/fonts": "^0.6.1",
     "@nuxt/ui-pro": "^1.1.0",
     "nuxt": "^3.11.2",
-    "nuxt-og-image": "3.0.0-rc.50"
+    "nuxt-og-image": "3.0.0-rc.51"
   },
   "devDependencies": {
-    "@nuxt/eslint-config": "^0.2.0",
+    "@nuxt/eslint-config": "^0.3.1",
     "@nuxthq/studio": "^1.0.13",
     "eslint": "^8.57.0",
     "vue-tsc": "^2.0.10"
