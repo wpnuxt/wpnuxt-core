@@ -3,7 +3,6 @@ import { useTokens } from "./useTokens"
 import type { GraphqlResponse } from "~/src/types";
 
 const _useMenu = async (name?: string) => {
-    const menu = ref()
     const config = useRuntimeConfig()
     const nuxtApp = useNuxtApp()
     const menuName = name && name.length > 0 ? name : config.public.wpNuxt.defaultMenuName
@@ -12,7 +11,10 @@ const _useMenu = async (name?: string) => {
     const { data: cachedMenu } = useNuxtData(cacheKey);
 
     if (cachedMenu.value) {
-      menu.value = cachedMenu.value
+      return  {
+        data: cachedMenu.value,
+        errors: null,
+      }
     } else {
       return useFetch<GraphqlResponse<any>>("/api/graphql_middleware/query/Menu", {
         params: {
