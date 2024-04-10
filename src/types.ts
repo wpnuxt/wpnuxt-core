@@ -9,3 +9,8 @@ export interface ModuleOptions {
   replaceSchema?: boolean
   enableMultiCache?: boolean
 }
+
+export type GraphqlResponse<T> = {
+  data: T
+  errors: any[]
+}

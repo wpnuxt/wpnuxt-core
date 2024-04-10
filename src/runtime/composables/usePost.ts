@@ -1,48 +1,46 @@
 import { useFetch, createError, ref, useNuxtData, computed, useNuxtApp } from "#imports"
 import { getRelativeImagePath } from "../util/images";
+import type { GraphqlResponse } from "~/src/types";
 import { useTokens } from "./useTokens";
 import { useWPNuxtLogger } from "./useWPNuxtlogger";
 
 const _usePostByUri = async (uri: string) => {
     if (!uri || uri === 'undefined' || uri === '_nuxt'  || uri === '__nuxt' ) return
-    const post = ref()
-    const logger = useWPNuxtLogger()
     const nuxtApp = useNuxtApp()
     const tokens = useTokens()
     const cacheKey =  'post-'  + uri
     const { data: cachedPost } = useNuxtData(cacheKey);
 
     if (cachedPost.value) {
-      post.value = cachedPost.value
-    } else {
-      const { data, error } = await useFetch<any>("/api/graphql_middleware/query/PostByUri/", {
-          params: {
-              uri: uri
-          },
-          key: cacheKey,
-          headers: {
-            Authorization: tokens.authorizationHeader
-          },
-          transform (data: any) {
-              if(data?.data?.nodeByUri?.featuredImage?.node?.sourceUrl) {
-                data.data.nodeByUri.featuredImage.node.relativePath =
-                  getRelativeImagePath(data.data.nodeByUri.featuredImage.node.sourceUrl)
-              }
-              return data.data.nodeByUri;
-          },
-          getCachedData(key: string) {
-            return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-          }
-      })
-
-      if (error.value) {
-          logger.error('usePostByUri, error: ', error.value)
-          throw createError({ statusCode: error.value.status, message: error.value.message, fatal: true })
+      return  {
+        data: cachedPost.value,
+        errors: null,
       }
-      post.value = data.value
-    }
-    return {
-      data: post.value
+    } else {
+      return useFetch<GraphqlResponse<any>>("/api/graphql_middleware/query/PostByUri", {
+        params: {
+            uri: uri
+        },
+        key: cacheKey,
+        headers: {
+          Authorization: tokens.authorizationHeader
+        },
+        transform (data: any) {
+          if(data?.data?.nodeByUri?.featuredImage?.node?.sourceUrl) {
+            data.data.nodeByUri.featuredImage.node.relativePath =
+              getRelativeImagePath(data.data.nodeByUri.featuredImage.node.sourceUrl)
+          }
+          return data.data.nodeByUri;
+        },
+        getCachedData(key: string) {
+          return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+        }
+      }).then((v: GraphqlResponse<any>) => {
+        return {
+          data: v.data.value,
+          errors: v.errors || [],
+        }
+      })
     }
 }
 const _usePostById = async (id: number, asPreview?: boolean) => {
