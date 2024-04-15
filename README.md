@@ -1,3 +1,9 @@
+
+This module is still being developed and not ready for production usage yet.
+There will be many smaller alpha releases the coming weeks, often with breaking changes.
+
+I am working towards a stable release. And will inform about it here
+
 # WPNuxt
 
 [![npm version][npm-version-src]][npm-version-href]
