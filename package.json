@@ -1,6 +1,6 @@
 {
   "name": "@vernaillen/wpnuxt",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "description": "WPNuxt",
   "repository": "vernaillen/wpnuxt-module",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "prepare": "nuxi prepare .",
     "prepack": "nuxt-module-build build",
     "generate": "pnpm --filter ./playground/ run generate",
-    "dev": "pnpm --filter ./playground/ run dev --host app.local --port 3001",
+    "dev": "pnpm --filter ./playground/ run dev --host app.local",
     "dev:build": "pnpm --filter ./playground/ run build",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run lint &&  npm run prepack && changelogen --release && npm publish && git push --follow-tags",
@@ -50,7 +50,9 @@
     "@vueuse/nuxt": "^10.9.0",
     "defu": "^6.1.4",
     "nuxt-graphql-middleware": "^4.0.0",
-    "nuxt-multi-cache": "^3.1.1"
+    "nuxt-multi-cache": "^3.1.1",
+    "ohash": "^1.1.3",
+    "unstorage": "^1.10.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
