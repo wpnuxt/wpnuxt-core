@@ -1,4 +1,4 @@
-import { useFetch, useNuxtApp } from "#imports"
+import { useFetch, useNuxtApp, useRuntimeConfig } from "#imports"
 import type { GraphqlResponse } from "~/src/runtime/types";
 import { getRelativeImagePath } from "../util/images";
 
@@ -16,6 +16,7 @@ const _getContentNode = async (queryName: string, nodeName?: string, params?: an
 const _fetchContentNode = async (queryName: string, node1: string, node2: string | undefined, node3: string | undefined, params: any, fixImagePaths: boolean) => {
 
   const nuxtApp = useNuxtApp()
+  const config = useRuntimeConfig()
   const cacheKey =  `wp-${queryName}-${node1}-${node2}-${node3}-${JSON.stringify(params)}`
 
   return await useFetch<GraphqlResponse<any>>("/api/wpContent", {
@@ -46,6 +47,7 @@ const _fetchContentNode = async (queryName: string, node1: string, node2: string
       return transformedData
     },
     getCachedData(key: string) {
+      if (config.public.wpNuxt.staging) return
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
     }
   }).then((v: GraphqlResponse<any>) => {
