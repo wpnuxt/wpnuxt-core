@@ -6,11 +6,19 @@ export interface ModuleOptions {
   defaultMenuName?: string
   showBlockInfo?: boolean
   debug?: boolean
+  trace?: boolean
   replaceSchema?: boolean
-  enableMultiCache?: boolean
+  enableCache?: boolean
+  staging?: boolean
 }
 
 export type GraphqlResponse<T> = {
   data: T
   errors: any[]
 }
+
+export interface WordPressContent {
+}
+
+// Ensure that a .js file is emitted too
+export {}

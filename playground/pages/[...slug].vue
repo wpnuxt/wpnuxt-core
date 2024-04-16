@@ -2,18 +2,18 @@
 <script setup lang="ts">
 const route = useRoute();
 const post = await usePostByUri(route.params.slug[0])
-const isStaging = useWPNuxt().isStaging
 const wpUri = useWPUri()
 if (post?.data?.title) {
     useHead({
         title: post.data.title
     })
 }
+const staging = await isStaging()
 </script>
 <template>
   <div>
     <StagingBanner
-      v-if="isStaging"
+      v-if="staging"
       :post="post.data"
     />
     <UContainer>
@@ -55,7 +55,7 @@ if (post?.data?.title) {
               {{ post.data.seo.metaDesc }}
             </div>
             <div
-              v-if="isStaging"
+              v-if="staging"
               class="test-sm mt-5"
             >
               <UButton

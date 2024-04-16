@@ -1,6 +1,58 @@
 # Changelog
 
 
+## v0.3.0
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.28...v0.3.0)
+
+### 🏡 Chore
+
+- **release:** V0.2.28 ([c0efcab](https://github.com/vernaillen/wpnuxt-module/commit/c0efcab))
+
+### ❤️ Contributors
+
+- Wouter Vernaillen <wouter@vernaillen.com>
+
+## v0.2.28
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.28...v0.2.28)
+
+## v0.2.28
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.27...v0.2.28)
+
+## v0.2.27
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.26...v0.2.27)
+
+## v0.2.26
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.25...v0.2.26)
+
+## v0.2.25
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.24...v0.2.25)
+
+## v0.2.24
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.23...v0.2.24)
+
+## v0.2.23
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.22...v0.2.23)
+
+## v0.2.22
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.21...v0.2.22)
+
+### 🏡 Chore
+
+- **release:** V0.2.21 ([6d1460c](https://github.com/vernaillen/wpnuxt-module/commit/6d1460c))
+
+### ❤️ Contributors
+
+- Wouter Vernaillen <wouter@vernaillen.com>
+
 ## v0.2.21
 
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.20...v0.2.21)

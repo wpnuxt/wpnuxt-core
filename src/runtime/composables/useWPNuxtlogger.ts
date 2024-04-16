@@ -6,13 +6,16 @@ const logger = ref()
 
 export function useWPNuxtLogger () {
   const config = useRuntimeConfig()
-  if (!logger.value) initLogger(config.public.wpNuxt.debug ? config.public.wpNuxt.debug : false)
+  if (!logger.value) {
+    const level = config.public.wpNuxt.trace ? 5 : config.public.wpNuxt.debug ? 4 : 3
+    initLogger(level)
+  }
   return logger.value
 }
 
-export function initLogger (debug: boolean) {
+export function initLogger (level: number) {
   logger.value = createConsola({
-    level:  debug ? 4 : 3,
+    level,
     formatOptions: {
          // columns: 80,
          colors: true,
@@ -20,5 +23,5 @@ export function initLogger (debug: boolean) {
          date: true,
     },
   }).withTag('WPNuxt')
-  logger.value.debug("initLogger ::: debug:", debug)
+  logger.value.debug("initLogger ::: level:", level)
 }

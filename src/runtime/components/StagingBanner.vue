@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRuntimeConfig, ref, watch, useHead, useRoute } from '#imports';
-import { usePostByUri } from '../composables/usePost';
+import { usePostByUri } from '../composables/usePosts';
 import { useWPUri } from '../composables/useWPUri';
 import { getCurrentUserName } from '../composables/user';
 

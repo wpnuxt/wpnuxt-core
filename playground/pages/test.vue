@@ -3,6 +3,7 @@ const wpUri = useWPUri();
 const viewer = await useViewer()
 const settings = await useSettings()
 const revisions = await useRevisions()
+const staging = await isStaging()
 const userName = getCurrentUserName()
 
 const config = useRuntimeConfig()
@@ -25,8 +26,8 @@ const wpNuxtConfig = config.public.wpNuxt
       <h2>getCurrentUserName()</h2>
       {{ userName }}
       <UDivider />
-      <h2>useWPNuxt()</h2>
-      <pre>{{ useWPNuxt() }}</pre>
+      <h2>isStaging()</h2>
+      <pre>{{ staging }}</pre>
 
       <UDivider />
       <h2>useSettings()</h2>

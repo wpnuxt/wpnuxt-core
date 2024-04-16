@@ -1,5 +1,5 @@
 import { defineNuxtRouteMiddleware, ref, useFetch, useCookie, navigateTo, useRequestEvent, useRuntimeConfig } from "#imports"
-import { useWPNuxtLogger } from "../composables/useWPNuxtlogger";
+import { useWPNuxtLogger } from "../composables/useWPNuxtLogger";
 import { loginUser } from "../composables/user";
 
 export default defineNuxtRouteMiddleware(async (to) => {
