@@ -2,7 +2,7 @@
 import { useRoute, ref } from '#imports';
 import type { EditorBlock, Page } from '#graphql-operations';
 import { useWPUri } from '../composables/useWPUri';
-import { usePageById } from '../composables/usePage';
+import { usePageById } from '../composables/usePages';
 const route = useRoute();
 const { preview_id: previewId } = route.query;
 

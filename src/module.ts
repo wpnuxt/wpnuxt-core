@@ -2,10 +2,10 @@ import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteM
 import { existsSync } from 'node:fs'
 import defu from 'defu'
 import fs from 'fs'
-import type { ModuleOptions } from './types';
+import type { ModuleOptions } from './runtime/types';
 require('dotenv').config({ path: __dirname+'/.env' });
 
-export type { ModuleOptions } from './types'
+export type { ModuleOptions } from './runtime/types'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -21,8 +21,9 @@ export default defineNuxtModule<ModuleOptions>({
     defaultMenuName: 'main',
     showBlockInfo: false,
     debug: false,
+    trace: false,
     replaceSchema: false,
-    enableMultiCache: true
+    enableCache: true
   },
   async setup (options, nuxt) {
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
@@ -32,8 +33,9 @@ export default defineNuxtModule<ModuleOptions>({
       defaultMenuName: process.env.WPNUXT_DEFAULT_MENU_NAME ? process.env.WPNUXT_DEFAULT_MENU_NAME : options.defaultMenuName!,
       showBlockInfo: process.env.WPNUXT_SHOW_BLOCK_INFO ? process.env.WPNUXT_SHOW_BLOCK_INFO === 'true' : options.showBlockInfo!,
       debug: process.env.WPNUXT_DEBUG ? process.env.WPNUXT_DEBUG === 'true' : options.debug!,
+      trace: process.env.WPNUXT_TRACE ? process.env.WPNUXT_TRACE === 'true' : options.trace!,
       replaceSchema: process.env.WPNUXT_REPLACE_SCHEMA ? process.env.WPNUXT_REPLACE_SCHEMA === 'true' : options.replaceSchema!,
-      enableMultiCache: process.env.WPNUXT_ENABLE_MULTI_CACHE ? process.env.WPNUXT_ENABLE_MULTI_CACHE === 'true' : options.enableMultiCache!
+      enableCache: process.env.WPNUXT_ENABLE_CACHE ? process.env.WPNUXT_ENABLE_CACHE === 'true' : options.enableCache!
     })
     // we're not putting the secret in public config, so it goes into runtimeConfig
     nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {
@@ -41,7 +43,7 @@ export default defineNuxtModule<ModuleOptions>({
     })
     const publicWPNuxtConfig = nuxt.options.runtimeConfig.public.wpNuxt
     const logger = useLogger('WPNuxt', {
-      level: publicWPNuxtConfig.debug ? 4 : 3,
+      level: publicWPNuxtConfig.trace ? 5 : publicWPNuxtConfig.debug ? 4 : 3,
       formatOptions: {
            // columns: 80,
            colors: true,
@@ -53,7 +55,7 @@ export default defineNuxtModule<ModuleOptions>({
     logger.info('Connecting GraphQL to', publicWPNuxtConfig.wordpressUrl)
     logger.info('stagingUrl:', publicWPNuxtConfig.stagingUrl)
     logger.info('frontendUrl:', publicWPNuxtConfig.frontendUrl)
-    if (publicWPNuxtConfig.enableMultiCache) logger.info('MultiCache enabled')
+    if (publicWPNuxtConfig.enableCache) logger.info('Cache enabled')
     logger.debug('Debug mode enabled')
 
     const resolver = createResolver(import.meta.url)
@@ -103,6 +105,10 @@ export default defineNuxtModule<ModuleOptions>({
       route: '/api/tokensFromRefreshToken',
       handler: resolver.resolve('./runtime/server/api/tokensFromRefreshToken.post')
     })
+    addServerHandler({
+      route: '/api/wpContent',
+      handler: resolver.resolve('./runtime/server/api/wpContent.post')
+    })
 
     // Register user block components
     const _layers = [...nuxt.options._layers].reverse()
@@ -123,23 +129,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     await installModule('@vueuse/nuxt', {})
-    if (publicWPNuxtConfig.enableMultiCache) {
-      await installModule('nuxt-multi-cache', {
-        debug: publicWPNuxtConfig.debug,
-        route: {
-          enabled: false
-        },
-        component: {
-          enabled: false
-        },
-        api: {
-          enabled: true,
-          prefix: '/__nuxt_multi_cache',
-          authorization: 'wpnuxt-cache',
-          cacheTagInvalidationDelay: 60000
-        }
-      })
-    }
 
     const queryOutputPath = resolver.resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/queries/')
 
@@ -190,16 +179,6 @@ export default defineNuxtModule<ModuleOptions>({
     })
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
-    if (publicWPNuxtConfig.enableMultiCache) {
-      const resolvedMCPath = resolver.resolve('./runtime/app/multiCache.serverOptions')
-      const templateMC = addTemplate({
-          filename: 'multiCache.serverOptions',
-          write: true,
-          getContents: () => `export { default } from '${resolvedMCPath}'`
-      })
-      nuxt.options.nitro.externals.inline.push(templateMC.dst)
-      nuxt.options.alias['#multi-cache-server-options'] = templateMC.dst
-    }
 
     const resolvedPath = resolver.resolve('./runtime/app/graphqlMiddleware.serverOptions')
     const template = addTemplate({
@@ -230,8 +209,9 @@ declare module '@nuxt/schema' {
       defaultMenuName?: string
       showBlockInfo?: boolean
       debug?: boolean
+      trace?: boolean
       replaceSchema?: boolean
-      enableMultiCache?: boolean
+      enableCache?: boolean
     }
   }
 
@@ -248,8 +228,9 @@ declare module '@nuxt/schema' {
           defaultMenuName?: string
           showBlockInfo?: boolean
           debug?: boolean
+          trace?: boolean
           replaceSchema?: boolean
-          enableMultiCache?: boolean
+          enableCache?: boolean
         }
       }
     }

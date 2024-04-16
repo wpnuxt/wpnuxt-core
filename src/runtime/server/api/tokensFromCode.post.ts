@@ -1,6 +1,5 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, readBody } from 'h3'
 import { useRuntimeConfig } from '#imports';
-import { readBody } from 'h3';
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig();

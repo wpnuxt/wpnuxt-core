@@ -1,26 +1,16 @@
-import { useFetch, createError } from "#imports"
-import { useTokens } from "./useTokens";
-import { useWPNuxtLogger } from "./useWPNuxtlogger";
+import { getContentNode, getContentNodes } from "./useWPContent";
 
 const _usePages = async () => {
-  const logger = useWPNuxtLogger()
-  const tokens = useTokens()
+  return getContentNodes('Pages', 'pages', 'nodes')
+}
 
-  const { data, error } = await useFetch("/api/graphql_middleware/query/Pages", {
-    headers: {
-      Authorization: tokens.authorizationHeader
-    },
-    transform (data: any) {
-        return data.data.pages.nodes;
-    }
-  });
-  if (error.value) {
-    logger.error('usePages, error: ', error.value)
-    throw createError({ statusCode: error.value.status, message: error.value.message, fatal: true })
-  }
-  return {
-    data: data.value
-  }
+const _usePageById = async (id: number, asPreview?: boolean) => {
+
+  return getContentNode('PageById', 'page', {
+    id: id,
+    asPreview: asPreview
+  })
 }
 
 export const usePages = _usePages
+export const usePageById = _usePageById

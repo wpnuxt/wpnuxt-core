@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const stagingUrl = config.public.wpNuxt.stagingUrl
-const menu = await useMenu('main')
+const { data: menu } = await useMenu('main')
 const userName = ref<String>()
 userName.value = getCurrentUserName()
 watch(() => getCurrentUserName(), (newVal) => {
     userName.value = newVal
 })
-const wpLinks = menu.data.map((page) => ({
+const wpLinks = menu.map((page) => ({
   label: page.label,
   to: page.uri
 }))

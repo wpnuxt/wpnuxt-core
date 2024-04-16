@@ -251,6 +251,9 @@ type Category implements DatabaseIdentifier & HierarchicalNode & HierarchicalTer
     where: CategoryToPostConnectionWhereArgs
   ): CategoryToPostConnection
 
+  """The Yoast SEO data of the Categories taxonomy."""
+  seo: TaxonomySEO
+
   """An alphanumeric identifier for the object unique to its type."""
   slug: String
 
@@ -309,6 +312,9 @@ interface CategoryConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -363,6 +369,9 @@ type CategoryToAncestorsCategoryConnectionPageInfo implements CategoryConnection
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -398,6 +407,9 @@ type CategoryToCategoryConnectionPageInfo implements CategoryConnectionPageInfo 
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -523,6 +535,9 @@ type CategoryToContentNodeConnectionPageInfo implements ContentNodeConnectionPag
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -630,6 +645,9 @@ type CategoryToPostConnectionPageInfo implements PageInfo & PostConnectionPageIn
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -961,6 +979,9 @@ interface CommentConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -987,7 +1008,7 @@ enum CommentStatusEnum {
   """Comments with the Spam status"""
   SPAM
 
-  """Comments with the Trash status"""
+  """Comments with the Bin status"""
   TRASH
 }
 
@@ -1022,6 +1043,9 @@ type CommentToCommentConnectionPageInfo implements CommentConnectionPageInfo & P
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -1561,6 +1585,9 @@ interface ContentNode implements Node & UniformResourceIdentifiable {
   """Whether the object is a node in the preview state"""
   previewRevisionId: ID
 
+  """The Yoast SEO data of the ContentNode"""
+  seo: PostTypeSEO
+
   """
   The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
   """
@@ -1614,6 +1641,9 @@ interface ContentNodeConnectionPageInfo implements PageInfo & WPPageInfo {
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -1699,6 +1729,9 @@ type ContentNodeToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConn
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -1736,6 +1769,9 @@ type ContentNodeToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyles
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -1948,6 +1984,9 @@ interface ContentTypeConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -2006,6 +2045,9 @@ type ContentTypeToContentNodeConnectionPageInfo implements ContentNodeConnection
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -2105,6 +2147,9 @@ type ContentTypeToTaxonomyConnectionPageInfo implements PageInfo & TaxonomyConne
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -4907,9 +4952,6 @@ type CoreImage implements BlockWithSupportsAnchor & EditorBlock & PageEditorBloc
 
   """Whether the block is Dynamic (server rendered)"""
   isDynamic: Boolean!
-
-  """Media Details of the CoreImage Block Type"""
-  mediaDetails: MediaDetails
 
   """The name of the block"""
   name: String
@@ -10795,6 +10837,9 @@ interface EnqueuedScriptConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -10891,6 +10936,9 @@ interface EnqueuedStylesheetConnectionPageInfo implements PageInfo & WPPageInfo 
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -11144,6 +11192,9 @@ interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & 
   """Whether the object is a node in the preview state"""
   previewRevisionId: ID
 
+  """The Yoast SEO data of the ContentNode"""
+  seo: PostTypeSEO
+
   """
   The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
   """
@@ -11199,6 +11250,9 @@ type HierarchicalContentNodeToContentNodeAncestorsConnectionPageInfo implements 
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -11304,6 +11358,9 @@ type HierarchicalContentNodeToContentNodeChildrenConnectionPageInfo implements C
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -11782,6 +11839,9 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
   """Whether the object is a node in the preview state"""
   previewRevisionId: ID
 
+  """The Yoast SEO data of the ContentNode"""
+  seo: PostTypeSEO
+
   """The sizes attribute value for an image."""
   sizes(
     """Size of the MediaItem to calculate sizes with"""
@@ -11864,6 +11924,9 @@ interface MediaItemConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -11940,6 +12003,9 @@ enum MediaItemSizeEnum {
   """MediaItem with the medium_large size"""
   MEDIUM_LARGE
 
+  """MediaItem with the post-thumbnail size"""
+  POST_THUMBNAIL
+
   """MediaItem with the thumbnail size"""
   THUMBNAIL
 
@@ -11996,6 +12062,9 @@ type MediaItemToCommentConnectionPageInfo implements CommentConnectionPageInfo &
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -12210,6 +12279,9 @@ interface MenuConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -12339,6 +12411,9 @@ interface MenuItemConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -12399,7 +12474,7 @@ enum MenuItemNodeIdTypeEnum {
 }
 
 """Deprecated in favor of MenuItemLinkeable Interface"""
-union MenuItemObjectUnion = Category | Page | Post | Tag
+union MenuItemObjectUnion = Category | Page | Post | PostFormat | Tag
 
 """Connection between the MenuItem type and the Menu type"""
 type MenuItemToMenuConnectionEdge implements Edge & MenuConnectionEdge & OneToOneConnection {
@@ -12443,6 +12518,9 @@ type MenuItemToMenuItemConnectionPageInfo implements MenuItemConnectionPageInfo 
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -12536,6 +12614,9 @@ type MenuToMenuItemConnectionPageInfo implements MenuItemConnectionPageInfo & Pa
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -13024,6 +13105,9 @@ interface NodeWithTitle implements Node {
   """The globally unique ID for the object"""
   id: ID!
 
+  """The Yoast SEO data of the ContentNode"""
+  seo: PostTypeSEO
+
   """
   The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
   """
@@ -13357,6 +13441,9 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
     where: PageToRevisionConnectionWhereArgs
   ): PageToRevisionConnection
 
+  """The Yoast SEO data of the ContentNode"""
+  seo: PostTypeSEO
+
   """
   The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
   """
@@ -13418,6 +13505,9 @@ interface PageConnectionPageInfo implements PageInfo & WPPageInfo {
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -13511,6 +13601,9 @@ type PageToCommentConnectionPageInfo implements CommentConnectionPageInfo & Page
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -13657,6 +13750,9 @@ type PageToRevisionConnectionPageInfo implements PageConnectionPageInfo & PageIn
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -13802,6 +13898,9 @@ interface PluginConnectionPageInfo implements PageInfo & WPPageInfo {
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -14112,6 +14211,9 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
     where: PostToRevisionConnectionWhereArgs
   ): PostToRevisionConnection
 
+  """The Yoast SEO data of the ContentNode"""
+  seo: PostTypeSEO
+
   """
   The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
   """
@@ -14257,6 +14359,9 @@ interface PostConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -14292,7 +14397,7 @@ interface PostEditorBlock implements EditorBlock {
 }
 
 """The postFormat type"""
-type PostFormat implements DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable {
+type PostFormat implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable {
   """"""
   conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
 
@@ -14417,6 +14522,9 @@ type PostFormat implements DatabaseIdentifier & Node & TermNode & UniformResourc
     where: PostFormatToPostConnectionWhereArgs
   ): PostFormatToPostConnection
 
+  """The Yoast SEO data of the Formats taxonomy."""
+  seo: TaxonomySEO
+
   """An alphanumeric identifier for the object unique to its type."""
   slug: String
 
@@ -14475,6 +14583,9 @@ interface PostFormatConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -14528,6 +14639,9 @@ type PostFormatToContentNodeConnectionPageInfo implements ContentNodeConnectionP
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -14627,6 +14741,9 @@ type PostFormatToPostConnectionPageInfo implements PageInfo & PostConnectionPage
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -14958,6 +15075,9 @@ type PostToCategoryConnectionEdge implements CategoryConnectionEdge & Edge {
   """A cursor for use in pagination"""
   cursor: String
 
+  """The Yoast SEO Primary category"""
+  isPrimary: Boolean
+
   """The item at the end of the edge"""
   node: Category!
 }
@@ -14972,6 +15092,9 @@ type PostToCategoryConnectionPageInfo implements CategoryConnectionPageInfo & Pa
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -15097,6 +15220,9 @@ type PostToCommentConnectionPageInfo implements CommentConnectionPageInfo & Page
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -15216,6 +15342,9 @@ type PostToPostFormatConnectionEdge implements Edge & PostFormatConnectionEdge {
   """A cursor for use in pagination"""
   cursor: String
 
+  """The Yoast SEO Primary post_format"""
+  isPrimary: Boolean
+
   """The item at the end of the edge"""
   node: PostFormat!
 }
@@ -15230,6 +15359,9 @@ type PostToPostFormatConnectionPageInfo implements PageInfo & PostFormatConnecti
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -15366,6 +15498,9 @@ type PostToRevisionConnectionPageInfo implements PageInfo & PostConnectionPageIn
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -15495,6 +15630,9 @@ type PostToTagConnectionEdge implements Edge & TagConnectionEdge {
   """A cursor for use in pagination"""
   cursor: String
 
+  """The Yoast SEO Primary post_tag"""
+  isPrimary: Boolean
+
   """The item at the end of the edge"""
   node: Tag!
 }
@@ -15509,6 +15647,9 @@ type PostToTagConnectionPageInfo implements PageInfo & TagConnectionPageInfo & W
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -15633,6 +15774,9 @@ type PostToTermNodeConnectionPageInfo implements PageInfo & TermNodeConnectionPa
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -15805,6 +15949,84 @@ type PostTypeLabelDetails {
 
   """Label for viewing post type archives."""
   viewItems: String
+}
+
+""""""
+type PostTypeSEO {
+  """"""
+  breadcrumbs: [SEOPostTypeBreadcrumbs]
+
+  """"""
+  canonical: String
+
+  """"""
+  cornerstone: Boolean
+
+  """"""
+  focuskw: String
+
+  """"""
+  fullHead: String
+
+  """"""
+  metaDesc: String
+
+  """"""
+  metaKeywords: String
+
+  """"""
+  metaRobotsNofollow: String
+
+  """"""
+  metaRobotsNoindex: String
+
+  """"""
+  opengraphAuthor: String
+
+  """"""
+  opengraphDescription: String
+
+  """"""
+  opengraphImage: MediaItem
+
+  """"""
+  opengraphModifiedTime: String
+
+  """"""
+  opengraphPublishedTime: String
+
+  """"""
+  opengraphPublisher: String
+
+  """"""
+  opengraphSiteName: String
+
+  """"""
+  opengraphTitle: String
+
+  """"""
+  opengraphType: String
+
+  """"""
+  opengraphUrl: String
+
+  """"""
+  readingTime: Float
+
+  """"""
+  schema: SEOPostTypeSchema
+
+  """"""
+  title: String
+
+  """"""
+  twitterDescription: String
+
+  """"""
+  twitterImage: MediaItem
+
+  """"""
+  twitterTitle: String
 }
 
 """Nodes that can be seen in a preview (unpublished) state."""
@@ -16670,6 +16892,9 @@ type RootQuery {
     where: RootQueryToRevisionsConnectionWhereArgs
   ): RootQueryToRevisionsConnection
 
+  """Returns seo site data"""
+  seo: SEOConfig
+
   """A 0bject"""
   tag(
     """The globally unique identifier of the object."""
@@ -16887,6 +17112,9 @@ type RootQueryToCategoryConnectionPageInfo implements CategoryConnectionPageInfo
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -17010,6 +17238,9 @@ type RootQueryToCommentConnectionPageInfo implements CommentConnectionPageInfo &
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -17145,6 +17376,9 @@ type RootQueryToContentNodeConnectionPageInfo implements ContentNodeConnectionPa
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -17244,6 +17478,9 @@ type RootQueryToContentTypeConnectionPageInfo implements ContentTypeConnectionPa
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -17279,6 +17516,9 @@ type RootQueryToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConnec
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -17316,6 +17556,9 @@ type RootQueryToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyleshe
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -17351,6 +17594,9 @@ type RootQueryToMediaItemConnectionPageInfo implements MediaItemConnectionPageIn
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -17462,6 +17708,9 @@ type RootQueryToMenuConnectionPageInfo implements MenuConnectionPageInfo & PageI
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -17509,6 +17758,9 @@ type RootQueryToMenuItemConnectionPageInfo implements MenuItemConnectionPageInfo
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -17560,6 +17812,9 @@ type RootQueryToPageConnectionPageInfo implements PageConnectionPageInfo & PageI
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -17671,6 +17926,9 @@ type RootQueryToPluginConnectionPageInfo implements PageInfo & PluginConnectionP
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -17718,6 +17976,9 @@ type RootQueryToPostConnectionPageInfo implements PageInfo & PostConnectionPageI
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -17863,6 +18124,9 @@ type RootQueryToPostFormatConnectionPageInfo implements PageInfo & PostFormatCon
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -17987,6 +18251,9 @@ type RootQueryToRevisionsConnectionPageInfo implements ContentNodeConnectionPage
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -18083,6 +18350,9 @@ type RootQueryToTagConnectionPageInfo implements PageInfo & TagConnectionPageInf
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -18208,6 +18478,9 @@ type RootQueryToTaxonomyConnectionPageInfo implements PageInfo & TaxonomyConnect
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -18243,6 +18516,9 @@ type RootQueryToTermNodeConnectionPageInfo implements PageInfo & TermNodeConnect
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -18371,6 +18647,9 @@ type RootQueryToThemeConnectionPageInfo implements PageInfo & ThemeConnectionPag
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -18406,6 +18685,9 @@ type RootQueryToUserConnectionPageInfo implements PageInfo & UserConnectionPageI
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -18511,8 +18793,509 @@ type RootQueryToUserRoleConnectionPageInfo implements PageInfo & UserRoleConnect
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""The Yoast SEO breadcrumb config"""
+type SEOBreadcrumbs {
+  """"""
+  archivePrefix: String
+
+  """"""
+  boldLast: Boolean
+
+  """"""
+  enabled: Boolean
+
+  """"""
+  homeText: String
+
+  """"""
+  notFoundText: String
+
+  """"""
+  prefix: String
+
+  """"""
+  searchPrefix: String
+
+  """"""
+  separator: String
+
+  """"""
+  showBlogPage: Boolean
+}
+
+"""Types of cards"""
+enum SEOCardType {
+  summary
+  summary_large_image
+}
+
+"""The Yoast SEO site level configuration data"""
+type SEOConfig {
+  """"""
+  breadcrumbs: SEOBreadcrumbs
+
+  """"""
+  contentTypes: SEOContentTypes
+
+  """"""
+  meta: SEOGlobalMeta
+
+  """"""
+  openGraph: SEOOpenGraph
+
+  """"""
+  redirects: [SEORedirect]
+
+  """"""
+  schema: SEOSchema
+
+  """"""
+  social: SEOSocial
+
+  """"""
+  webmaster: SEOWebmaster
+}
+
+"""The Yoast SEO search appearance content types fields"""
+type SEOContentType {
+  """"""
+  archive: SEOContentTypeArchive
+
+  """"""
+  metaDesc: String
+
+  """"""
+  metaRobotsNoindex: Boolean
+
+  """"""
+  schema: SEOPageInfoSchema
+
+  """"""
+  schemaType: String
+
+  """"""
+  title: String
+}
+
+"""The Yoast SEO search appearance content types fields"""
+type SEOContentTypeArchive {
+  """"""
+  archiveLink: String
+
+  """"""
+  breadcrumbTitle: String
+
+  """"""
+  fullHead: String
+
+  """"""
+  hasArchive: Boolean
+
+  """"""
+  metaDesc: String
+
+  """"""
+  metaRobotsFollow: String
+
+  """"""
+  metaRobotsIndex: String
+
+  """"""
+  metaRobotsNofollow: Boolean
+
+  """"""
+  metaRobotsNoindex: Boolean
+
+  """"""
+  title: String
+}
+
+"""The Yoast SEO search appearance content types"""
+type SEOContentTypes {
+  """"""
+  mediaItem: SEOContentType
+
+  """"""
+  page: SEOContentType
+
+  """"""
+  post: SEOContentType
+}
+
+"""The Yoast SEO meta data"""
+type SEOGlobalMeta {
+  """"""
+  author: SEOGlobalMetaAuthor
+
+  """"""
+  config: SEOGlobalMetaConfig
+
+  """"""
+  date: SEOGlobalMetaDate
+
+  """"""
+  homepage: SEOGlobalMetaHome
+
+  """"""
+  notFound: SEOGlobalMeta404
+}
+
+"""The Yoast SEO meta 404 data"""
+type SEOGlobalMeta404 {
+  """"""
+  breadcrumb: String
+
+  """"""
+  title: String
+}
+
+"""The Yoast SEO Author data"""
+type SEOGlobalMetaAuthor {
+  """"""
+  description: String
+
+  """"""
+  title: String
+}
+
+"""The Yoast SEO meta config data"""
+type SEOGlobalMetaConfig {
+  """"""
+  separator: String
+}
+
+"""The Yoast SEO Date data"""
+type SEOGlobalMetaDate {
+  """"""
+  description: String
+
+  """"""
+  title: String
+}
+
+"""The Yoast SEO homepage data"""
+type SEOGlobalMetaHome {
+  """"""
+  description: String
+
+  """"""
+  title: String
+}
+
+"""The Open Graph data"""
+type SEOOpenGraph {
+  """"""
+  defaultImage: MediaItem
+
+  """"""
+  frontPage: SEOOpenGraphFrontPage
+}
+
+"""The Open Graph Front page data"""
+type SEOOpenGraphFrontPage {
+  """"""
+  description: String
+
+  """"""
+  image: MediaItem
+
+  """"""
+  title: String
+}
+
+"""The Schema for post type"""
+type SEOPageInfoSchema {
+  """"""
+  raw: String
+}
+
+""""""
+type SEOPostTypeBreadcrumbs {
+  """"""
+  text: String
+
+  """"""
+  url: String
+}
+
+"""The page info SEO details"""
+type SEOPostTypePageInfo {
+  """"""
+  schema: SEOPageInfoSchema
+}
+
+"""The Schema types"""
+type SEOPostTypeSchema {
+  """"""
+  articleType: [String]
+
+  """"""
+  pageType: [String]
+
+  """"""
+  raw: String
+}
+
+"""The Yoast redirect data  (Yoast Premium only)"""
+type SEORedirect {
+  """"""
+  format: String
+
+  """"""
+  origin: String
+
+  """"""
+  target: String
+
+  """"""
+  type: Int
+}
+
+"""The Yoast SEO schema data"""
+type SEOSchema {
+  """"""
+  companyLogo: MediaItem
+
+  """"""
+  companyName: String
+
+  """"""
+  companyOrPerson: String
+
+  """"""
+  homeUrl: String
+
+  """"""
+  inLanguage: String
+
+  """"""
+  logo: MediaItem
+
+  """"""
+  personLogo: MediaItem
+
+  """"""
+  personName: String
+
+  """"""
+  siteName: String
+
+  """"""
+  siteUrl: String
+
+  """"""
+  wordpressSiteName: String
+}
+
+"""The Yoast SEO Social media links"""
+type SEOSocial {
+  """"""
+  facebook: SEOSocialFacebook
+
+  """"""
+  instagram: SEOSocialInstagram
+
+  """"""
+  linkedIn: SEOSocialLinkedIn
+
+  """"""
+  mySpace: SEOSocialMySpace
+
+  """"""
+  otherSocials: [String]
+
+  """"""
+  pinterest: SEOSocialPinterest
+
+  """"""
+  twitter: SEOSocialTwitter
+
+  """"""
+  wikipedia: SEOSocialWikipedia
+
+  """"""
+  youTube: SEOSocialYoutube
+}
+
+""""""
+type SEOSocialFacebook {
+  """"""
+  defaultImage: MediaItem
+
+  """"""
+  url: String
+}
+
+""""""
+type SEOSocialInstagram {
+  """"""
+  url: String
+}
+
+""""""
+type SEOSocialLinkedIn {
+  """"""
+  url: String
+}
+
+""""""
+type SEOSocialMySpace {
+  """"""
+  url: String
+}
+
+""""""
+type SEOSocialPinterest {
+  """"""
+  metaTag: String
+
+  """"""
+  url: String
+}
+
+""""""
+type SEOSocialTwitter {
+  """"""
+  cardType: SEOCardType
+
+  """"""
+  username: String
+}
+
+""""""
+type SEOSocialWikipedia {
+  """"""
+  url: String
+}
+
+""""""
+type SEOSocialYoutube {
+  """"""
+  url: String
+}
+
+"""The Schema types for Taxonomy"""
+type SEOTaxonomySchema {
+  """"""
+  raw: String
+}
+
+""""""
+type SEOUser {
+  """"""
+  breadcrumbTitle: String
+
+  """"""
+  canonical: String
+
+  """"""
+  fullHead: String
+
+  """"""
+  language: String
+
+  """"""
+  metaDesc: String
+
+  """"""
+  metaRobotsNofollow: String
+
+  """"""
+  metaRobotsNoindex: String
+
+  """"""
+  opengraphDescription: String
+
+  """"""
+  opengraphImage: MediaItem
+
+  """"""
+  opengraphTitle: String
+
+  """"""
+  region: String
+
+  """"""
+  schema: SEOUserSchema
+
+  """"""
+  social: SEOUserSocial
+
+  """"""
+  title: String
+
+  """"""
+  twitterDescription: String
+
+  """"""
+  twitterImage: MediaItem
+
+  """"""
+  twitterTitle: String
+}
+
+"""The Schema types for User"""
+type SEOUserSchema {
+  """"""
+  articleType: [String]
+
+  """"""
+  pageType: [String]
+
+  """"""
+  raw: String
+}
+
+""""""
+type SEOUserSocial {
+  """"""
+  facebook: String
+
+  """"""
+  instagram: String
+
+  """"""
+  linkedIn: String
+
+  """"""
+  mySpace: String
+
+  """"""
+  pinterest: String
+
+  """"""
+  soundCloud: String
+
+  """"""
+  twitter: String
+
+  """"""
+  wikipedia: String
+
+  """"""
+  youTube: String
+}
+
+"""The Yoast SEO  webmaster fields"""
+type SEOWebmaster {
+  """"""
+  baiduVerify: String
+
+  """"""
+  googleVerify: String
+
+  """"""
+  msVerify: String
+
+  """"""
+  yandexVerify: String
 }
 
 """The strategy to use when loading the script"""
@@ -18731,6 +19514,9 @@ type Tag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Un
     where: TagToPostConnectionWhereArgs
   ): TagToPostConnection
 
+  """The Yoast SEO data of the Tags taxonomy."""
+  seo: TaxonomySEO
+
   """An alphanumeric identifier for the object unique to its type."""
   slug: String
 
@@ -18792,6 +19578,9 @@ interface TagConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -18845,6 +19634,9 @@ type TagToContentNodeConnectionPageInfo implements ContentNodeConnectionPageInfo
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -18942,6 +19734,9 @@ type TagToPostConnectionPageInfo implements PageInfo & PostConnectionPageInfo & 
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -19214,6 +20009,9 @@ interface TaxonomyConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -19239,6 +20037,81 @@ enum TaxonomyIdTypeEnum {
 
   """The name of the taxonomy"""
   NAME
+}
+
+""""""
+type TaxonomySEO {
+  """"""
+  breadcrumbs: [SEOPostTypeBreadcrumbs]
+
+  """"""
+  canonical: String
+
+  """"""
+  cornerstone: Boolean
+
+  """"""
+  focuskw: String
+
+  """"""
+  fullHead: String
+
+  """"""
+  metaDesc: String
+
+  """"""
+  metaKeywords: String
+
+  """"""
+  metaRobotsNofollow: String
+
+  """"""
+  metaRobotsNoindex: String
+
+  """"""
+  opengraphAuthor: String
+
+  """"""
+  opengraphDescription: String
+
+  """"""
+  opengraphImage: MediaItem
+
+  """"""
+  opengraphModifiedTime: String
+
+  """"""
+  opengraphPublishedTime: String
+
+  """"""
+  opengraphPublisher: String
+
+  """"""
+  opengraphSiteName: String
+
+  """"""
+  opengraphTitle: String
+
+  """"""
+  opengraphType: String
+
+  """"""
+  opengraphUrl: String
+
+  """"""
+  schema: SEOTaxonomySchema
+
+  """"""
+  title: String
+
+  """"""
+  twitterDescription: String
+
+  """"""
+  twitterImage: MediaItem
+
+  """"""
+  twitterTitle: String
 }
 
 """Connection between the Taxonomy type and the ContentType type"""
@@ -19272,6 +20145,9 @@ type TaxonomyToContentTypeConnectionPageInfo implements ContentTypeConnectionPag
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -19309,32 +20185,11 @@ type TaxonomyToTermNodeConnectionPageInfo implements PageInfo & TermNodeConnecti
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
-}
-
-"""The template assigned to the node"""
-type Template_PageNoTitle implements ContentTemplate {
-  """The name of the template"""
-  templateName: String
-}
-
-"""The template assigned to the node"""
-type Template_PageWithSidebar implements ContentTemplate {
-  """The name of the template"""
-  templateName: String
-}
-
-"""The template assigned to the node"""
-type Template_PageWithWideImage implements ContentTemplate {
-  """The name of the template"""
-  templateName: String
-}
-
-"""The template assigned to the node"""
-type Template_SingleWithSidebar implements ContentTemplate {
-  """The name of the template"""
-  templateName: String
 }
 
 """
@@ -19473,6 +20328,9 @@ interface TermNodeConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -19529,6 +20387,9 @@ type TermNodeToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConnect
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -19564,6 +20425,9 @@ type TermNodeToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyleshee
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -19682,6 +20546,9 @@ interface ThemeConnectionPageInfo implements PageInfo & WPPageInfo {
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -20518,6 +21385,9 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
     last: Int
   ): UserToUserRoleConnection
 
+  """The Yoast SEO data of a user"""
+  seo: SEOUser
+
   """
   Whether the Toolbar should be displayed when the user is viewing the site.
   """
@@ -20584,6 +21454,9 @@ interface UserConnectionPageInfo implements PageInfo & WPPageInfo {
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -20666,6 +21539,9 @@ interface UserRoleConnectionPageInfo implements PageInfo & WPPageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -20683,6 +21559,12 @@ enum UserRoleEnum {
 
   """User role with specific capabilities"""
   EDITOR
+
+  """User role with specific capabilities"""
+  SEO_EDITOR
+
+  """User role with specific capabilities"""
+  SEO_MANAGER
 
   """User role with specific capabilities"""
   SUBSCRIBER
@@ -20719,6 +21601,9 @@ type UserToCommentConnectionPageInfo implements CommentConnectionPageInfo & Page
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -20854,6 +21739,9 @@ type UserToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConnectionP
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -20890,6 +21778,9 @@ type UserToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStylesheetCon
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -20925,6 +21816,9 @@ type UserToMediaItemConnectionPageInfo implements MediaItemConnectionPageInfo & 
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -21036,6 +21930,9 @@ type UserToPageConnectionPageInfo implements PageConnectionPageInfo & PageInfo &
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -21145,6 +22042,9 @@ type UserToPostConnectionPageInfo implements PageInfo & PostConnectionPageInfo &
 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
+
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
@@ -21290,6 +22190,9 @@ type UserToRevisionsConnectionPageInfo implements ContentNodeConnectionPageInfo 
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -21387,6 +22290,9 @@ type UserToUserRoleConnectionPageInfo implements PageInfo & UserRoleConnectionPa
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -21456,6 +22362,9 @@ interface WPPageInfo implements PageInfo {
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
+  """Raw schema for page"""
+  seo: SEOPostTypePageInfo
+
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -21470,4 +22379,204 @@ type WritingSettings {
 
   """Convert emoticons like :-) and :-P to graphics on display."""
   useSmilies: Boolean
+}
+
+"""A block used for editing the site"""
+type YoastFaqBlock implements EditorBlock & PageEditorBlock & PostEditorBlock {
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the YoastFaqBlock Block Type"""
+  attributes: YoastFaqBlockAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+}
+
+"""Attributes of the YoastFaqBlock Block Type"""
+type YoastFaqBlockAttributes {
+  """
+  The &quot;additionalListCssClasses&quot; field on the &quot;YoastFaqBlock&quot; block
+  """
+  additionalListCssClasses: String
+
+  """The &quot;className&quot; field on the &quot;YoastFaqBlock&quot; block"""
+  className: String
+
+  """The &quot;lock&quot; field on the &quot;YoastFaqBlock&quot; block"""
+  lock: BlockAttributesObject
+
+  """The &quot;metadata&quot; field on the &quot;YoastFaqBlock&quot; block"""
+  metadata: BlockAttributesObject
+
+  """The &quot;questions&quot; field on the &quot;YoastFaqBlock&quot; block"""
+  questions: BlockAttributesObject
+}
+
+"""A block used for editing the site"""
+type YoastHowToBlock implements EditorBlock & PageEditorBlock & PostEditorBlock {
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the YoastHowToBlock Block Type"""
+  attributes: YoastHowToBlockAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+}
+
+"""Attributes of the YoastHowToBlock Block Type"""
+type YoastHowToBlockAttributes {
+  """
+  The &quot;additionalListCssClasses&quot; field on the &quot;YoastHowToBlock&quot; block
+  """
+  additionalListCssClasses: String
+
+  """
+  The &quot;className&quot; field on the &quot;YoastHowToBlock&quot; block
+  """
+  className: String
+
+  """The &quot;days&quot; field on the &quot;YoastHowToBlock&quot; block"""
+  days: String
+
+  """
+  The &quot;defaultDurationText&quot; field on the &quot;YoastHowToBlock&quot; block
+  """
+  defaultDurationText: String
+
+  """
+  The &quot;description&quot; field on the &quot;YoastHowToBlock&quot; block
+  """
+  description: BlockAttributesObject
+
+  """
+  The &quot;durationText&quot; field on the &quot;YoastHowToBlock&quot; block
+  """
+  durationText: String
+
+  """
+  The &quot;hasDuration&quot; field on the &quot;YoastHowToBlock&quot; block
+  """
+  hasDuration: Boolean
+
+  """The &quot;hours&quot; field on the &quot;YoastHowToBlock&quot; block"""
+  hours: String
+
+  """
+  The &quot;jsonDescription&quot; field on the &quot;YoastHowToBlock&quot; block
+  """
+  jsonDescription: String
+
+  """The &quot;lock&quot; field on the &quot;YoastHowToBlock&quot; block"""
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;YoastHowToBlock&quot; block
+  """
+  metadata: BlockAttributesObject
+
+  """The &quot;minutes&quot; field on the &quot;YoastHowToBlock&quot; block"""
+  minutes: String
+
+  """The &quot;steps&quot; field on the &quot;YoastHowToBlock&quot; block"""
+  steps: BlockAttributesObject
+
+  """
+  The &quot;unorderedList&quot; field on the &quot;YoastHowToBlock&quot; block
+  """
+  unorderedList: Boolean
+}
+
+"""A block used for editing the site"""
+type YoastSeoBreadcrumbs implements EditorBlock & PageEditorBlock & PostEditorBlock {
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the YoastSeoBreadcrumbs Block Type"""
+  attributes: YoastSeoBreadcrumbsAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+}
+
+"""Attributes of the YoastSeoBreadcrumbs Block Type"""
+type YoastSeoBreadcrumbsAttributes {
+  """
+  The &quot;className&quot; field on the &quot;YoastSeoBreadcrumbs&quot; block
+  """
+  className: String
+
+  """
+  The &quot;lock&quot; field on the &quot;YoastSeoBreadcrumbs&quot; block
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;YoastSeoBreadcrumbs&quot; block
+  """
+  metadata: BlockAttributesObject
 }
