@@ -16,13 +16,11 @@ export default defineEventHandler(async (event) => {
   }
   // TODO find better why to add the params to the cache key, as hash?
   const cacheKey = `wpContent-${body.queryName}-${body.params ? JSON.stringify(body.params) : ''}`
-  console.log('wpContent.post.ts: staging', staging)
 
   // Read from cache if not disabled and we're not in staging mode
   if (config.public.wpNuxt.enableCache && !staging) {
     const cachedContent = await cacheStorage.getItem(cacheKey)
     if (cachedContent) {
-      console.log('wpContent.post.ts: Returning cached content for', cacheKey)
       return {
         data: cachedContent,
         errors: [],
@@ -33,7 +31,6 @@ export default defineEventHandler(async (event) => {
     params: body.params,
   }).then((v: GraphqlResponse<any>) => {
     cacheStorage.setItem(cacheKey, v.data).catch(() => {})
-    console.log('wpContent.post.ts: fetched new content for', cacheKey)
     return {
       data: v.data,
       errors: v.errors || [],
