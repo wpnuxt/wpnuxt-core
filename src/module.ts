@@ -56,10 +56,10 @@ export default defineNuxtModule<ModuleOptions>({
     logger.start('WPNuxt ::: Starting setup ::: ')
     logger.info('Connecting GraphQL to', publicWPNuxtConfig.wordpressUrl)
     logger.info('stagingUrl:', publicWPNuxtConfig.stagingUrl)
-    logger.info('staging:', publicWPNuxtConfig.staging)
     logger.info('frontendUrl:', publicWPNuxtConfig.frontendUrl)
     if (publicWPNuxtConfig.enableCache) logger.info('Cache enabled')
     logger.debug('Debug mode enabled')
+    if (publicWPNuxtConfig.staging) logger.info('Staging enabled')
 
     const resolver = createResolver(import.meta.url)
 

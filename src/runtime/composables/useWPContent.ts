@@ -46,10 +46,9 @@ const _fetchContentNode = async (queryName: string, node1: string, node2: string
       }
       return transformedData
     },
-    getCachedData(key: string) {
-      if (config.public.wpNuxt.staging) return
+    /*getCachedData(key: string) {
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-    }
+    }*/
   }).then((v: GraphqlResponse<any>) => {
     return {
       data: v.data.value,
