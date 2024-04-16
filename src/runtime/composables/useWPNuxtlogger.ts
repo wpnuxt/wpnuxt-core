@@ -25,3 +25,4 @@ export function initLogger (level: number) {
   }).withTag('WPNuxt')
   logger.value.debug("initLogger ::: level:", level)
 }
+//
