@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.3.0
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.28...v0.3.0)
+
+### 🏡 Chore
+
+- **release:** V0.2.28 ([c0efcab](https://github.com/vernaillen/wpnuxt-module/commit/c0efcab))
+
+### ❤️ Contributors
+
+- Wouter Vernaillen <wouter@vernaillen.com>
+
 ## v0.2.28
 
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.28...v0.2.28)
