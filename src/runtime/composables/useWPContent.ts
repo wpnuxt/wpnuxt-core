@@ -1,12 +1,12 @@
 import { useFetch, useNuxtApp } from "#imports"
 import type { GraphqlResponse } from "~/src/runtime/types";
 import { getRelativeImagePath } from "../util/images";
-import { useWPNuxtLogger } from "./useWPNuxtLogger";
 
 const _getContentNodes = async (queryName: string, node1Name?: string, node2Name?: string, node3Name?: string, params?: any) => {
   const node1 = node1Name ? node1Name : queryName.toLowerCase()
   const node2 = node2Name ? node2Name : undefined
-  return await _fetchContentNode(queryName, node1, node2, node3Name, params, false)
+  const node3 = node3Name || node3Name == null ? node3Name : undefined
+  return await _fetchContentNode(queryName, node1, node2, node3, params, false)
 }
 const _getContentNode = async (queryName: string, nodeName?: string, params?: any) => {
   const node = nodeName ? nodeName : queryName.toLowerCase()
