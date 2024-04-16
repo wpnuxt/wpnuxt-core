@@ -1,15 +1,21 @@
-import { type StorageValue, prefixStorage, type Storage } from 'unstorage'
-import { useNitroApp, useRuntimeConfig, useStorage } from '#imports'
-import { hash as ohash } from 'ohash'
-import type { H3Event } from 'h3'
-import type { WordPressContent } from '../types'
+import { prefixStorage, type Storage } from 'unstorage'
+import { useStorage } from '#imports'
+import { useWPNuxtLogger } from '../composables/useWPNuxtLogger'
 
-const isProduction = process.env.NODE_ENV === 'production'
-const wpNuxtConfig = useRuntimeConfig().wpNuxt
+//const isProduction = process.env.NODE_ENV === 'production'
 
 export const cacheStorage: Storage = prefixStorage(useStorage(), 'cache:content')
 
-const pendingPromises: Record<string, Promise<WordPressContent>> = {}
+export const purgeCache = async () => {
+  const keys = await cacheStorage.getKeys()
+  keys.forEach(async (key) => {
+      await cacheStorage.removeItem(key)
+  })
+  cacheStorage.clear
+  useWPNuxtLogger().info('ServerSide cache purged!')
+}
+
+/*const pendingPromises: Record<string, Promise<WordPressContent>> = {}
 export const getContent = async (event: H3Event, id: string): Promise<WordPressContent> => {
   const contentId = id
 
@@ -17,7 +23,7 @@ export const getContent = async (event: H3Event, id: string): Promise<WordPressC
   if (isProduction && cached) {
     return cached.parsed
   }
-  /*const hash = ohash({
+  const hash = ohash({
     // Last modified time
     mtime,
     // File size
@@ -25,7 +31,7 @@ export const getContent = async (event: H3Event, id: string): Promise<WordPressC
     // Add Content version to the hash, to revalidate the cache on content update
     version: wpNuxtConfig.cacheVersion,
     integrity: wpNuxtConfig.cacheIntegrity
-  })*/
+  })
   if (!pendingPromises[id]) {
     // eslint-disable-next-line no-async-promise-executor
     pendingPromises[id] = new Promise(async (resolve) => {
@@ -43,4 +49,5 @@ export const getContent = async (event: H3Event, id: string): Promise<WordPressC
     })
   }
   return pendingPromises[id]
-}
+}*/
+

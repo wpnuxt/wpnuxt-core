@@ -1,13 +1,13 @@
 import { defineEventHandler, readBody } from 'h3'
 import { useRuntimeConfig } from '#imports';
 import { cacheStorage } from '../storage'
-import { useWPNuxt } from '../../composables/useWPNuxt';
 import type { GraphqlResponse } from '../../types'
+import { isStaging } from '../../composables/isStaging';
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const body = await readBody(event)
-  const isStaging = useWPNuxt().isStaging
+  const staging = await isStaging()
 
   if (!body || !body.queryName) {
     throw new Error(
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   const cacheKey = `wpContent-${body.queryName}-${body.params ? JSON.stringify(body.params) : ''}`
 
   // Read from cache if not disabled and we're not in staging mode
-  if (config.public.wpNuxt.enableCache && !isStaging) {
+  if (config.public.wpNuxt.enableCache && !staging) {
     const cachedContent = await cacheStorage.getItem(cacheKey)
     if (cachedContent) {
       return {

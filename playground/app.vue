@@ -18,12 +18,12 @@ const links = [
     to: '/test'
   }
 ]
-const isStaging = useWPNuxt().isStaging
+const staging = await isStaging()
 </script>
 
 <template>
-  <StagingBanner v-if="isStaging" />
-  <div :class="isStaging ? 'mt-[34px]' : 'mt-0'">
+  <StagingBanner v-if="staging" />
+  <div :class="staging ? 'mt-[34px]' : 'mt-0'">
     <UHeader :links="links">
       <template #logo>
         <WPNuxtLogo /> <span class="text-lg">playground</span>
@@ -31,7 +31,7 @@ const isStaging = useWPNuxt().isStaging
       <template #right>
         <UColorModeButton variant="soft" />
         <UButton
-          v-if="!isStaging"
+          v-if="!staging"
           :to="stagingUrl"
           icon="i-heroicons-pencil"
           variant="soft"

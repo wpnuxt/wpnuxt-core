@@ -23,7 +23,8 @@ export default defineNuxtModule<ModuleOptions>({
     debug: false,
     trace: false,
     replaceSchema: false,
-    enableCache: true
+    enableCache: true,
+    staging: false,
   },
   async setup (options, nuxt) {
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
@@ -35,7 +36,8 @@ export default defineNuxtModule<ModuleOptions>({
       debug: process.env.WPNUXT_DEBUG ? process.env.WPNUXT_DEBUG === 'true' : options.debug!,
       trace: process.env.WPNUXT_TRACE ? process.env.WPNUXT_TRACE === 'true' : options.trace!,
       replaceSchema: process.env.WPNUXT_REPLACE_SCHEMA ? process.env.WPNUXT_REPLACE_SCHEMA === 'true' : options.replaceSchema!,
-      enableCache: process.env.WPNUXT_ENABLE_CACHE ? process.env.WPNUXT_ENABLE_CACHE === 'true' : options.enableCache!
+      enableCache: process.env.WPNUXT_ENABLE_CACHE ? process.env.WPNUXT_ENABLE_CACHE === 'true' : options.enableCache!,
+      staging: process.env.WPNUXT_STAGING ? process.env.WPNUXT_STAGING === 'true' : options.staging!
     })
     // we're not putting the secret in public config, so it goes into runtimeConfig
     nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {
@@ -54,6 +56,7 @@ export default defineNuxtModule<ModuleOptions>({
     logger.start('WPNuxt ::: Starting setup ::: ')
     logger.info('Connecting GraphQL to', publicWPNuxtConfig.wordpressUrl)
     logger.info('stagingUrl:', publicWPNuxtConfig.stagingUrl)
+    logger.info('staging:', publicWPNuxtConfig.staging)
     logger.info('frontendUrl:', publicWPNuxtConfig.frontendUrl)
     if (publicWPNuxtConfig.enableCache) logger.info('Cache enabled')
     logger.debug('Debug mode enabled')
@@ -108,6 +111,10 @@ export default defineNuxtModule<ModuleOptions>({
     addServerHandler({
       route: '/api/wpContent',
       handler: resolver.resolve('./runtime/server/api/wpContent.post')
+    })
+    addServerHandler({
+      route: '/api/purgeCache',
+      handler: resolver.resolve('./runtime/server/api/purgeCache.get')
     })
 
     // Register user block components
@@ -212,6 +219,7 @@ declare module '@nuxt/schema' {
       trace?: boolean
       replaceSchema?: boolean
       enableCache?: boolean
+      staging?: boolean
     }
   }
 
@@ -231,6 +239,7 @@ declare module '@nuxt/schema' {
           trace?: boolean
           replaceSchema?: boolean
           enableCache?: boolean
+          staging?: boolean
         }
       }
     }

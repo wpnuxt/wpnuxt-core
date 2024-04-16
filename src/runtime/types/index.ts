@@ -9,6 +9,7 @@ export interface ModuleOptions {
   trace?: boolean
   replaceSchema?: boolean
   enableCache?: boolean
+  staging?: boolean
 }
 
 export type GraphqlResponse<T> = {

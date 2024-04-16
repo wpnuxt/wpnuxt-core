@@ -18,7 +18,8 @@ export default defineNuxtConfig({
     showBlockInfo: false,
     debug: false,
     replaceSchema: false,
-    enableCache: true
+    enableCache: true,
+    staging: false,
   },
   graphqlMiddleware: {
     downloadSchema: true,
