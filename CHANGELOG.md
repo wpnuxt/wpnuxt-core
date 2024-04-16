@@ -3,6 +3,10 @@
 
 ## v0.2.28
 
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.28...v0.2.28)
+
+## v0.2.28
+
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.2.27...v0.2.28)
 
 ## v0.2.27
