@@ -1,6 +1,7 @@
 import { defineEventHandler, readBody } from 'h3'
 import { useRuntimeConfig } from '#imports';
 import { cacheStorage } from '../storage'
+import { useWPNuxt } from '../../composables/useWPNuxt';
 import type { GraphqlResponse } from '../../types'
 
 export default defineEventHandler(async (event) => {
