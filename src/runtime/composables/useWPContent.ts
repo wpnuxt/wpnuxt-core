@@ -1,6 +1,7 @@
 import { useFetch, useNuxtApp, useRuntimeConfig } from "#imports"
 import type { GraphqlResponse } from "~/src/runtime/types";
 import { getRelativeImagePath } from "../util/images";
+import { useTokens } from "./useTokens";
 
 const _getContentNodes = async (queryName: string, node1Name?: string, node2Name?: string, node3Name?: string, params?: any) => {
   const node1 = node1Name ? node1Name : queryName.toLowerCase()
@@ -17,6 +18,7 @@ const _fetchContentNode = async (queryName: string, node1: string, node2: string
 
   const nuxtApp = useNuxtApp()
   const config = useRuntimeConfig()
+  const tokens = useTokens()
   const cacheKey =  `wp-${queryName}-${node1}-${node2}-${node3}-${JSON.stringify(params)}`
 
   return await useFetch<GraphqlResponse<any>>("/api/wpContent", {
@@ -26,6 +28,9 @@ const _fetchContentNode = async (queryName: string, node1: string, node2: string
       params: params
     },
     key: cacheKey,
+    headers: {
+      Authorization: tokens.authorizationHeader
+    },
     transform (data: any) {
       let transformedData
       if (node2 && node3) {
