@@ -29,6 +29,9 @@ export default defineEventHandler(async (event) => {
   }
   return $fetch<GraphqlResponse<any>>("/api/graphql_middleware/query/" + body.queryName, {
     params: body.params,
+    headers: {
+      Authorization: `Bearer ${event.context.accessToken}`
+    },
   }).then((v: GraphqlResponse<any>) => {
     cacheStorage.setItem(cacheKey, v.data).catch(() => {})
     return {

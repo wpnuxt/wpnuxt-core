@@ -10,18 +10,21 @@ const postEditUrl = useWPUri().postEdit(previewId?.toString() || '');
 const page = ref<Page>()
 if (previewId) {
   const id = Number.parseInt(previewId.toString());
-  const data = await usePageById(id, true)
-  page.value = data?.data
+  const { data } = await usePageById(id, true)
+  page.value = data
 }
 </script>
 
 <template>
-  <div>
+  <div style="margin: 3px auto; max-width: 1280px; padding: 30px;">
     <h3>Preview</h3>
     [<NuxtLink :to="postEditUrl">
       edit
     </NuxtLink>]
-    <hr>
+    <hr style="margin: 15px 0;">
+    <h4 style="font-size: larger; font-weight: 700; padding-bottom: 6px;">
+      {{ page.title }}
+    </h4>
     <BlockRenderer
       v-if="page"
       :blocks="(page?.editorBlocks || []) as EditorBlock[]"
