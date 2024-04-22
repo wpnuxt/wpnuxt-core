@@ -68,7 +68,7 @@
     "@vitest/coverage-v8": "^1.4.0",
     "@vue/test-utils": "^2.4.5",
     "changelogen": "^0.5.5",
-    "eslint": "^8.57.0",
+    "eslint": "^9.1.1",
     "nuxt": "^3.11.2",
     "typescript": "^5.4.4",
     "untyped": "1.4.2",
