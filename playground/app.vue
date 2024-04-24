@@ -19,6 +19,10 @@ const links = [
     label: 'Test',
     to: '/test',
   },
+  {
+    label: 'Auth',
+    to: '/auth',
+  },
 ]
 const staging = await isStaging()
 </script>

@@ -30,7 +30,6 @@ const _fetchContentNode = async <T>(queryName: string, node1: string, node2: str
       Authorization: tokens.authorizationHeader,
     },
     transform(data) {
-      console.log('data', data)
       let transformedData
       if (node2 && node3) {
         transformedData = data.data[node1][node2][node3]

@@ -1,11 +1,12 @@
 import { useLocalStorage } from '@vueuse/core'
 import { useViewer } from './useViewer'
+import type { ViewerQuery } from '#graphql-operations'
 
 const currentUserId = useLocalStorage<number>('CURRENT_USER_ID', null)
 const currentUserName = useLocalStorage<string>('CURRENT_USER_NAME', null)
 
 export async function loginUser(): Promise<string> {
-  const viewer = await useViewer()
+  const viewer = await <ViewerQuery>useViewer()
   currentUserId.value = viewer.userId
   if (viewer.firstName === undefined || viewer.firstName === null || viewer.firstName === '') {
     currentUserName.value = viewer.username
