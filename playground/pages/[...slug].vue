@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import type { Post, Page } from '#graphql-operations'
+import { isStaging, useHead, useRoute, useWPUri, useNodeByUri, ref } from '#imports'
+
 const route = useRoute()
-const post = await usePostByUri(route.params.slug[0])
+const post = ref<Post | Page>()
+if (route.params.slug && route.params.slug[0]) {
+  post.value = await useNodeByUri(route.params.slug[0])
+}
 const wpUri = useWPUri()
-if (post?.data?.title) {
+if (post.value?.title) {
   useHead({
-    title: post.data.title,
+    title: post.value.title,
   })
 }
 const staging = await isStaging()
@@ -14,15 +20,15 @@ const staging = await isStaging()
   <div>
     <StagingBanner
       v-if="staging"
-      :post="post.data"
+      :post="post"
     />
     <UContainer>
-      <UPage v-if="post?.data">
-        <UPageHeader :title="post.data.title" />
+      <UPage v-if="post">
+        <UPageHeader :title="post.title" />
         <UPageBody>
           <BlockRenderer
-            v-if="post.data.editorBlocks"
-            :blocks="post.data.editorBlocks"
+            v-if="post.editorBlocks"
+            :blocks="post.editorBlocks"
           />
         </UPageBody>
         <template #left>
@@ -34,25 +40,18 @@ const staging = await isStaging()
               to="/"
             />
             <div
-              v-if="post.data.featuredImage?.node?.sourceUrl"
+              v-if="post.featuredImage?.node?.sourceUrl"
               class="test-sm mt-10"
             >
               featured image:
               <ImageComponent
-                :url="post.data.featuredImage?.node?.sourceUrl"
+                :url="post.featuredImage?.node?.sourceUrl"
                 class="rounded-lg shadow-md mt-2"
               />
             </div>
             <div class="test-sm mt-10">
               published:<br>
-              {{ post.data.date.split('T')[0] }}
-            </div>
-            <div
-              v-if="post.data.seo"
-              class="test-sm mt-10"
-            >
-              meta:<br>
-              {{ post.data.seo.metaDesc }}
+              {{ post.date?.split('T')[0] }}
             </div>
             <div
               v-if="staging"
@@ -61,7 +60,7 @@ const staging = await isStaging()
               <UButton
                 size="xs"
                 icon="i-heroicons-pencil"
-                :to="wpUri.postEdit(post.data.databaseId)"
+                :to="wpUri.postEdit(''+post.databaseId)"
               />
             </div>
           </UAside>

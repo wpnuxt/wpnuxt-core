@@ -1,25 +1,25 @@
-import type { GraphqlResponse, WPContentQueryParams } from '../types'
+import type { GraphqlResponse } from '../types'
 import { getRelativeImagePath } from '../util/images'
 import { useTokens } from './useTokens'
 import { useFetch, useNuxtApp } from '#imports'
 
-const _getContentNodes = async <T>(queryName: string, node1Name?: string, node2Name?: string, node3Name?: string, params?: WPContentQueryParams) => {
+const _getContentNodes = async <T>(queryName: string, node1Name?: string, node2Name?: string, node3Name?: string, params?: T) => {
   const node1 = node1Name ? node1Name : queryName.toLowerCase()
   const node2 = node2Name ? node2Name : undefined
   const node3 = node3Name || node3Name == null ? node3Name : undefined
   return await _fetchContentNode<T>(queryName, node1, node2, node3, false, params)
 }
-const _getContentNode = async <T>(queryName: string, nodeName?: string, params?: WPContentQueryParams) => {
+const _getContentNode = async <T>(queryName: string, nodeName?: string, params?: T) => {
   const node = nodeName ? nodeName : queryName.toLowerCase()
   return await _fetchContentNode<T>(queryName, node, undefined, undefined, true, params)
 }
 
-const _fetchContentNode = async <T>(queryName: string, node1: string, node2: string | undefined, node3: string | undefined, fixImagePaths: boolean, params?: WPContentQueryParams) => {
+const _fetchContentNode = async <T>(queryName: string, node1: string, node2: string | undefined, node3: string | undefined, fixImagePaths: boolean, params?: T): Promise<GraphqlResponse<T>> => {
   const nuxtApp = useNuxtApp()
   const tokens = useTokens()
   const cacheKey = `wp-${queryName}-${node1}-${node2}-${node3}-${JSON.stringify(params)}`
 
-  return await useFetch<GraphqlResponse<T>>('/api/wpContent', {
+  return await useFetch('/api/wpContent', {
     method: 'POST',
     body: {
       queryName: queryName,
@@ -55,7 +55,7 @@ const _fetchContentNode = async <T>(queryName: string, node1: string, node2: str
   }).then((v) => {
     return {
       data: v.data.value,
-      errors: v.errors || [],
+      error: v.error || [],
     }
   })
 }

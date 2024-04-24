@@ -31,7 +31,7 @@ if (uri.startsWith('/')) {
 if (uri.endsWith('/')) {
   uri = uri.substring(0, uri.length - 1)
 }
-const post = await usePostByUri(uri)
+const post = await usePostByUri({ uri: uri })
 if (post?.data?.title) {
   useHead({
     title: 'Edit ' + post.data.contentTypeName + post.data.title,

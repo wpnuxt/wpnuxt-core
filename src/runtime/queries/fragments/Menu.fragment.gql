@@ -1,0 +1,10 @@
+fragment Menu on Menu {
+  id
+  name
+  menuItems {
+    nodes {
+      label
+      uri
+    }
+  }
+}

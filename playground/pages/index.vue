@@ -1,7 +1,10 @@
 <script setup lang="ts">
-const { data: posts } = await usePosts()
-const { data: settings } = await useSettings()
-const { data: latestPost } = await useLatestPost()
+import type { Post, GeneralSettings } from '#graphql-operations'
+import { useHead, useLatestPost, usePosts, useGeneralSettings } from '#imports'
+
+const posts: Post[] = await usePosts()
+const settings: GeneralSettings = await useGeneralSettings()
+const latestPost: Post = await useLatestPost()
 useHead({
   title: settings.title,
 })
@@ -20,7 +23,7 @@ useHead({
           v-for="post, index in posts"
           :key="index"
           :title="post.title"
-          :description="post.date.split('T')[0]"
+          :description="post.date?.split('T')[0]"
           :to="post.uri"
         >
           <img
@@ -39,7 +42,7 @@ useHead({
     >
       <ULandingCard
         :title="latestPost.title"
-        :description="latestPost.date.split('T')[0]"
+        :description="latestPost.date?.split('T')[0]"
         :to="latestPost.uri"
       >
         <img

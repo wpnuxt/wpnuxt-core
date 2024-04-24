@@ -1,0 +1,9 @@
+#import "~/queries/fragments/Page.fragment.gql"
+#import "~/queries/fragments/Post.fragment.gql"
+
+query NodeByUri($uri: String!) {
+  nodeByUri(uri: $uri) {
+    ...Page
+    ...Post
+  }
+}

@@ -3,7 +3,7 @@ import { useRuntimeConfig, ref, watch, getCurrentUserName, useMenu, isStaging } 
 
 const config = useRuntimeConfig()
 const stagingUrl = config.public.wpNuxt.stagingUrl
-const { data: menu } = await useMenu('main')
+const { data: menu } = await useMenu({ name: 'main' })
 const userName = ref<string>()
 userName.value = getCurrentUserName()
 watch(() => getCurrentUserName(), (newVal) => {

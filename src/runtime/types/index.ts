@@ -1,3 +1,5 @@
+import type { Ref } from 'vue'
+
 export interface ModuleOptions {
   wordpressUrl: string
   stagingUrl: string
@@ -14,7 +16,7 @@ export interface ModuleOptions {
 
 export interface GraphqlResponse<T> {
   data: T
-  errors: GraphqlError<T>[]
+  error: Ref<GraphqlError<T> | null>
 }
 
 export interface GraphqlError<T> extends Error {
@@ -23,13 +25,6 @@ export interface GraphqlError<T> extends Error {
   statusText?: string
   statusCode?: number
   statusMessage?: string
-}
-
-export interface WPContentQueryParams {
-  id?: number
-  asPreview?: boolean
-  name?: string
-  uri?: string
 }
 
 // Ensure that a .js file is emitted too

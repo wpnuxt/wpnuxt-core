@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { getCurrentUserName, isStaging, useGeneralSettings, useRevisions, useRuntimeConfig, useViewer, useWPUri } from '#imports'
+
 const wpUri = useWPUri()
 const viewer = await useViewer()
-const settings = await useSettings()
+const settings = await useGeneralSettings()
 const revisions = await useRevisions()
 const staging = await isStaging()
 const userName = getCurrentUserName()
