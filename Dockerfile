@@ -1,4 +1,4 @@
-FROM node:21-slim
+FROM node:21.7.3-slim
 #FROM node:21-alpine as base
 #ENV NODE_ENV=production
 WORKDIR /src
