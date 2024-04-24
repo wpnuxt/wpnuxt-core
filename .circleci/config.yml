@@ -16,27 +16,21 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Check node version
-          command: node -v
-      - run:
-          name: Check pnpm version
-          command: pnpm -v
-      - run:
           name: Install packages
-          command: pnpm install --frozen-lockfile
+          command: pnpm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
-          name: Playground Build
-          command: pnpm run dev:build
+          name: Lint
+          command: pnpm run lint
       - run:
           name: Module Build
           command: pnpm run build
       - run:
-          name: Lint
-          command: pnpm run lint
+          name: Playground Build
+          command: pnpm run dev:build
       - slack/notify:
           channel: circleci
           event: always
