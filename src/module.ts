@@ -1,16 +1,14 @@
+import fs, { existsSync } from 'node:fs'
 import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, useLogger } from '@nuxt/kit'
-import { existsSync } from 'node:fs'
 import defu from 'defu'
-import fs from 'fs'
-import type { ModuleOptions } from './runtime/types';
-require('dotenv').config({ path: __dirname+'/.env' });
+import type { ModuleOptions } from './runtime/types'
 
 export type { ModuleOptions } from './runtime/types'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'wpnuxt-module',
-    configKey: 'wpNuxt'
+    configKey: 'wpNuxt',
   },
   // Default configuration options of the Nuxt module
   defaults: {
@@ -26,7 +24,7 @@ export default defineNuxtModule<ModuleOptions>({
     enableCache: true,
     staging: false,
   },
-  async setup (options, nuxt) {
+  async setup(options, nuxt) {
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
       wordpressUrl: process.env.WPNUXT_WORDPRESS_URL ? process.env.WPNUXT_WORDPRESS_URL : options.wordpressUrl!,
       stagingUrl: process.env.WPNUXT_STAGING_URL ? process.env.WPNUXT_STAGING_URL : options.stagingUrl!,
@@ -37,20 +35,20 @@ export default defineNuxtModule<ModuleOptions>({
       trace: process.env.WPNUXT_TRACE ? process.env.WPNUXT_TRACE === 'true' : options.trace!,
       replaceSchema: process.env.WPNUXT_REPLACE_SCHEMA ? process.env.WPNUXT_REPLACE_SCHEMA === 'true' : options.replaceSchema!,
       enableCache: process.env.WPNUXT_ENABLE_CACHE ? process.env.WPNUXT_ENABLE_CACHE === 'true' : options.enableCache!,
-      staging: process.env.WPNUXT_STAGING ? process.env.WPNUXT_STAGING === 'true' : options.staging!
+      staging: process.env.WPNUXT_STAGING ? process.env.WPNUXT_STAGING === 'true' : options.staging!,
     })
     // we're not putting the secret in public config, so it goes into runtimeConfig
     nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {
-      faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!
+      faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!,
     })
     const publicWPNuxtConfig = nuxt.options.runtimeConfig.public.wpNuxt
     const logger = useLogger('WPNuxt', {
       level: publicWPNuxtConfig.trace ? 5 : publicWPNuxtConfig.debug ? 4 : 3,
       formatOptions: {
-           // columns: 80,
-           colors: true,
-           compact: true,
-           date: true,
+        // columns: 80,
+        colors: true,
+        compact: true,
+        date: true,
       },
     })
     logger.start('WPNuxt ::: Starting setup ::: ')
@@ -72,13 +70,13 @@ export default defineNuxtModule<ModuleOptions>({
     addRouteMiddleware({
       name: 'auth',
       path: resolver.resolve('./runtime/middleware/auth'),
-      global: true
+      global: true,
     })
     addComponentsDir({
       path: resolver.resolve('./runtime/components'),
       pathPrefix: false,
       prefix: '',
-      global: true
+      global: true,
     })
 
     const userPreviewPath = '~/pages/preview.vue'
@@ -92,29 +90,29 @@ export default defineNuxtModule<ModuleOptions>({
         name: 'preview',
         path: '/preview',
         file: resolver.resolve(previewPagePath),
-      });
+      })
       pages.push({
         name: 'auth',
         path: '/auth',
         file: resolver.resolve('./runtime/pages/auth.vue'),
-      });
-    });
+      })
+    })
 
     addServerHandler({
       route: '/api/tokensFromCode',
-      handler: resolver.resolve('./runtime/server/api/tokensFromCode.post')
+      handler: resolver.resolve('./runtime/server/api/tokensFromCode.post'),
     })
     addServerHandler({
       route: '/api/tokensFromRefreshToken',
-      handler: resolver.resolve('./runtime/server/api/tokensFromRefreshToken.post')
+      handler: resolver.resolve('./runtime/server/api/tokensFromRefreshToken.post'),
     })
     addServerHandler({
       route: '/api/wpContent',
-      handler: resolver.resolve('./runtime/server/api/wpContent.post')
+      handler: resolver.resolve('./runtime/server/api/wpContent.post'),
     })
     addServerHandler({
       route: '/api/purgeCache',
-      handler: resolver.resolve('./runtime/server/api/purgeCache.get')
+      handler: resolver.resolve('./runtime/server/api/purgeCache.get'),
     })
 
     // Register user block components
@@ -129,7 +127,7 @@ export default defineNuxtModule<ModuleOptions>({
             path: blockComponents,
             global: true,
             pathPrefix: false,
-            prefix: ''
+            prefix: '',
           })
         })
       }
@@ -144,10 +142,10 @@ export default defineNuxtModule<ModuleOptions>({
       .replace(/^(~|@)/, nuxt.options.srcDir)
     const userQueryPathExists = existsSync(userQueryPath)
 
-    fs.cpSync(resolver.resolve('./runtime/queries/'), queryOutputPath, {recursive: true})
+    fs.cpSync(resolver.resolve('./runtime/queries/'), queryOutputPath, { recursive: true })
     if (userQueryPathExists) {
       logger.debug('Extending queries:', userQueryPath)
-      fs.cpSync(resolver.resolve(userQueryPath), queryOutputPath, {recursive: true})
+      fs.cpSync(resolver.resolve(userQueryPath), queryOutputPath, { recursive: true })
     }
     logger.debug('Copied merged queries in folder:', queryOutputPath)
 
@@ -163,9 +161,9 @@ export default defineNuxtModule<ModuleOptions>({
         avoidOptionals: false,
         disableOnBuild: false,
         schema: {
-        } as any,
+        },
         documents: [
-          resolver.resolve('!./graphql/**/*')
+          resolver.resolve('!./graphql/**/*'),
         ],
         generates: {
           './graphql/': {
@@ -182,21 +180,21 @@ export default defineNuxtModule<ModuleOptions>({
         },
       },
       outputDocuments: true,
-      autoImportPatterns: queryOutputPath
+      autoImportPatterns: queryOutputPath,
     })
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
 
     const resolvedPath = resolver.resolve('./runtime/app/graphqlMiddleware.serverOptions')
     const template = addTemplate({
-        filename: 'graphqlMiddleware.serverOptions',
-        write: true,
-        getContents: () => `export { default } from '${resolvedPath}'`
+      filename: 'graphqlMiddleware.serverOptions',
+      write: true,
+      getContents: () => `export { default } from '${resolvedPath}'`,
     })
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
 
-    logger.success("WPNuxt ::: Finished setup ::: ");
+    logger.success('WPNuxt ::: Finished setup ::: ')
   },
 })
 

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useCookie, useRuntimeConfig } from '#imports';
-const config = useRuntimeConfig();
+import { useCookie, useRuntimeConfig } from '#imports'
+
+const config = useRuntimeConfig()
 const rtCookie = useCookie(`${config.public.wpNuxt.frontendUrl}-rt`)
-rtCookie.value = null;
+rtCookie.value = null
 </script>
 
 <template>

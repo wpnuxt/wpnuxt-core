@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { usePosts } from '../../../../src/runtime/composables/usePosts'
+
 const posts = await usePosts()
 </script>
 

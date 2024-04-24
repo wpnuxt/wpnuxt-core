@@ -1,11 +1,9 @@
-
 const getRelativeImagePath = function getRelativeImagePath(imgUrl: string): string {
-
   if (imgUrl) {
-    const url = new URL(imgUrl);
-    imgUrl = url.pathname;
+    const url = new URL(imgUrl)
+    imgUrl = url.pathname
   }
-  return imgUrl;
+  return imgUrl
 }
 
 export { getRelativeImagePath }

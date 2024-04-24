@@ -66,7 +66,7 @@ function my_project_updated_send_email( $post_id ) {
 
   $faustwp_settings = get_option( 'faustwp_settings' );
   $frontend_uri = $faustwp_settings['frontend_uri'];
-  $purge_url = $frontend_uri . '/__nuxt_multi_cache/purge/all';
+  $purge_url = $frontend_uri . '/api/purgeCache';
 
   $headers = array( 'x-nuxt-multi-cache-token' => 'wpnuxt-cache' );
   $response = Requests::post( $purge_url, $headers );

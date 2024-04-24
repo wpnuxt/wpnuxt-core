@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { CoreBlock } from '#graphql-operations';
+import type { CoreBlock } from '#graphql-operations'
 
 defineProps<{
-    block: CoreBlock
-}>();
+  block: CoreBlock
+}>()
 </script>
 
 <template>

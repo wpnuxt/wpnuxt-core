@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  colorMode: 'dark'
+  colorMode: 'dark',
 })
 const { data: page } = await useAsyncData('index', () => queryContent('/').findOne())
 
@@ -10,7 +10,7 @@ useSeoMeta({
   description: page.value.description,
   ogDescription: page.value.description,
   ogImage: 'https://wpnuxt.com/social-card.png',
-  twitterImage: 'https://wpnuxt.com/social-card.png'
+  twitterImage: 'https://wpnuxt.com/social-card.png',
 })
 
 const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact' })
@@ -59,8 +59,8 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
     </ULandingHero>
 
     <ULandingSection
-      v-for="(section, index) of page.sections"
-      :key="index"
+      v-for="(section, sectionIndex) of page.sections"
+      :key="sectionIndex"
       v-bind="section"
     >
       <template
@@ -200,8 +200,8 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
               class="flex-wrap lg:self-start [&_span:first-child]:text-xs"
             >
               <UTooltip
-                v-for="(contributor, index) of module.contributors"
-                :key="index"
+                v-for="(contributor, contributorIndex) of module.contributors"
+                :key="contributorIndex"
                 :text="contributor.username"
                 class="rounded-full"
                 :ui="{ background: 'bg-gray-50 dark:bg-gray-800/50' }"
@@ -327,7 +327,7 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
 
           <div class="rounded-xl bg-gray-900 flex flex-col relative">
             <NuxtLink
-              v-for="(card, index) in section.cards"
+              v-for="(card, cardIndex) in section.cards"
               :key="card.title"
               :to="card.to"
             >
@@ -351,7 +351,7 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
                 <div class="absolute h-[1px] flex items-center top-1/2 inset-0">
                   <div
                     class="h-[1px] w-full bg-gray-700"
-                    :class="index === 0 ? 'block' : 'hidden'"
+                    :class="cardIndex === 0 ? 'block' : 'hidden'"
                   />
                 </div>
               </UCard>
@@ -370,9 +370,9 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
               theme: {
                 light: 'material-theme-lighter',
                 default: 'material-theme',
-                dark: 'material-theme-palenight'
-              }
-            }
+                dark: 'material-theme-palenight',
+              },
+            },
           }"
         />
       </template>

@@ -1,14 +1,14 @@
-import { getContentNode, getContentNodes } from "./useWPContent";
+import { getContentNode, getContentNodes } from './useWPContent'
+import type { PagesQuery, PageByIdQuery } from '#graphql-operations'
 
 const _usePages = async () => {
-  return getContentNodes('Pages', 'pages', 'nodes')
+  return getContentNodes<PagesQuery>('Pages', 'pages', 'nodes')
 }
 
 const _usePageById = async (id: number, asPreview?: boolean) => {
-
-  return getContentNode('PageById', 'page', {
+  return getContentNode<PageByIdQuery>('PageById', 'page', {
     id: id,
-    asPreview: asPreview
+    asPreview: asPreview,
   })
 }
 

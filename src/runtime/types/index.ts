@@ -12,12 +12,24 @@ export interface ModuleOptions {
   staging?: boolean
 }
 
-export type GraphqlResponse<T> = {
+export interface GraphqlResponse<T> {
   data: T
-  errors: any[]
+  errors: GraphqlError<T>[]
 }
 
-export interface WordPressContent {
+export interface GraphqlError<T> extends Error {
+  data?: T
+  status?: number
+  statusText?: string
+  statusCode?: number
+  statusMessage?: string
+}
+
+export interface WPContentQueryParams {
+  id?: number
+  asPreview?: boolean
+  name?: string
+  uri?: string
 }
 
 // Ensure that a .js file is emitted too

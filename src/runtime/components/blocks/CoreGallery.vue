@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import type { CoreGallery, CoreImage } from '#graphql-operations';
+import type { CoreGallery, CoreImage } from '#graphql-operations'
+
 const props = defineProps<{
-    block: CoreGallery
-}>();
+  block: CoreGallery
+}>()
 const imageBlocks: CoreImage[] = []
 props.block?.innerBlocks?.forEach((innerBlock) => {
-    if (innerBlock && innerBlock.name === 'core/image') {
-        const imgBlock = innerBlock as CoreImage
-        imageBlocks.push(imgBlock)
-    }
+  if (innerBlock && innerBlock.name === 'core/image') {
+    const imgBlock = innerBlock as CoreImage
+    imageBlocks.push(imgBlock)
+  }
 })
 </script>
 

@@ -1,7 +1,6 @@
-import { useRuntimeConfig } from "#imports"
+import { useRuntimeConfig } from '#imports'
 
 const _useWPUri = () => {
-
   const config = useRuntimeConfig()
   const base = config.public.wpNuxt.wordpressUrl
   const admin = base + '/wp-admin'
@@ -20,7 +19,7 @@ const _useWPUri = () => {
     pagesAdmin,
     postAdmin,
     postEdit,
-    settingsEdit
+    settingsEdit,
   }
 }
 

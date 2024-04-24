@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const wpUri = useWPUri();
+const wpUri = useWPUri()
 const viewer = await useViewer()
 const settings = await useSettings()
 const revisions = await useRevisions()
@@ -12,7 +12,7 @@ const wpNuxtConfig = config.public.wpNuxt
 
 <template>
   <div>
-    <UContainer class="prose">
+    <UContainer class="prose dark:prose-invert">
       <h2>wpUri:</h2>
       {{ wpUri }}
       <h2>wpNuxtConfig:</h2>

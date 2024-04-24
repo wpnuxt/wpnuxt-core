@@ -6,19 +6,19 @@ const { seo } = useAppConfig()
 const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
 const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', {
   default: () => [],
-  server: false
+  server: false,
 })
 
 useHead({
   meta: [
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
   ],
   link: [
-    { rel: 'icon', href: '/favicon.ico' }
+    { rel: 'icon', href: '/favicon.ico' },
   ],
   htmlAttrs: {
-    lang: 'en'
-  }
+    lang: 'en',
+  },
 })
 
 useSeoMeta({
@@ -26,7 +26,7 @@ useSeoMeta({
   ogSiteName: seo?.siteName,
   ogImage: 'https://wpnuxt.com/social-card.png',
   twitterImage: 'https://wpnuxt.com/social-card.png',
-  twitterCard: 'summary_large_image'
+  twitterCard: 'summary_large_image',
 })
 
 provide('navigation', navigation)
@@ -36,7 +36,7 @@ provide('navigation', navigation)
   <div>
     <NuxtLoadingIndicator />
 
-    <Header />
+    <HeaderComponent />
 
     <UMain>
       <NuxtLayout>
@@ -44,10 +44,13 @@ provide('navigation', navigation)
       </NuxtLayout>
     </UMain>
 
-    <Footer />
+    <FooterComponent />
 
     <ClientOnly>
-      <LazyUContentSearch :files="files" :navigation="navigation" />
+      <LazyUContentSearch
+        :files="files"
+        :navigation="navigation"
+      />
     </ClientOnly>
 
     <UNotifications />
