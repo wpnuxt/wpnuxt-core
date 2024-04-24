@@ -1,5 +1,5 @@
 import { prefixStorage, type Storage } from 'unstorage'
-import { useWPNuxtLogger } from '../composables/useWPNuxtLogger'
+import { useWPNuxtLogger } from '../composables/wpNuxtLogger'
 import { useStorage } from '#imports'
 
 export const cacheStorage: Storage = prefixStorage(useStorage(), 'cache:content')

@@ -1,4 +1,4 @@
-import { useWPNuxtLogger } from '../composables/useWPNuxtLogger'
+import { useWPNuxtLogger } from '../composables/wpNuxtLogger'
 import { loginUser } from '../composables/user'
 import { defineNuxtRouteMiddleware, ref, useFetch, useCookie, navigateTo, useRequestEvent, useRuntimeConfig } from '#imports'
 
