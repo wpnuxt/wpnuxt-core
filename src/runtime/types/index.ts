@@ -1,5 +1,4 @@
 import type { Ref } from 'vue'
-import type { FetchError } from 'ofetch'
 
 export interface ModuleOptions {
   wordpressUrl: string
@@ -17,7 +16,7 @@ export interface ModuleOptions {
 
 export interface GraphqlResponse<T> {
   data: T
-  error: Ref<FetchError<T> | null>
+  error: Ref<GraphqlError<T> | null>
 }
 
 export interface GraphqlError<T> extends Error {
