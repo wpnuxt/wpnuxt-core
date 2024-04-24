@@ -1,5 +1,3 @@
-import type { FetchError } from 'ofetch'
-
 export interface ModuleOptions {
   wordpressUrl: string
   stagingUrl: string
@@ -14,13 +12,17 @@ export interface ModuleOptions {
   staging?: boolean
 }
 
-export type GraphqlResponse<WPContent> = {
-  data: WPContent
-  errors: FetchError[]
+export interface GraphqlResponse<T> {
+  data: T
+  errors: GraphqlError<T>[]
 }
 
-export interface WPContent {
-  data
+export interface GraphqlError<T> extends Error {
+  data?: T
+  status?: number
+  statusText?: string
+  statusCode?: number
+  statusMessage?: string
 }
 
 export interface WPContentQueryParams {

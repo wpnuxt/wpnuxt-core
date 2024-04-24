@@ -1,25 +1,25 @@
-import type { GraphqlResponse, WPContent, WPContentQueryParams } from '../types'
+import type { GraphqlResponse, WPContentQueryParams } from '../types'
 import { getRelativeImagePath } from '../util/images'
 import { useTokens } from './useTokens'
 import { useFetch, useNuxtApp } from '#imports'
 
-const _getContentNodes = async (queryName: string, node1Name?: string, node2Name?: string, node3Name?: string, params?: WPContentQueryParams) => {
+const _getContentNodes = async <T>(queryName: string, node1Name?: string, node2Name?: string, node3Name?: string, params?: WPContentQueryParams) => {
   const node1 = node1Name ? node1Name : queryName.toLowerCase()
   const node2 = node2Name ? node2Name : undefined
   const node3 = node3Name || node3Name == null ? node3Name : undefined
-  return await _fetchContentNode(queryName, node1, node2, node3, false, params)
+  return await _fetchContentNode<T>(queryName, node1, node2, node3, false, params)
 }
-const _getContentNode = async (queryName: string, nodeName?: string, params?: WPContentQueryParams) => {
+const _getContentNode = async <T>(queryName: string, nodeName?: string, params?: WPContentQueryParams) => {
   const node = nodeName ? nodeName : queryName.toLowerCase()
-  return await _fetchContentNode(queryName, node, undefined, undefined, true, params)
+  return await _fetchContentNode<T>(queryName, node, undefined, undefined, true, params)
 }
 
-const _fetchContentNode = async (queryName: string, node1: string, node2: string | undefined, node3: string | undefined, fixImagePaths: boolean, params?: WPContentQueryParams) => {
+const _fetchContentNode = async <T>(queryName: string, node1: string, node2: string | undefined, node3: string | undefined, fixImagePaths: boolean, params?: WPContentQueryParams) => {
   const nuxtApp = useNuxtApp()
   const tokens = useTokens()
   const cacheKey = `wp-${queryName}-${node1}-${node2}-${node3}-${JSON.stringify(params)}`
 
-  return await useFetch<GraphqlResponse<WPContent>>('/api/wpContent', {
+  return await useFetch<GraphqlResponse<T>>('/api/wpContent', {
     method: 'POST',
     body: {
       queryName: queryName,
@@ -29,7 +29,8 @@ const _fetchContentNode = async (queryName: string, node1: string, node2: string
     headers: {
       Authorization: tokens.authorizationHeader,
     },
-    transform(data: WPContent) {
+    transform(data) {
+      console.log('data', data)
       let transformedData
       if (node2 && node3) {
         transformedData = data.data[node1][node2][node3]
@@ -52,7 +53,7 @@ const _fetchContentNode = async (queryName: string, node1: string, node2: string
     getCachedData(key: string) {
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
     },
-  }).then((v: GraphqlResponse<WPContent>) => {
+  }).then((v) => {
     return {
       data: v.data.value,
       errors: v.errors || [],

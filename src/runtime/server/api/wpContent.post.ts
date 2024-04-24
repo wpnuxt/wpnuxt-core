@@ -1,8 +1,8 @@
 import { defineEventHandler, readBody } from 'h3'
 import { cacheStorage } from '../storage'
-import type { GraphqlResponse, WPContent } from '../../types'
 import { isStaging } from '../../composables/isStaging'
 import { useRuntimeConfig } from '#imports'
+import type { GraphqlResponse } from '#graphql-documents'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
@@ -27,12 +27,12 @@ export default defineEventHandler(async (event) => {
       }
     }
   }
-  return $fetch<GraphqlResponse<WPContent>>('/api/graphql_middleware/query/' + body.queryName, {
+  return $fetch('/api/graphql_middleware/query/' + body.queryName, {
     params: body.params,
     headers: {
       Authorization: `Bearer ${event.context.accessToken}`,
     },
-  }).then((v: GraphqlResponse<WPContent>) => {
+  }).then((v: GraphqlResponse) => {
     cacheStorage.setItem(cacheKey, v.data).catch(() => {})
     return {
       data: v.data,

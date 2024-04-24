@@ -1,19 +1,21 @@
 import { getContentNode } from './useWPContent'
+import type { ViewerQuery } from '#graphql-operations'
 
 const _useViewer = async () => {
-  const { data: viewer } = await getContentNode('Viewer', 'viewer')
+  const { data: viewer } = await getContentNode<ViewerQuery>('Viewer', 'viewer')
 
+  console.log('viewer', viewer)
   return {
     username: viewer?.username,
-    userId: viewer.value?.userId,
-    id: viewer.value?.id,
-    email: viewer.value?.email,
-    description: viewer.value?.description,
-    firstName: viewer.value?.firstName,
-    lastName: viewer.value?.lastName,
-    locale: viewer.value?.locale,
-    url: viewer.value?.url,
-    uri: viewer.value?.uri,
+    userId: viewer?.userId,
+    id: viewer?.id,
+    email: viewer?.email,
+    description: viewer?.description,
+    firstName: viewer?.firstName,
+    lastName: viewer?.lastName,
+    locale: viewer?.locale,
+    url: viewer?.url,
+    uri: viewer?.uri,
   }
 }
 

@@ -7,8 +7,8 @@ export default createConfigForNuxt({
   },
 },
 {
-  files: ['**/pages/*.vue', '**/layouts/*.vue', '**/docs/error.vue'],
   rules: {
-    'vue/multi-word-component-names': 'off',
+    'vue/multi-word-component-names': 0,
+    'vue/no-v-html': 0,
   },
 })
