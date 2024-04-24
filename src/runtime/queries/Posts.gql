@@ -1,11 +1,9 @@
 #import "~/queries/fragments/Post.fragment.gql"
-#import "~/queries/fragments/NodeWithExcerpt.fragment.gql"
 
 query Posts($limit: Int = 10) {
   posts(first: $limit) {
     nodes {
       ...Post
-      ...NodeWithExcerpt
     }
   }
 }
@@ -13,7 +11,16 @@ query LatestPost {
   posts(first: 1) {
     nodes {
       ...Post
-      ...NodeWithExcerpt
     }
+  }
+}
+query PostByUri($uri: String!) {
+  nodeByUri(uri: $uri) {
+    ...Post
+  }
+}
+query PostById($id: ID!, $asPreview: Boolean = false) {
+  post(id: $id, idType: DATABASE_ID, asPreview: $asPreview) {
+    ...Post
   }
 }

@@ -1,8 +1,8 @@
 import { getContentNodes } from './useWPContent'
-import type { RevisionsQuery } from '#graphql-operations'
+import type { Revisions } from '#graphql-operations'
 
 const _useRevisions = async () => {
-  return getContentNodes<RevisionsQuery>('Revisions')
+  return getContentNodes<Revisions[]>('Revisions')
 }
 
 export const useRevisions = _useRevisions
