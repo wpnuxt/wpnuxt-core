@@ -1,40 +1,43 @@
 <script setup lang="ts">
-import { useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref, navigateTo } from '#imports';
-import { useWPUri } from '../composables/useWPUri';
-import { getCurrentUserName, loginUser, logoutUser } from '../composables/user';
-const route = useRoute();
-const config = useRuntimeConfig();
-const requestEvent = useRequestEvent();
-const wpUri = useWPUri();
-const { code } = route.query;
+import { useWPUri } from '../composables/useWPUri'
+import { getCurrentUserName, loginUser, logoutUser } from '../composables/user'
+import { useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref, navigateTo } from '#imports'
+
+const route = useRoute()
+const config = useRuntimeConfig()
+const requestEvent = useRequestEvent()
+const wpUri = useWPUri()
+const { code } = route.query
 const tokens = ref()
 const userName = ref<string>()
 
-const rtCookie = useCookie(`${config.public.wpNuxt.frontendUrl}-rt`, { httpOnly: true, maxAge: 300 });
+const rtCookie = useCookie(`${config.public.wpNuxt.frontendUrl}-rt`, { httpOnly: true, maxAge: 300 })
 if (rtCookie.value) {
-  const refreshToken = rtCookie.value;
+  const refreshToken = rtCookie.value
   tokens.value = await useFetch('/api/tokensFromRefreshToken', {
     method: 'POST',
-    body: { refreshToken: refreshToken }
-  });
+    body: { refreshToken: refreshToken },
+  })
   rtCookie.value = tokens.value.data.tokens.refreshToken
   userName.value = await loginUser()
-} else if (code) {
+}
+else if (code) {
   tokens.value = await useFetch('/api/tokensFromCode', {
     method: 'POST',
-    body: { code: code.toString() }
-  });
-  rtCookie.value = tokens.value?.data?.tokens?.refreshToken;
-  if (requestEvent) requestEvent.context.accessToken = tokens.value?.data?.tokens?.accessToken;
+    body: { code: code.toString() },
+  })
+  rtCookie.value = tokens.value?.data?.tokens?.refreshToken
+  if (requestEvent) requestEvent.context.accessToken = tokens.value?.data?.tokens?.accessToken
   userName.value = await loginUser()
-} else {
+}
+else {
   userName.value = await getCurrentUserName()
 }
 
 const logOut = async () => {
-  rtCookie.value = null;
+  rtCookie.value = null
   await logoutUser()
-  userName.value = undefined;
+  userName.value = undefined
   navigateTo('/logout')
 }
 </script>

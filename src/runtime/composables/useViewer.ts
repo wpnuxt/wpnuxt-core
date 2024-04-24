@@ -1,24 +1,10 @@
-import { ref, useFetch, createError } from "#imports"
-import { useTokens } from "./useTokens";
+import { getContentNode } from './useWPContent'
 
 const _useViewer = async () => {
-  const viewer = ref()
-  const tokens = useTokens()
+  const { data: viewer } = await getContentNode('Viewer', 'viewer')
 
-  const { data, error } = await useFetch("/api/graphql_middleware/query/Viewer", {
-    headers: {
-      Authorization: tokens.authorizationHeader
-    },
-    transform (data: any) {
-      return data.data.viewer;
-    }
-  });
-  if (error.value) {
-    throw createError({ statusCode: 500, message: 'Error fetching viewer', fatal: true })
-  }
-  viewer.value = data.value
   return {
-    username: viewer.value?.username,
+    username: viewer?.username,
     userId: viewer.value?.userId,
     id: viewer.value?.id,
     email: viewer.value?.email,
@@ -27,7 +13,7 @@ const _useViewer = async () => {
     lastName: viewer.value?.lastName,
     locale: viewer.value?.locale,
     url: viewer.value?.url,
-    uri: viewer.value?.uri
+    uri: viewer.value?.uri,
   }
 }
 

@@ -2,30 +2,40 @@
 export default defineNuxtConfig({
   extends: ['@nuxt/ui-pro'],
   modules: [
+    '@nuxt/eslint',
     '@nuxt/content',
     '@nuxt/ui',
     '@nuxt/fonts',
     '@nuxthq/studio',
-    'nuxt-og-image'
+    'nuxt-og-image',
   ],
+  eslint: {
+    config: {
+      stylistic: true,
+    },
+    checker: {
+      lintOnStart: true,
+      // fix: true,
+    },
+  },
   hooks: {
     // Define `@nuxt/ui` components as global to use them in `.md` (feel free to add those you need)
     'components:extend': (components) => {
-      const globals = components.filter((c) => ['UButton', 'UIcon'].includes(c.pascalName))
+      const globals = components.filter(c => ['UButton', 'UIcon'].includes(c.pascalName))
 
-      globals.forEach((c) => c.global = true)
-    }
+      globals.forEach(c => c.global = true)
+    },
   },
   ui: {
-    icons: ['heroicons', 'simple-icons', 'ph', 'ant-design']
+    icons: ['heroicons', 'simple-icons', 'ph', 'ant-design'],
   },
   routeRules: {
     '/api/search.json': { prerender: true },
   },
   devtools: {
-    enabled: true
+    enabled: true,
   },
   typescript: {
-    strict: false
-  }
+    strict: false,
+  },
 })

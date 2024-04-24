@@ -1,7 +1,6 @@
-import { getContentNodes } from "./useWPContent";
+import { getContentNodes } from './useWPContent'
 
 const _useRevisions = async () => {
-
   return getContentNodes('Revisions')
 }
 

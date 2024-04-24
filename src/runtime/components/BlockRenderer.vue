@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { EditorBlock } from '#graphql-operations';
-import BlockComponent from './BlockComponent.vue';
+import BlockComponent from './BlockComponent.vue'
+import type { EditorBlock } from '#graphql-operations'
+
 defineProps<{
-    blocks: EditorBlock[]
-}>();
+  blocks: EditorBlock[]
+}>()
 </script>
 
 <template>

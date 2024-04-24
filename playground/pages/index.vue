@@ -3,7 +3,7 @@ const { data: posts } = await usePosts()
 const { data: settings } = await useSettings()
 const { data: latestPost } = await useLatestPost()
 useHead({
-  title: settings.title
+  title: settings.title,
 })
 </script>
 
@@ -28,6 +28,7 @@ useHead({
             :src="post.featuredImage.node.sourceUrl"
             class="w-full rounded-md"
           >
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <span v-html="post.excerpt" />
         </ULandingCard>
       </UPageGrid>
@@ -46,6 +47,7 @@ useHead({
           :src="latestPost.featuredImage.node.sourceUrl"
           class="w-full rounded-md"
         >
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <span v-html="latestPost.excerpt" />
       </ULandingCard>
     </ULandingSection>

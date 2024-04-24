@@ -1,43 +1,44 @@
 <script setup lang="ts">
-import { useRuntimeConfig, ref, watch, useHead, useRoute } from '#imports';
-import { usePostByUri } from '../composables/usePosts';
-import { useWPUri } from '../composables/useWPUri';
-import { getCurrentUserName } from '../composables/user';
+import { usePostByUri } from '../composables/usePosts'
+import { useWPUri } from '../composables/useWPUri'
+import { getCurrentUserName } from '../composables/user'
+import { useRuntimeConfig, ref, watch, useHead, useRoute } from '#imports'
 
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 const frontendUrl = config.public.wpNuxt.frontendUrl
 const wordpressUrl = config.public.wpNuxt.wordpressUrl
 const wpUri = useWPUri()
-const userName = ref<String>()
+const userName = ref<string>()
 userName.value = getCurrentUserName()
 watch(() => getCurrentUserName(), (newVal) => {
-    userName.value = newVal
+  userName.value = newVal
 })
 useHead({
   title: 'Staging',
   link: [
     {
       type: 'stylesheet',
-      href: wordpressUrl + '/wp-admin/load-styles.php?c=0&dir=ltr&load%5Bchunk_0%5D=dashicons,admin-bar,site-health,common,forms,admin-menu,dashboard,list-tables,edit,revisions,media,themes,about,nav-menus,wp-poi&load%5Bchunk_1%5D=nter,widgets,site-icon,l10n,buttons,wp-auth-check&ver=6.4.3'
-    }
-  ]
+      href: wordpressUrl + '/wp-admin/load-styles.php?c=0&dir=ltr&load%5Bchunk_0%5D=dashicons,admin-bar,site-health,common,forms,admin-menu,dashboard,list-tables,edit,revisions,media,themes,about,nav-menus,wp-poi&load%5Bchunk_1%5D=nter,widgets,site-icon,l10n,buttons,wp-auth-check&ver=6.4.3',
+    },
+  ],
 })
 
-const route = useRoute();
+const route = useRoute()
 let uri = route.path === '/' ? 'home' : route.path
 if (uri.startsWith('/')) {
-    uri = uri.substring(1)
+  uri = uri.substring(1)
 }
 if (uri.endsWith('/')) {
-    uri = uri.substring(0, uri.length - 1)
+  uri = uri.substring(0, uri.length - 1)
 }
 const post = await usePostByUri(uri)
 if (post?.data?.title) {
-    useHead({
-        title: 'Edit ' + post.data.contentTypeName + post.data.title
-    })
+  useHead({
+    title: 'Edit ' + post.data.contentTypeName + post.data.title,
+  })
 }
 </script>
+
 <template>
   <div
     id="wpadminbar"

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { CoreImage } from '#graphql-operations';
+import type { CoreImage } from '#graphql-operations'
+
 const props = defineProps<{
-    block: CoreImage
-}>();
+  block: CoreImage
+}>()
 </script>
 
 <template>

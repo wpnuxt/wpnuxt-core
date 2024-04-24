@@ -1,15 +1,15 @@
-
 <script setup lang="ts">
-const route = useRoute();
+const route = useRoute()
 const post = await usePostByUri(route.params.slug[0])
 const wpUri = useWPUri()
 if (post?.data?.title) {
-    useHead({
-        title: post.data.title
-    })
+  useHead({
+    title: post.data.title,
+  })
 }
 const staging = await isStaging()
 </script>
+
 <template>
   <div>
     <StagingBanner

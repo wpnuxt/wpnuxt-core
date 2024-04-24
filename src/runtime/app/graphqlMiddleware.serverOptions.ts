@@ -4,7 +4,6 @@ import type { H3Event } from 'h3'
 
 export default defineGraphqlServerOptions({
 
-  //@ts-ignore
   serverFetchOptions(event: H3Event) {
     return {
       headers: {

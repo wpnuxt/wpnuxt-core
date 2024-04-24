@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { EditorBlock } from '#graphql-operations';
+import type { EditorBlock } from '#graphql-operations'
+
 defineProps<{
-    block: EditorBlock
-}>();
+  block: EditorBlock
+}>()
 </script>
 
 <template>

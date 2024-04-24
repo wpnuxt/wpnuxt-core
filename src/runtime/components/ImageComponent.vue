@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref, useRuntimeConfig } from '#imports';
+import { ref, useRuntimeConfig } from '#imports'
 
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 const wpUrl = config.public.wpNuxt.wordpressUrl
 const props = defineProps<{
-    url: string
-    width?: string
-    height?: string
-}>();
+  url: string
+  width?: string
+  height?: string
+}>()
 const imgUrl = ref(props.url)
-if (imgUrl.value.indexOf(wpUrl) > -1) {
-    imgUrl.value = imgUrl.value.replace(wpUrl, '')
+if (imgUrl.value.includes(wpUrl)) {
+  imgUrl.value = imgUrl.value.replace(wpUrl, '')
 }
 </script>
 

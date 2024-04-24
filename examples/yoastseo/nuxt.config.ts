@@ -7,10 +7,10 @@ export default defineNuxtConfig({
     wordpressUrl: 'https://wordpress.wpnuxt.com',
     stagingUrl: 'https://staging.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
-    faustSecretKey: ''
+    faustSecretKey: '',
   },
   srcDir: 'test-src/',
   devtools: {
-    enabled: true
-  }
+    enabled: true,
+  },
 })

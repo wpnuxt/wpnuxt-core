@@ -1,5 +1,5 @@
-import { useLocalStorage } from "@vueuse/core"
-import { useViewer } from "./useViewer"
+import { useLocalStorage } from '@vueuse/core'
+import { useViewer } from './useViewer'
 
 const currentUserId = useLocalStorage<number>('CURRENT_USER_ID', null)
 const currentUserName = useLocalStorage<string>('CURRENT_USER_NAME', null)
@@ -9,7 +9,8 @@ export async function loginUser(): Promise<string> {
   currentUserId.value = viewer.userId
   if (viewer.firstName === undefined || viewer.firstName === null || viewer.firstName === '') {
     currentUserName.value = viewer.username
-  } else {
+  }
+  else {
     currentUserName.value = viewer.firstName
   }
   return currentUserName.value
