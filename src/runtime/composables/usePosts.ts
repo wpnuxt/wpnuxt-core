@@ -15,10 +15,9 @@ const _useLatestPost = async (): Promise<Post> => {
 
 const _usePostByUri = async (uri: string): Promise<Post> => {
   if (!uri || uri === 'undefined' || uri === '_nuxt' || uri === '__nuxt') return
-  const { data } = await getContentNode<Post>('PostByUri', 'nodeByUri', {
+  return await getContentNode<Post>('PostByUri', 'nodeByUri', {
     uri: uri,
   })
-  return data.data
 }
 
 const _usePostById = async (id: number, asPreview?: boolean): Promise<Post> => {
