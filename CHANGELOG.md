@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.3.7
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.3.6...v0.3.7)
+
+### 🏡 Chore
+
+- **release:** V0.3.6 ([bada49d](https://github.com/vernaillen/wpnuxt-module/commit/bada49d))
+
+### ❤️ Contributors
+
+- Wouter Vernaillen <wouter@vernaillen.com>
+
 ## v0.3.6
 
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.3.5...v0.3.6)
