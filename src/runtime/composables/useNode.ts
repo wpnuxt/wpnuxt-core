@@ -6,7 +6,7 @@ const _useNodeByUri = async (uri: string): Promise<Page | Post> => {
   const node = await getContentNode('NodeByUri', 'nodeByUri', {
     uri: uri,
   })
-  return node.data
+  return node
 }
 
 export const useNodeByUri = _useNodeByUri

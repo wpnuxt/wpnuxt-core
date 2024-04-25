@@ -20,9 +20,6 @@ const wpNuxtConfig = config.public.wpNuxt
       <h2>wpNuxtConfig:</h2>
       {{ wpNuxtConfig }}
 
-      <h2>useRuntimeConfig():</h2>
-      {{ useRuntimeConfig() }}
-
       <h2>await useViewer()</h2>
       {{ viewer }}
       <h2>getCurrentUserName()</h2>

@@ -2,33 +2,27 @@ import { getContentNode, getContentNodes } from './useWPContent'
 import type { Post } from '#graphql-operations'
 
 const _usePosts = async (): Promise<Post[]> => {
-  const response = await getContentNodes<Post[]>('Posts', 'posts', 'nodes')
-  return response.data
+  return await getContentNodes<Post[]>('Posts', 'posts', 'nodes')
 }
 
 const _useLatestPost = async (): Promise<Post> => {
-  const { data: posts, errors } = await <Post>getContentNodes('LatestPost', 'posts', 'nodes')
+  const posts = await <Post>getContentNodes('LatestPost', 'posts', 'nodes')
   if (!posts || !posts.length) {
-    return {
-      data: null,
-      errors: ['Post not found'],
-    }
+    return undefined
   }
-  return {
-    data: posts[0],
-    errors,
-  }
+  return posts[0]
 }
 
 const _usePostByUri = async (uri: string): Promise<Post> => {
   if (!uri || uri === 'undefined' || uri === '_nuxt' || uri === '__nuxt') return
-  return getContentNode<Post>('PostByUri', 'nodeByUri', {
+  const { data } = await getContentNode<Post>('PostByUri', 'nodeByUri', {
     uri: uri,
   })
+  return data.data
 }
 
 const _usePostById = async (id: number, asPreview?: boolean): Promise<Post> => {
-  return getContentNode<Post>('PostById', 'post', {
+  return await getContentNode<Post>('PostById', 'post', {
     id: id,
     asPreview: asPreview ? true : false,
   })

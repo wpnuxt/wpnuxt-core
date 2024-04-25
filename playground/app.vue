@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { Menu } from '#graphql-operations'
 import { useRuntimeConfig, ref, watch, getCurrentUserName, useMenu, isStaging } from '#imports'
 
 const config = useRuntimeConfig()
 const stagingUrl = config.public.wpNuxt.stagingUrl
-const { data: menu } = await useMenu({ name: 'main' })
+const menu: Menu = await useMenu('main')
 const userName = ref<string>()
 userName.value = getCurrentUserName()
 watch(() => getCurrentUserName(), (newVal) => {
