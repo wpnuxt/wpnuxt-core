@@ -6,7 +6,7 @@ orbs:
 executors:
   pnpm-executor:
     docker:
-      - image: cimg/node:22.0-browsers
+      - image: cimg/node:22.1-browsers
 
 jobs:
   build:
