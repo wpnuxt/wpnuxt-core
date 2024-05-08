@@ -1,5 +1,5 @@
 import fs, { existsSync } from 'node:fs'
-import { defineNuxtModule, addComponentsDir, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, useLogger, addImportsSources, addImports } from '@nuxt/kit'
+import { defineNuxtModule, addComponentsDir, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, useLogger, addImports } from '@nuxt/kit'
 import defu from 'defu'
 import type { ModuleOptions } from './runtime/types'
 
