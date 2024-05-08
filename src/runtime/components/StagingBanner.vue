@@ -3,7 +3,6 @@ import { useNodeByUri } from '../composables/useNode'
 import { useWPUri } from '../composables/useWPUri'
 import { getCurrentUserName } from '../composables/user'
 import { useRuntimeConfig, ref, watch, useHead, useRoute } from '#imports'
-import type { Post, Page } from '#graphql-operations'
 
 const config = useRuntimeConfig()
 const frontendUrl = config.public.wpNuxt.frontendUrl
@@ -32,10 +31,10 @@ if (uri.startsWith('/')) {
 if (uri.endsWith('/')) {
   uri = uri.substring(0, uri.length - 1)
 }
-const post: Post | Page = await useNodeByUri(uri)
-if (post?.data?.title) {
+const { data: post } = await useNodeByUri(uri)
+if (post.value) {
   useHead({
-    title: `Edit ${post.data.contentTypeName + post.data.title} `,
+    title: `Edit ${post.value.contentTypeName + post.value.title} `,
   })
 }
 </script>
@@ -67,15 +66,15 @@ if (post?.data?.title) {
             </UButton>
           </div>
           <div
-            v-if="post?.data"
+            v-if="post"
             class="inline-flex"
           >
             <UButton
               size="2xs"
               icon="i-heroicons-pencil"
-              :to="wpUri.postEdit('' + post.data.databaseId)"
+              :to="wpUri.postEdit('' + post.databaseId)"
             >
-              Edit <span class="hidden sm:inline-flex">{{ post.data.contentTypeName }}</span>
+              Edit <span class="hidden sm:inline-flex">{{ post.contentTypeName }}</span>
             </UButton>
           </div>
         </div>

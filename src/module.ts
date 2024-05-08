@@ -1,5 +1,5 @@
 import fs, { existsSync } from 'node:fs'
-import { defineNuxtModule, addComponentsDir, addImportsDir, addPlugin, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, useLogger } from '@nuxt/kit'
+import { defineNuxtModule, addComponentsDir, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, useLogger, addImportsSources, addImports } from '@nuxt/kit'
 import defu from 'defu'
 import type { ModuleOptions } from './runtime/types'
 
@@ -59,21 +59,46 @@ export default defineNuxtModule<ModuleOptions>({
     logger.debug('Debug mode enabled')
     if (publicWPNuxtConfig.staging) logger.info('Staging enabled')
 
-    const resolver = createResolver(import.meta.url)
+    const { resolve } = createResolver(import.meta.url)
+    const resolveRuntimeModule = (path: string) => resolve('./runtime', path)
 
     // TODO: test if wordpressUrl is provided!
-    // TODO: use showBlockInfo (once the core components are migrated)
 
-    addPlugin(resolver.resolve('./runtime/plugin'))
-    addImportsDir(resolver.resolve('./runtime/composables'))
+    addImports([
+      { name: 'isStaging', as: 'isStaging', from: resolveRuntimeModule('./composables/isStaging') },
+      { name: 'useGeneralSettings', as: 'useGeneralSettings', from: resolveRuntimeModule('./composables/useGeneralSettings') },
+      { name: 'useMenu', as: 'useMenu', from: resolveRuntimeModule('./composables/useMenu') },
+      { name: 'useNodeByUri', as: 'useNodeByUri', from: resolveRuntimeModule('./composables/useNode') },
+
+      { name: 'usePages', as: 'usePages', from: resolveRuntimeModule('./composables/usePages') },
+      { name: 'usePageByUri', as: 'usePageByUri', from: resolveRuntimeModule('./composables/usePages') },
+      { name: 'usePageById', as: 'usePageById', from: resolveRuntimeModule('./composables/usePages') },
+
+      { name: 'useLatestPost', as: 'useLatestPost', from: resolveRuntimeModule('./composables/usePosts') },
+      { name: 'usePosts', as: 'usePosts', from: resolveRuntimeModule('./composables/usePosts') },
+      { name: 'usePostById', as: 'usePostById', from: resolveRuntimeModule('./composables/usePosts') },
+      { name: 'usePostByUri', as: 'usePostByUri', from: resolveRuntimeModule('./composables/usePosts') },
+
+      { name: 'getContentNodes', as: 'getContentNodes', from: resolveRuntimeModule('./composables/useWPContent') },
+      { name: 'getContentNode', as: 'getContentNode', from: resolveRuntimeModule('./composables/useWPContent') },
+
+      { name: 'loginUser', as: 'loginUser', from: resolveRuntimeModule('./composables/user') },
+      { name: 'logoutUser', as: 'logoutUser', from: resolveRuntimeModule('./composables/user') },
+      { name: 'getCurrentUserId', as: 'getCurrentUserId', from: resolveRuntimeModule('./composables/user') },
+      { name: 'getCurrentUserName', as: 'getCurrentUserName', from: resolveRuntimeModule('./composables/user') },
+
+      { name: 'useTokens', as: 'useTokens', from: resolveRuntimeModule('./composables/useTokens') },
+      { name: 'useViewer', as: 'useViewer', from: resolveRuntimeModule('./composables/useViewer') },
+      { name: 'useWPUri', as: 'useWPUri', from: resolveRuntimeModule('./composables/useWPUri') },
+    ])
 
     addRouteMiddleware({
       name: 'auth',
-      path: resolver.resolve('./runtime/middleware/auth'),
+      path: resolveRuntimeModule('./middleware/auth'),
       global: true,
     })
     addComponentsDir({
-      path: resolver.resolve('./runtime/components'),
+      path: resolveRuntimeModule('./components'),
       pathPrefix: false,
       prefix: '',
       global: true,
@@ -89,37 +114,37 @@ export default defineNuxtModule<ModuleOptions>({
       pages.push({
         name: 'preview',
         path: '/preview',
-        file: resolver.resolve(previewPagePath),
+        file: resolve(previewPagePath),
       })
       pages.push({
         name: 'auth',
         path: '/auth',
-        file: resolver.resolve('./runtime/pages/auth.vue'),
+        file: resolveRuntimeModule('./pages/auth.vue'),
       })
     })
 
     addServerHandler({
       route: '/api/tokensFromCode',
-      handler: resolver.resolve('./runtime/server/api/tokensFromCode.post'),
+      handler: resolveRuntimeModule('./server/api/tokensFromCode.post'),
     })
     addServerHandler({
       route: '/api/tokensFromRefreshToken',
-      handler: resolver.resolve('./runtime/server/api/tokensFromRefreshToken.post'),
+      handler: resolveRuntimeModule('./server/api/tokensFromRefreshToken.post'),
     })
     addServerHandler({
       route: '/api/wpContent',
-      handler: resolver.resolve('./runtime/server/api/wpContent.post'),
+      handler: resolveRuntimeModule('./server/api/wpContent.post'),
     })
     addServerHandler({
       route: '/api/purgeCache',
-      handler: resolver.resolve('./runtime/server/api/purgeCache.get'),
+      handler: resolveRuntimeModule('./server/api/purgeCache.get'),
     })
 
     // Register user block components
     const _layers = [...nuxt.options._layers].reverse()
     for (const layer of _layers) {
       const srcDir = layer.config.srcDir
-      const blockComponents = resolver.resolve(srcDir, 'components/blocks')
+      const blockComponents = resolve(srcDir, 'components/blocks')
       const dirStat = await fs.promises.stat(blockComponents).catch(() => null)
       if (dirStat && dirStat.isDirectory()) {
         nuxt.hook('components:dirs', (dirs) => {
@@ -135,17 +160,17 @@ export default defineNuxtModule<ModuleOptions>({
 
     await installModule('@vueuse/nuxt', {})
 
-    const queryOutputPath = resolver.resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/queries/')
+    const queryOutputPath = resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/queries/')
 
     const userQueryPath = '~/extend/queries/'
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
       .replace(/^(~|@)/, nuxt.options.srcDir)
     const userQueryPathExists = existsSync(userQueryPath)
 
-    fs.cpSync(resolver.resolve('./runtime/queries/'), queryOutputPath, { recursive: true })
+    fs.cpSync(resolveRuntimeModule('./queries/'), queryOutputPath, { recursive: true })
     if (userQueryPathExists) {
       logger.debug('Extending queries:', userQueryPath)
-      fs.cpSync(resolver.resolve(userQueryPath), queryOutputPath, { recursive: true })
+      fs.cpSync(resolve(userQueryPath), queryOutputPath, { recursive: true })
     }
     logger.debug('Copied merged queries in folder:', queryOutputPath)
 
@@ -163,7 +188,7 @@ export default defineNuxtModule<ModuleOptions>({
         schema: {
         },
         documents: [
-          resolver.resolve('!./graphql/**/*'),
+          resolve('!./graphql/**/*'),
         ],
         generates: {
           './graphql/': {
@@ -185,7 +210,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
 
-    const resolvedPath = resolver.resolve('./runtime/app/graphqlMiddleware.serverOptions')
+    const resolvedPath = resolveRuntimeModule('./app/graphqlMiddleware.serverOptions')
     const template = addTemplate({
       filename: 'graphqlMiddleware.serverOptions',
       write: true,
