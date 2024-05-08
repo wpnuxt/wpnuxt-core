@@ -62,16 +62,16 @@
     "@nuxt/module-builder": "^0.6.0",
     "@nuxt/schema": "^3.11.2",
     "@nuxt/test-utils": "^3.12.1",
-    "@rollup/rollup-linux-arm64-gnu": "^4.16.4",
-    "@rollup/rollup-linux-arm64-musl": "^4.16.4",
-    "@types/node": "20.12.7",
-    "@vitest/coverage-v8": "^1.5.2",
-    "@vue/test-utils": "^2.4.5",
+    "@rollup/rollup-linux-arm64-gnu": "^4.17.2",
+    "@rollup/rollup-linux-arm64-musl": "^4.17.2",
+    "@types/node": "20.12.10",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vue/test-utils": "^2.4.6",
     "changelogen": "^0.5.5",
     "nuxt": "^3.11.2",
     "typescript": "^5.4.5",
     "untyped": "1.4.2",
-    "vitest": "^1.5.2",
-    "vue-tsc": "^2.0.14"
+    "vitest": "^1.6.0",
+    "vue-tsc": "^2.0.16"
   }
 }
