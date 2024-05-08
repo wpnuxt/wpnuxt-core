@@ -18,15 +18,16 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run prepack",
+    "build": "nuxt-module-build build && pnpm build:web-types",
+    "build:web-types": "vue-docgen-web-types src/runtime/components/ ./dist/web-types.json",
     "prepare": "nuxi prepare .",
     "prepack": "nuxt-module-build build",
     "generate": "pnpm --filter ./playground/ run generate",
     "dev": "pnpm --filter ./playground/ run dev --host app.local",
     "dev:build": "pnpm --filter ./playground/ run build",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "npm run lint &&  npm run prepack && changelogen --release && npm publish && git push --follow-tags",
-    "release:major": "npm run lint &&  npm run prepack && changelogen --release --major && npm publish && git push --follow-tags",
+    "release": "npm run lint && nuxi prepare && nuxt-module-build build && changelogen --release && pnpm publish && git push --follow-tags",
+    "release:major": "npm run lint && nuxi prepare && nuxt-module-build build && changelogen --release --major && pnpm publish && git push --follow-tags",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
@@ -72,6 +73,7 @@
     "typescript": "^5.4.5",
     "untyped": "1.4.2",
     "vitest": "^1.6.0",
+    "vue-docgen-web-types": "^0.1.8",
     "vue-tsc": "^2.0.16"
   }
 }

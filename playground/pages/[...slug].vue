@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import type { Post, Page } from '#graphql-operations'
-import { isStaging, useHead, useRoute, useWPUri, useNodeByUri, ref } from '#imports'
+import { isStaging, useHead, useRoute, useWPUri, useNodeByUri, ref, createError } from '#imports'
 
 const route = useRoute()
-const post = ref<Post | Page>()
+const post = ref<Post | Page | null>()
 if (route.params.slug && route.params.slug[0]) {
-  post.value = await useNodeByUri(route.params.slug[0])
+  const { data } = await useNodeByUri(route.params.slug[0])
+  post.value = data.value
+}
+if (!post.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 const wpUri = useWPUri()
 if (post.value?.title) {

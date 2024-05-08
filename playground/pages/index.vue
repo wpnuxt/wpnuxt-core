@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { Post, GeneralSettings } from '#graphql-operations'
 import { useHead, useLatestPost, usePosts, useGeneralSettings } from '#imports'
 
-const posts: Post[] = await usePosts()
-const settings: GeneralSettings = await useGeneralSettings()
-const latestPost: Post = await useLatestPost()
+const { data: posts } = await usePosts()
+const { data: settings } = await useGeneralSettings()
+const { data: latestPost } = await useLatestPost()
 useHead({
-  title: settings.title,
+  title: settings.value.title,
 })
 </script>
 

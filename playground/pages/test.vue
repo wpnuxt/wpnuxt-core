@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { getCurrentUserName, isStaging, useGeneralSettings, useRevisions, useRuntimeConfig, useViewer, useWPUri } from '#imports'
+import { getCurrentUserName, isStaging, useGeneralSettings, useRuntimeConfig, useViewer, useWPUri } from '#imports'
 
 const wpUri = useWPUri()
-const viewer = await useViewer()
-const settings = await useGeneralSettings()
-const revisions = await useRevisions()
+const { data: viewer } = await useViewer()
+const { data: settings } = await useGeneralSettings()
 const staging = await isStaging()
 const userName = getCurrentUserName()
 
@@ -14,27 +13,19 @@ const wpNuxtConfig = config.public.wpNuxt
 
 <template>
   <div>
-    <UContainer class="prose dark:prose-invert">
+    <UContainer class="prose dark:prose-invert pt-5">
       <h2>wpUri:</h2>
-      {{ wpUri }}
+      <pre>{{ wpUri }}</pre>
       <h2>wpNuxtConfig:</h2>
-      {{ wpNuxtConfig }}
-
+      <pre>{{ wpNuxtConfig }}</pre>
       <h2>await useViewer()</h2>
-      {{ viewer }}
+      <pre>{{ viewer }}</pre>
       <h2>getCurrentUserName()</h2>
-      {{ userName }}
-      <UDivider />
+      <pre>{{ userName }}</pre>
       <h2>isStaging()</h2>
       <pre>{{ staging }}</pre>
-
-      <UDivider />
-      <h2>useSettings()</h2>
+      <h2>useGeneralSettings()</h2>
       <pre>{{ settings }}</pre>
-
-      <UDivider />
-      <h2>useRevisions()</h2>
-      <pre>{{ revisions }}</pre>
     </UContainer>
   </div>
 </template>
