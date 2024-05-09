@@ -1,8 +1,8 @@
+import { ref } from 'vue'
 import type { FetchError } from 'ofetch'
 import { getContentNode, getContentNodes } from './useWPContent'
 import type { Post } from '#graphql-operations'
 import type { AsyncData } from '#app'
-import { ref } from '#imports'
 
 const _usePosts = async (): Promise<AsyncData<Post[] | null, FetchError | null>> => {
   return await getContentNodes<Array<Post>>('Posts', 'posts', 'nodes')

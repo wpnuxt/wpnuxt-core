@@ -64,6 +64,15 @@ export default defineNuxtModule<ModuleOptions>({
 
     // TODO: test if wordpressUrl is provided!
 
+    nuxt.options.alias['#wpnuxt/types'] = resolveRuntimeModule('./types')
+    nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
+    nuxt.options.nitro.alias['#wpnuxt/types'] = resolveRuntimeModule('./types')
+    nuxt.options.alias['#wpnuxt/composables'] = resolveRuntimeModule('./composables/index')
+    nuxt.hook('nitro:config', (nitroConfig) => {
+      nitroConfig.alias = nitroConfig.alias || {}
+      nitroConfig.alias['#wpnuxt/server'] = resolveRuntimeModule('./server')
+    })
+
     addImports([
       { name: 'isStaging', as: 'isStaging', from: resolveRuntimeModule('./composables/isStaging') },
       { name: 'useGeneralSettings', as: 'useGeneralSettings', from: resolveRuntimeModule('./composables/useGeneralSettings') },
@@ -206,6 +215,7 @@ export default defineNuxtModule<ModuleOptions>({
       },
       outputDocuments: true,
       autoImportPatterns: queryOutputPath,
+      devtools: true,
     })
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
