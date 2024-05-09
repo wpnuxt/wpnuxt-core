@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useWPUri } from '../composables/useWPUri'
 import { getCurrentUserName, loginUser, logoutUser } from '../composables/user'
-import { useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, ref, navigateTo } from '#imports'
+import { useCookie, useRuntimeConfig, useFetch, useRoute, useRequestEvent, navigateTo } from '#app'
 
 const route = useRoute()
 const config = useRuntimeConfig()

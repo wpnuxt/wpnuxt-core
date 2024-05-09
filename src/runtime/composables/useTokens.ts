@@ -1,4 +1,4 @@
-import { useRequestEvent } from '#imports'
+import { useRequestEvent } from '#app'
 
 const _useTokens = () => {
   const event = useRequestEvent()
