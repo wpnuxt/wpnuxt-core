@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import { getRelativeImagePath } from '../../util/images'
 import type { CoreImage } from '#graphql-operations'
 
 const props = defineProps<{
   block: CoreImage
 }>()
+const imgUrl = getRelativeImagePath(props.block?.attributes?.url)
 </script>
 
 <template>
   <ImageComponent
-    v-if="props.block?.attributes?.url"
-    :url="props.block?.attributes?.url"
+    v-if="imgUrl"
+    :url="imgUrl"
     :alt="block?.attributes?.alt"
     :width="block?.attributes?.width"
     :height="block?.attributes?.height"
