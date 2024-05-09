@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getRelativeImagePath } from '../../util/images';
+import { getRelativeImagePath } from '../../util/images'
 import type { CoreImage } from '#graphql-operations'
 
 const props = defineProps<{
