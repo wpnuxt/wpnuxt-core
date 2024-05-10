@@ -18,9 +18,9 @@ useHead({
   link: [
     {
       type: 'stylesheet',
-      href: wordpressUrl + '/wp-admin/load-styles.php?c=0&dir=ltr&load%5Bchunk_0%5D=dashicons,admin-bar,site-health,common,forms,admin-menu,dashboard,list-tables,edit,revisions,media,themes,about,nav-menus,wp-poi&load%5Bchunk_1%5D=nter,widgets,site-icon,l10n,buttons,wp-auth-check&ver=6.4.3',
-    },
-  ],
+      href: wordpressUrl + '/wp-admin/load-styles.php?c=0&dir=ltr&load%5Bchunk_0%5D=dashicons,admin-bar,site-health,common,forms,admin-menu,dashboard,list-tables,edit,revisions,media,themes,about,nav-menus,wp-poi&load%5Bchunk_1%5D=nter,widgets,site-icon,l10n,buttons,wp-auth-check&ver=6.4.3'
+    }
+  ]
 })
 
 const route = useRoute()
@@ -34,7 +34,7 @@ if (uri.endsWith('/')) {
 const { data: post } = await useNodeByUri(uri)
 if (post.value) {
   useHead({
-    title: `Edit ${post.value.contentTypeName + post.value.title} `,
+    title: `Edit ${post.value.contentTypeName + post.value.title} `
   })
 }
 </script>

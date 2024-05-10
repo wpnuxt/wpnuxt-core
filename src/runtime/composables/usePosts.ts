@@ -20,14 +20,14 @@ const _useLatestPost = async (): Promise<AsyncData<Post | null, FetchError | nul
 const _usePostByUri = async (uri: string): Promise<AsyncData<Post | null, FetchError | null>> => {
   if (!uri || uri === 'undefined' || uri === '_nuxt' || uri === '__nuxt') return new Promise(() => null)
   return await getContentNode<Post>('PostByUri', 'nodeByUri', {
-    uri: uri,
+    uri: uri
   })
 }
 
 const _usePostById = async (id: number, asPreview?: boolean): Promise<AsyncData<Post | null, FetchError | null>> => {
   return await getContentNode<Post>('PostById', 'post', {
     id: id,
-    asPreview: asPreview ? true : false,
+    asPreview: asPreview ? true : false
   })
 }
 

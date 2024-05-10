@@ -23,24 +23,21 @@ const _fetchContentNode = async <T>(queryName: string, node1: string, node2: str
     method: 'POST',
     body: {
       queryName: queryName,
-      params: params,
+      params: params
     },
     key: cacheKey,
     headers: {
-      Authorization: tokens.authorizationHeader,
+      Authorization: tokens.authorizationHeader
     },
     transform(data) {
       let transformedData
       if (node2 && node3) {
         transformedData = data.data[node1][node2][node3]
-      }
-      else if (!node2 && node3) {
+      } else if (!node2 && node3) {
         transformedData = data.data[node1][node3]
-      }
-      else if (node2 && !node3) {
+      } else if (node2 && !node3) {
         transformedData = data.data[node1][node2]
-      }
-      else {
+      } else {
         transformedData = data.data[node1]
       }
       if (fixImagePaths && transformedData?.featuredImage?.node?.sourceUrl) {
@@ -51,7 +48,7 @@ const _fetchContentNode = async <T>(queryName: string, node1: string, node2: str
     },
     getCachedData(key: string) {
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-    },
+    }
   })
 }
 

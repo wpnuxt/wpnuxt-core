@@ -1,9 +1,0 @@
-#import '~/queries/fragments/EditorBlock.fragment.gql';
-#import '~/queries/fragments/CoreImage.fragment.gql';
-
-fragment CoreGallery on CoreGallery {
-  ...EditorBlock
-  innerBlocks {
-    ...CoreImage
-  }
-}

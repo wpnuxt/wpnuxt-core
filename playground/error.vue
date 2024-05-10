@@ -6,8 +6,8 @@ import { isStaging } from '#imports'
 const props = defineProps({
   error: {
     type: Object as PropType<NuxtError>,
-    required: true,
-  },
+    required: true
+  }
 })
 if (props.error.statusCode !== 404) {
   console.error(props.error.message)

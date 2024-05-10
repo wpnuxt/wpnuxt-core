@@ -1,8 +1,0 @@
-#import '~/queries/fragments/MediaItem.fragment.gql';
-
-fragment NodeWithFeaturedImageToMediaItemConnectionEdge on NodeWithFeaturedImageToMediaItemConnectionEdge {
-  cursor
-  node {
-    ...MediaItem
-  }
-}

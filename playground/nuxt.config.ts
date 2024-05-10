@@ -1,24 +1,27 @@
 export default defineNuxtConfig({
   extends: [
-    '@nuxt/ui-pro',
+    '@nuxt/ui-pro'
   ],
   modules: [
     '@nuxt/eslint',
     '@nuxt/image',
     '@nuxt/ui',
-    '../src/module',
+    '../src/module'
   ],
   eslint: {
     config: {
-      stylistic: true,
+      stylistic: {
+        commaDangle: 'never',
+        braceStyle: '1tbs'
+      }
     },
     checker: {
       lintOnStart: true,
-      fix: true,
-    },
+      fix: true
+    }
   },
   experimental: {
-    payloadExtraction: true,
+    payloadExtraction: true
   },
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
@@ -29,20 +32,20 @@ export default defineNuxtConfig({
     debug: false,
     replaceSchema: false,
     enableCache: true,
-    staging: false,
+    staging: false
   },
   graphqlMiddleware: {
-    downloadSchema: true,
+    downloadSchema: true
   },
   ui: {
-    icons: ['heroicons', 'uil', 'mdi'],
+    icons: ['heroicons', 'uil', 'mdi']
   },
   image: {
     provider: 'twicpics',
     domains: ['wordpress.wpnuxt.com'],
     twicpics: {
-      baseURL: 'https://vernaillen.twic.pics/wpnuxt-demo',
-    },
+      baseURL: 'https://vernaillen.twic.pics/wpnuxt-demo'
+    }
   },
-  devtools: { enabled: true },
+  devtools: { enabled: true }
 })

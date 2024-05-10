@@ -8,7 +8,7 @@ export type { ModuleOptions } from './runtime/types'
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'wpnuxt-module',
-    configKey: 'wpNuxt',
+    configKey: 'wpNuxt'
   },
   // Default configuration options of the Nuxt module
   defaults: {
@@ -22,7 +22,7 @@ export default defineNuxtModule<ModuleOptions>({
     trace: false,
     replaceSchema: false,
     enableCache: true,
-    staging: false,
+    staging: false
   },
   async setup(options, nuxt) {
     nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
@@ -35,11 +35,11 @@ export default defineNuxtModule<ModuleOptions>({
       trace: process.env.WPNUXT_TRACE ? process.env.WPNUXT_TRACE === 'true' : options.trace!,
       replaceSchema: process.env.WPNUXT_REPLACE_SCHEMA ? process.env.WPNUXT_REPLACE_SCHEMA === 'true' : options.replaceSchema!,
       enableCache: process.env.WPNUXT_ENABLE_CACHE ? process.env.WPNUXT_ENABLE_CACHE === 'true' : options.enableCache!,
-      staging: process.env.WPNUXT_STAGING ? process.env.WPNUXT_STAGING === 'true' : options.staging!,
+      staging: process.env.WPNUXT_STAGING ? process.env.WPNUXT_STAGING === 'true' : options.staging!
     })
     // we're not putting the secret in public config, so it goes into runtimeConfig
     nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {
-      faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!,
+      faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!
     })
     const publicWPNuxtConfig = nuxt.options.runtimeConfig.public.wpNuxt
     const logger = useLogger('WPNuxt', {
@@ -48,8 +48,8 @@ export default defineNuxtModule<ModuleOptions>({
         // columns: 80,
         colors: true,
         compact: true,
-        date: true,
-      },
+        date: true
+      }
     })
     logger.start('WPNuxt ::: Starting setup ::: ')
     logger.info('Connecting GraphQL to', publicWPNuxtConfig.wordpressUrl)
@@ -98,19 +98,19 @@ export default defineNuxtModule<ModuleOptions>({
 
       { name: 'useTokens', as: 'useTokens', from: resolveRuntimeModule('./composables/useTokens') },
       { name: 'useViewer', as: 'useViewer', from: resolveRuntimeModule('./composables/useViewer') },
-      { name: 'useWPUri', as: 'useWPUri', from: resolveRuntimeModule('./composables/useWPUri') },
+      { name: 'useWPUri', as: 'useWPUri', from: resolveRuntimeModule('./composables/useWPUri') }
     ])
 
     addRouteMiddleware({
       name: 'auth',
       path: resolveRuntimeModule('./middleware/auth'),
-      global: true,
+      global: true
     })
     addComponentsDir({
       path: resolveRuntimeModule('./components'),
       pathPrefix: false,
       prefix: '',
-      global: true,
+      global: true
     })
 
     const userPreviewPath = '~/pages/preview.vue'
@@ -123,30 +123,30 @@ export default defineNuxtModule<ModuleOptions>({
       pages.push({
         name: 'preview',
         path: '/preview',
-        file: resolve(previewPagePath),
+        file: resolve(previewPagePath)
       })
       pages.push({
         name: 'auth',
         path: '/auth',
-        file: resolveRuntimeModule('./pages/auth.vue'),
+        file: resolveRuntimeModule('./pages/auth.vue')
       })
     })
 
     addServerHandler({
       route: '/api/tokensFromCode',
-      handler: resolveRuntimeModule('./server/api/tokensFromCode.post'),
+      handler: resolveRuntimeModule('./server/api/tokensFromCode.post')
     })
     addServerHandler({
       route: '/api/tokensFromRefreshToken',
-      handler: resolveRuntimeModule('./server/api/tokensFromRefreshToken.post'),
+      handler: resolveRuntimeModule('./server/api/tokensFromRefreshToken.post')
     })
     addServerHandler({
       route: '/api/wpContent',
-      handler: resolveRuntimeModule('./server/api/wpContent.post'),
+      handler: resolveRuntimeModule('./server/api/wpContent.post')
     })
     addServerHandler({
       route: '/api/purgeCache',
-      handler: resolveRuntimeModule('./server/api/purgeCache.get'),
+      handler: resolveRuntimeModule('./server/api/purgeCache.get')
     })
 
     // Register user block components
@@ -161,7 +161,7 @@ export default defineNuxtModule<ModuleOptions>({
             path: blockComponents,
             global: true,
             pathPrefix: false,
-            prefix: '',
+            prefix: ''
           })
         })
       }
@@ -197,25 +197,25 @@ export default defineNuxtModule<ModuleOptions>({
         schema: {
         },
         documents: [
-          resolve('!./graphql/**/*'),
+          resolve('!./graphql/**/*')
         ],
         generates: {
           './graphql/': {
             preset: 'client',
-            plugins: ['typescript-operations'],
-          },
-        },
+            plugins: ['typescript-operations']
+          }
+        }
       },
       codegenSchemaConfig: {
         urlSchemaOptions: {
           headers: {
-            Authorization: 'server-token',
-          },
-        },
+            Authorization: 'server-token'
+          }
+        }
       },
       outputDocuments: true,
       autoImportPatterns: queryOutputPath,
-      devtools: true,
+      devtools: true
     })
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
@@ -224,13 +224,13 @@ export default defineNuxtModule<ModuleOptions>({
     const template = addTemplate({
       filename: 'graphqlMiddleware.serverOptions',
       write: true,
-      getContents: () => `export { default } from '${resolvedPath}'`,
+      getContents: () => `export { default } from '${resolvedPath}'`
     })
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
 
     logger.success('WPNuxt ::: Finished setup ::: ')
-  },
+  }
 })
 
 declare module '@nuxt/schema' {

@@ -1,6 +1,6 @@
 module.exports = {
   content: [
-    '../src/runtime/components/**/*.vue',
+    '../src/runtime/components/**/*.vue'
   ],
   theme: {
     extend: {
@@ -16,9 +16,9 @@ module.exports = {
           600: '#282c30',
           700: '#1e2124',
           800: '#141618',
-          900: '#0a0b0c',
-        },
-      },
-    },
-  },
+          900: '#0a0b0c'
+        }
+      }
+    }
+  }
 }

@@ -10,14 +10,14 @@ const _usePages = async (): Promise<AsyncData<Page[] | null, FetchError | null>>
 const _usePageByUri = async (uri: string): Promise<AsyncData<Page | null, FetchError | null>> => {
   if (!uri || uri === 'undefined' || uri === '_nuxt' || uri === '__nuxt') return new Promise(() => null)
   return await getContentNode<Page>('PageByUri', 'nodeByUri', {
-    uri: uri,
+    uri: uri
   })
 }
 
 const _usePageById = async (id: number, asPreview?: boolean): Promise<AsyncData<Page | null, FetchError | null>> => {
   return await getContentNode<Page>('PageById', 'page', {
     id: id,
-    asPreview: asPreview ? true : false,
+    asPreview: asPreview ? true : false
   })
 }
 

@@ -17,21 +17,19 @@ if (rtCookie.value) {
   const refreshToken = rtCookie.value
   tokens.value = await useFetch('/api/tokensFromRefreshToken', {
     method: 'POST',
-    body: { refreshToken: refreshToken },
+    body: { refreshToken: refreshToken }
   })
   rtCookie.value = tokens.value.data.tokens.refreshToken
   userName.value = await loginUser()
-}
-else if (code) {
+} else if (code) {
   tokens.value = await useFetch('/api/tokensFromCode', {
     method: 'POST',
-    body: { code: code.toString() },
+    body: { code: code.toString() }
   })
   rtCookie.value = tokens.value?.data?.tokens?.refreshToken
   if (requestEvent) requestEvent.context.accessToken = tokens.value?.data?.tokens?.accessToken
   userName.value = await loginUser()
-}
-else {
+} else {
   userName.value = await getCurrentUserName()
 }
 

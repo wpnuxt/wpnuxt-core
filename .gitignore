@@ -64,3 +64,5 @@ examples/yoastseo/test-src/schema.graphql
 tests/fixtures/basic/queries/
 tests/fixtures/basic/schema.graphql
 playground/.eslintcache
+docs/.eslintcache
+examples/yoastseo/.eslintcache

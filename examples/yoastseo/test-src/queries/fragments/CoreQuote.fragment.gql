@@ -1,5 +1,0 @@
-#import '~/queries/fragments/EditorBlock.fragment.gql';
-
-fragment CoreQuote on CoreQuote {
-  ...EditorBlock
-}

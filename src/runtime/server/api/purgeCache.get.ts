@@ -5,6 +5,6 @@ export default defineEventHandler(async () => {
   purgeCache()
   return {
     data: 'Cache purged!',
-    errors: [],
+    errors: []
   }
 })
