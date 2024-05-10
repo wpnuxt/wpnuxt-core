@@ -31,6 +31,12 @@ jobs:
       - run:
           name: Playground Build
           command: pnpm run dev:build
+      - run:
+          name: Docs Build
+          command: pnpm run docs:build
+      - run:
+          name: YoastSEO example build
+          command: pnpm run yoastseo:build
       - slack/notify:
           channel: circleci
           event: always

@@ -35,6 +35,8 @@
     "release": "npm run lint; release-it",
     "docs:dev": "pnpm --filter ./docs/ run dev",
     "docs:build": "pnpm --filter ./docs/ run build",
+    "yoastseo:dev": "pnpm --filter ./examples/yoastseo/ run dev",
+    "yoastseo:build": "pnpm --filter ./examples/yoastseo/ run build",
     "wp:start": "docker-compose up wordpress.local wordpress-cli db phpmyadmin",
     "wp:start-silent": "docker-compose up -d wordpress.local wordpress-cli db phpmyadmin",
     "wp:start-all": "docker-compose up",
