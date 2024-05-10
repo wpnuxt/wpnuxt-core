@@ -52,5 +52,14 @@ jobs:
       - name: Lint
         run: pnpm run lint
 
-      - name: Build
+      - name: Module Build
+        run: pnpm run build
+
+      - name: Playground Build
         run: pnpm run dev:build
+
+      - name: Docs Build
+        run: pnpm run docs:build
+
+      - name: YoastSEO example build
+        run: pnpm run yoastseo:build
