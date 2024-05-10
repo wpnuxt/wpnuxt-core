@@ -11,7 +11,7 @@
     "@iconify-json/heroicons": "^1.1.21",
     "@iconify-json/mdi": "^1.1.66",
     "@iconify-json/uil": "^1.1.8",
-    "@nuxt/eslint": "^0.3.10",
+    "@nuxt/eslint": "^0.3.12",
     "@nuxt/image": "^1.7.0",
     "@nuxt/ui-pro": "^1.2.0",
     "nuxt": "^3.11.2",
