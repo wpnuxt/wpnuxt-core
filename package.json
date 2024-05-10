@@ -70,7 +70,7 @@
     "@vitest/coverage-v8": "^1.6.0",
     "@vue/test-utils": "^2.4.6",
     "changelogen": "^0.5.5",
-    "nuxt": "^3.11.2",
+    "nuxt": "npm:nuxt-nightly@latest",
     "release-it": "^17.2.1",
     "typescript": "^5.4.5",
     "untyped": "1.4.2",

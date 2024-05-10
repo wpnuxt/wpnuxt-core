@@ -4,6 +4,9 @@ export default defineNuxtConfig({
     '../../src/module',
     '@nuxt/eslint'
   ],
+  future: {
+    compatibilityVersion: 4
+  },
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
     stagingUrl: 'https://staging.wpnuxt.com',

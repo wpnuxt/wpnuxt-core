@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '../src/module'
   ],
+  future: {
+    compatibilityVersion: 4
+  },
   eslint: {
     config: {
       stylistic: {
