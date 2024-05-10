@@ -20,8 +20,8 @@ export function initLogger(level: number) {
       // columns: 80,
       colors: true,
       compact: true,
-      date: true,
-    },
+      date: true
+    }
   }).withTag('WPNuxt')
   logger.value.debug('initLogger ::: level:', level)
 }

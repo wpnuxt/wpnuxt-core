@@ -4,7 +4,7 @@ export default withNuxt(
   {
     files: ['**/pages/*.vue'],
     rules: {
-      'vue/multi-word-component-names': 'off',
-    },
-  },
+      'vue/multi-word-component-names': 'off'
+    }
+  }
 )

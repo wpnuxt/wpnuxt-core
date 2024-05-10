@@ -19,7 +19,7 @@ const _useWPUri = () => {
     pagesAdmin,
     postAdmin,
     postEdit,
-    settingsEdit,
+    settingsEdit
   }
 }
 

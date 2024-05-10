@@ -10,8 +10,7 @@ export async function loginUser(): Promise<string> {
   currentUserId.value = viewer.userId
   if (viewer.firstName === undefined || viewer.firstName === null || viewer.firstName === '') {
     currentUserName.value = viewer.username
-  }
-  else {
+  } else {
     currentUserName.value = viewer.firstName
   }
   return currentUserName.value

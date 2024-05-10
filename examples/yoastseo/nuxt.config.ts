@@ -1,16 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    '../../src/module',
+    '../../src/module'
   ],
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
     stagingUrl: 'https://staging.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
-    faustSecretKey: '',
+    faustSecretKey: ''
   },
   srcDir: 'test-src/',
   devtools: {
-    enabled: true,
-  },
+    enabled: true
+  }
 })

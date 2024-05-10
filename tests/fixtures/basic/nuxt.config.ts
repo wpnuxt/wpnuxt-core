@@ -3,10 +3,10 @@ import WPNuxtModule from '../../../src/module'
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      myValue: 'original value',
-    },
+      myValue: 'original value'
+    }
   },
   modules: [
-    WPNuxtModule,
-  ],
+    WPNuxtModule
+  ]
 })

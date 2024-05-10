@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
 
   if (!body || !body.queryName) {
     throw new Error(
-      'The request must contain a queryName',
+      'The request must contain a queryName'
     )
   }
   // TODO find better why to add the params to the cache key, as hash?
@@ -23,20 +23,20 @@ export default defineEventHandler(async (event) => {
     if (cachedContent) {
       return {
         data: cachedContent,
-        errors: [],
+        errors: []
       }
     }
   }
   return $fetch('/api/graphql_middleware/query/' + body.queryName, {
     params: body.params,
     headers: {
-      Authorization: `Bearer ${event.context.accessToken}`,
-    },
+      Authorization: `Bearer ${event.context.accessToken}`
+    }
   }).then((v: GraphqlResponse) => {
     cacheStorage.setItem(cacheKey, v.data).catch(() => {})
     return {
       data: v.data,
-      errors: v.errors || [],
+      errors: v.errors || []
     }
   })
 })

@@ -12,21 +12,16 @@ const componentToRender = computed(() => {
   if (props.block.parentClientId === null || props.block.parentClientId === undefined) {
     if (props.block.name === 'core/paragraph') {
       return resolveComponent('CoreParagraph')
-    }
-    else if (props.block.name === 'core/image') {
+    } else if (props.block.name === 'core/image') {
       return resolveComponent('CoreImage')
-    }
-    else if (props.block.name === 'core/gallery') {
+    } else if (props.block.name === 'core/gallery') {
       return resolveComponent('CoreGallery')
-    }
-    else if (props.block.name === 'core/quote') {
+    } else if (props.block.name === 'core/quote') {
       return resolveComponent('CoreQuote')
-    }
-    else {
+    } else {
       return resolveComponent('EditorBlock')
     }
-  }
-  else {
+  } else {
     return undefined
   }
 })

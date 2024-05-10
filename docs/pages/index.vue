@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  colorMode: 'dark',
+  colorMode: 'dark'
 })
 const { data: page } = await useAsyncData('index', () => queryContent('/').findOne())
 
@@ -10,7 +10,7 @@ useSeoMeta({
   description: page.value.description,
   ogDescription: page.value.description,
   ogImage: 'https://wpnuxt.com/social-card.png',
-  twitterImage: 'https://wpnuxt.com/social-card.png',
+  twitterImage: 'https://wpnuxt.com/social-card.png'
 })
 
 const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact' })
@@ -186,7 +186,7 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
             background: 'bg-gradient-to-b from-gray-900 to-gray-950',
             body: { background: 'bg-gradient-to-b from-gray-900 to-gray-950' },
             links: 'mt-10 flex flex-col space-y-4 items-center justify-center lg:justify-start gap-x-6',
-            title: 'text-2xl font-medium tracking-tight text-white sm:text-3xl text-center lg:text-left',
+            title: 'text-2xl font-medium tracking-tight text-white sm:text-3xl text-center lg:text-left'
           }"
         >
           <template #title>
@@ -370,9 +370,9 @@ const { format: formatNumber } = Intl.NumberFormat('en-GB', { notation: 'compact
               theme: {
                 light: 'material-theme-lighter',
                 default: 'material-theme',
-                dark: 'material-theme-palenight',
-              },
-            },
+                dark: 'material-theme-palenight'
+              }
+            }
           }"
         />
       </template>

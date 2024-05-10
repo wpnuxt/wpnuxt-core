@@ -10,29 +10,24 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (to.path === '/login') {
     logger.debug('auth middleware, redirect to wordpress login')
     login()
-  }
-  else if (to.path === '/logout') {
+  } else if (to.path === '/logout') {
     return navigateTo('/auth?logout=true')
-  }
-  else if (to.path === '/auth' && to.query.logout === 'true') {
+  } else if (to.path === '/auth' && to.query.logout === 'true') {
     logger.debug('auth middleware, redirect to wordpress logout')
     const rtCookie = useCookie(`${config.public.wpNuxt.frontendUrl}-rt`)
     rtCookie.value = null
     return navigateTo(`${config.public.wpNuxt.wordpressUrl}/wp-login.php?action=logout`, { external: true })
     // return navigateTo('/')
-  }
-  else if (to.query.preview === 'true') {
+  } else if (to.query.preview === 'true') {
     const previewId = to.query.p
     const previewUrl = `${config.public.wpNuxt.frontendUrl}/preview?preview_id=${previewId}`
     if (event?.context.accessToken && !to.path.startsWith('/preview')) {
       loginUser()
       return navigateTo(previewUrl)
-    }
-    else {
+    } else {
       return login(previewUrl)
     }
-  }
-  else {
+  } else {
     const tokens = ref()
     const rtCookie = useCookie(`${config.public.wpNuxt.frontendUrl}-rt`, { httpOnly: true, maxAge: 300 })
     if (rtCookie.value) {
@@ -40,7 +35,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
       const refreshToken = rtCookie.value
       tokens.value = await useFetch('/api/tokensFromRefreshToken', {
         method: 'POST',
-        body: { refreshToken: refreshToken },
+        body: { refreshToken: refreshToken }
       })
       rtCookie.value = tokens.value.data.tokens.refreshToken
     }

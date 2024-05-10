@@ -7,8 +7,8 @@ export default defineGraphqlServerOptions({
   serverFetchOptions(event: H3Event) {
     return {
       headers: {
-        Authorization: getHeader(event, 'Authorization'),
-      },
+        Authorization: getHeader(event, 'Authorization')
+      }
     }
-  },
+  }
 })

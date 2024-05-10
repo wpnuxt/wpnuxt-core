@@ -9,7 +9,14 @@ export default withNuxt(
       // Vue
       'vue/multi-word-component-names': 0,
       'vue/max-attributes-per-line': 'off',
-      'vue/no-v-html': 0,
+      'vue/no-v-html': 0
     },
-  },
+    ignores: [
+      'wordpress',
+      'dist',
+      'node_modules',
+      '.output',
+      '.nuxt'
+    ]
+  }
 )

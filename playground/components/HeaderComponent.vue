@@ -5,22 +5,22 @@ const { data: menu } = await useMenu('main')
 
 const wpLinks = menu.value?.map(link => ({
   label: link.label,
-  to: link.uri,
+  to: link.uri
 }))
 const links = [
   ...wpLinks,
   {
     label: 'Test',
-    to: '/test',
+    to: '/test'
   },
   {
     label: 'Auth',
-    to: '/auth',
+    to: '/auth'
   },
   {
     label: 'Error Handling',
-    to: '/errorHandling',
-  },
+    to: '/errorHandling'
+  }
 ]
 </script>
 

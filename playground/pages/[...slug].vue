@@ -14,7 +14,7 @@ if (!post.value) {
 const wpUri = useWPUri()
 if (post.value?.title) {
   useHead({
-    title: post.value.title,
+    title: post.value.title
   })
 }
 const staging = await isStaging()

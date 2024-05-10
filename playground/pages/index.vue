@@ -5,7 +5,7 @@ const { data: posts } = await usePosts()
 const { data: settings } = await useGeneralSettings()
 const { data: latestPost } = await useLatestPost()
 useHead({
-  title: settings.value.title,
+  title: settings.value.title
 })
 </script>
 

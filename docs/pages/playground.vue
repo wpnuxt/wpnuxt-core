@@ -4,12 +4,12 @@ const description = 'Try the WPNuxt module.'
 useSeoMeta({
   title: `${title} - WPNuxt Playground`,
   ogTitle: 'WPNuxt Playground',
-  description,
+  description
 })
 defineOgImage({
   component: 'Docs',
   title,
-  description,
+  description
 })
 </script>
 

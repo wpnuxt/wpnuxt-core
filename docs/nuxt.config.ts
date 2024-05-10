@@ -7,16 +7,19 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/fonts',
     '@nuxthq/studio',
-    'nuxt-og-image',
+    'nuxt-og-image'
   ],
   eslint: {
     config: {
-      stylistic: true,
+      stylistic: {
+        commaDangle: 'never',
+        braceStyle: '1tbs'
+      }
     },
     checker: {
       lintOnStart: true,
-      // fix: true,
-    },
+      fix: true
+    }
   },
   hooks: {
     // Define `@nuxt/ui` components as global to use them in `.md` (feel free to add those you need)
@@ -24,18 +27,18 @@ export default defineNuxtConfig({
       const globals = components.filter(c => ['UButton', 'UIcon'].includes(c.pascalName))
 
       globals.forEach(c => c.global = true)
-    },
+    }
   },
   ui: {
-    icons: ['heroicons', 'simple-icons', 'ph', 'ant-design'],
+    icons: ['heroicons', 'simple-icons', 'ph', 'ant-design']
   },
   routeRules: {
-    '/api/search.json': { prerender: true },
+    '/api/search.json': { prerender: true }
   },
   devtools: {
-    enabled: true,
+    enabled: true
   },
   typescript: {
-    strict: false,
-  },
+    strict: false
+  }
 })

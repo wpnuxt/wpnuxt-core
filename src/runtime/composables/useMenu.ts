@@ -8,7 +8,7 @@ const _useMenu = async (name?: string): Promise<AsyncData<Menu, FetchError | nul
   const config = useRuntimeConfig()
   const menuName = name && name.length > 0 ? name : config.public.wpNuxt.defaultMenuName
   return getContentNodes<Menu>('Menu', 'menu', 'menuItems', 'nodes', {
-    name: menuName,
+    name: menuName
   })
 }
 

@@ -8,12 +8,12 @@ export default defineEventHandler(async (event) => {
 
   if (!apiClientSecret) {
     throw new Error(
-      'The apiClientSecret must be specified to use the auth middleware',
+      'The apiClientSecret must be specified to use the auth middleware'
     )
   }
   if (!body || !body.code) {
     throw new Error(
-      'The request must contain a code',
+      'The request must contain a code'
     )
   }
   const code = body.code
@@ -21,12 +21,12 @@ export default defineEventHandler(async (event) => {
   const response = await fetch(`${config.public.wpNuxt.wordpressUrl}/?rest_route=/faustwp/v1/authorize`, {
     headers: {
       'Content-Type': 'application/json',
-      'x-faustwp-secret': apiClientSecret,
+      'x-faustwp-secret': apiClientSecret
     },
     method: 'POST',
     body: JSON.stringify({
-      code,
-    }),
+      code
+    })
   })
   const tokens = await response.json()
   if (tokens?.accessToken) {
@@ -34,6 +34,6 @@ export default defineEventHandler(async (event) => {
   }
 
   return {
-    tokens,
+    tokens
   }
 })
