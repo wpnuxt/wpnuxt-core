@@ -1,7 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    '../../src/module'
+    '../../src/module',
+    '@nuxt/eslint'
   ],
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
@@ -10,6 +11,18 @@ export default defineNuxtConfig({
     faustSecretKey: ''
   },
   srcDir: 'test-src/',
+  eslint: {
+    config: {
+      stylistic: {
+        commaDangle: 'never',
+        braceStyle: '1tbs'
+      }
+    },
+    checker: {
+      lintOnStart: true,
+      fix: true
+    }
+  },
   devtools: {
     enabled: true
   }

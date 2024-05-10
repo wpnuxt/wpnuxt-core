@@ -1,4 +1,0 @@
-fragment NodeWithExcerpt on NodeWithExcerpt {
-  excerpt
-  id
-}
