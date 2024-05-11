@@ -3,10 +3,13 @@ import { useMenu } from '#imports'
 
 const { data: menu } = await useMenu('main')
 
-const wpLinks = menu.value?.map(link => ({
-  label: link.label,
-  to: link.uri
-}))
+let wpLinks = []
+if (menu.value) {
+  wpLinks = menu.value?.map(link => ({
+    label: link.label,
+    to: link.uri
+  }))
+}
 const links = [
   ...wpLinks,
   {

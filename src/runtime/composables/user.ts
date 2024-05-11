@@ -7,11 +7,13 @@ const currentUserName = useLocalStorage<string>('CURRENT_USER_NAME', null)
 
 export async function loginUser(): Promise<string> {
   const { data: viewer } = await <Viewer>useViewer()
-  currentUserId.value = viewer.userId
-  if (viewer.firstName === undefined || viewer.firstName === null || viewer.firstName === '') {
-    currentUserName.value = viewer.username
-  } else {
-    currentUserName.value = viewer.firstName
+  if (viewer.value) {
+    currentUserId.value = viewer.userId
+    if (viewer.value.firstName === undefined || viewer.value.firstName === null || viewer.value.firstName === '') {
+      currentUserName.value = viewer.value.username
+    } else {
+      currentUserName.value = viewer.value.firstName
+    }
   }
   return currentUserName.value
 }
