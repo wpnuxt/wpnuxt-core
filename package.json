@@ -66,7 +66,7 @@
     "@nuxt/test-utils": "^3.12.1",
     "@rollup/rollup-linux-arm64-gnu": "^4.17.2",
     "@rollup/rollup-linux-arm64-musl": "^4.17.2",
-    "@types/node": "20.12.11",
+    "@types/node": "20.12.12",
     "@vitest/coverage-v8": "^1.6.0",
     "@vue/test-utils": "^2.4.6",
     "changelogen": "^0.5.5",
