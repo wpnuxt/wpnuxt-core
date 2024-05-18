@@ -13,7 +13,7 @@ export const initLogger = (logLevel: LogLevel | undefined) => {
       date: true,
       fancy: true
     }
-  })
+  }).withTag('wpnuxt')
   return loggerRef.value
 }
 
