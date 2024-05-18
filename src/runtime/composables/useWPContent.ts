@@ -1,8 +1,8 @@
 import type { FetchError } from 'ofetch'
 import { getRelativeImagePath } from '../util/images'
+import { useLogger } from '../util/logger'
 import { useTokens } from './useTokens'
 import { useFetch, useNuxtApp, type AsyncData } from '#app'
-import { useLogger } from '../util/logger'
 
 const _getContentNodes = async <T>(queryName: string, node1Name?: string, node2Name?: string, node3Name?: string, params?: T): Promise<AsyncData<T | null, FetchError | null>> => {
   const node1 = node1Name ? node1Name : queryName.toLowerCase()
