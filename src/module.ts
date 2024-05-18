@@ -246,7 +246,6 @@ export default defineNuxtModule<WPNuxtConfig>({
         : defaultComposablesConfig
 
       const ctx: WPNuxtContext = await {
-        ops: [],
         fns: [],
         fnImports: [],
         composables: composablesConfig

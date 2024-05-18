@@ -1,12 +1,10 @@
-import type { LogLevel } from 'consola'
-
 export interface WPNuxtConfig {
 
   /**
    * Log level for the WPNuxt module
    * @default 3
    */
-  logLevel?: LogLevel
+  logLevel?: 1 | 2 | 3 | 4 | 5
   /**
    * URL of the WordPress site
    *
