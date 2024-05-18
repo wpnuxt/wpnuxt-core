@@ -52,5 +52,31 @@ const _fetchContentNode = async <T>(queryName: string, node1: string, node2: str
   })
 }
 
+const _fetchContent = async <T>(queryName: string, params?: T): Promise<AsyncData<T | undefined, FetchError | null | undefined>> => {
+  const nuxtApp = useNuxtApp()
+  const tokens = useTokens()
+  const cacheKey = `wp-fetchContent-${queryName}-${JSON.stringify(params)}`
+
+  return useFetch('/api/wpContent', {
+    method: 'POST',
+    body: {
+      queryName: queryName,
+      params: params
+    },
+    key: cacheKey,
+    headers: {
+      Authorization: tokens.authorizationHeader
+    },
+    transform(data) {
+      // TODO does this hide the errors?
+      return data?.data
+    },
+    getCachedData(key: string) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+    }
+  })
+}
+
 export const getContentNodes = _getContentNodes
 export const getContentNode = _getContentNode
+export const fetchContent = _fetchContent

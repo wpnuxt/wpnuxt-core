@@ -14,17 +14,18 @@ const wpNuxtConfig = config.public.wpNuxt
 <template>
   <div>
     <UContainer class="prose dark:prose-invert pt-5">
-      <h2>wpUri:</h2>
+      <h2>Examples of predefined composables</h2>
+      <h3>wpUri:</h3>
       <pre>{{ wpUri }}</pre>
-      <h2>wpNuxtConfig:</h2>
+      <h3>wpNuxtConfig:</h3>
       <pre>{{ wpNuxtConfig }}</pre>
-      <h2>await useViewer()</h2>
+      <h3>await useViewer()</h3>
       <pre>{{ viewer }}</pre>
-      <h2>getCurrentUserName()</h2>
+      <h3>getCurrentUserName()</h3>
       <pre>{{ userName }}</pre>
-      <h2>isStaging()</h2>
+      <h3>isStaging()</h3>
       <pre>{{ staging }}</pre>
-      <h2>useGeneralSettings()</h2>
+      <h3>useGeneralSettings()</h3>
       <pre>{{ settings }}</pre>
     </UContainer>
   </div>

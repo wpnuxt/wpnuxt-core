@@ -17,6 +17,10 @@ const links = [
     to: '/test'
   },
   {
+    label: 'Generated Composables',
+    to: '/composables'
+  },
+  {
     label: 'Auth',
     to: '/auth'
   },

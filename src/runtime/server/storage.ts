@@ -1,5 +1,5 @@
 import { prefixStorage, type Storage } from 'unstorage'
-import { useWPNuxtLogger } from '../composables/wpNuxtLogger'
+import { useLogger } from '../util/logger'
 import { useStorage } from '#imports'
 
 export const cacheStorage: Storage = prefixStorage(useStorage(), 'cache:content')
@@ -10,5 +10,5 @@ export const purgeCache = async () => {
     await cacheStorage.removeItem(key)
   })
   cacheStorage.clear
-  useWPNuxtLogger().info('ServerSide cache purged!')
+  useLogger().info('ServerSide cache purged!')
 }

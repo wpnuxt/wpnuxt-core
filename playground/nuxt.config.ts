@@ -29,13 +29,15 @@ export default defineNuxtConfig({
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
     showBlockInfo: false,
-    debug: false,
     replaceSchema: false,
     enableCache: true,
-    staging: false
-  },
-  graphqlMiddleware: {
-    downloadSchema: true
+    staging: false,
+    logLevel: 4,
+    downloadSchema: true,
+    generateComposables: {
+      enabled: true,
+      prefix: 'wp'
+    }
   },
   ui: {
     icons: ['heroicons', 'uil', 'mdi']

@@ -1,57 +1,62 @@
 import fs, { existsSync } from 'node:fs'
-import { defineNuxtModule, addComponentsDir, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, useLogger, addImports } from '@nuxt/kit'
+import { defineNuxtModule, addComponentsDir, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver } from '@nuxt/kit'
 import defu from 'defu'
-import type { ModuleOptions } from './runtime/types'
+import type { WPNuxtConfig } from './types'
+import { initLogger, validateConfig } from './utils'
+import { generateWPNuxtComposables } from './generate'
+import type { WPNuxtContext } from './context'
 
-export type { ModuleOptions } from './runtime/types'
+const defaultComposablesConfig = {
+  prefix: 'useWP',
+  async: false
+}
+const defaultConfigs: WPNuxtConfig = {
+  wordpressUrl: 'https://wordpress.wpnuxt.com',
+  stagingUrl: 'https://staging.wpnuxt.com',
+  frontendUrl: 'https://demo.wpnuxt.com',
+  faustSecretKey: '',
+  defaultMenuName: 'main',
+  showBlockInfo: false,
+  replaceSchema: false,
+  enableCache: true,
+  staging: false,
+  logLevel: 3,
+  generateComposables: defaultComposablesConfig
+}
 
-export default defineNuxtModule<ModuleOptions>({
+export default defineNuxtModule<WPNuxtConfig>({
   meta: {
     name: 'wpnuxt-module',
     configKey: 'wpNuxt'
   },
   // Default configuration options of the Nuxt module
-  defaults: {
-    wordpressUrl: 'https://wordpress.wpnuxt.com',
-    stagingUrl: 'https://staging.wpnuxt.com',
-    frontendUrl: 'https://demo.wpnuxt.com',
-    faustSecretKey: '',
-    defaultMenuName: 'main',
-    showBlockInfo: false,
-    debug: false,
-    trace: false,
-    replaceSchema: false,
-    enableCache: true,
-    staging: false
-  },
+  defaults: defaultConfigs,
   async setup(options, nuxt) {
-    nuxt.options.runtimeConfig.public.wpNuxt = defu(nuxt.options.runtimeConfig.public.wpNuxt, {
-      wordpressUrl: process.env.WPNUXT_WORDPRESS_URL ? process.env.WPNUXT_WORDPRESS_URL : options.wordpressUrl!,
-      stagingUrl: process.env.WPNUXT_STAGING_URL ? process.env.WPNUXT_STAGING_URL : options.stagingUrl!,
-      frontendUrl: process.env.WPNUXT_FRONTEND_URL ? process.env.WPNUXT_FRONTEND_URL : options.frontendUrl!,
-      defaultMenuName: process.env.WPNUXT_DEFAULT_MENU_NAME ? process.env.WPNUXT_DEFAULT_MENU_NAME : options.defaultMenuName!,
-      showBlockInfo: process.env.WPNUXT_SHOW_BLOCK_INFO ? process.env.WPNUXT_SHOW_BLOCK_INFO === 'true' : options.showBlockInfo!,
-      debug: process.env.WPNUXT_DEBUG ? process.env.WPNUXT_DEBUG === 'true' : options.debug!,
-      trace: process.env.WPNUXT_TRACE ? process.env.WPNUXT_TRACE === 'true' : options.trace!,
-      replaceSchema: process.env.WPNUXT_REPLACE_SCHEMA ? process.env.WPNUXT_REPLACE_SCHEMA === 'true' : options.replaceSchema!,
-      enableCache: process.env.WPNUXT_ENABLE_CACHE ? process.env.WPNUXT_ENABLE_CACHE === 'true' : options.enableCache!,
-      staging: process.env.WPNUXT_STAGING ? process.env.WPNUXT_STAGING === 'true' : options.staging!
-    })
+    const startTime = new Date().getTime()
+    const logger = initLogger(options.logLevel)
+    logger.start('WPNuxt ::: Starting setup ::: ')
+
+    const publicWPNuxtConfig: WPNuxtConfig = {
+      wordpressUrl: process.env.WPNUXT_WORDPRESS_URL || options.wordpressUrl!,
+      stagingUrl: process.env.WPNUXT_STAGING_URL || options.stagingUrl!,
+      frontendUrl: process.env.WPNUXT_FRONTEND_URL || options.frontendUrl!,
+      defaultMenuName: process.env.WPNUXT_DEFAULT_MENU_NAME || options.defaultMenuName!,
+      showBlockInfo: process.env.WPNUXT_SHOW_BLOCK_INFO === 'true' || options.showBlockInfo!,
+      replaceSchema: process.env.WPNUXT_REPLACE_SCHEMA === 'true' || options.replaceSchema!,
+      enableCache: process.env.WPNUXT_ENABLE_CACHE === 'true' || options.enableCache!,
+      staging: process.env.WPNUXT_STAGING === 'true' || options.staging!,
+      downloadSchema: process.env.WPNUXT_DOWNLOAD_SCHEMA === 'true' || options.downloadSchema,
+      // TODO also allow below options as env vars?
+      logLevel: options.logLevel,
+      generateComposables: options.generateComposables
+    }
     // we're not putting the secret in public config, so it goes into runtimeConfig
     nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {
       faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!
     })
-    const publicWPNuxtConfig = nuxt.options.runtimeConfig.public.wpNuxt
-    const logger = useLogger('WPNuxt', {
-      level: publicWPNuxtConfig.trace ? 5 : publicWPNuxtConfig.debug ? 4 : 3,
-      formatOptions: {
-        // columns: 80,
-        colors: true,
-        compact: true,
-        date: true
-      }
-    })
-    logger.start('WPNuxt ::: Starting setup ::: ')
+    nuxt.options.runtimeConfig.public.wpNuxt = publicWPNuxtConfig
+    validateConfig(publicWPNuxtConfig)
+
     logger.info('Connecting GraphQL to', publicWPNuxtConfig.wordpressUrl)
     logger.info('stagingUrl:', publicWPNuxtConfig.stagingUrl)
     logger.info('frontendUrl:', publicWPNuxtConfig.frontendUrl)
@@ -61,17 +66,18 @@ export default defineNuxtModule<ModuleOptions>({
 
     const { resolve } = createResolver(import.meta.url)
     const resolveRuntimeModule = (path: string) => resolve('./runtime', path)
+    const srcResolver: Resolver = createResolver(nuxt.options.srcDir)
 
-    // TODO: test if wordpressUrl is provided!
-
-    nuxt.options.alias['#wpnuxt/types'] = resolveRuntimeModule('./types')
+    nuxt.options.alias['#wpnuxt'] = resolve(nuxt.options.buildDir, 'wpnuxt')
+    nuxt.options.alias['#wpnuxt/*'] = resolve(nuxt.options.buildDir, 'wpnuxt', '*')
+    nuxt.options.alias['#wpnuxt/types'] = resolve('./types')
     nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
-    nuxt.options.nitro.alias['#wpnuxt/types'] = resolveRuntimeModule('./types')
-    nuxt.options.alias['#wpnuxt/composables'] = resolveRuntimeModule('./composables/index')
+    nuxt.options.nitro.alias['#wpnuxt/types'] = resolve('./types')
+    /* nuxt.options.alias['#wpnuxt/composables'] = resolveRuntimeModule('./composables/index')
     nuxt.hook('nitro:config', (nitroConfig) => {
       nitroConfig.alias = nitroConfig.alias || {}
       nitroConfig.alias['#wpnuxt/server'] = resolveRuntimeModule('./server')
-    })
+    }) */
 
     addImports([
       { name: 'isStaging', as: 'isStaging', from: resolveRuntimeModule('./composables/isStaging') },
@@ -90,6 +96,8 @@ export default defineNuxtModule<ModuleOptions>({
 
       { name: 'getContentNodes', as: 'getContentNodes', from: resolveRuntimeModule('./composables/useWPContent') },
       { name: 'getContentNode', as: 'getContentNode', from: resolveRuntimeModule('./composables/useWPContent') },
+      { name: 'fetchContent', as: 'fetchContent', from: resolveRuntimeModule('./composables/useWPContent') },
+      { name: 'parseDoc', as: 'parseDoc', from: resolveRuntimeModule('./composables/useParser') },
 
       { name: 'loginUser', as: 'loginUser', from: resolveRuntimeModule('./composables/user') },
       { name: 'logoutUser', as: 'logoutUser', from: resolveRuntimeModule('./composables/user') },
@@ -184,27 +192,26 @@ export default defineNuxtModule<ModuleOptions>({
     logger.debug('Copied merged queries in folder:', queryOutputPath)
 
     await installModule('nuxt-graphql-middleware', {
-      debug: publicWPNuxtConfig.debug,
+      debug: publicWPNuxtConfig.logLevel ? publicWPNuxtConfig.logLevel > 3 : false,
       graphqlEndpoint: `${publicWPNuxtConfig.wordpressUrl}/graphql`,
+      downloadSchema: publicWPNuxtConfig.downloadSchema,
       codegenConfig: {
         silent: false,
         skipTypename: true,
         useTypeImports: true,
+        // inlineFragmentTypes: 'combine',
         dedupeFragments: true,
-        onlyOperationTypes: false,
+        onlyOperationTypes: true,
         avoidOptionals: false,
         disableOnBuild: false,
-        schema: {
+        gqlImport: 'graphql-request#wpnuxt',
+        namingConvention: {
+          enumValues: 'change-case-all#upperCaseFirst'
         },
+
         documents: [
           resolve('!./graphql/**/*')
-        ],
-        generates: {
-          './graphql/': {
-            preset: 'client',
-            plugins: ['typescript-operations']
-          }
-        }
+        ]
       },
       codegenSchemaConfig: {
         urlSchemaOptions: {
@@ -215,6 +222,7 @@ export default defineNuxtModule<ModuleOptions>({
       },
       outputDocuments: true,
       autoImportPatterns: queryOutputPath,
+      includeComposables: true,
       devtools: true
     })
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
@@ -229,7 +237,36 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
 
-    logger.success('WPNuxt ::: Finished setup ::: ')
+    if (publicWPNuxtConfig.generateComposables === true
+      || (typeof publicWPNuxtConfig.generateComposables === 'object' && publicWPNuxtConfig.generateComposables.enabled)) {
+      logger.trace('Generating composables')
+
+      const composablesConfig = typeof publicWPNuxtConfig.generateComposables === 'object'
+        ? publicWPNuxtConfig.generateComposables
+        : defaultComposablesConfig
+
+      const ctx: WPNuxtContext = await {
+        fns: [],
+        fnImports: [],
+        composables: composablesConfig
+      }
+      await generateWPNuxtComposables(ctx, queryOutputPath, srcResolver)
+
+      addTemplate({
+        filename: 'wpnuxt.mjs',
+        getContents: () => ctx.generateImports?.() || ''
+      })
+      addTemplate({
+        filename: 'wpnuxt/index.d.ts',
+        getContents: () => ctx.generateDeclarations?.() || ''
+      })
+      nuxt.hook('imports:extend', (autoimports) => {
+        autoimports.push(...(ctx.fnImports || []))
+      })
+    }
+
+    const endTime = new Date().getTime()
+    logger.success('WPNuxt ::: Finished setup in ' + (endTime - startTime) + 'ms ::: ')
   }
 })
 
@@ -242,18 +279,7 @@ declare module '@nuxt/schema' {
   }
 
   interface PublicRuntimeConfig {
-    wpNuxt: {
-      wordpressUrl: string
-      stagingUrl: string
-      frontendUrl: string
-      defaultMenuName?: string
-      showBlockInfo?: boolean
-      debug?: boolean
-      trace?: boolean
-      replaceSchema?: boolean
-      enableCache?: boolean
-      staging?: boolean
-    }
+    wpNuxt: WPNuxtConfig
   }
 
   interface ConfigSchema {
@@ -262,18 +288,7 @@ declare module '@nuxt/schema' {
     }
     runtimeConfig: {
       public?: {
-        wpNuxt: {
-          wordpressUrl: string
-          stagingUrl: string
-          frontendUrl: string
-          defaultMenuName?: string
-          showBlockInfo?: boolean
-          debug?: boolean
-          trace?: boolean
-          replaceSchema?: boolean
-          enableCache?: boolean
-          staging?: boolean
-        }
+        wpNuxt: WPNuxtConfig
       }
     }
   }
