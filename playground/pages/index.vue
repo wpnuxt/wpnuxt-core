@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useHead, useLatestPost, usePosts, useGeneralSettings } from '#imports'
-
 const { data: posts } = await usePosts()
 const { data: settings } = await useGeneralSettings()
 const { data: latestPost } = await useLatestPost()

@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     )
   }
   // TODO find better why to add the params to the cache key, as hash?
-  const cacheKey = `wpContent-${body.queryName}-${body.params ? JSON.stringify(body.params) : ''}`
+  const cacheKey = `wpContent-${body.queryName}-${body.params ? JSON.stringify(body.params).replaceAll('"', '').replaceAll(':', '-') : ''}`
 
   // Read from cache if not disabled and we're not in staging mode
   if (config.public.wpNuxt.enableCache && !staging) {
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
     }
   }
   return $fetch('/api/graphql_middleware/query/' + body.queryName, {
-    params: body.params,
+    params: buildRequestParams(body.params),
     headers: {
       Authorization: `Bearer ${event.context.accessToken}`
     }
@@ -40,3 +40,25 @@ export default defineEventHandler(async (event) => {
     }
   })
 })
+
+/**
+ * Get the parameters for the GraphQL middleware query.
+ */
+export function buildRequestParams(
+  variables?: Record<string, any> | undefined | null,
+): Record<string, any> {
+  if (!variables) {
+    return {}
+  }
+  // Determine if each variable can safely be passed as query parameter.
+  // This is only the case for strings.
+  for (const key in variables) {
+    if (typeof variables[key] !== 'string') {
+      return {
+        __variables: JSON.stringify(variables),
+      }
+    }
+  }
+
+  return variables
+}
