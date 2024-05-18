@@ -3,7 +3,7 @@ import { upperFirst } from 'scule'
 import type { Import } from 'unimport'
 import type { WPNuxtConfigComposables, WPNuxtQuery } from './types'
 import { getLogger } from './utils'
-import { parseDoc } from './runtime/composables/useParser'
+import { parseDoc } from './useParser'
 
 export interface WPNuxtContext {
   composables: WPNuxtConfigComposables
