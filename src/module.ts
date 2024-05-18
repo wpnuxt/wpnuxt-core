@@ -78,6 +78,8 @@ export default defineNuxtModule<WPNuxtConfig>({
       nitroConfig.alias = nitroConfig.alias || {}
       nitroConfig.alias['#wpnuxt/server'] = resolveRuntimeModule('./server')
     }) */
+    nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
+    nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
 
     addImports([
       { name: 'isStaging', as: 'isStaging', from: resolveRuntimeModule('./composables/isStaging') },
@@ -225,8 +227,6 @@ export default defineNuxtModule<WPNuxtConfig>({
       includeComposables: true,
       devtools: true
     })
-    nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
-    nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
 
     const resolvedPath = resolveRuntimeModule('./app/graphqlMiddleware.serverOptions')
     const template = addTemplate({
