@@ -1,6 +1,6 @@
 import { parse } from 'graphql'
 import type { SelectionNode, OperationDefinitionNode } from 'graphql'
-import type { WPNuxtQuery } from '../../types'
+import type { WPNuxtQuery } from './types'
 
 const _parseDoc = async (doc: string): Promise<WPNuxtQuery[]> => {
   const { definitions } = parse(doc)
