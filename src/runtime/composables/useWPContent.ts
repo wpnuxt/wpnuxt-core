@@ -1,5 +1,6 @@
 import type { FetchError } from 'ofetch'
 import { getRelativeImagePath } from '../util/images'
+import { useLogger } from '../util/logger'
 import { useTokens } from './useTokens'
 import { useFetch, useNuxtApp, type AsyncData } from '#app'
 
@@ -53,6 +54,7 @@ const _fetchContentNode = async <T>(queryName: string, node1: string, node2: str
 }
 
 const _fetchContent = async <T>(queryName: string, params?: T): Promise<AsyncData<T | undefined, FetchError | null | undefined>> => {
+  useLogger().trace('fetchContent, query: ', queryName, ', params: ', params)
   const nuxtApp = useNuxtApp()
   const tokens = useTokens()
   const cacheKey = `wp-fetchContent-${queryName}-${JSON.stringify(params)}`
@@ -68,6 +70,7 @@ const _fetchContent = async <T>(queryName: string, params?: T): Promise<AsyncDat
       Authorization: tokens.authorizationHeader
     },
     transform(data) {
+      useLogger().trace('fetchContent, fetched data:', data)
       // TODO does this hide the errors?
       return data?.data
     },
