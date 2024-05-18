@@ -1,3 +1,4 @@
+import type {} from 'nuxt/app' // workaround for https://github.com/nuxt/module-builder/issues/141
 import { useLogger } from '../util/logger'
 import { loginUser } from '../composables/user'
 import { defineNuxtRouteMiddleware, ref, useFetch, useCookie, navigateTo, useRequestEvent, useRuntimeConfig } from '#imports'
