@@ -48,7 +48,7 @@ export default defineNuxtModule<WPNuxtConfig>({
       downloadSchema: process.env.WPNUXT_DOWNLOAD_SCHEMA === 'true' || options.downloadSchema,
       // TODO also allow below options as env vars?
       logLevel: options.logLevel,
-      generateComposables: options.generateComposables,
+      generateComposables: options.generateComposables
     }
     // we're not putting the secret in public config, so it goes into runtimeConfig
     nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {

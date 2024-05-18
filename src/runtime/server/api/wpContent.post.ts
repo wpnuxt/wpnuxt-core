@@ -45,7 +45,9 @@ export default defineEventHandler(async (event) => {
  * Get the parameters for the GraphQL middleware query.
  */
 export function buildRequestParams(
-  variables?: Record<string, any> | undefined | null,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  variables?: Record<string, any> | undefined | null
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Record<string, any> {
   if (!variables) {
     return {}
@@ -55,7 +57,7 @@ export function buildRequestParams(
   for (const key in variables) {
     if (typeof variables[key] !== 'string') {
       return {
-        __variables: JSON.stringify(variables),
+        __variables: JSON.stringify(variables)
       }
     }
   }
