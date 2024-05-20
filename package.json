@@ -63,7 +63,7 @@
     "@nuxt/eslint-config": "^0.3.13",
     "@nuxt/module-builder": "^0.6.0",
     "@nuxt/schema": "^3.11.2",
-    "@nuxt/test-utils": "^3.13.0",
+    "@nuxt/test-utils": "^3.13.1",
     "@rollup/rollup-linux-arm64-gnu": "^4.17.2",
     "@rollup/rollup-linux-arm64-musl": "^4.17.2",
     "@types/node": "20.12.12",
