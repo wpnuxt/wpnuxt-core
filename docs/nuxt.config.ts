@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/fonts',
     '@nuxthq/studio',
+    '@nuxtjs/plausible',
     'nuxt-og-image'
   ],
   eslint: {
@@ -34,6 +35,9 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/api/search.json': { prerender: true }
+  },
+  plausible: {
+    apiHost: 'https://wpnuxt.com/plio'
   },
   devtools: {
     enabled: true
