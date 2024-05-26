@@ -114,7 +114,8 @@ export default defineNuxtModule<WPNuxtConfig>({
 
       { name: 'useTokens', as: 'useTokens', from: resolveRuntimeModule('./composables/useTokens') },
       { name: 'useViewer', as: 'useViewer', from: resolveRuntimeModule('./composables/useViewer') },
-      { name: 'useWPUri', as: 'useWPUri', from: resolveRuntimeModule('./composables/useWPUri') }
+      { name: 'useWPUri', as: 'useWPUri', from: resolveRuntimeModule('./composables/useWPUri') },
+      { name: 'useFeaturedImage', as: 'useFeaturedImage', from: resolveRuntimeModule('./composables/useFeaturedImage') }
     ])
 
     addRouteMiddleware({
