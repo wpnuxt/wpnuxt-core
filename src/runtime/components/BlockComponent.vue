@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { computed, resolveComponent, useRuntimeConfig } from '#imports'
-import type { EditorBlock } from '#graphql-operations'
+import { useChangeCase } from '@vueuse/integrations/useChangeCase'
+import { resolveComponent, useRuntimeConfig } from '#imports'
+import type { EditorBlock } from '#wpnuxt/blocks'
+
+const manifest = await import('#wpnuxt/blocks').catch(() => ({}))
 
 const config = useRuntimeConfig()
 const showBlockInfo = config.public.wpNuxt.showBlockInfo
@@ -8,29 +11,29 @@ const showBlockInfo = config.public.wpNuxt.showBlockInfo
 const props = defineProps<{
   block: EditorBlock
 }>()
-const componentToRender = computed(() => {
+const findComponentToRender = async () => {
+  // only process top level blocks
   if (props.block.parentClientId === null || props.block.parentClientId === undefined) {
-    if (props.block.name === 'core/paragraph') {
-      return resolveComponent('CoreParagraph')
-    } else if (props.block.name === 'core/image') {
-      return resolveComponent('CoreImage')
-    } else if (props.block.name === 'core/gallery') {
-      return resolveComponent('CoreGallery')
-    } else if (props.block.name === 'core/quote') {
-      return resolveComponent('CoreQuote')
-    } else {
-      return resolveComponent('EditorBlock')
+    if (config.public.wpNuxt.blocks && props.block.name) {
+      const componentName = useChangeCase(props.block.name, 'pascalCase')
+      const componentImporter = manifest[componentName.value]
+      if (typeof componentImporter === 'function') {
+        return await componentImporter()
+      }
     }
+    return resolveComponent('EditorBlock')
   } else {
     return undefined
   }
-})
+}
+const componentToRender = await findComponentToRender()
 </script>
 
 <template>
-  <BlockAttr
+  <LazyBlockInfo
     v-if="componentToRender && showBlockInfo"
     :block="block"
+    :component-to-render="componentToRender"
   />
   <component
     :is="componentToRender"

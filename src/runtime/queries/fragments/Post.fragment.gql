@@ -14,11 +14,9 @@ fragment Post on Post {
   content
   title
   editorBlocks {
-    name
-    ...CoreGallery
-    ...CoreImage
-    ...CoreParagraph
-    ...CoreQuote
     ...EditorBlock
+    innerBlocks {
+      ...EditorBlock
+    }
   }
 }

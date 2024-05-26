@@ -1,5 +1,19 @@
-#import '~/queries/fragments/EditorBlock.fragment.gql';
-
 fragment CoreQuote on CoreQuote {
-  ...EditorBlock
+  attributes {
+    align
+    anchor
+    backgroundColor
+    citation
+    className
+    cssClassName
+    fontFamily
+    fontSize
+    gradient
+    layout
+    lock
+    metadata
+    style
+    textColor
+    value
+  }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EditorBlock } from '#graphql-operations'
+import type { EditorBlock } from '#wpnuxt/blocks'
 
 defineProps<{
   block: EditorBlock

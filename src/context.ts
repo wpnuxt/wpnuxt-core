@@ -32,7 +32,6 @@ export async function prepareContext(ctx: WPNuxtContext) {
   }
 
   ctx.generateImports = () => [
-    'import { useGraphqlQuery } from \'#graphql-composable\'',
     ...ctx.fns.map(f => fnExp(f))
   ].join('\n')
 

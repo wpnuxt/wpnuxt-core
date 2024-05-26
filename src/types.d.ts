@@ -19,7 +19,16 @@ export interface WPNuxtConfig {
 
   faustSecretKey?: string
   defaultMenuName?: string
+
+  /**
+   * Enable custom components for Gutenberg blocks
+   * When disabled the module will use the renderedHtml of each block returned by WordPress
+   *
+   * @default true
+   */
+  blocks?: boolean
   showBlockInfo?: boolean
+
   replaceSchema?: boolean
   enableCache?: boolean
 

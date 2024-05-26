@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BlockComponent from './BlockComponent.vue'
-import type { EditorBlock } from '#graphql-operations'
+import type { EditorBlock } from '#wpnuxt/blocks'
 
 defineProps<{
   blocks: EditorBlock[]
