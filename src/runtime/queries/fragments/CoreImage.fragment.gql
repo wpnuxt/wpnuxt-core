@@ -1,7 +1,4 @@
-#import '~/queries/fragments/EditorBlock.fragment.gql';
-
 fragment CoreImage on CoreImage {
-  ...EditorBlock
   attributes {
     align
     alt
@@ -25,5 +22,8 @@ fragment CoreImage on CoreImage {
     title
     url
     width
+    caption
+    lightbox
+    metadata
   }
 }

@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     stagingUrl: 'https://staging.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
+    blocks: true,
     showBlockInfo: false,
     replaceSchema: false,
     enableCache: true,
@@ -48,6 +49,9 @@ export default defineNuxtConfig({
     twicpics: {
       baseURL: 'https://vernaillen.twic.pics/wpnuxt-demo'
     }
+  },
+  routeRules: {
+    '/wp-content/**': { proxy: { to: 'http://localhost:10004/wp-content/**' } }
   },
   devtools: { enabled: true }
 })

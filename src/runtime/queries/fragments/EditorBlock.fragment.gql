@@ -1,3 +1,9 @@
+#import '~/queries/fragments/CoreButton.fragment.gql';
+#import '~/queries/fragments/CoreGallery.fragment.gql';
+#import '~/queries/fragments/CoreImage.fragment.gql';
+#import '~/queries/fragments/CoreParagraph.fragment.gql';
+#import '~/queries/fragments/CoreQuote.fragment.gql';
+
 fragment EditorBlock on EditorBlock {
   apiVersion
   blockEditorCategoryName
@@ -7,4 +13,9 @@ fragment EditorBlock on EditorBlock {
   name
   parentClientId
   renderedHtml
+  ...CoreButton
+  ...CoreGallery
+  ...CoreImage
+  ...CoreParagraph
+  ...CoreQuote
 }

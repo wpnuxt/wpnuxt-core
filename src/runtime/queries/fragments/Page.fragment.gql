@@ -18,11 +18,9 @@ fragment Page on Page {
   isRevision
   title
   editorBlocks {
-    name
-    ...CoreGallery
-    ...CoreImage
-    ...CoreParagraph
-    ...CoreQuote
     ...EditorBlock
+    innerBlocks {
+      ...EditorBlock
+    }
   }
 }
