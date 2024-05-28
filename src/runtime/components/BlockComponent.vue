@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useChangeCase } from '@vueuse/integrations/useChangeCase'
+import { pascalCase } from 'scule'
 import { resolveComponent, useRuntimeConfig } from '#imports'
 import type { EditorBlock } from '#wpnuxt/blocks'
 
@@ -15,8 +15,8 @@ const findComponentToRender = async () => {
   // only process top level blocks
   if (props.block.parentClientId === null || props.block.parentClientId === undefined) {
     if (config.public.wpNuxt.blocks && props.block.name) {
-      const componentName = useChangeCase(props.block.name, 'pascalCase')
-      const componentImporter = manifest[componentName.value]
+      const componentName = pascalCase(props.block.name)
+      const componentImporter = manifest[componentName]
       if (typeof componentImporter === 'function') {
         return await componentImporter()
       }
