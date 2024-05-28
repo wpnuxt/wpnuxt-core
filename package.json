@@ -1,6 +1,6 @@
 {
   "name": "@vernaillen/wpnuxt",
-  "version": "0.4.3",
+  "version": "0.4.4-edge.1",
   "description": "WPNuxt",
   "repository": "vernaillen/wpnuxt-module",
   "license": "MIT",
@@ -33,6 +33,7 @@
     "coverage": "vitest run --coverage",
     "typecheck": "vue-tsc --noEmit",
     "release": "npm run lint; release-it",
+    "release-edge": "npm run lint; release-it --no-github --preRelease=edge",
     "docs:dev": "pnpm --filter ./docs/ run dev",
     "docs:build": "pnpm --filter ./docs/ run build",
     "yoastseo:dev": "pnpm --filter ./examples/yoastseo/ run dev",
@@ -91,9 +92,6 @@
     "github": {
       "release": true,
       "releaseName": "v${version}"
-    },
-    "hooks": {
-      "after:bump": "npx changelogen@latest --no-commit --no-tag --output --r $(node -p \"require('./package.json').version\")"
     }
   }
 }
