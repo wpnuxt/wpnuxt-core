@@ -313,6 +313,14 @@ export default defineNuxtModule<WPNuxtConfig>({
       })
     }
 
+    nuxt.hook('nitro:init', async (nitro) => {
+      // Remove content cache when nitro starts (after a pull or a change)
+      const keys = await nitro.storage.getKeys('cache:content')
+      keys.forEach(async (key) => {
+        if (key.startsWith('cache:content')) await nitro.storage.removeItem(key)
+      })
+    })
+
     const endTime = new Date().getTime()
     logger.success('WPNuxt ::: Finished setup in ' + (endTime - startTime) + 'ms ::: ')
   }
