@@ -5,10 +5,9 @@ import { useStorage } from '#imports'
 export const cacheStorage: Storage = prefixStorage(useStorage(), 'cache:content')
 
 export const purgeCache = async () => {
-  const keys = await cacheStorage.getKeys()
+  const keys = await cacheStorage.getKeys('cache:content')
   keys.forEach(async (key) => {
     await cacheStorage.removeItem(key)
   })
-  cacheStorage.clear
   useLogger().info('ServerSide cache purged!')
 }
