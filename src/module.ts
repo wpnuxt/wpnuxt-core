@@ -225,7 +225,7 @@ export default defineNuxtModule<WPNuxtConfig>({
       options: { getComponents: () => componentsContext.components }
     })
 
-    const queryOutputPath = resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/queries/')
+    const queryOutputPath = resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/.queries/')
 
     const userQueryPath = '~/extend/queries/'
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
