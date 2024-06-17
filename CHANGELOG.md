@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v0.4.4
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.4.3...v0.4.4)
+
+### 🏡 Chore
+
+* release-it config in separate files (0c1798f)
+* chore(deps): update nuxt framework to ^3.12.2 (#127) (16b0633)
+* Merge branch 'main' of github.com:vernaillen/wpnuxt-module (1259f1d)
+* chore(deps): update devdependency @nuxthq/studio to v2 (#128) (e6b1cdc)
+* chore(deps): update all non-major dependencies (#126) (dfec370)
+* chore(deps): Nuxt 3.12.1 (8b61270)
+
+### ❤️ Contributors
+
+- Wouter Vernaillen <wouter@vernaillen.com>
+
 ## v0.4.3
 
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.4.2...v0.4.3)
