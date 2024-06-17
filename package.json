@@ -33,7 +33,7 @@
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
     "coverage": "vitest run --coverage",
     "typecheck": "vue-tsc --noEmit",
-    "release": "npm run lint; release-it",
+    "release": "npm run lint; release-it --git.tagExclude='*[-edge]*'",
     "release-edge": "npm run lint; release-it --no-github --preRelease=edge --config .release-it-edge.json",
     "docs:dev": "pnpm --filter ./docs/ run dev",
     "docs:build": "pnpm --filter ./docs/ run build",
