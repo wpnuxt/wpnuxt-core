@@ -269,8 +269,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
 
-    if (publicWPNuxtConfig.generateComposables === true
-      || (typeof publicWPNuxtConfig.generateComposables === 'object' && publicWPNuxtConfig.generateComposables.enabled)) {
+    if (publicWPNuxtConfig.generateComposables && publicWPNuxtConfig.generateComposables.enabled) {
       logger.trace('Generating composables')
 
       const composablesConfig = typeof publicWPNuxtConfig.generateComposables === 'object'
