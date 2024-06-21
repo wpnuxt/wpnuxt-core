@@ -26,17 +26,29 @@ export async function prepareContext(ctx: WPNuxtContext) {
   const fnExp = (q: WPNuxtQuery, typed = false) => {
     const functionName = fnName(q.name)
     if (!typed) {
-      return `export const ${functionName} = (params) => fetchContent('${q.name}', params)`
+      const node1 = q.nodes && q.nodes.length > 0 ? '\'' + q.nodes[0] + '\'' : null
+      const node2 = q.nodes && q.nodes.length > 1 ? '\'' + q.nodes[1] + '\'' : null
+      const node3 = q.nodes && q.nodes.length > 2 ? '\'' + q.nodes[2] + '\'' : null
+      return `export const ${functionName} = (params) => getContentNodes('${q.name}', ${node1}, ${node2}, ${node3}, params)`
     }
-    return `  export const ${functionName}: (params?: ${q.name}QueryVariables) => AsyncData<${q.name}Query | undefined, FetchError | null | undefined>`
+    let fragmentSuffix = ''
+    if (q.fragments && q.fragments.length > 0 && q.nodes && q.nodes.length > 0 && q.nodes.includes('nodes')) {
+      fragmentSuffix = '[]'
+    }
+    const fragments = q.fragments && q.fragments.length > 0
+      ? q.fragments.map(f => `${f}Fragment${fragmentSuffix}`).join(' | ')
+      : 'any'
+    return `  export const ${functionName}: (params?: ${q.name}QueryVariables) => AsyncData<${fragments}, FetchError | null | undefined>`
   }
 
   ctx.generateImports = () => [
     ...ctx.fns.map(f => fnExp(f))
   ].join('\n')
 
+  const types: string[] = []
+  ctx.fns.forEach(o => types.push(...getQueryTypeTemplate(o)))
   ctx.generateDeclarations = () => [
-    `import type { ${ctx.fns.map(o => getQueryTypeTemplate(o)).join(', ')} } from '#graphql-operations'`,
+    `import type { ${[...new Set(types)].join(', ')} } from '#build/graphql-operations'`,
     'import { AsyncData } from \'nuxt/app\'',
     'import { FetchError } from \'ofetch\'',
     'declare module \'#wpnuxt\' {',
@@ -52,8 +64,13 @@ export async function prepareContext(ctx: WPNuxtContext) {
   ctx.fns.forEach(f => logger.debug(` ${fnName(f.name)}()`))
 }
 
-function getQueryTypeTemplate(q: WPNuxtQuery) {
-  return `${q.name}Query, ${q.name}QueryVariables`
+function getQueryTypeTemplate(q: WPNuxtQuery): string[] {
+  const types: string[] = []
+  types.push(`${q.name}QueryVariables`)
+  if (q.fragments && q.fragments.length > 0) {
+    q.fragments.forEach(f => types.push(`${f}Fragment`))
+  }
+  return types
 }
 
 async function prepareFunctions(ctx: WPNuxtContext) {

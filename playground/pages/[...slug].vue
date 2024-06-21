@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Post, Page } from '#graphql-operations'
-import { isStaging, useHead, useRoute, useWPUri, ref, createError, wpNodeByUri, useFeaturedImage } from '#imports'
+import type { PageFragment, PostFragment } from '#build/graphql-operations'
+import { isStaging, useHead, useRoute, useWPUri, ref, createError, useNodeByUri, useFeaturedImage } from '#imports'
 
 const route = useRoute()
-const post = ref<Post | Page | null>()
+const post = ref<PostFragment | PageFragment | undefined>()
 if (route.params.slug && route.params.slug[0]) {
-  const { data } = await wpNodeByUri({ uri: route.params.slug[0] })
-  post.value = data.value?.nodeByUri
+  const { data } = await useNodeByUri({ uri: route.params.slug[0] })
+  post.value = data.value
 }
 if (!post.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })

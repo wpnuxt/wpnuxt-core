@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePages } from '#imports'
+import { usePages } from '#wpnuxt'
 
 const { data: pages } = await usePages()
 </script>
@@ -10,21 +10,22 @@ const { data: pages } = await usePages()
       title="Pages"
       headline="testing the usePages() composable"
     >
+      {{ test }}
       <UPageGrid>
         <ULandingCard
-          v-for="post, index in pages"
+          v-for="page, index in pages"
           :key="index"
-          :title="post.title"
-          :description="post.date?.split('T')[0]"
-          :to="post.uri"
+          :title="page.title"
+          :description="page.date?.split('T')[0]"
+          :to="page.uri"
         >
           <img
-            v-if="post?.featuredImage?.node?.sourceUrl"
-            :src="post.featuredImage.node.sourceUrl"
+            v-if="page?.featuredImage?.node?.sourceUrl"
+            :src="page.featuredImage.node.sourceUrl"
             class="w-full rounded-md"
           >
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <span v-html="post.excerpt" />
+          <span v-html="page.excerpt" />
         </ULandingCard>
       </UPageGrid>
     </ULandingSection>

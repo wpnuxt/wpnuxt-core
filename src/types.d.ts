@@ -38,7 +38,7 @@ export interface WPNuxtConfig {
    *
    * @default { enabled: true, prefix: 'useWP' }
    */
-  generateComposables?: boolean | WPNuxtConfigComposables
+  generateComposables?: WPNuxtConfigComposables
 
   queries?: WPNuxtConfigQueries
 

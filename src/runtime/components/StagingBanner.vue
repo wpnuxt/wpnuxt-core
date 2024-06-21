@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useNodeByUri } from '../composables/useNode'
 import { useWPUri } from '../composables/useWPUri'
 import { getCurrentUserName } from '../composables/user'
+import { getContentNodes } from '../composables'
 import { useRuntimeConfig, ref, watch, useHead, useRoute } from '#imports'
 
 const config = useRuntimeConfig()
@@ -31,7 +31,7 @@ if (uri.startsWith('/')) {
 if (uri.endsWith('/')) {
   uri = uri.substring(0, uri.length - 1)
 }
-const { data: post } = await useNodeByUri(uri)
+const { data: post } = await getContentNodes('NodeByUri', 'nodeByUri', undefined, undefined, { uri: uri })
 if (post.value) {
   useHead({
     title: `Edit ${post.value.contentTypeName + post.value.title} `

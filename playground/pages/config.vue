@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { getCurrentUserName, isStaging, useGeneralSettings, useRuntimeConfig, useViewer, useWPUri } from '#imports'
+import { getCurrentUserName, isStaging, useRuntimeConfig, useWPUri } from '#imports'
 
 const wpUri = useWPUri()
-const { data: viewer } = await useViewer()
-const { data: settings } = await useGeneralSettings()
 const staging = await isStaging()
 const userName = getCurrentUserName()
 
@@ -19,14 +17,10 @@ const wpNuxtConfig = config.public.wpNuxt
       <pre>{{ wpUri }}</pre>
       <h3>wpNuxtConfig:</h3>
       <pre>{{ wpNuxtConfig }}</pre>
-      <h3>await useViewer()</h3>
-      <pre>{{ viewer }}</pre>
       <h3>getCurrentUserName()</h3>
       <pre>{{ userName }}</pre>
       <h3>isStaging()</h3>
       <pre>{{ staging }}</pre>
-      <h3>useGeneralSettings()</h3>
-      <pre>{{ settings }}</pre>
     </UContainer>
   </div>
 </template>
