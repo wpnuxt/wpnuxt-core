@@ -2294,12 +2294,10 @@ packages:
 
   '@rollup/rollup-linux-arm64-gnu@4.18.0':
     resolution: {integrity: sha512-rJ5D47d8WD7J+7STKdCUAgmQk49xuFrRi9pZkWoRD1UeSMakbcepWXPF8ycChBoAqs1pb2wzvbY6Q33WmN2ftw==}
-    cpu: [arm64]
     os: [linux]
 
   '@rollup/rollup-linux-arm64-musl@4.18.0':
     resolution: {integrity: sha512-be6Yx37b24ZwxQ+wOQXXLZqpq4jTckJhtGlWGZs68TgdKXJgw54lUUoFYrg6Zs/kjzAQwEwYbp8JxZVzZLRepQ==}
-    cpu: [arm64]
     os: [linux]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.18.0':
