@@ -80,6 +80,7 @@ if (post.value) {
         </div>
         <div class="flex-none justify-end text-right align-top">
           <UButton
+            v-if="frontendUrl"
             size="2xs"
             class="shadow-md align-top mr-2"
             variant="outline"
