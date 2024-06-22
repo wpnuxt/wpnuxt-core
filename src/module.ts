@@ -3,6 +3,7 @@ import { defineNuxtModule, addComponent, addComponentsDir, addRouteMiddleware, a
 import defu from 'defu'
 import { genDynamicImport } from 'knitwork'
 import type { Component } from '@nuxt/schema'
+import { name, version } from '../package.json'
 import type { WPNuxtConfig } from './types'
 import { initLogger, validateConfig } from './utils'
 import { generateWPNuxtComposables } from './generate'
@@ -29,8 +30,10 @@ const defaultConfigs: WPNuxtConfig = {
 
 export default defineNuxtModule<WPNuxtConfig>({
   meta: {
-    name: 'wpnuxt-module',
-    configKey: 'wpNuxt'
+    name,
+    version,
+    configKey: 'wpNuxt',
+    nuxt: '>=3.1.0'
   },
   // Default configuration options of the Nuxt module
   defaults: defaultConfigs,
