@@ -19,7 +19,6 @@ useHead({
       :headline="settings.description"
       description="WordPress posts are shown below as cards. WordPress pages are listed above in the header."
     >
-      {{ node }}
       <UPageGrid>
         <ULandingCard
           v-for="post, index in posts"
