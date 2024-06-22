@@ -27,6 +27,7 @@
   "devDependencies": {
     "@nuxthq/studio": "^2.0.1",
     "@nuxtjs/plausible": "^1.0.0",
+    "@types/eslint": "^8.56.10",
     "vue-tsc": "^2.0.21"
   }
 }
