@@ -14,9 +14,8 @@ const defaultComposablesConfig = {
   async: false
 }
 const defaultConfigs: WPNuxtConfig = {
-  wordpressUrl: 'https://wordpress.wpnuxt.com',
-  stagingUrl: 'https://staging.wpnuxt.com',
-  frontendUrl: 'https://demo.wpnuxt.com',
+  wordpressUrl: '',
+  frontendUrl: '',
   faustSecretKey: '',
   defaultMenuName: 'main',
   blocks: true,
@@ -44,7 +43,6 @@ export default defineNuxtModule<WPNuxtConfig>({
 
     const publicWPNuxtConfig: WPNuxtConfig = {
       wordpressUrl: process.env.WPNUXT_WORDPRESS_URL || options.wordpressUrl!,
-      stagingUrl: process.env.WPNUXT_STAGING_URL || options.stagingUrl!,
       frontendUrl: process.env.WPNUXT_FRONTEND_URL || options.frontendUrl!,
       defaultMenuName: process.env.WPNUXT_DEFAULT_MENU_NAME || options.defaultMenuName!,
       blocks: process.env.WPNUXT_BLOCKS ? process.env.WPNUXT_BLOCKS === 'true' : options.blocks!,
@@ -65,7 +63,6 @@ export default defineNuxtModule<WPNuxtConfig>({
     validateConfig(publicWPNuxtConfig)
 
     logger.info('Connecting GraphQL to', publicWPNuxtConfig.wordpressUrl)
-    logger.info('stagingUrl:', publicWPNuxtConfig.stagingUrl)
     logger.info('frontendUrl:', publicWPNuxtConfig.frontendUrl)
     if (publicWPNuxtConfig.enableCache) logger.info('Cache enabled')
     logger.debug('Debug mode enabled')
