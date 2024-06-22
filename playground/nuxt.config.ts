@@ -25,7 +25,6 @@ export default defineNuxtConfig({
   },
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
-    stagingUrl: 'https://staging.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
     blocks: true,

@@ -28,7 +28,11 @@ export const getLogger = () => {
  */
 export function validateConfig(options: Partial<WPNuxtConfig>) {
   if (!options.wordpressUrl || options.wordpressUrl.length === 0) {
-    getLogger().error('WordPress url is missing')
-    throw new Error('WordPress url is missing')
+    throw new Error('WPNuxt error: WordPress url is missing')
+  } else if (options.wordpressUrl.substring(options.wordpressUrl.length - 1) === '/') {
+    throw new Error('WPNuxt error: WordPress url should not have a trailing slash: ' + options.wordpressUrl)
+  }
+  if (options.frontendUrl && options.frontendUrl.substring(options.frontendUrl.length - 1) === '/') {
+    throw new Error('WPNuxt error: frontend url should not have a trailing slash: ' + options.frontendUrl)
   }
 }

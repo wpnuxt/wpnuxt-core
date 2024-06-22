@@ -13,8 +13,6 @@ export interface WPNuxtConfig {
    * @example 'https://wordpress.wpnuxt.com'
    */
   wordpressUrl: string
-
-  stagingUrl: string
   frontendUrl: string
 
   faustSecretKey?: string
