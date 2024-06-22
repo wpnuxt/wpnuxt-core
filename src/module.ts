@@ -4,14 +4,14 @@ import defu from 'defu'
 import { genDynamicImport } from 'knitwork'
 import type { Component } from '@nuxt/schema'
 import { name, version } from '../package.json'
-import type { WPNuxtConfig } from './types'
+import type { WPNuxtConfig, WPNuxtConfigComposables } from './types'
 import { initLogger, validateConfig } from './utils'
 import { generateWPNuxtComposables } from './generate'
 import type { WPNuxtContext } from './context'
 
-const defaultComposablesConfig = {
-  prefix: 'useWP',
-  async: false
+const defaultComposablesConfig: WPNuxtConfigComposables = {
+  enabled: true,
+  prefix: 'useWP'
 }
 const defaultConfigs: WPNuxtConfig = {
   wordpressUrl: '',
