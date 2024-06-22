@@ -2,4 +2,3 @@ packages:
  - '.'
  - 'playground'
  - 'docs'
- - 'examples/yoastseo'
