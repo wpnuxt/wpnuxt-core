@@ -2,6 +2,15 @@ name: ci-main
 
 on:
   push:
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+    branches:
+      - main
+  pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
     branches:
       - main
 
@@ -60,6 +69,3 @@ jobs:
 
       - name: Docs Build
         run: pnpm run docs:build
-
-      - name: YoastSEO example build
-        run: pnpm run yoastseo:build

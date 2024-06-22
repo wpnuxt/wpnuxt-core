@@ -1,9 +1,31 @@
-#import '~/queries/fragments/EditorBlock.fragment.gql';
-#import '~/queries/fragments/CoreImage.fragment.gql';
-
 fragment CoreGallery on CoreGallery {
-  ...EditorBlock
-  innerBlocks {
-    ...CoreImage
+  attributes {
+    align
+    allowResize
+    anchor
+    backgroundColor
+    caption
+    className
+    columns
+    fixedHeight
+    gradient
+    ids
+    imageCrop
+    layout
+    linkTarget
+    linkTo
+    lock
+    metadata
+    randomOrder
+    shortCodeTransforms
+    style
+    images {
+      alt
+      caption
+      fullUrl
+      id
+      link
+      url
+    }
   }
 }

@@ -28,17 +28,19 @@ export default defineNuxtConfig({
   },
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
-    stagingUrl: 'https://staging.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
+    blocks: true,
     showBlockInfo: false,
-    debug: false,
     replaceSchema: false,
     enableCache: true,
-    staging: false
-  },
-  graphqlMiddleware: {
-    downloadSchema: true
+    staging: false,
+    logLevel: 4,
+    downloadSchema: true,
+    generateComposables: {
+      enabled: true,
+      prefix: 'use'
+    }
   },
   ui: {
     icons: ['heroicons', 'uil', 'mdi']
@@ -49,6 +51,9 @@ export default defineNuxtConfig({
     twicpics: {
       baseURL: 'https://vernaillen.twic.pics/wpnuxt-demo'
     }
+  },
+  routeRules: {
+    '/wp-content/**': { proxy: { to: 'http://localhost:10004/wp-content/**' } }
   },
   devtools: { enabled: true }
 })

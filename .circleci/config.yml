@@ -1,12 +1,12 @@
 version: 2.1
 
 orbs:
-  slack: circleci/slack@4.13.2
+  slack: circleci/slack@4.13.3
 
 executors:
   pnpm-executor:
     docker:
-      - image: cimg/node:22.1-browsers
+      - image: cimg/node:22.3-browsers
 
 jobs:
   build:
@@ -34,9 +34,6 @@ jobs:
       - run:
           name: Docs Build
           command: pnpm run docs:build
-      - run:
-          name: YoastSEO example build
-          command: pnpm run yoastseo:build
       - slack/notify:
           channel: circleci
           event: always

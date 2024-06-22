@@ -1,20 +1,26 @@
-fragment CoreParagraph on CoreParagraph {
+fragment CoreButton on CoreButton {
   attributes {
-    align
     anchor
     backgroundColor
+    borderColor
     className
-    content
     cssClassName
-    direction
-    dropCap
     fontFamily
     fontSize
     gradient
+    linkClassName
+    linkTarget
     lock
     metadata
     placeholder
+    rel
     style
+    tagName
+    text
+    textAlign
     textColor
+    title
+    type
+    url
   }
 }

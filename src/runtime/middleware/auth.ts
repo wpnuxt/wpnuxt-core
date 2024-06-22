@@ -1,11 +1,12 @@
-import { useWPNuxtLogger } from '../composables/wpNuxtLogger'
+import type {} from 'nuxt/app' // workaround for https://github.com/nuxt/module-builder/issues/141
+import { useLogger } from '../util/logger'
 import { loginUser } from '../composables/user'
 import { defineNuxtRouteMiddleware, ref, useFetch, useCookie, navigateTo, useRequestEvent, useRuntimeConfig } from '#imports'
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const config = useRuntimeConfig()
   const event = useRequestEvent()
-  const logger = useWPNuxtLogger()
+  const logger = useLogger()
 
   if (to.path === '/login') {
     logger.debug('auth middleware, redirect to wordpress login')

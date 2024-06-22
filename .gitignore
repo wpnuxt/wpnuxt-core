@@ -57,12 +57,14 @@ Temporary Items
 playground/.vercel/
 
 wordpress/files/
-playground/schema.graphql
+playground/.queries/
 playground/queries/
-examples/yoastseo/test-src/queries/
-examples/yoastseo/test-src/schema.graphql
+playground/schema.graphql
+tests/fixtures/basic/.queries/
 tests/fixtures/basic/queries/
 tests/fixtures/basic/schema.graphql
 playground/.eslintcache
 docs/.eslintcache
-examples/yoastseo/.eslintcache
+.queries
+queries
+schema.graphql

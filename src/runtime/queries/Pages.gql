@@ -1,4 +1,4 @@
-#import "~/queries/fragments/Page.fragment.gql"
+#import "~/.queries/fragments/Page.fragment.gql"
 query Pages($limit: Int = 10) {
   pages(first: $limit) {
     nodes {

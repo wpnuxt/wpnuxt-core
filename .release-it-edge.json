@@ -1,0 +1,8 @@
+{
+  "git": {
+    "push": false
+  },
+  "github": {
+    "release": false
+  }
+}

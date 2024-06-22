@@ -1,7 +1,11 @@
-#import "~/queries/fragments/Menu.fragment.gql"
+#import "~/.queries/fragments/MenuItem.fragment.gql"
 
 query Menu($name: ID! = "main", $idType: MenuNodeIdTypeEnum! = NAME) {
   menu(id: $name, idType: $idType) {
-    ...Menu
+    menuItems {
+      nodes {
+        ...MenuItem
+      }
+    }
   }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CoreGallery, CoreImage } from '#graphql-operations'
+import type { CoreGallery, CoreImage } from '#wpnuxt/blocks'
 
 const props = defineProps<{
   block: CoreGallery
@@ -24,8 +24,8 @@ props.block?.innerBlocks?.forEach((innerBlock) => {
         v-if="imgBlock"
         class="galleryImgWrapper rounded-lg overflow-hidden relative mb-4 md:mb-6  shadow-md hover:shadow-xl"
       >
-        <ImageComponent
-          :url="imgBlock.attributes?.url"
+        <CoreImage
+          :block="imgBlock"
           class="rounded-lg cursor-pointer w-full"
           width="300"
         />
