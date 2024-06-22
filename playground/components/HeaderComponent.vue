@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useMenu } from '#imports'
+import type { MenuItemFragment } from '#wpnuxt'
+import { useMenu } from '#wpnuxt'
 
-const { data: menu } = await useMenu('main')
+const { data: menu } = await useMenu({ name: 'main' })
 
-let wpLinks = []
+let wpLinks: MenuItemFragment[] = []
 if (menu.value) {
   wpLinks = menu.value?.map(link => ({
     label: link.label,
@@ -13,12 +14,12 @@ if (menu.value) {
 const links = [
   ...wpLinks,
   {
-    label: 'Test',
-    to: '/test'
+    label: 'Composables',
+    to: '/composables'
   },
   {
-    label: 'Generated Composables',
-    to: '/composables'
+    label: 'Config',
+    to: '/config'
   },
   {
     label: 'Auth',

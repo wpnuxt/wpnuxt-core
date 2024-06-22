@@ -1,5 +1,4 @@
 import { useLocalStorage } from '@vueuse/core'
-import { useViewer } from './useViewer'
 import type { Viewer } from '#graphql-operations'
 
 const currentUserId = useLocalStorage<number>('CURRENT_USER_ID', null)

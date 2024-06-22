@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { useHead } from '#imports'
+import { useGeneralSettings, usePosts } from '#wpnuxt'
+
 const { data: posts } = await usePosts()
 const { data: settings } = await useGeneralSettings()
-const { data: latestPost } = await useLatestPost()
+const { data: latestPost } = await usePosts({ limit: 1 })
+
 useHead({
-  title: settings.value.title
+  title: settings.value?.title
 })
 </script>
 
@@ -38,17 +42,17 @@ useHead({
       title="Latest Post"
     >
       <ULandingCard
-        :title="latestPost.title"
-        :description="latestPost.date?.split('T')[0]"
-        :to="latestPost.uri"
+        :title="latestPost[0]?.title"
+        :description="latestPost[0]?.date?.split('T')[0]"
+        :to="latestPost[0]?.uri"
       >
         <img
-          v-if="latestPost?.featuredImage?.node?.sourceUrl"
-          :src="latestPost.featuredImage.node.sourceUrl"
+          v-if="latestPost[0]?.featuredImage?.node?.sourceUrl"
+          :src="latestPost[0]?.featuredImage.node.sourceUrl"
           class="w-full rounded-md"
         >
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <span v-html="latestPost.excerpt" />
+        <span v-html="latestPost[0]?.excerpt" />
       </ULandingCard>
     </ULandingSection>
   </div>

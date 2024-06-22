@@ -2,7 +2,10 @@
   "name": "@vernaillen/wpnuxt",
   "version": "0.4.4",
   "description": "WPNuxt",
-  "repository": "vernaillen/wpnuxt-module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vernaillen/wpnuxt-module.git"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {

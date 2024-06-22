@@ -3,6 +3,7 @@ import { defineNuxtModule, addComponent, addComponentsDir, addRouteMiddleware, a
 import defu from 'defu'
 import { genDynamicImport } from 'knitwork'
 import type { Component } from '@nuxt/schema'
+import { name, version } from '../package.json'
 import type { WPNuxtConfig } from './types'
 import { initLogger, validateConfig } from './utils'
 import { generateWPNuxtComposables } from './generate'
@@ -29,8 +30,10 @@ const defaultConfigs: WPNuxtConfig = {
 
 export default defineNuxtModule<WPNuxtConfig>({
   meta: {
-    name: 'wpnuxt-module',
-    configKey: 'wpNuxt'
+    name,
+    version,
+    configKey: 'wpNuxt',
+    nuxt: '>=3.1.0'
   },
   // Default configuration options of the Nuxt module
   defaults: defaultConfigs,
@@ -89,22 +92,9 @@ export default defineNuxtModule<WPNuxtConfig>({
 
     addImports([
       { name: 'isStaging', as: 'isStaging', from: resolveRuntimeModule('./composables/isStaging') },
-      { name: 'useGeneralSettings', as: 'useGeneralSettings', from: resolveRuntimeModule('./composables/useGeneralSettings') },
-      { name: 'useMenu', as: 'useMenu', from: resolveRuntimeModule('./composables/useMenu') },
-      { name: 'useNodeByUri', as: 'useNodeByUri', from: resolveRuntimeModule('./composables/useNode') },
-
-      { name: 'usePages', as: 'usePages', from: resolveRuntimeModule('./composables/usePages') },
-      { name: 'usePageByUri', as: 'usePageByUri', from: resolveRuntimeModule('./composables/usePages') },
-      { name: 'usePageById', as: 'usePageById', from: resolveRuntimeModule('./composables/usePages') },
-
-      { name: 'useLatestPost', as: 'useLatestPost', from: resolveRuntimeModule('./composables/usePosts') },
-      { name: 'usePosts', as: 'usePosts', from: resolveRuntimeModule('./composables/usePosts') },
-      { name: 'usePostById', as: 'usePostById', from: resolveRuntimeModule('./composables/usePosts') },
-      { name: 'usePostByUri', as: 'usePostByUri', from: resolveRuntimeModule('./composables/usePosts') },
 
       { name: 'getContentNodes', as: 'getContentNodes', from: resolveRuntimeModule('./composables/useWPContent') },
       { name: 'getContentNode', as: 'getContentNode', from: resolveRuntimeModule('./composables/useWPContent') },
-      { name: 'fetchContent', as: 'fetchContent', from: resolveRuntimeModule('./composables/useWPContent') },
       { name: 'parseDoc', as: 'parseDoc', from: resolveRuntimeModule('./composables/useParser') },
 
       { name: 'loginUser', as: 'loginUser', from: resolveRuntimeModule('./composables/user') },
@@ -113,7 +103,6 @@ export default defineNuxtModule<WPNuxtConfig>({
       { name: 'getCurrentUserName', as: 'getCurrentUserName', from: resolveRuntimeModule('./composables/user') },
 
       { name: 'useTokens', as: 'useTokens', from: resolveRuntimeModule('./composables/useTokens') },
-      { name: 'useViewer', as: 'useViewer', from: resolveRuntimeModule('./composables/useViewer') },
       { name: 'useWPUri', as: 'useWPUri', from: resolveRuntimeModule('./composables/useWPUri') },
       { name: 'useFeaturedImage', as: 'useFeaturedImage', from: resolveRuntimeModule('./composables/useFeaturedImage') }
     ])
@@ -283,8 +272,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
 
-    if (publicWPNuxtConfig.generateComposables === true
-      || (typeof publicWPNuxtConfig.generateComposables === 'object' && publicWPNuxtConfig.generateComposables.enabled)) {
+    if (publicWPNuxtConfig.generateComposables && publicWPNuxtConfig.generateComposables.enabled) {
       logger.trace('Generating composables')
 
       const composablesConfig = typeof publicWPNuxtConfig.generateComposables === 'object'

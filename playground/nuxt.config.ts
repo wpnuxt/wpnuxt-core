@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     downloadSchema: true,
     generateComposables: {
       enabled: true,
-      prefix: 'wp'
+      prefix: 'use'
     }
   },
   ui: {

@@ -1,16 +1,15 @@
 import type { FetchError } from 'ofetch'
 import { getRelativeImagePath } from '../util/images'
-import { useLogger } from '../util/logger'
 import { useTokens } from './useTokens'
 import { useFetch, useNuxtApp, type AsyncData } from '#app'
 
-const _getContentNodes = async <T>(queryName: string, node1Name?: string, node2Name?: string, node3Name?: string, params?: T): Promise<AsyncData<T | null, FetchError | null>> => {
+const _getContentNodes = async <T>(queryName: string, node1Name?: string, node2Name?: string, node3Name?: string, params?: T): Promise<AsyncData<T, FetchError | null>> => {
   const node1 = node1Name ? node1Name : queryName.toLowerCase()
   const node2 = node2Name ? node2Name : undefined
   const node3 = node3Name || node3Name == null ? node3Name : undefined
   return await _fetchContentNode<T>(queryName, node1, node2, node3, false, params)
 }
-const _getContentNode = async <T>(queryName: string, nodeName?: string, params?: T): Promise<AsyncData<T | null, FetchError | null>> => {
+const _getContentNode = async <T>(queryName: string, nodeName?: string, params?: T): Promise<AsyncData<T, FetchError | null>> => {
   const node = nodeName ? nodeName : queryName.toLowerCase()
   return await _fetchContentNode<T>(queryName, node, undefined, undefined, true, params)
 }
@@ -53,7 +52,7 @@ const _fetchContentNode = async <T>(queryName: string, node1: string, node2: str
   })
 }
 
-const _fetchContent = async <T>(queryName: string, params?: T): Promise<AsyncData<T | undefined, FetchError | null | undefined>> => {
+/* const _fetchContent = async <T>(queryName: string, params?: T): Promise<AsyncData<T | undefined, FetchError | null | undefined>> => {
   useLogger().trace('fetchContent, query: ', queryName, ', params: ', params)
   const nuxtApp = useNuxtApp()
   const tokens = useTokens()
@@ -78,8 +77,7 @@ const _fetchContent = async <T>(queryName: string, params?: T): Promise<AsyncDat
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
     }
   })
-}
+} */
 
 export const getContentNodes = _getContentNodes
 export const getContentNode = _getContentNode
-export const fetchContent = _fetchContent
