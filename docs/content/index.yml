@@ -29,7 +29,7 @@ sections:
         icon: 'i-ant-design-api-outlined'
         to: ''
   - title: 'Easy to use <br><span class="text-primary">Composables</span>'
-    description: 'Fetch posts, pages, menus or settings from WordPress with simple composables:<br>usePosts()<br>usePages()<br>useMenus()<br>useGeneralSettings()'
+    description: 'Fetch posts, pages, menus or settings from WordPress with simple composables:<br>usePosts()<br>usePages()<br>useMenu({ name: "main" })<br>useGeneralSettings()'
     class: 'dark bg-gray-900'
     align: left
     links:
@@ -51,7 +51,7 @@ sections:
       </script>
 
       <template>
-        <div v-for="post, index in posts.data" :key="index" >
+        <div v-for="post, index in posts" :key="index" >
           <NuxtLink :to="post.uri">
             {{ post.title }}
           </NuxtLink>
