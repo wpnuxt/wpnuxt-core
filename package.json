@@ -75,12 +75,12 @@
     "changelogen": "^0.5.5",
     "nuxt": "^3.12.2",
     "release-it": "^17.4.0",
-    "typescript": "5.4.5",
+    "typescript": "5.5.2",
     "untyped": "1.4.2",
     "vite": "^5.3.1",
     "vitest": "^1.6.0",
     "vue-docgen-web-types": "^0.1.8",
-    "vue-tsc": "^2.0.21"
+    "vue-tsc": "^2.0.22"
   },
   "peerDependencies": {
     "consola": "^3.2.3",
