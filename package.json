@@ -75,7 +75,7 @@
     "changelogen": "^0.5.5",
     "nuxt": "^3.12.2",
     "release-it": "^17.4.0",
-    "typescript": "5.5.2",
+    "typescript": "^5.5.2",
     "untyped": "1.4.2",
     "vite": "^5.3.1",
     "vitest": "^1.6.0",
