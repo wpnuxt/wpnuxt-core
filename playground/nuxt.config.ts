@@ -2,15 +2,18 @@ export default defineNuxtConfig({
   extends: [
     '@nuxt/ui-pro'
   ],
+
   modules: [
     '@nuxt/eslint',
     '@nuxt/image',
     '@nuxt/ui',
     '../src/module'
   ],
+
   future: {
     compatibilityVersion: 4
   },
+
   eslint: {
     config: {
       stylistic: {
@@ -23,9 +26,11 @@ export default defineNuxtConfig({
       fix: true
     }
   },
+
   experimental: {
     payloadExtraction: true
   },
+
   wpNuxt: {
     wordpressUrl: 'https://wordpress.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
@@ -42,9 +47,11 @@ export default defineNuxtConfig({
       prefix: 'use'
     }
   },
+
   ui: {
     icons: ['heroicons', 'uil', 'mdi']
   },
+
   image: {
     provider: 'twicpics',
     domains: ['wordpress.wpnuxt.com'],
@@ -52,8 +59,11 @@ export default defineNuxtConfig({
       baseURL: 'https://vernaillen.twic.pics/wpnuxt-demo'
     }
   },
+
   routeRules: {
     '/wp-content/**': { proxy: { to: 'http://localhost:10004/wp-content/**' } }
   },
-  devtools: { enabled: true }
+
+  devtools: { enabled: true },
+  compatibilityDate: '2024-07-02'
 })
