@@ -66,6 +66,3 @@ jobs:
 
       - name: Playground Build
         run: pnpm run dev:build
-
-      - name: Docs Build
-        run: pnpm run docs:build
