@@ -7,13 +7,6 @@ query Posts($limit: Int = 10) {
     }
   }
 }
-query LatestPost {
-  posts(first: 1) {
-    nodes {
-      ...Post
-    }
-  }
-}
 query PostByUri($uri: String!) {
   nodeByUri(uri: $uri) {
     ...Post
