@@ -1,6 +1,5 @@
 fragment CoreQuote on CoreQuote {
   attributes {
-    align
     anchor
     backgroundColor
     citation
