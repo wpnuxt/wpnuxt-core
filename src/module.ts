@@ -89,9 +89,7 @@ export default defineNuxtModule<WPNuxtConfig>({
 
     addImports([
       { name: 'isStaging', as: 'isStaging', from: resolveRuntimeModule('./composables/isStaging') },
-
-      { name: 'getContentNodes', as: 'getContentNodes', from: resolveRuntimeModule('./composables/useWPContent') },
-      { name: 'getContentNode', as: 'getContentNode', from: resolveRuntimeModule('./composables/useWPContent') },
+      { name: 'useWPContent', as: 'useWPContent', from: resolveRuntimeModule('./composables/useWPContent') },
       { name: 'parseDoc', as: 'parseDoc', from: resolveRuntimeModule('./composables/useParser') },
 
       { name: 'loginUser', as: 'loginUser', from: resolveRuntimeModule('./composables/user') },
