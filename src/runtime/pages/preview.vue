@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useWPUri } from '../composables/useWPUri'
-import { getContentNode } from '../composables'
+import { useWPContent } from '../composables'
 import { useRoute, ref } from '#imports'
 import type { EditorBlock, Page } from '#graphql-operations'
 
@@ -11,7 +11,7 @@ const postEditUrl = useWPUri().postEdit(previewId?.toString() || '')
 const page = ref<Page>()
 if (previewId) {
   const id = Number.parseInt(previewId.toString())
-  const { data } = await getContentNode('PageById', 'page', { id, preview: true })
+  const { data } = await useWPContent('PageById', 'page', undefined, undefined, false, { id, preview: true })
   page.value = data.value
 }
 </script>
