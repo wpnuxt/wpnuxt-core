@@ -11,7 +11,7 @@ const postEditUrl = useWPUri().postEdit(previewId?.toString() || '')
 const page = ref<Page>()
 if (previewId) {
   const id = Number.parseInt(previewId.toString())
-  const { data } = await useWPContent('PageById', 'page', undefined, undefined, false, { id, preview: true })
+  const { data } = await useWPContent('PageById', ['page'], false, { id, preview: true })
   page.value = data.value
 }
 </script>
