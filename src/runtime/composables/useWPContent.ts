@@ -33,7 +33,7 @@ const _useWPContent = async <T>(queryName: string, nodes: string[], fixImagePath
   })
 }
 
-const findData = (data: any, nodes: string[]) => {
+const findData = (data: unknown, nodes: string[]) => {
   if (nodes.length === 0) return data
   if (nodes.length > 0) {
     return nodes.reduce((acc, node) => {
