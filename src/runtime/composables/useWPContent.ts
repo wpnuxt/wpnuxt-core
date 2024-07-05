@@ -3,10 +3,10 @@ import { getRelativeImagePath } from '../util/images'
 import { useTokens } from './useTokens'
 import { useFetch, useNuxtApp, type AsyncData } from '#app'
 
-const _useWPContent = async <T>(queryName: string, node1: string, node2: string | undefined, node3: string | undefined, fixImagePaths: boolean, params?: T): Promise<AsyncData<T, FetchError | null>> => {
+const _useWPContent = async <T>(queryName: string, nodes: string[], fixImagePaths: boolean, params?: T): Promise<AsyncData<T, FetchError | null>> => {
   const nuxtApp = useNuxtApp()
   const tokens = useTokens()
-  const cacheKey = `wp-${queryName}-${node1}-${node2}-${node3}-${JSON.stringify(params)}`
+  const cacheKey = `wp-${queryName}-${nodes}-${JSON.stringify(params)}`
 
   return useFetch('/api/wpContent', {
     method: 'POST',
@@ -19,16 +19,7 @@ const _useWPContent = async <T>(queryName: string, node1: string, node2: string 
       Authorization: tokens.authorizationHeader
     },
     transform(data) {
-      let transformedData
-      if (node2 && node3) {
-        transformedData = data.data[node1][node2][node3]
-      } else if (!node2 && node3) {
-        transformedData = data.data[node1][node3]
-      } else if (node2 && !node3) {
-        transformedData = data.data[node1][node2]
-      } else {
-        transformedData = data.data[node1]
-      }
+      const transformedData = findData(data.data, nodes)
       if (fixImagePaths && transformedData?.featuredImage?.node?.sourceUrl) {
         transformedData.featuredImage.node.relativePath
           = getRelativeImagePath(transformedData.featuredImage.node.sourceUrl)
@@ -40,6 +31,15 @@ const _useWPContent = async <T>(queryName: string, node1: string, node2: string 
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
     }
   })
+}
+
+const findData = (data: unknown, nodes: string[]) => {
+  if (nodes.length === 0) return data
+  if (nodes.length > 0) {
+    return nodes.reduce((acc, node) => {
+      return acc[node]
+    }, data)
+  }
 }
 
 export const useWPContent = _useWPContent

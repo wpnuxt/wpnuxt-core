@@ -26,10 +26,8 @@ export async function prepareContext(ctx: WPNuxtContext) {
   const fnExp = (q: WPNuxtQuery, typed = false) => {
     const functionName = fnName(q.name)
     if (!typed) {
-      const node1 = q.nodes && q.nodes.length > 0 ? '\'' + q.nodes[0] + '\'' : null
-      const node2 = q.nodes && q.nodes.length > 1 ? '\'' + q.nodes[1] + '\'' : null
-      const node3 = q.nodes && q.nodes.length > 2 ? '\'' + q.nodes[2] + '\'' : null
-      return `export const ${functionName} = (params) => useWPContent('${q.name}', ${node1}, ${node2}, ${node3}, false, params)`
+      const nodesArray = q.nodes?.map(n => `'${n}'`)
+      return `export const ${functionName} = (params) => useWPContent('${q.name}', [${nodesArray?.join(',')}], false, params)`
     }
     let fragmentSuffix = ''
     if (q.fragments && q.fragments.length > 0 && q.nodes && q.nodes.length > 0 && q.nodes.includes('nodes')) {

@@ -31,7 +31,7 @@ if (uri.startsWith('/')) {
 if (uri.endsWith('/')) {
   uri = uri.substring(0, uri.length - 1)
 }
-const { data: post } = await useWPContent('NodeByUri', 'nodeByUri', undefined, undefined, false, { uri: uri })
+const { data: post } = await useWPContent('NodeByUri', ['nodeByUri'], false, { uri: uri })
 </script>
 
 <template>
