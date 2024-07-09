@@ -67,5 +67,4 @@ tests/fixtures/basic/schema.graphql
 playground/.eslintcache
 docs/.eslintcache
 .queries
-queries
 schema.graphql
