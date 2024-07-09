@@ -91,6 +91,7 @@ export default defineNuxtModule<WPNuxtConfig>({
       { name: 'isStaging', as: 'isStaging', from: resolveRuntimeModule('./composables/isStaging') },
       { name: 'useWPContent', as: 'useWPContent', from: resolveRuntimeModule('./composables/useWPContent') },
       { name: 'parseDoc', as: 'parseDoc', from: resolveRuntimeModule('./composables/useParser') },
+      { name: 'usePrevNextPost', as: 'usePrevNextPost', from: resolveRuntimeModule('./composables/usePrevNextPost') },
 
       { name: 'loginUser', as: 'loginUser', from: resolveRuntimeModule('./composables/user') },
       { name: 'logoutUser', as: 'logoutUser', from: resolveRuntimeModule('./composables/user') },

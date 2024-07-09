@@ -18,6 +18,7 @@ if (post.value?.title) {
     title: post.value.title
   })
 }
+const { prev: prev, next: next } = await usePrevNextPost(route.params.slug[0])
 const staging = await isStaging()
 </script>
 
@@ -38,11 +39,11 @@ const staging = await isStaging()
         </UPageBody>
         <template #left>
           <UAside>
-            <UButton
-              icon="i-heroicons-arrow-left"
-              variant="soft"
-              size="sm"
-              to="/"
+            <PrevNext
+              :prev="post.contentTypeName === 'post' ? prev : undefined"
+              :next="post.contentTypeName === 'post' ? next : undefined"
+              prev-button="Vorige"
+              next-button="Volgende"
             />
             <div
               v-if="featuredImage"
