@@ -93,6 +93,12 @@
     "vue-docgen-web-types": "^0.1.8",
     "vue-tsc": "2.0.26"
   },
+  "peerDependencies": {
+    "consola": "^3.2.3",
+    "graphql": "^16.9.0",
+    "knitwork": "^1.1.0",
+    "scule": "^1.3.0"
+  },
   "resolutions": {
     "nuxt-graphql-middleware": "4.0.0"
   },
