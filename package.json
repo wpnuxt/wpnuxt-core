@@ -51,6 +51,9 @@
     "wp:cli": "docker-compose up wordpress-cli",
     "wp:stop": "docker-compose down",
     "wp:delete": "docker-compose down --volumes --remove-orphans --rmi local  && rm -rf ./wordpress/files",
+    "wp-env": "wp-env",
+    "wp-env:create": "wp-env start --update && ./wordpress/wp-env-cli.sh",
+    "start": "pnpm run wp-env:create && pnpm run dev",
     "production-test": "pnpm --filter ./playground/ run build && pnpm run prepack && pnpm --filter ./playground/ run generate && npx serve ./playground/.output/public"
   },
   "dependencies": {
@@ -75,6 +78,7 @@
     "@types/node": "20.14.9",
     "@vitest/coverage-v8": "^1.6.0",
     "@vue/test-utils": "^2.4.6",
+    "@wordpress/env": "^10.2.0",
     "changelogen": "^0.5.5",
     "markdownlint-cli": "^0.41.0",
     "nuxt": "^3.12.3",

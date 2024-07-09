@@ -1,6 +1,0 @@
-node_modules
-dist
-playground/node_modules
-playground/dist
-playground/.output
-playground/.nuxt
