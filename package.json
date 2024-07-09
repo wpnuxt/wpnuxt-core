@@ -76,7 +76,7 @@
     "@rollup/rollup-linux-arm64-gnu": "^4.18.0",
     "@rollup/rollup-linux-arm64-musl": "^4.18.0",
     "@types/node": "20.14.9",
-    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/coverage-v8": "^2.0.1",
     "@vue/test-utils": "^2.4.6",
     "@wordpress/env": "^10.2.0",
     "changelogen": "^0.5.5",
@@ -89,7 +89,7 @@
     "typescript": "^5.5.3",
     "untyped": "1.4.2",
     "vite": "^5.3.2",
-    "vitest": "^1.6.0",
+    "vitest": "^2.0.1",
     "vue-docgen-web-types": "^0.1.8",
     "vue-tsc": "2.0.24"
   },
