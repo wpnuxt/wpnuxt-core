@@ -41,20 +41,12 @@
     "typecheck:docs": "DOCS_TYPECHECK=true pnpm nuxi prepare && nuxt-content-twoslash verify --content-dir docs",
     "release": "npm run lint; release-it --git.tagExclude='*[-edge]*'",
     "release-edge": "npm run lint; release-it --no-github --preRelease=edge --config .release-it-edge.json",
-    "docs:dev": "pnpm --filter ./docs/ run dev",
-    "docs:build": "pnpm --filter ./docs/ run build",
-    "wp:start": "docker-compose up wordpress.local wordpress-cli db phpmyadmin",
-    "wp:start-silent": "docker-compose up -d wordpress.local wordpress-cli db phpmyadmin",
-    "wp:start-all": "docker-compose up",
-    "wp:start-all-silent": "docker-compose up -d",
-    "wp:start-app": "docker-compose up app.local",
     "wp:cli": "docker-compose up wordpress-cli",
     "wp:stop": "docker-compose down",
     "wp:delete": "docker-compose down --volumes --remove-orphans --rmi local  && rm -rf ./wordpress/files",
     "wp-env": "wp-env",
     "wp-env:create": "wp-env start --update && ./wordpress/wp-env-cli.sh",
-    "start": "pnpm run wp-env:create && pnpm run dev",
-    "production-test": "pnpm --filter ./playground/ run build && pnpm run prepack && pnpm --filter ./playground/ run generate && npx serve ./playground/.output/public"
+    "start": "pnpm run wp-env:create && pnpm run dev"
   },
   "dependencies": {
     "@nuxt/kit": "3.12.3",
