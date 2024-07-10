@@ -70,7 +70,7 @@
     "@types/node": "20.14.10",
     "@vitest/coverage-v8": "^2.0.1",
     "@vue/test-utils": "^2.4.6",
-    "@wordpress/env": "^10.2.0",
+    "@wordpress/env": "^10.3.0",
     "changelogen": "^0.5.5",
     "markdownlint-cli": "^0.41.0",
     "nuxt": "^3.12.3",
