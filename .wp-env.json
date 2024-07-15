@@ -14,7 +14,7 @@
   },
   "mappings": {
     "wp-cli.yml": "./wordpress/wp-env-apache-modules.yml",
-    "testpage-content.txt": "./wordpress/demo-content/testpage-content.txt"
+    "demo-content": "./wordpress/demo-content"
   },
   "lifecycleScripts": {
     "afterStart": "wp-env run cli wp rewrite structure /%postname%/ --hard"
