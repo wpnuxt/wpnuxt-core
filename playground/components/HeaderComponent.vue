@@ -12,22 +12,31 @@ if (menu.value) {
   }))
 }
 const links = [
+  {
+    label: 'Blog',
+    to: '/'
+  },
   ...wpLinks,
   {
-    label: 'Composables',
-    to: '/composables'
-  },
-  {
-    label: 'Config',
-    to: '/config'
-  },
-  {
-    label: 'Auth',
-    to: '/auth'
-  },
-  {
-    label: 'Error Handling',
-    to: '/errorHandling'
+    label: 'WPNuxt tools',
+    children: [
+      {
+        label: 'Composables',
+        to: '/composables'
+      },
+      {
+        label: 'Config',
+        to: '/config'
+      },
+      {
+        label: 'Auth',
+        to: '/auth'
+      },
+      {
+        label: 'Test Error Handling',
+        to: '/errorHandling'
+      }
+    ]
   }
 ]
 </script>

@@ -12,7 +12,7 @@ useHead({
 </script>
 
 <template>
-  <div>
+  <NuxtLayout>
     <ULandingSection
       id="posts"
       :title="settings.title"
@@ -55,5 +55,5 @@ useHead({
         <span v-html="latestPost[0]?.excerpt" />
       </ULandingCard>
     </ULandingSection>
-  </div>
+  </NuxtLayout>
 </template>

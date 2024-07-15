@@ -23,11 +23,7 @@ const staging = await isStaging()
 </script>
 
 <template>
-  <div>
-    <StagingBanner
-      v-if="staging"
-      :post="post"
-    />
+  <NuxtLayout>
     <UContainer>
       <UPage v-if="post">
         <UPageHeader :title="post.title" />
@@ -73,5 +69,5 @@ const staging = await isStaging()
         </template>
       </UPage>
     </UContainer>
-  </div>
+  </NuxtLayout>
 </template>

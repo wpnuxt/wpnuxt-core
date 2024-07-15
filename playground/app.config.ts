@@ -1,6 +1,6 @@
 export default defineAppConfig({
   ui: {
-    primary: 'green',
-    gray: 'wpgray'
+    primary: 'reefgold',
+    gray: 'neutral'
   }
 })

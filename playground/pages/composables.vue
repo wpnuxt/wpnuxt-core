@@ -11,7 +11,7 @@ const { data: settings } = await useGeneralSettings()
 </script>
 
 <template>
-  <div>
+  <NuxtLayout>
     <UContainer class="prose dark:prose-invert pt-5">
       <h2>Examples how to use the generated composables</h2>
       <p>
@@ -49,5 +49,5 @@ const { data: settings } = await useGeneralSettings()
         </li>
       </ul>
     </UContainer>
-  </div>
+  </NuxtLayout>
 </template>

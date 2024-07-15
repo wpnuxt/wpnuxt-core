@@ -16,7 +16,7 @@ const staging = await isStaging()
 </script>
 
 <template>
-  <div :class="staging ? 'mt-[34px]' : 'mt-0'">
+  <div>
     <HeaderComponent />
     <UMain>
       <UContainer>
@@ -30,5 +30,8 @@ const staging = await isStaging()
       </UContainer>
     </UMain>
     <UFooter />
+    <StagingBanner
+      v-if="staging"
+    />
   </div>
 </template>

@@ -8,10 +8,10 @@ if (!post.value) {
 </script>
 
 <template>
-  <div>
+  <NuxtLayout>
     <UContainer class="prose dark:prose-invert pt-5">
       You should never see this<br>
       {{ post }}
     </UContainer>
-  </div>
+  </NuxtLayout>
 </template>
