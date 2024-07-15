@@ -32,15 +32,19 @@ if (uri.endsWith('/')) {
   uri = uri.substring(0, uri.length - 1)
 }
 const { data: post } = await useWPContent('NodeByUri', ['nodeByUri'], false, { uri: uri })
+
+if (import.meta.client) {
+  document.body.style.marginBottom = '40px'
+}
 </script>
 
 <template>
   <div
     id="wpadminbar"
-    class="h-[34px] w-full fixed top-0 left-0 right-0 bg-gray-50 border-b border-gray-100 shadow-lg"
+    class="h-[40px] w-full fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-gray-800 shadow-[0_-1px_10px_-3px_rgb(0,0,0,0.3)]"
     style="z-index: 9999;"
   >
-    <UContainer class="p-1">
+    <UContainer class="p-2">
       <div class="flex w-full">
         <div class="grow text-left align-top overflow-hidden">
           <div class="hidden sm:inline-flex mr-6 sm:mr-10">
