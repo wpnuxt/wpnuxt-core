@@ -3,8 +3,9 @@ export interface WPNuxtConfig {
   /**
    * Log level for the WPNuxt module
    * @default 3
+   * @example 0 = silent, 1 = error, 2 = warn, 3 = info, 4 = debug, 5 = trace
    */
-  logLevel?: 1 | 2 | 3 | 4 | 5
+  logLevel?: number
   /**
    * URL of the WordPress site
    *

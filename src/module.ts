@@ -3,6 +3,7 @@ import { defineNuxtModule, addComponent, addComponentsDir, addRouteMiddleware, a
 import defu from 'defu'
 import { genDynamicImport } from 'knitwork'
 import type { Component } from '@nuxt/schema'
+import consola from 'consola'
 import { name, version } from '../package.json'
 import type { WPNuxtConfig, WPNuxtConfigComposables } from './types'
 import { initLogger, validateConfig } from './utils'
@@ -38,8 +39,7 @@ export default defineNuxtModule<WPNuxtConfig>({
   defaults: defaultConfigs,
   async setup(options, nuxt) {
     const startTime = new Date().getTime()
-    const logger = initLogger(options.logLevel)
-    logger.start('WPNuxt ::: Starting setup ::: ')
+    consola.log('WPNuxt ::: Starting setup ::: ')
 
     const publicWPNuxtConfig: WPNuxtConfig = {
       wordpressUrl: process.env.WPNUXT_WORDPRESS_URL || options.wordpressUrl!,
@@ -52,7 +52,7 @@ export default defineNuxtModule<WPNuxtConfig>({
       staging: process.env.WPNUXT_STAGING === 'true' || options.staging!,
       downloadSchema: process.env.WPNUXT_DOWNLOAD_SCHEMA === 'true' || options.downloadSchema,
       // TODO also allow below options as env vars?
-      logLevel: options.logLevel,
+      logLevel: process.env.WPNUXT_LOG_LEVEL ? Number.parseInt(process.env.WPNUXT_LOG_LEVEL) : options.logLevel,
       generateComposables: options.generateComposables
     }
     // we're not putting the secret in public config, so it goes into runtimeConfig
@@ -61,11 +61,12 @@ export default defineNuxtModule<WPNuxtConfig>({
     })
     nuxt.options.runtimeConfig.public.wpNuxt = publicWPNuxtConfig
     validateConfig(publicWPNuxtConfig)
+    const logger = initLogger(publicWPNuxtConfig.logLevel)
 
     logger.info('Connecting GraphQL to', publicWPNuxtConfig.wordpressUrl)
     logger.info('frontendUrl:', publicWPNuxtConfig.frontendUrl)
     if (publicWPNuxtConfig.enableCache) logger.info('Cache enabled')
-    logger.debug('Debug mode enabled')
+    logger.debug('Debug mode enabled, log level:', publicWPNuxtConfig.logLevel)
     if (publicWPNuxtConfig.staging) logger.info('Staging enabled')
     if (publicWPNuxtConfig.blocks) logger.info('Blocks enabled')
 
