@@ -8,9 +8,11 @@ defineProps<{
 </script>
 
 <template>
-  <BlockComponent
-    v-for="block, index in blocks"
-    :key="index"
-    :block="block"
-  />
+  <div>
+    <BlockComponent
+      v-for="block, index in blocks"
+      :key="index"
+      :block="block"
+    />
+  </div>
 </template>
