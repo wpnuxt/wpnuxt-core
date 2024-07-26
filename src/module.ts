@@ -143,6 +143,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     addComponent({ name: 'BlockRenderer', filePath: resolveRuntimeModule('./components/BlockRenderer') })
     addComponent({ name: 'StagingBanner', filePath: resolveRuntimeModule('./components/StagingBanner') })
     addComponent({ name: 'WPNuxtLogo', filePath: resolveRuntimeModule('./components/WPNuxtLogo') })
+    addComponent({ name: 'WordPressLogo', filePath: resolveRuntimeModule('./components/WordPressLogo') })
 
     const userPreviewPath = '~/pages/preview.vue'
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
