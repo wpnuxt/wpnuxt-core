@@ -261,7 +261,7 @@ export default defineNuxtModule<WPNuxtConfig>({
       devtools: true
     })
 
-    const resolvedPath = resolveRuntimeModule('./app/graphqlMiddleware.serverOptions')
+    /* const resolvedPath = resolveRuntimeModule('./app/graphqlMiddleware.serverOptions')
     const template = addTemplate({
       filename: 'graphqlMiddleware.serverOptions',
       write: true,
@@ -269,6 +269,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     })
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
+    */
 
     if (publicWPNuxtConfig.generateComposables && publicWPNuxtConfig.generateComposables.enabled) {
       logger.trace('Generating composables')
