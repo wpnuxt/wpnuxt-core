@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.5.6
+
+[compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.5.5...v0.5.6)
+
+### 🏡 Chore
+
+- Update dependencies - ([705650a](https://github.com/vernaillen/wpnuxt-module/commit/705650a))
+- Update dependencies - nuxt-graphql-middleware 4.1.1 ([fd47665](https://github.com/vernaillen/wpnuxt-module/commit/fd47665))
+- Update dependencies - ([29d66d0](https://github.com/vernaillen/wpnuxt-module/commit/29d66d0))
+- Update dependencies - ([d717e0e](https://github.com/vernaillen/wpnuxt-module/commit/d717e0e))
+- Update dependencies - ([ce3c1ee](https://github.com/vernaillen/wpnuxt-module/commit/ce3c1ee))
+
+### ❤️ Contributors
+
+- Wouter Vernaillen <wouter@vernaillen.com>
+
 ## v0.5.5
 
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.5.4...v0.5.5)
