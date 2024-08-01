@@ -279,7 +279,7 @@ export default defineNuxtModule<WPNuxtConfig>({
       export type GraphqlResponseTyped = GraphqlResponse<GraphqlMiddlewareResponseUnion>
 
       export { serverOptions }
-      `,
+      `
     })
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
