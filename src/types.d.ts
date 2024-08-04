@@ -26,7 +26,6 @@ export interface WPNuxtConfig {
    * @default true
    */
   blocks?: boolean
-  showBlockInfo?: boolean
 
   replaceSchema?: boolean
   enableCache?: boolean

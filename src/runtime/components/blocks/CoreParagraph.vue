@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CoreParagraph } from '#graphql-operations'
+import type { CoreParagraph } from '#wpnuxt/blocks'
 
 defineProps<{
   block: CoreParagraph
@@ -7,5 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <p v-html="block?.attributes?.content" />
+  <div>
+    <p v-sanitize="block?.attributes?.content" />
+  </div>
 </template>
