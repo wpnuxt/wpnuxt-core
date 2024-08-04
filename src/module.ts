@@ -87,7 +87,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
 
     addPlugin({
-      src: resolveRuntimeModule('plugins/vue-sanitize-directive.ts')
+      src: resolveRuntimeModule('plugins/vue-sanitize-directive')
     })
 
     addImports([
