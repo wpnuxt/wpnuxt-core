@@ -32,8 +32,7 @@ useHead({
             :src="post.featuredImage.node.sourceUrl"
             class="w-full rounded-md"
           >
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <span v-html="post.excerpt" />
+          <span v-sanitize="post.excerpt" />
         </ULandingCard>
       </UPageGrid>
     </ULandingSection>
@@ -51,8 +50,7 @@ useHead({
           :src="latestPost[0]?.featuredImage.node.sourceUrl"
           class="w-full rounded-md"
         >
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <span v-html="latestPost[0]?.excerpt" />
+        <span v-sanitize="latestPost[0]?.excerpt" />
       </ULandingCard>
     </ULandingSection>
   </NuxtLayout>

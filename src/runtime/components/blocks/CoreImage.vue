@@ -9,15 +9,17 @@ const imgUrl = getRelativeImagePath(props.block?.attributes?.url)
 </script>
 
 <template>
-  <NuxtImg
-    v-if="imgUrl"
-    :src="imgUrl"
-    :alt="block?.attributes?.alt"
-    :width="block?.attributes?.width"
-    :height="block?.attributes?.height"
-  />
-  <div
-    v-else
-    v-html="block?.renderedHtml"
-  />
+  <div>
+    <NuxtImg
+      v-if="imgUrl"
+      :src="imgUrl"
+      :alt="block?.attributes?.alt"
+      :width="block?.attributes?.width"
+      :height="block?.attributes?.height"
+    />
+    <div
+      v-else
+      v-sanitize="block?.renderedHtml"
+    />
+  </div>
 </template>

@@ -6,7 +6,6 @@ import type { EditorBlock } from '#wpnuxt/blocks'
 const manifest = await import('#wpnuxt/blocks').catch(() => ({}))
 
 const config = useRuntimeConfig()
-const showBlockInfo = config.public.wpNuxt.showBlockInfo
 
 const props = defineProps<{
   block: EditorBlock
@@ -30,14 +29,11 @@ const componentToRender = await findComponentToRender()
 </script>
 
 <template>
-  <LazyBlockInfo
-    v-if="componentToRender && showBlockInfo"
-    :block="block"
-    :component-to-render="componentToRender"
-  />
-  <component
-    :is="componentToRender"
-    v-if="componentToRender"
-    :block="block"
-  />
+  <div>
+    <component
+      :is="componentToRender"
+      v-if="componentToRender"
+      :block="block"
+    />
+  </div>
 </template>

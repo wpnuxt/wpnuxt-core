@@ -1,5 +1,5 @@
 import fs, { existsSync } from 'node:fs'
-import { defineNuxtModule, addComponent, addComponentsDir, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver } from '@nuxt/kit'
+import { defineNuxtModule, addComponent, addComponentsDir, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
 import defu from 'defu'
 import { genDynamicImport } from 'knitwork'
 import type { Component } from '@nuxt/schema'
@@ -20,7 +20,6 @@ const defaultConfigs: WPNuxtConfig = {
   faustSecretKey: '',
   defaultMenuName: 'main',
   blocks: true,
-  showBlockInfo: false,
   replaceSchema: false,
   enableCache: true,
   staging: false,
@@ -39,14 +38,13 @@ export default defineNuxtModule<WPNuxtConfig>({
   defaults: defaultConfigs,
   async setup(options, nuxt) {
     const startTime = new Date().getTime()
-    consola.log('WPNuxt ::: Starting setup ::: ')
+    consola.log('::: Starting WPNuxt setup ::: ')
 
     const publicWPNuxtConfig: WPNuxtConfig = {
       wordpressUrl: process.env.WPNUXT_WORDPRESS_URL || options.wordpressUrl!,
       frontendUrl: process.env.WPNUXT_FRONTEND_URL || options.frontendUrl!,
       defaultMenuName: process.env.WPNUXT_DEFAULT_MENU_NAME || options.defaultMenuName!,
       blocks: process.env.WPNUXT_BLOCKS ? process.env.WPNUXT_BLOCKS === 'true' : options.blocks!,
-      showBlockInfo: process.env.WPNUXT_SHOW_BLOCK_INFO === 'true' || options.showBlockInfo!,
       replaceSchema: process.env.WPNUXT_REPLACE_SCHEMA === 'true' || options.replaceSchema!,
       enableCache: process.env.WPNUXT_ENABLE_CACHE ? process.env.WPNUXT_ENABLE_CACHE === 'true' : options.enableCache!,
       staging: process.env.WPNUXT_STAGING === 'true' || options.staging!,
@@ -87,6 +85,10 @@ export default defineNuxtModule<WPNuxtConfig>({
     }) */
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
+
+    addPlugin({
+      src: resolveRuntimeModule('plugins/vue-sanitize-directive.ts')
+    })
 
     addImports([
       { name: 'isStaging', as: 'isStaging', from: resolveRuntimeModule('./composables/isStaging') },
@@ -322,7 +324,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     })
 
     const endTime = new Date().getTime()
-    logger.success('WPNuxt ::: Finished setup in ' + (endTime - startTime) + 'ms ::: ')
+    logger.success('::: Finished WPNuxt setup in ' + (endTime - startTime) + 'ms ::: ')
   }
 })
 

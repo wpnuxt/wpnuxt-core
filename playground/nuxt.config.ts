@@ -36,7 +36,6 @@ export default defineNuxtConfig({
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
     blocks: true,
-    showBlockInfo: false,
     replaceSchema: false,
     enableCache: true,
     staging: false,
