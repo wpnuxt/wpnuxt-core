@@ -28,10 +28,7 @@ const staging = await isStaging()
       <UPage v-if="post">
         <UPageHeader :title="post.title" />
         <UPageBody class="prose dark:prose-invert">
-          <BlockRenderer
-            v-if="post.editorBlocks"
-            :blocks="post.editorBlocks"
-          />
+          <div v-sanitize="post.content" />
         </UPageBody>
         <template #left>
           <UAside>

@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import { useWPUri } from '../composables/useWPUri'
-import { getCurrentUserName } from '../composables/user'
 import { useWPContent } from '../composables'
 import WPNuxtLogo from './WPNuxtLogo.vue'
 import WordPressLogo from './WordPressLogo.vue'
-import { useRuntimeConfig, ref, watch, useHead, useRoute } from '#imports'
+import { useRuntimeConfig, useHead, useRoute } from '#imports'
 
 const config = useRuntimeConfig()
 const frontendUrl = config.public.wpNuxt.frontendUrl
 const wordpressUrl = config.public.wpNuxt.wordpressUrl
 const wpUri = useWPUri()
-const userName = ref<string>()
-userName.value = getCurrentUserName()
-watch(() => getCurrentUserName(), (newVal) => {
-  userName.value = newVal
-})
 useHead({
   title: 'Staging',
   link: [

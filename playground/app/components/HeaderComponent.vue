@@ -29,12 +29,8 @@ const links = [
         to: '/config'
       },
       {
-        label: 'Auth',
-        to: '/auth'
-      },
-      {
-        label: 'Test Error Handling',
-        to: '/errorHandling'
+        label: 'Test Error Page',
+        to: '/errorPage'
       }
     ]
   }
