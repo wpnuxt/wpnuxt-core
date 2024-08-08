@@ -73,7 +73,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     const srcResolver: Resolver = createResolver(nuxt.options.srcDir)
 
     nuxt.options.alias['#wpnuxt'] = resolve(nuxt.options.buildDir, 'wpnuxt')
-    nuxt.options.alias['#wpnuxt/blocks'] = resolve(nuxt.options.buildDir, 'wpnuxt/blocks')
+    // nuxt.options.alias['#wpnuxt/blocks'] = resolve(nuxt.options.buildDir, 'wpnuxt/blocks')
     nuxt.options.alias['#wpnuxt/*'] = resolve(nuxt.options.buildDir, 'wpnuxt', '*')
     nuxt.options.alias['#wpnuxt/types'] = resolve('./types')
     nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
@@ -106,12 +106,12 @@ export default defineNuxtModule<WPNuxtConfig>({
       { name: 'useFeaturedImage', as: 'useFeaturedImage', from: resolveRuntimeModule('./composables/useFeaturedImage') }
     ])
 
-    addRouteMiddleware({
+    /* addRouteMiddleware({
       name: 'auth',
       path: resolveRuntimeModule('./middleware/auth'),
       global: true
-    })
-    if (publicWPNuxtConfig.blocks) {
+    }) */
+    /* if (publicWPNuxtConfig.blocks) {
       logger.debug(' Adding block components dir: ', resolveRuntimeModule('./components/blocks'))
       addComponentsDir({
         path: resolveRuntimeModule('./components/blocks'),
@@ -143,11 +143,12 @@ export default defineNuxtModule<WPNuxtConfig>({
     addComponent({ name: 'BlockComponent', filePath: resolveRuntimeModule('./components/BlockComponent') })
     addComponent({ name: 'BlockInfo', filePath: resolveRuntimeModule('./components/BlockInfo') })
     addComponent({ name: 'BlockRenderer', filePath: resolveRuntimeModule('./components/BlockRenderer') })
+     */
     addComponent({ name: 'StagingBanner', filePath: resolveRuntimeModule('./components/StagingBanner') })
     addComponent({ name: 'WPNuxtLogo', filePath: resolveRuntimeModule('./components/WPNuxtLogo') })
     addComponent({ name: 'WordPressLogo', filePath: resolveRuntimeModule('./components/WordPressLogo') })
 
-    const userPreviewPath = '~/pages/preview.vue'
+    /* const userPreviewPath = '~/pages/preview.vue'
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
       .replace(/^(~|@)/, nuxt.options.srcDir)
     const userPreviewPageExists = existsSync(userPreviewPath)
@@ -173,7 +174,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     addServerHandler({
       route: '/api/tokensFromRefreshToken',
       handler: resolveRuntimeModule('./server/api/tokensFromRefreshToken.post')
-    })
+    }) */
     addServerHandler({
       route: '/api/wpContent',
       handler: resolveRuntimeModule('./server/api/wpContent.post')
@@ -185,7 +186,7 @@ export default defineNuxtModule<WPNuxtConfig>({
 
     await installModule('@vueuse/nuxt', {})
 
-    const componentsContext = { components: [] as Component[] }
+    /* const componentsContext = { components: [] as Component[] }
     nuxt.hook('components:extend', (newComponents) => {
       const moduleBlocksDir = resolveRuntimeModule('./components/blocks')
       // TODO: support layers
@@ -212,7 +213,7 @@ export default defineNuxtModule<WPNuxtConfig>({
         return components.join('\n')
       },
       options: { getComponents: () => componentsContext.components }
-    })
+    }) */
 
     const queryOutputPath = resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/.queries/')
 

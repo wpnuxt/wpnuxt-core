@@ -1,11 +1,9 @@
 import { FetchError } from 'ofetch'
 import { getRelativeImagePath } from '../util/images'
-import { useTokens } from './useTokens'
 import { useFetch, useNuxtApp, type AsyncData } from '#app'
 
 const _useWPContent = async <T>(queryName: string, nodes: string[], fixImagePaths: boolean, params?: T): Promise<AsyncData<T, FetchError | null>> => {
   const nuxtApp = useNuxtApp()
-  const tokens = useTokens()
   const cacheKey = `wp-${queryName}-${nodes}-${JSON.stringify(params)}`
 
   return useFetch('/api/wpContent', {
@@ -15,9 +13,6 @@ const _useWPContent = async <T>(queryName: string, nodes: string[], fixImagePath
       params: params
     },
     key: cacheKey,
-    headers: {
-      Authorization: tokens.authorizationHeader
-    },
     transform(data) {
       const transformedData = findData(data.data, nodes)
       if (fixImagePaths && transformedData?.featuredImage?.node?.sourceUrl) {

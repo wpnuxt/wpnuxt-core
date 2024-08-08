@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { getCurrentUserName, isStaging, useRuntimeConfig, useWPUri } from '#imports'
+import { isStaging, useRuntimeConfig, useWPUri } from '#imports'
 
 const wpUri = useWPUri()
 const staging = await isStaging()
-const userName = getCurrentUserName()
 
 const config = useRuntimeConfig()
 const wpNuxtConfig = config.public.wpNuxt
@@ -17,8 +16,6 @@ const wpNuxtConfig = config.public.wpNuxt
       <pre>{{ wpUri }}</pre>
       <h3>wpNuxtConfig:</h3>
       <pre>{{ wpNuxtConfig }}</pre>
-      <h3>getCurrentUserName()</h3>
-      <pre>{{ userName }}</pre>
       <h3>isStaging()</h3>
       <pre>{{ staging }}</pre>
     </UContainer>
