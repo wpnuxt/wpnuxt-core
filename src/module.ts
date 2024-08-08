@@ -1,8 +1,6 @@
 import fs, { existsSync } from 'node:fs'
-import { defineNuxtModule, addComponent, addComponentsDir, addRouteMiddleware, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
+import { defineNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
 import defu from 'defu'
-import { genDynamicImport } from 'knitwork'
-import type { Component } from '@nuxt/schema'
 import consola from 'consola'
 import { name, version } from '../package.json'
 import type { WPNuxtConfig, WPNuxtConfigComposables } from './types'
@@ -73,16 +71,11 @@ export default defineNuxtModule<WPNuxtConfig>({
     const srcResolver: Resolver = createResolver(nuxt.options.srcDir)
 
     nuxt.options.alias['#wpnuxt'] = resolve(nuxt.options.buildDir, 'wpnuxt')
-    // nuxt.options.alias['#wpnuxt/blocks'] = resolve(nuxt.options.buildDir, 'wpnuxt/blocks')
     nuxt.options.alias['#wpnuxt/*'] = resolve(nuxt.options.buildDir, 'wpnuxt', '*')
     nuxt.options.alias['#wpnuxt/types'] = resolve('./types')
     nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
     nuxt.options.nitro.alias['#wpnuxt/types'] = resolve('./types')
-    /* nuxt.options.alias['#wpnuxt/composables'] = resolveRuntimeModule('./composables/index')
-    nuxt.hook('nitro:config', (nitroConfig) => {
-      nitroConfig.alias = nitroConfig.alias || {}
-      nitroConfig.alias['#wpnuxt/server'] = resolveRuntimeModule('./server')
-    }) */
+
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
     nuxt.options.nitro.externals.inline = nuxt.options.nitro.externals.inline || []
 
@@ -106,75 +99,10 @@ export default defineNuxtModule<WPNuxtConfig>({
       { name: 'useFeaturedImage', as: 'useFeaturedImage', from: resolveRuntimeModule('./composables/useFeaturedImage') }
     ])
 
-    /* addRouteMiddleware({
-      name: 'auth',
-      path: resolveRuntimeModule('./middleware/auth'),
-      global: true
-    }) */
-    /* if (publicWPNuxtConfig.blocks) {
-      logger.debug(' Adding block components dir: ', resolveRuntimeModule('./components/blocks'))
-      addComponentsDir({
-        path: resolveRuntimeModule('./components/blocks'),
-        pathPrefix: false,
-        prefix: '',
-        global: true
-      })
-      // Register user block components
-      const _layers = [...nuxt.options._layers].reverse()
-      for (const layer of _layers) {
-        const srcDir = layer.config.srcDir
-        const blockComponents = resolve(srcDir, 'components/blocks')
-        const dirStat = await fs.promises.stat(blockComponents).catch(() => null)
-        if (dirStat && dirStat.isDirectory()) {
-          logger.debug(' Adding block components dir: ', srcDir + '/components/blocks')
-          nuxt.hook('components:dirs', (dirs) => {
-            dirs.unshift({
-              path: blockComponents,
-              global: true,
-              pathPrefix: false,
-              prefix: ''
-            })
-          })
-        }
-      }
-    } else {
-      addComponent({ name: 'EditorBlock', filePath: resolveRuntimeModule('./components/blocks/EditorBlock') })
-    }
-    addComponent({ name: 'BlockComponent', filePath: resolveRuntimeModule('./components/BlockComponent') })
-    addComponent({ name: 'BlockInfo', filePath: resolveRuntimeModule('./components/BlockInfo') })
-    addComponent({ name: 'BlockRenderer', filePath: resolveRuntimeModule('./components/BlockRenderer') })
-     */
     addComponent({ name: 'StagingBanner', filePath: resolveRuntimeModule('./components/StagingBanner') })
     addComponent({ name: 'WPNuxtLogo', filePath: resolveRuntimeModule('./components/WPNuxtLogo') })
     addComponent({ name: 'WordPressLogo', filePath: resolveRuntimeModule('./components/WordPressLogo') })
 
-    /* const userPreviewPath = '~/pages/preview.vue'
-      .replace(/^(~~|@@)/, nuxt.options.rootDir)
-      .replace(/^(~|@)/, nuxt.options.srcDir)
-    const userPreviewPageExists = existsSync(userPreviewPath)
-    const previewPagePath = userPreviewPageExists ? userPreviewPath : './runtime/pages/preview.vue'
-
-    nuxt.hook('pages:extend', (pages) => {
-      pages.push({
-        name: 'preview',
-        path: '/preview',
-        file: resolve(previewPagePath)
-      })
-      pages.push({
-        name: 'auth',
-        path: '/auth',
-        file: resolveRuntimeModule('./pages/auth.vue')
-      })
-    })
-
-    addServerHandler({
-      route: '/api/tokensFromCode',
-      handler: resolveRuntimeModule('./server/api/tokensFromCode.post')
-    })
-    addServerHandler({
-      route: '/api/tokensFromRefreshToken',
-      handler: resolveRuntimeModule('./server/api/tokensFromRefreshToken.post')
-    }) */
     addServerHandler({
       route: '/api/wpContent',
       handler: resolveRuntimeModule('./server/api/wpContent.post')
@@ -185,35 +113,6 @@ export default defineNuxtModule<WPNuxtConfig>({
     })
 
     await installModule('@vueuse/nuxt', {})
-
-    /* const componentsContext = { components: [] as Component[] }
-    nuxt.hook('components:extend', (newComponents) => {
-      const moduleBlocksDir = resolveRuntimeModule('./components/blocks')
-      // TODO: support layers
-      const userBlocksDir = (nuxt.options.srcDir || nuxt.options.rootDir) + '/components/blocks'
-      componentsContext.components = newComponents.filter((c) => {
-        if (c.filePath.startsWith(moduleBlocksDir) || c.filePath.startsWith(userBlocksDir)) {
-          return true
-        }
-        return false
-      })
-    })
-    addTemplate({
-      write: true,
-      filename: 'wpnuxt/blocks.mjs',
-      getContents({ options }) {
-        const components = options.getComponents().filter((c: Component) => !c.island).flatMap((c: Component) => {
-          const exp = c.export === 'default' ? 'c.default || c' : `c['${c.export}']`
-          const isClient = c.mode === 'client'
-          const definitions: string[] = []
-
-          definitions.push(`export const ${c.pascalName} = ${genDynamicImport(c.filePath)}.then(c => ${isClient ? `createClientOnly(${exp})` : exp})`)
-          return definitions
-        })
-        return components.join('\n')
-      },
-      options: { getComponents: () => componentsContext.components }
-    }) */
 
     const queryOutputPath = resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/.queries/')
 

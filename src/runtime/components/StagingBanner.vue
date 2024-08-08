@@ -3,7 +3,7 @@ import { useWPUri } from '../composables/useWPUri'
 import { useWPContent } from '../composables'
 import WPNuxtLogo from './WPNuxtLogo.vue'
 import WordPressLogo from './WordPressLogo.vue'
-import { useRuntimeConfig, ref, watch, useHead, useRoute } from '#imports'
+import { useRuntimeConfig, useHead, useRoute } from '#imports'
 
 const config = useRuntimeConfig()
 const frontendUrl = config.public.wpNuxt.frontendUrl
