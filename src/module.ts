@@ -1,4 +1,4 @@
-import fs, { existsSync } from 'node:fs'
+import { existsSync, cpSync, promises as fsp } from 'node:fs'
 import { defineNuxtModule, hasNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
 import defu from 'defu'
 import { join } from 'pathe'
@@ -117,19 +117,25 @@ export default defineNuxtModule<WPNuxtConfig>({
     await installModule('@vueuse/nuxt', {})
 
     const queryOutputPath = resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/.queries/')
+    await fsp.rm(queryOutputPath, { recursive: true, force: true })
 
     const userQueryPath = '~/extend/queries/'
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
       .replace(/^(~|@)/, nuxt.options.srcDir)
     const userQueryPathExists = existsSync(userQueryPath)
 
-    fs.cpSync(resolveRuntimeModule('./queries/'), queryOutputPath, { recursive: true })
+    cpSync(resolveRuntimeModule('./queries/'), queryOutputPath, { recursive: true })
     if (hasNuxtModule('@wpnuxt/blocks')) {
       for (const m of nuxt.options._installedModules) {
         if (m.meta.name === '@wpnuxt/blocks' && m.entryPath) {
-          const blocksQueriesPath = join('./node_modules', m.entryPath, 'dist/runtime/queries/')
-          logger.debug('blocks queries path', blocksQueriesPath)
-          fs.cpSync(blocksQueriesPath, queryOutputPath, { recursive: true })
+          let blocksQueriesPath
+          if (m.entryPath.startsWith('../src/module')) {
+            // local development
+            blocksQueriesPath = join(nuxt.options.srcDir, '../src/runtime/queries/')
+          } else {
+            blocksQueriesPath = join('./node_modules', m.entryPath, 'dist/runtime/queries/')
+          }
+          cpSync(blocksQueriesPath, queryOutputPath, { recursive: true })
         }
       }
     } else {
@@ -137,7 +143,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     }
     if (userQueryPathExists) {
       logger.debug('Extending queries:', userQueryPath)
-      fs.cpSync(resolve(userQueryPath), queryOutputPath, { recursive: true })
+      cpSync(resolve(userQueryPath), queryOutputPath, { recursive: true })
     }
     logger.debug('Copied merged queries in folder:', queryOutputPath)
 
