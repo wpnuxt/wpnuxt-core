@@ -123,15 +123,15 @@ export default defineNuxtModule<WPNuxtConfig>({
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
       .replace(/^(~|@)/, nuxt.options.srcDir)
     const userQueryPathExists = existsSync(userQueryPath)
-
     cpSync(resolveRuntimeModule('./queries/'), queryOutputPath, { recursive: true })
+
     if (hasNuxtModule('@wpnuxt/blocks')) {
       for (const m of nuxt.options._installedModules) {
         if (m.meta.name === '@wpnuxt/blocks' && m.entryPath) {
           let blocksQueriesPath
           if (m.entryPath.startsWith('../src/module')) {
             // local development
-            blocksQueriesPath = join(nuxt.options.srcDir, '../src/runtime/queries/')
+            blocksQueriesPath = join(nuxt.options.rootDir, '../src/runtime/queries/')
           } else {
             blocksQueriesPath = join('./node_modules', m.entryPath, 'dist/runtime/queries/')
           }
