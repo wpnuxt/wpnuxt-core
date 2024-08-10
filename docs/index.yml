@@ -40,7 +40,7 @@ sections:
         size: md
       - label: 'Source code'
         icon: i-ph-app-window-duotone
-        to: 'https://github.com/vernaillen/wpnuxt-module/tree/main/src/runtime/composables'
+        to: 'https://github.com/wpnuxt/wpnuxt-core/tree/main/src/runtime/composables'
         color: gray
         size: md
     slot: code

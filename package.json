@@ -1,10 +1,10 @@
 {
-  "name": "@vernaillen/wpnuxt",
+  "name": "@wpnuxt/core",
   "version": "1.0.0-edge.3",
   "description": "WPNuxt",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vernaillen/wpnuxt-module.git"
+    "url": "git+https://github.com/wpnuxt/wpnuxt-core.git"
   },
   "license": "MIT",
   "type": "module",
