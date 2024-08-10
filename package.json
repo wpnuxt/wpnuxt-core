@@ -20,6 +20,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "nuxt-module-build build && pnpm build:web-types",
     "build:web-types": "vue-docgen-web-types src/runtime/components/ ./dist/web-types.json",
