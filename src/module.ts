@@ -129,11 +129,9 @@ export default defineNuxtModule<WPNuxtConfig>({
 
       for (const m of nuxt.options._installedModules) {
         if (m.meta.name === '@wpnuxt/blocks' && m.entryPath) {
-          const blocksQueriesPath = join(m.entryPath, 'runtime/queries/')
-          logger.debug('blocksQueriesPath', blocksQueriesPath)
-          fs.cpSync(blocksQueriesPath, queryOutputPath, { recursive: true })
-          // const modulePath = await resolveNuxtModule(nuxt.options.rootDir, [m.entryPath])
-          // logger.debug('@wpnuxt/blocks modulePath', modulePath)
+          // const blocksQueriesPath = join(m.entryPath, 'runtime/queries/')
+          logger.debug('blocks queries path', m.entryPath + '/runtime/queries')
+          // fs.cpSync(m.entryPath + '/runtime/queries', queryOutputPath, { recursive: true })
         }
       }
     } else {
