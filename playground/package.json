@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "wpnuxt-module-playground",
+  "name": "wpnuxt-core-playground",
   "type": "module",
   "scripts": {
     "dev": "nuxi dev",
