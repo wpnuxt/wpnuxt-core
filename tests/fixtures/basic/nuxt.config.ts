@@ -1,10 +1,9 @@
 import WPNuxtModule from '../../../src/module'
 
 export default defineNuxtConfig({
-  runtimeConfig: {
-    public: {
-      myValue: 'original value'
-    }
+  wpNuxt: {
+    wordpressUrl: 'https://wordpress.wpnuxt.com',
+    frontendUrl: 'https://demo.wpnuxt.com'
   },
   modules: [
     WPNuxtModule

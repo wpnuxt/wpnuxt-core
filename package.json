@@ -39,8 +39,8 @@
     "coverage": "vitest run --coverage",
     "typecheck": "vue-tsc --noEmit",
     "typecheck:docs": "DOCS_TYPECHECK=true pnpm nuxi prepare && nuxt-content-twoslash verify --content-dir docs",
-    "release": "npm run lint; release-it --git.tagExclude='*[-edge]*'",
-    "release-edge": "npm run lint; release-it --no-github --preRelease=edge --config .release-it-edge.json",
+    "release": "pnpm run lint && pnpm run prepack; release-it --git.tagExclude='*[-edge]*'",
+    "release-edge": "pnpm run lint && pnpm run prepack; release-it --no-github --preRelease=edge --config .release-it-edge.json",
     "wp:cli": "docker-compose up wordpress-cli",
     "wp:stop": "docker-compose down",
     "wp:delete": "docker-compose down --volumes --remove-orphans --rmi local  && rm -rf ./wordpress/files",
@@ -68,7 +68,7 @@
     "@nuxt/test-utils": "^3.14.0",
     "@rollup/rollup-linux-arm64-gnu": "^4.20.0",
     "@rollup/rollup-linux-arm64-musl": "^4.20.0",
-    "@types/node": "22.1.0",
+    "@types/node": "22.2.0",
     "@vitest/coverage-v8": "^2.0.5",
     "@vue/test-utils": "^2.4.6",
     "@wordpress/env": "^10.5.0",
@@ -90,6 +90,7 @@
     "consola": "^3.2.3",
     "graphql": "^16.9.0",
     "knitwork": "^1.1.0",
+    "pathe": "^1.1.2",
     "scule": "^1.3.0"
   },
   "packageManager": "pnpm@9.7.0"

@@ -1,6 +1,7 @@
 import fs, { existsSync } from 'node:fs'
 import { defineNuxtModule, hasNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
 import defu from 'defu'
+import { join } from 'pathe'
 import consola from 'consola'
 import { name, version } from '../package.json'
 import type { WPNuxtConfig, WPNuxtConfigComposables } from './types'
@@ -124,13 +125,11 @@ export default defineNuxtModule<WPNuxtConfig>({
 
     fs.cpSync(resolveRuntimeModule('./queries/'), queryOutputPath, { recursive: true })
     if (hasNuxtModule('@wpnuxt/blocks')) {
-      logger.debug('nuxt.options._installedModules', nuxt.options._installedModules)
-
       for (const m of nuxt.options._installedModules) {
         if (m.meta.name === '@wpnuxt/blocks' && m.entryPath) {
-          // const blocksQueriesPath = join(m.entryPath, 'runtime/queries/')
-          logger.debug('blocks queries path', m.entryPath + '/runtime/queries')
-          // fs.cpSync(m.entryPath + '/runtime/queries', queryOutputPath, { recursive: true })
+          const blocksQueriesPath = join('./node_modules', m.entryPath, 'dist/runtime/queries/')
+          logger.debug('blocks queries path', blocksQueriesPath)
+          fs.cpSync(blocksQueriesPath, queryOutputPath, { recursive: true })
         }
       }
     } else {
