@@ -1,6 +1,7 @@
 import fs, { existsSync } from 'node:fs'
-import { defineNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
+import { defineNuxtModule, hasNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
 import defu from 'defu'
+import { join } from 'pathe'
 import consola from 'consola'
 import { name, version } from '../package.json'
 import type { WPNuxtConfig, WPNuxtConfigComposables } from './types'
@@ -64,6 +65,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     if (publicWPNuxtConfig.enableCache) logger.info('Cache enabled')
     logger.debug('Debug mode enabled, log level:', publicWPNuxtConfig.logLevel)
     if (publicWPNuxtConfig.staging) logger.info('Staging enabled')
+    // TODO: should blocks option remain?
     if (publicWPNuxtConfig.blocks) logger.info('Blocks enabled')
 
     const { resolve } = createResolver(import.meta.url)
@@ -122,6 +124,21 @@ export default defineNuxtModule<WPNuxtConfig>({
     const userQueryPathExists = existsSync(userQueryPath)
 
     fs.cpSync(resolveRuntimeModule('./queries/'), queryOutputPath, { recursive: true })
+    if (hasNuxtModule('@wpnuxt/blocks')) {
+      logger.debug('nuxt.options._installedModules', nuxt.options._installedModules)
+
+      for (const m of nuxt.options._installedModules) {
+        if (m.meta.name === '@wpnuxt/blocks' && m.entryPath) {
+          const blocksQueriesPath = join(m.entryPath, 'runtime/queries/')
+          logger.debug('blocksQueriesPath', blocksQueriesPath)
+          fs.cpSync(blocksQueriesPath, queryOutputPath, { recursive: true })
+          // const modulePath = await resolveNuxtModule(nuxt.options.rootDir, [m.entryPath])
+          // logger.debug('@wpnuxt/blocks modulePath', modulePath)
+        }
+      }
+    } else {
+      logger.debug('!!! If you want to render Gutenberg blocks with separate vue components, please install the @wpnuxt/blocks module')
+    }
     if (userQueryPathExists) {
       logger.debug('Extending queries:', userQueryPath)
       fs.cpSync(resolve(userQueryPath), queryOutputPath, { recursive: true })
