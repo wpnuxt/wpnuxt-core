@@ -1,7 +1,6 @@
 import fs, { existsSync } from 'node:fs'
 import { defineNuxtModule, hasNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
 import defu from 'defu'
-import { join } from 'pathe'
 import consola from 'consola'
 import { name, version } from '../package.json'
 import type { WPNuxtConfig, WPNuxtConfigComposables } from './types'
