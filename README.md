@@ -14,8 +14,8 @@ I am working towards a stable release. And will inform about it here
 Nuxt module for using WordPress as a headless CMS with a Nuxt 3 frontend
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
+- [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue)
+- [📖 &nbsp;Documentation](https://wpnuxt.com)
 
 ## Features
 
