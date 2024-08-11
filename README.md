@@ -20,31 +20,14 @@ Nuxt module for using WordPress as a headless CMS with a Nuxt 3 frontend
 ## Features
 
 - Content is fetched from WordPress using server-side GraphQL api calls
-- Support for (Gutenberg Blocks), using WPEngine's wp-graphql-content-blocks https://faustjs.org/tutorial/get-started-with-wp-graphql-content-blocks
+- Support for (Gutenberg Blocks) by adding the separate [@wpnuxt/blocks](https://github.com/wpnuxt/wpnuxt-blocks), which uses WPEngine's [wp-graphql-content-blocks](https://faustjs.org/tutorial/get-started-with-wp-graphql-content-blocks) and a set of custom vue components
 
 ## Quick Setup
 
-1. Add `@vernaillen/wpnuxt` dependency to your project
+Install the module to your Nuxt application with one command:
 
 ```bash
-# Using pnpm
-pnpm add -D @vernaillen/wpnuxt
-
-# Using yarn
-yarn add --dev @vernaillen/wpnuxt
-
-# Using npm
-npm install --save-dev @vernaillen/wpnuxt
-```
-
-2. Add '@vernaillen/wpnuxt' to the `modules` section of `nuxt.config.ts`
-
-```js
-export default defineNuxtConfig({
-  modules: [
-    '@vernaillen/wpnuxt'
-  ]
-})
+npx nuxi module add @wpnuxt/core
 ```
 
 That's it! You can now use the WPNuxt module in your Nuxt app ✨
@@ -53,26 +36,26 @@ That's it! You can now use the WPNuxt module in your Nuxt app ✨
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Generate type stubs
-npm run dev:prepare
+pnpm run dev:prepare
 
 # Develop with the playground
-npm run dev
+pnpm run dev
 
 # Build the playground
-npm run dev:build
+pnpm run dev:build
 
 # Run ESLint
-npm run lint
+pnpm run lint
 
 # Run Vitest
-npm run test
-npm run test:watch
+pnpm run test
+pnpm run test:watch
 
 # Release new version
-npm run release
+pnpm run release
 ```
 
 <!-- Badges -->
