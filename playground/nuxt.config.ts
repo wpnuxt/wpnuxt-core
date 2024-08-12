@@ -35,16 +35,11 @@ export default defineNuxtConfig({
     wordpressUrl: 'https://wordpress.wpnuxt.com',
     frontendUrl: 'https://demo.wpnuxt.com',
     faustSecretKey: '',
-    blocks: true,
-    replaceSchema: false,
     enableCache: true,
     staging: false,
     logLevel: 4,
-    downloadSchema: true,
-    generateComposables: {
-      enabled: true,
-      prefix: 'use'
-    }
+    downloadSchema: false,
+    composablesPrefix: 'use'
   },
 
   ui: {

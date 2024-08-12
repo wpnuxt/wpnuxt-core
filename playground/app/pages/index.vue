@@ -15,8 +15,7 @@ useHead({
   <NuxtLayout>
     <ULandingSection
       id="posts"
-      :title="settings.title"
-      :headline="settings.description"
+      :title="settings.title ? settings.title : 'WPNuxt'"
       description="WordPress posts are shown below as cards. WordPress pages are listed above in the header."
     >
       <UPageGrid>

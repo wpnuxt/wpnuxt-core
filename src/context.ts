@@ -1,12 +1,12 @@
 import { promises as fsp } from 'node:fs'
 import { upperFirst } from 'scule'
 import type { Import } from 'unimport'
-import type { WPNuxtConfigComposables, WPNuxtQuery } from './types'
+import type { WPNuxtQuery } from './types'
 import { getLogger } from './utils'
 import { parseDoc } from './useParser'
 
 export interface WPNuxtContext {
-  composables: WPNuxtConfigComposables
+  composablesPrefix: string
   template?: string
   fns: WPNuxtQuery[]
   fnImports?: Import[]
@@ -21,21 +21,14 @@ export async function prepareContext(ctx: WPNuxtContext) {
     await prepareFunctions(ctx)
   }
 
-  const fnName = (fn: string) => ctx.composables.prefix + upperFirst(fn)
-
+  const fnName = (fn: string) => ctx.composablesPrefix + upperFirst(fn)
   const fnExp = (q: WPNuxtQuery, typed = false) => {
     const functionName = fnName(q.name)
     if (!typed) {
-      const nodesArray = q.nodes?.map(n => `'${n}'`)
-      return `export const ${functionName} = (params) => useWPContent('${q.name}', [${nodesArray?.join(',')}], false, params)`
+      return `export const ${functionName} = (params) => useWPContent('${q.name}', [${q.nodes?.map(n => `'${n}'`).join(',')}], false, params)`
     }
-    let fragmentSuffix = ''
-    if (q.fragments && q.fragments.length > 0 && q.nodes && q.nodes.length > 0 && q.nodes.includes('nodes')) {
-      fragmentSuffix = '[]'
-    }
-    const fragments = q.fragments && q.fragments.length > 0
-      ? q.fragments.map(f => `${f}Fragment${fragmentSuffix}`).join(' | ')
-      : 'any'
+    const fragmentSuffix = q.fragments?.length && q.nodes?.includes('nodes') ? '[]' : ''
+    const fragments = q.fragments?.length ? q.fragments.map(f => `${f}Fragment${fragmentSuffix}`).join(' | ') : 'any'
     return `  export const ${functionName}: (params?: ${q.name}QueryVariables) => AsyncData<${fragments}, FetchError | null | undefined>`
   }
 

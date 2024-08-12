@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { createError, usePostByUri } from '#imports'
 
-const { data: post } = await usePostByUri('missingUriForTesting')
+const { data: post } = await usePostByUri({ uri: 'missingUriForTesting' })
 if (!post.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }

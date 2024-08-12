@@ -19,24 +19,14 @@ export interface WPNuxtConfig {
   faustSecretKey?: string
   defaultMenuName?: string
 
-  /**
-   * Enable custom components for Gutenberg blocks
-   * When disabled the module will use the renderedHtml of each block returned by WordPress
-   *
-   * @default true
-   */
-  blocks?: boolean
-
-  replaceSchema?: boolean
   enableCache?: boolean
 
   staging?: boolean
+
   /**
-   * Generate composables based on the GraphQL queries, provided by both the WPNuxt module as the queries added by the user.
-   *
-   * @default { enabled: true, prefix: 'useWP' }
+   * @default 'useWP'
    */
-  generateComposables?: WPNuxtConfigComposables
+  composablesPrefix: string
 
   queries?: WPNuxtConfigQueries
 

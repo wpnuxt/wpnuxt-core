@@ -1,5 +1,5 @@
 import { existsSync, cpSync, promises as fsp } from 'node:fs'
-import { defineNuxtModule, hasNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
+import { defineNuxtModule, hasNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addTypeTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
 import defu from 'defu'
 import { join } from 'pathe'
 import consola from 'consola'
@@ -9,21 +9,15 @@ import { initLogger, validateConfig } from './utils'
 import { generateWPNuxtComposables } from './generate'
 import type { WPNuxtContext } from './context'
 
-const defaultComposablesConfig: WPNuxtConfigComposables = {
-  enabled: true,
-  prefix: 'useWP'
-}
 const defaultConfigs: WPNuxtConfig = {
   wordpressUrl: '',
   frontendUrl: '',
   faustSecretKey: '',
   defaultMenuName: 'main',
-  blocks: true,
-  replaceSchema: false,
   enableCache: true,
   staging: false,
   logLevel: 3,
-  generateComposables: defaultComposablesConfig
+  composablesPrefix: 'useWP'
 }
 
 export default defineNuxtModule<WPNuxtConfig>({
@@ -43,14 +37,11 @@ export default defineNuxtModule<WPNuxtConfig>({
       wordpressUrl: process.env.WPNUXT_WORDPRESS_URL || options.wordpressUrl!,
       frontendUrl: process.env.WPNUXT_FRONTEND_URL || options.frontendUrl!,
       defaultMenuName: process.env.WPNUXT_DEFAULT_MENU_NAME || options.defaultMenuName!,
-      blocks: process.env.WPNUXT_BLOCKS ? process.env.WPNUXT_BLOCKS === 'true' : options.blocks!,
-      replaceSchema: process.env.WPNUXT_REPLACE_SCHEMA === 'true' || options.replaceSchema!,
       enableCache: process.env.WPNUXT_ENABLE_CACHE ? process.env.WPNUXT_ENABLE_CACHE === 'true' : options.enableCache!,
       staging: process.env.WPNUXT_STAGING === 'true' || options.staging!,
       downloadSchema: process.env.WPNUXT_DOWNLOAD_SCHEMA === 'true' || options.downloadSchema,
-      // TODO also allow below options as env vars?
       logLevel: process.env.WPNUXT_LOG_LEVEL ? Number.parseInt(process.env.WPNUXT_LOG_LEVEL) : options.logLevel,
-      generateComposables: options.generateComposables
+      composablesPrefix: process.env.WPNUXT_COMPOSABLES_PREFIX || options.composablesPrefix
     }
     // we're not putting the secret in public config, so it goes into runtimeConfig
     nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {
@@ -65,8 +56,6 @@ export default defineNuxtModule<WPNuxtConfig>({
     if (publicWPNuxtConfig.enableCache) logger.info('Cache enabled')
     logger.debug('Debug mode enabled, log level:', publicWPNuxtConfig.logLevel)
     if (publicWPNuxtConfig.staging) logger.info('Staging enabled')
-    // TODO: should blocks option remain?
-    if (publicWPNuxtConfig.blocks) logger.info('Blocks enabled')
 
     const { resolve } = createResolver(import.meta.url)
     const resolveRuntimeModule = (path: string) => resolve('./runtime', path)
@@ -126,6 +115,7 @@ export default defineNuxtModule<WPNuxtConfig>({
     cpSync(resolveRuntimeModule('./queries/'), queryOutputPath, { recursive: true })
 
     if (hasNuxtModule('@wpnuxt/blocks')) {
+      logger.debug('Loading @wpnuxt/blocks')
       for (const m of nuxt.options._installedModules) {
         if (m.meta.name === '@wpnuxt/blocks' && m.entryPath) {
           let blocksQueriesPath
@@ -139,7 +129,7 @@ export default defineNuxtModule<WPNuxtConfig>({
         }
       }
     } else {
-      logger.debug('!!! If you want to render Gutenberg blocks with separate vue components, please install the @wpnuxt/blocks module')
+      logger.debug('Tip: Install the @wpnuxt/blocks module if you want to render Gutenberg blocks with separate vue components')
     }
     if (userQueryPathExists) {
       logger.debug('Extending queries:', userQueryPath)
@@ -205,34 +195,28 @@ export default defineNuxtModule<WPNuxtConfig>({
     nuxt.options.nitro.externals.inline.push(template.dst)
     nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
 
-    if (publicWPNuxtConfig.generateComposables && publicWPNuxtConfig.generateComposables.enabled) {
-      logger.trace('Generating composables')
+    logger.trace('Start generating composables')
 
-      const composablesConfig = typeof publicWPNuxtConfig.generateComposables === 'object'
-        ? publicWPNuxtConfig.generateComposables
-        : defaultComposablesConfig
-
-      const ctx: WPNuxtContext = await {
-        fns: [],
-        fnImports: [],
-        composables: composablesConfig
-      }
-      await generateWPNuxtComposables(ctx, queryOutputPath, srcResolver)
-
-      addTemplate({
-        write: true,
-        filename: 'wpnuxt.mjs',
-        getContents: () => ctx.generateImports?.() || ''
-      })
-      addTemplate({
-        write: true,
-        filename: 'wpnuxt/index.d.ts',
-        getContents: () => ctx.generateDeclarations?.() || ''
-      })
-      nuxt.hook('imports:extend', (autoimports) => {
-        autoimports.push(...(ctx.fnImports || []))
-      })
+    const ctx: WPNuxtContext = await {
+      fns: [],
+      fnImports: [],
+      composablesPrefix: publicWPNuxtConfig.composablesPrefix
     }
+    await generateWPNuxtComposables(ctx, queryOutputPath, srcResolver)
+
+    addTemplate({
+      write: true,
+      filename: 'wpnuxt/index.mjs',
+      getContents: () => ctx.generateImports?.() || ''
+    })
+    addTypeTemplate({
+      write: true,
+      filename: 'wpnuxt/index.d.ts',
+      getContents: () => ctx.generateDeclarations?.() || ''
+    })
+    nuxt.hook('imports:extend', (autoimports) => {
+      autoimports.push(...(ctx.fnImports || []))
+    })
 
     nuxt.hook('nitro:init', async (nitro) => {
       // Remove content cache when nitro starts (after a pull or a change)
