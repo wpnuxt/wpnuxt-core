@@ -149,6 +149,7 @@ export default defineNuxtModule<WPNuxtConfig>({
         dedupeFragments: true,
         onlyOperationTypes: true,
         avoidOptionals: false,
+        maybeValue: 'T | undefined',
         disableOnBuild: false,
         gqlImport: 'graphql-request#wpnuxt',
         namingConvention: {
