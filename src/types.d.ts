@@ -41,18 +41,6 @@ export interface WPNuxtConfig {
   downloadSchema?: boolean
 }
 
-export interface WPNuxtConfigComposables {
-  enabled?: boolean
-
-  /**
-   * Prefix to use for generated composables
-   *
-   * @example 'useWP' => 'useWPPages', 'useWPPosts', 'useWPMenu'
-   * @default 'useWP'
-   */
-  prefix?: string
-}
-
 export interface WPNuxtConfigQueries {
   /**
    * @default true
