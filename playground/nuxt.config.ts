@@ -10,6 +10,17 @@ export default defineNuxtConfig({
     '../src/module'
   ],
 
+  wpNuxt: {
+    wordpressUrl: 'https://wordpress.wpnuxt.com',
+    frontendUrl: 'https://demo.wpnuxt.com',
+    faustSecretKey: '',
+    enableCache: true,
+    staging: false,
+    logLevel: 4,
+    downloadSchema: true,
+    composablesPrefix: 'use'
+  },
+
   future: {
     compatibilityVersion: 4
   },
@@ -25,21 +36,6 @@ export default defineNuxtConfig({
       lintOnStart: true,
       fix: true
     }
-  },
-
-  experimental: {
-    payloadExtraction: true
-  },
-
-  wpNuxt: {
-    wordpressUrl: 'https://wordpress.wpnuxt.com',
-    frontendUrl: 'https://demo.wpnuxt.com',
-    faustSecretKey: '',
-    enableCache: true,
-    staging: false,
-    logLevel: 4,
-    downloadSchema: false,
-    composablesPrefix: 'use'
   },
 
   ui: {
