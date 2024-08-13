@@ -30,6 +30,14 @@ Install the module to your Nuxt application with one command:
 npx nuxi module add @wpnuxt/core
 ```
 
+And connect WPNuxt to your wordpress installation in your nuxt.config.ts:
+
+```json
+wpNuxt: {
+    wordpressUrl: 'https://yourwordpress.domain.com'
+},
+```
+
 That's it! You can now use the WPNuxt module in your Nuxt app ✨
 
 ## Development
