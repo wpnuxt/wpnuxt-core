@@ -1,6 +1,5 @@
 import { existsSync, cpSync, promises as fsp } from 'node:fs'
 import { defineNuxtModule, hasNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addTypeTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
-import defu from 'defu'
 import { join } from 'pathe'
 import consola from 'consola'
 import { name, version } from '../package.json'
@@ -12,7 +11,6 @@ import type { WPNuxtContext } from './context'
 const defaultConfigs: WPNuxtConfig = {
   wordpressUrl: '',
   frontendUrl: '',
-  faustSecretKey: '',
   defaultMenuName: 'main',
   enableCache: true,
   staging: false,
@@ -43,10 +41,6 @@ export default defineNuxtModule<WPNuxtConfig>({
       logLevel: process.env.WPNUXT_LOG_LEVEL ? Number.parseInt(process.env.WPNUXT_LOG_LEVEL) : options.logLevel,
       composablesPrefix: process.env.WPNUXT_COMPOSABLES_PREFIX || options.composablesPrefix
     }
-    // we're not putting the secret in public config, so it goes into runtimeConfig
-    nuxt.options.runtimeConfig.wpNuxt = defu(nuxt.options.runtimeConfig.wpNuxt, {
-      faustSecretKey: process.env.WPNUXT_FAUST_SECRET_KEY ? process.env.WPNUXT_FAUST_SECRET_KEY : options.faustSecretKey!
-    })
     nuxt.options.runtimeConfig.public.wpNuxt = publicWPNuxtConfig
     validateConfig(publicWPNuxtConfig)
     const logger = initLogger(publicWPNuxtConfig.logLevel)

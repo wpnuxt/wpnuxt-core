@@ -16,7 +16,6 @@ export interface WPNuxtConfig {
   wordpressUrl: string
   frontendUrl: string
 
-  faustSecretKey?: string
   defaultMenuName?: string
 
   enableCache?: boolean
@@ -42,10 +41,6 @@ export interface WPNuxtConfig {
 }
 
 export interface WPNuxtConfigQueries {
-  /**
-   * @default true
-   */
-  usePredefinedQueries?: boolean
 
   /**
    * Folder for user defined queries
