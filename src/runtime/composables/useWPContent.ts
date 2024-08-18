@@ -8,7 +8,7 @@ const _useWPContent = async <T>(queryName: string, nodes: string[], fixImagePath
     body: {
       queryName,
       params
-    },
+    }
   })
   return {
     data: transformData(data, nodes, fixImagePaths),
