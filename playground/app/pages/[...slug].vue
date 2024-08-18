@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PageFragment, PostFragment } from '#build/graphql-operations'
-import { isStaging, useHead, useRoute, useWPUri, ref, useNodeByUri, useFeaturedImage, computed, usePrevNextPost, createError, onMounted } from '#imports'
+import { isStaging, useHead, useRoute, useWPUri, ref, useNodeByUri, useFeaturedImage, computed, usePrevNextPost, createError } from '#imports'
 
 const isLoading = ref(true)
 const postData = ref<PostFragment | PageFragment | null>()
@@ -16,8 +16,8 @@ async function fetch() {
       throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
     }
     const { data } = await useNodeByUri({ uri: id.value })
-    postData.value = data.value
-    if (!data.value) {
+    postData.value = data
+    if (!data) {
       throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
     }
     const { prev, next } = await usePrevNextPost(id.value)
@@ -28,7 +28,6 @@ async function fetch() {
   }
 }
 fetch()
-onMounted(fetch)
 const post = computed<PostFragment | PageFragment | null | undefined>(() => postData.value)
 
 const featuredImage = computed(() => useFeaturedImage(post.value))
@@ -85,9 +84,16 @@ const staging = await isStaging()
         </template>
       </UPage>
       <UPage v-else>
-        <UPageHeader class="h-28">
-          <UIcon name="i-svg-spinners-bars-scale-fade" />
+        <UPageHeader>
+          <UIcon
+            name="i-svg-spinners-bars-fade"
+            class="mt-[18px] opacity-30"
+          />
         </UPageHeader>
+        <div class="mt-10 space-y-3">
+          <USkeleton class="h-4 w-2/3" />
+          <USkeleton class="h-4 w-1/2" />
+        </div>
         <template #left>
           <UAside>
             <PrevNext

@@ -3,23 +3,27 @@ import type { GeneralSettingsFragment, PostFragment } from '#build/graphql-opera
 import { useHead, ref, computed } from '#imports'
 import { useGeneralSettings, usePosts } from '#wpnuxt'
 
+/* const { data: posts } = await useAsyncData('posts', () => usePosts())
+const { data: settings } = await useAsyncData('settings', () => useGeneralSettings())
+const { data: latestPost } = await useAsyncData('latestPost', () => usePosts({ limit: 1 })) */
+
 const isLoading = ref(true)
 const posts = ref<PostFragment[]>([])
 const settings = ref<GeneralSettingsFragment | null>(null)
 const latestPost = ref<PostFragment | null>(null)
+
 async function fetch() {
   isLoading.value = true
   const { data: postsData } = await usePosts()
   const { data: settingsData } = await useGeneralSettings()
   const { data: latestPostData } = await usePosts({ limit: 1 })
 
-  posts.value = computed(() => postsData.value).value
-  settings.value = computed(() => settingsData.value).value
-  latestPost.value = computed(() => latestPostData.value?.[0] || null).value
+  posts.value = computed(() => postsData).value
+  settings.value = computed(() => settingsData).value
+  latestPost.value = computed(() => latestPostData?.[0] || null).value
   isLoading.value = false
 }
 fetch()
-onMounted(fetch)
 
 useHead({
   title: settings.value?.title
@@ -51,12 +55,25 @@ useHead({
           <span v-sanitize="post.excerpt" />
         </ULandingCard>
       </UPageGrid>
-      <div
-        v-else
-        class="w-full flex justify-center items-center"
-      >
-        <UIcon name="i-svg-spinners-bars-scale-fade" />
-      </div>
+      <UPageGrid v-else>
+        <ULandingCard
+          v-for="skel, index in [1, 2, 3]"
+          :key="index"
+        >
+          <div class="-mt-2 space-y-3">
+            <USkeleton class="h-4 w-[250px]" />
+            <USkeleton class="h-3 w-[100px]" />
+          </div>
+          <USkeleton
+            class="h-44 w-full"
+            :ui="{ rounded: 'rounded-md' }"
+          />
+          <div class="mt-2 space-y-3">
+            <USkeleton class="h-3 w-full" />
+            <USkeleton class="h-3 w-[250px]" />
+          </div>
+        </ULandingCard>
+      </UPageGrid>
     </ULandingSection>
     <ULandingSection
       v-if="!isLoading"

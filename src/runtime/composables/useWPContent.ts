@@ -1,31 +1,28 @@
-import { FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
 import { getRelativeImagePath } from '../util/images'
-import { useFetch, useNuxtApp, type AsyncData } from '#app'
+import type { AsyncData } from '#app'
 
-const _useWPContent = async <T>(queryName: string, nodes: string[], fixImagePaths: boolean, params?: T): Promise<AsyncData<T, FetchError | null>> => {
-  const nuxtApp = useNuxtApp()
-  const cacheKey = `wp-${queryName}-${nodes}-${JSON.stringify(params)}`
-
-  return useFetch('/api/wpContent', {
+const _useWPContent = async <T>(queryName: string, nodes: string[], fixImagePaths: boolean, params?: T) => {
+  const { data, error } = await $fetch<AsyncData<T, FetchError | null>>('/api/wpContent', {
     method: 'POST',
     body: {
-      queryName: queryName,
-      params: params
+      queryName,
+      params
     },
-    key: cacheKey,
-    transform(data) {
-      const transformedData = findData(data.data, nodes)
-      if (fixImagePaths && transformedData?.featuredImage?.node?.sourceUrl) {
-        transformedData.featuredImage.node.relativePath
-          = getRelativeImagePath(transformedData.featuredImage.node.sourceUrl)
-      }
-      if (transformedData) return transformedData
-      throw new FetchError('No data found')
-    },
-    getCachedData(key: string) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-    }
   })
+  return {
+    data: transformData(data, nodes, fixImagePaths),
+    error
+  }
+}
+
+const transformData = (data: unknown, nodes: string[], fixImagePaths: boolean): T => {
+  const transformedData = findData(data, nodes)
+  if (fixImagePaths && transformedData?.featuredImage?.node?.sourceUrl) {
+    transformedData.featuredImage.node.relativePath
+      = getRelativeImagePath(transformedData.featuredImage.node.sourceUrl)
+  }
+  return transformedData as T
 }
 
 const findData = (data: unknown, nodes: string[]) => {

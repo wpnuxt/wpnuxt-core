@@ -15,9 +15,9 @@ const _usePrevNextPost = async (currentPostSlug: string) => {
 
 const getAllPosts = async () => {
   const { data: allPosts } = await useWPContent('Posts', ['posts', 'nodes'], false)
-  if (allPosts.value) {
+  if (allPosts) {
     return {
-      slugs: allPosts.value?.map((post) => {
+      slugs: allPosts?.map((post) => {
         if (post) return post.slug
         else return null
       })
