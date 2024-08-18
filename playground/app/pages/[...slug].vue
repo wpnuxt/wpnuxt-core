@@ -1,31 +1,50 @@
 <script setup lang="ts">
 import type { PageFragment, PostFragment } from '#build/graphql-operations'
-import { isStaging, useHead, useRoute, useWPUri, ref, createError, useNodeByUri, useFeaturedImage } from '#imports'
+import { isStaging, useHead, useRoute, useWPUri, ref, useNodeByUri, useFeaturedImage, computed, usePrevNextPost, createError, onMounted } from '#imports'
 
+const isLoading = ref(true)
+const postData = ref<PostFragment | PageFragment | null>()
+const prevData = ref()
+const nextData = ref()
 const route = useRoute()
-const post = ref<PostFragment | PageFragment | undefined>()
-if (route.params.slug && route.params.slug[0]) {
-  const { data } = await useNodeByUri({ uri: route.params.slug[0] })
-  post.value = data.value
+const id = computed(() => route.params?.slug?.[0])
+
+async function fetch() {
+  isLoading.value = true
+  try {
+    if (!id.value) {
+      throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+    }
+    const { data } = await useNodeByUri({ uri: id.value })
+    postData.value = data.value
+    if (!data.value) {
+      throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+    }
+    const { prev, next } = await usePrevNextPost(id.value)
+    prevData.value = prev
+    nextData.value = next
+  } finally {
+    isLoading.value = false
+  }
 }
-if (!post.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
-}
-const featuredImage = useFeaturedImage(post.value)
+fetch()
+onMounted(fetch)
+const post = computed<PostFragment | PageFragment | null | undefined>(() => postData.value)
+
+const featuredImage = computed(() => useFeaturedImage(post.value))
 const wpUri = useWPUri()
 if (post.value?.title) {
   useHead({
     title: post.value.title
   })
 }
-const { prev: prev, next: next } = await usePrevNextPost(route.params.slug[0])
 const staging = await isStaging()
 </script>
 
 <template>
   <NuxtLayout>
     <UContainer>
-      <UPage v-if="post">
+      <UPage v-if="!isLoading">
         <UPageHeader :title="post.title" />
         <UPageBody class="prose dark:prose-invert">
           <div v-sanitize="post.content" />
@@ -33,8 +52,8 @@ const staging = await isStaging()
         <template #left>
           <UAside>
             <PrevNext
-              :prev="post.contentTypeName === 'post' ? prev : undefined"
-              :next="post.contentTypeName === 'post' ? next : undefined"
+              :prev="post.contentTypeName === 'post' ? prevData : undefined"
+              :next="post.contentTypeName === 'post' ? nextData : undefined"
               prev-button="Vorige"
               next-button="Volgende"
             />
@@ -62,6 +81,19 @@ const staging = await isStaging()
                 :to="wpUri.postEdit(''+post.databaseId)"
               />
             </div>
+          </UAside>
+        </template>
+      </UPage>
+      <UPage v-else>
+        <UPageHeader class="h-28">
+          <UIcon name="i-svg-spinners-bars-scale-fade" />
+        </UPageHeader>
+        <template #left>
+          <UAside>
+            <PrevNext
+              :prev="undefined"
+              :next="undefined"
+            />
           </UAside>
         </template>
       </UPage>

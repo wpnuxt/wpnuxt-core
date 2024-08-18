@@ -18,7 +18,7 @@ const links = [
   },
   ...wpLinks,
   {
-    label: 'WPNuxt tools',
+    label: 'WPNuxt info',
     children: [
       {
         label: 'Composables',
