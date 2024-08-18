@@ -135,6 +135,9 @@ importers:
       '@iconify-json/mdi':
         specifier: ^1.1.68
         version: 1.1.68
+      '@iconify-json/svg-spinners':
+        specifier: ^1.1.3
+        version: 1.1.3
       '@iconify-json/uil':
         specifier: ^1.1.9
         version: 1.1.9
@@ -146,7 +149,7 @@ importers:
         version: 1.7.0(ioredis@5.4.1)(magicast@0.3.4)(rollup@4.20.0)
       '@nuxt/ui-pro':
         specifier: ^1.4.1
-        version: 1.4.1(change-case@5.4.4)(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.3.0)(terser@5.31.6))(vue@3.4.37(typescript@5.5.4))
+        version: 1.4.1(change-case@4.1.2)(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.3.0)(terser@5.31.6))(vue@3.4.37(typescript@5.5.4))
       nuxt:
         specifier: ^3.12.4
         version: 3.12.4(@parcel/watcher@2.4.1)(@types/node@22.3.0)(eslint@9.9.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.20.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.3.0)(terser@5.31.6))(vue-tsc@2.0.29(typescript@5.5.4))
@@ -1405,6 +1408,9 @@ packages:
 
   '@iconify-json/mdi@1.1.68':
     resolution: {integrity: sha512-7//TKCiXLU6kNWeOJRTBbisofVO7rF1sD1TZTL4/V9nqlmVNczQ5IOY0GgKOTsitkcTnX9GXgrgbjw3OI5B69w==}
+
+  '@iconify-json/svg-spinners@1.1.3':
+    resolution: {integrity: sha512-sP7m+/1Z42ROH3MO21ZRoAnYPOtcVVWqTveDyEl8nUCUcGJozYr0awLVqhKT0lUqEg6y2U2UdpHXelyV8beJ1w==}
 
   '@iconify-json/uil@1.1.9':
     resolution: {integrity: sha512-NZkqwKfG2TsJClxzVjYi2a3Mam/3ZrNjzxHNniqqwrSiAQ6QYx9VlFmazQUXQF5xu9v1z1wIeQo3vYClvanrnw==}
@@ -2898,9 +2904,6 @@ packages:
 
   change-case@4.1.2:
     resolution: {integrity: sha512-bSxY2ws9OtviILG1EiY5K7NNxkqg/JnRnFxLtKQ96JaviiIxi7djMrSd0ECT9AC+lttClmYwKw53BWpOMblo7A==}
-
-  change-case@5.4.4:
-    resolution: {integrity: sha512-HRQyTk2/YPEkt9TnUPbOpr64Uw3KOicFWPVBb+xiHvd6eBx/qPr9xqfBFDT8P2vWsvvz4jbEkfDe71W3VyNu2w==}
 
   changelogen@0.5.5:
     resolution: {integrity: sha512-IzgToIJ/R9NhVKmL+PW33ozYkv53bXvufDNUSH3GTKXq1iCHGgkbgbtqEWbo8tnWNnt7nPDpjL8PwSG2iS8RVw==}
@@ -8844,6 +8847,10 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-json/svg-spinners@1.1.3':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/uil@1.1.9':
     dependencies:
       '@iconify/types': 2.0.0
@@ -9434,10 +9441,10 @@ snapshots:
       - rollup
       - supports-color
 
-  '@nuxt/ui-pro@1.4.1(change-case@5.4.4)(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.3.0)(terser@5.31.6))(vue@3.4.37(typescript@5.5.4))':
+  '@nuxt/ui-pro@1.4.1(change-case@4.1.2)(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.3.0)(terser@5.31.6))(vue@3.4.37(typescript@5.5.4))':
     dependencies:
       '@iconify-json/vscode-icons': 1.1.37
-      '@nuxt/ui': 2.18.4(change-case@5.4.4)(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.3.0)(terser@5.31.6))(vue@3.4.37(typescript@5.5.4))
+      '@nuxt/ui': 2.18.4(change-case@4.1.2)(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.3.0)(terser@5.31.6))(vue@3.4.37(typescript@5.5.4))
       '@vueuse/core': 10.11.1(vue@3.4.37(typescript@5.5.4))
       defu: 6.1.4
       git-url-parse: 14.1.0
@@ -9468,7 +9475,7 @@ snapshots:
       - vite
       - vue
 
-  '@nuxt/ui@2.18.4(change-case@5.4.4)(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.3.0)(terser@5.31.6))(vue@3.4.37(typescript@5.5.4))':
+  '@nuxt/ui@2.18.4(change-case@4.1.2)(magicast@0.3.4)(rollup@4.20.0)(vite@5.4.1(@types/node@22.3.0)(terser@5.31.6))(vue@3.4.37(typescript@5.5.4))':
     dependencies:
       '@headlessui/tailwindcss': 0.2.1(tailwindcss@3.4.10)
       '@headlessui/vue': 1.7.22(vue@3.4.37(typescript@5.5.4))
@@ -9483,7 +9490,7 @@ snapshots:
       '@tailwindcss/forms': 0.5.7(tailwindcss@3.4.10)
       '@tailwindcss/typography': 0.5.14(tailwindcss@3.4.10)
       '@vueuse/core': 10.11.1(vue@3.4.37(typescript@5.5.4))
-      '@vueuse/integrations': 10.11.1(change-case@5.4.4)(fuse.js@6.6.2)(vue@3.4.37(typescript@5.5.4))
+      '@vueuse/integrations': 10.11.1(change-case@4.1.2)(fuse.js@6.6.2)(vue@3.4.37(typescript@5.5.4))
       '@vueuse/math': 10.11.1(vue@3.4.37(typescript@5.5.4))
       defu: 6.1.4
       fuse.js: 6.6.2
@@ -10678,13 +10685,13 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/integrations@10.11.1(change-case@5.4.4)(fuse.js@6.6.2)(vue@3.4.37(typescript@5.5.4))':
+  '@vueuse/integrations@10.11.1(change-case@4.1.2)(fuse.js@6.6.2)(vue@3.4.37(typescript@5.5.4))':
     dependencies:
       '@vueuse/core': 10.11.1(vue@3.4.37(typescript@5.5.4))
       '@vueuse/shared': 10.11.1(vue@3.4.37(typescript@5.5.4))
       vue-demi: 0.14.10(vue@3.4.37(typescript@5.5.4))
     optionalDependencies:
-      change-case: 5.4.4
+      change-case: 4.1.2
       fuse.js: 6.6.2
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -11275,9 +11282,6 @@ snapshots:
       sentence-case: 3.0.4
       snake-case: 3.0.4
       tslib: 2.6.3
-
-  change-case@5.4.4:
-    optional: true
 
   changelogen@0.5.5(magicast@0.3.4):
     dependencies:
