@@ -3,7 +3,7 @@ import type { NodeWithContentEditorFragment, NodeWithEditorBlocksFragment } from
 import { resolveComponent } from '#imports'
 
 defineProps<{
-  post: NodeWithContentEditorFragment | NodeWithEditorBlocksFragment
+  node: NodeWithContentEditorFragment | NodeWithEditorBlocksFragment
 }>()
 
 const manifest = await import('#wpnuxt/blocks').catch(() => ({}))
@@ -21,6 +21,6 @@ const componentToRender = await findComponentToRender()
   <component
     :is="componentToRender"
     v-if="componentToRender"
-    :post="post"
+    :node="nod"
   />
 </template>

@@ -1,5 +1,5 @@
 import { existsSync, cpSync, promises as fsp } from 'node:fs'
-import { defineNuxtModule, hasNuxtModule, addComponent, addServerHandler, createResolver, installModule, addTemplate, addTypeTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
+import { defineNuxtModule, hasNuxtModule, addComponentsDir, addServerHandler, createResolver, installModule, addTemplate, addTypeTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
 import { join } from 'pathe'
 import consola from 'consola'
 import { name, version } from '../package.json'
@@ -84,10 +84,12 @@ export default defineNuxtModule<WPNuxtConfig>({
       { name: 'useFeaturedImage', as: 'useFeaturedImage', from: resolveRuntimeModule('./composables/useFeaturedImage') }
     ])
 
-    addComponent({ name: 'StagingBanner', filePath: resolveRuntimeModule('./components/StagingBanner') })
-    addComponent({ name: 'WPNuxtLogo', filePath: resolveRuntimeModule('./components/WPNuxtLogo') })
-    addComponent({ name: 'WordPressLogo', filePath: resolveRuntimeModule('./components/WordPressLogo') })
-
+    addComponentsDir({
+      path: resolveRuntimeModule('./components'),
+      pathPrefix: false,
+      prefix: '',
+      global: true
+    })
     addServerHandler({
       route: '/api/wpContent',
       handler: resolveRuntimeModule('./server/api/wpContent.post')
