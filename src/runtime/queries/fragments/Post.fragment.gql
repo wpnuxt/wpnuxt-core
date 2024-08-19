@@ -1,11 +1,12 @@
 #import "~/.queries/fragments/NodeWithExcerpt.fragment.gql";
 #import '~/.queries/fragments/ContentNode.fragment.gql';
 #import '~/.queries/fragments/NodeWithFeaturedImage.fragment.gql';
+#import '~/.queries/fragments/NodeWithContentEditor.fragment.gql';
 
 fragment Post on Post {
   ...NodeWithExcerpt
   ...ContentNode
   ...NodeWithFeaturedImage
-  content
+  ...NodeWithContentEditor
   title
 }
