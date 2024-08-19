@@ -109,13 +109,13 @@ export default defineNuxtModule<WPNuxtConfig>({
     cpSync(resolveRuntimeModule('./queries/'), queryOutputPath, { recursive: true })
 
     if (hasNuxtModule('@wpnuxt/blocks')) {
-      logger.debug('Loading @wpnuxt/blocks')
       for (const m of nuxt.options._installedModules) {
         if (m.meta.name === '@wpnuxt/blocks' && m.entryPath) {
+          logger.debug('Loading queries from @wpnuxt/blocks')
           let blocksQueriesPath
-          if (m.entryPath.startsWith('../src/module')) {
+          if (m.entryPath.startsWith('../')) {
             // local development
-            blocksQueriesPath = join(nuxt.options.rootDir, '../src/runtime/queries/')
+            blocksQueriesPath = join(nuxt.options.rootDir, '../', m.entryPath, './runtime/queries/')
           } else {
             blocksQueriesPath = join('./node_modules', m.entryPath, 'dist/runtime/queries/')
           }
@@ -124,6 +124,13 @@ export default defineNuxtModule<WPNuxtConfig>({
       }
     } else {
       logger.debug('Tip: Install the @wpnuxt/blocks module if you want to render Gutenberg blocks with separate vue components')
+      // TODO: find a way to avoid this hack. (it makes sure the dynamic import in WPContent doesn't throw an error)
+      addTemplate({
+        write: true,
+        filename: 'wpnuxt/blocks.mjs',
+        getContents: () => `export { }`
+      })
+      nuxt.options.alias['#wpnuxt/blocks'] = resolve(nuxt.options.buildDir, 'wpnuxt/blocks')
     }
     if (userQueryPathExists) {
       logger.debug('Extending queries:', userQueryPath)

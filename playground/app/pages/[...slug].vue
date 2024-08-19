@@ -46,7 +46,7 @@ const staging = await isStaging()
       <UPage v-if="!isLoading">
         <UPageHeader :title="post.title" />
         <UPageBody class="prose dark:prose-invert">
-          <div v-sanitize="post.content" />
+          <WPContent :post="post" />
         </UPageBody>
         <template #left>
           <UAside>
