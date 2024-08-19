@@ -21,6 +21,6 @@ const componentToRender = await findComponentToRender()
   <component
     :is="componentToRender"
     v-if="componentToRender"
-    :node="nod"
+    :node="node"
   />
 </template>
