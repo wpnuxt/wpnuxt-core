@@ -1,31 +1,15 @@
-import { defineEventHandler, readBody } from 'h3'
-import { cacheStorage } from '../storage'
-import { isStaging } from '../../composables/isStaging'
-import { useRuntimeConfig } from '#imports'
+import type { H3Event } from 'h3'
+import { readBody } from 'h3'
+import { defineCachedEventHandler } from '#internal/nitro'
 import type { GraphqlResponse } from '#graphql-documents'
 
-export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig()
+export default defineCachedEventHandler(async (event: H3Event) => {
   const body = await readBody(event)
-  const staging = await isStaging()
 
   if (!body || !body.queryName) {
     throw new Error(
       'The request must contain a queryName'
     )
-  }
-  // TODO find better why to add the params to the cache key, as hash?
-  const cacheKey = `wpContent-${body.queryName}-${body.params ? JSON.stringify(body.params).replaceAll('"', '').replaceAll(':', '-') : ''}`
-
-  // Read from cache if not disabled and we're not in staging mode
-  if (config.public.wpNuxt.enableCache && !staging) {
-    const cachedContent = await cacheStorage.getItem(cacheKey)
-    if (cachedContent) {
-      return {
-        data: cachedContent,
-        errors: []
-      }
-    }
   }
   return $fetch('/api/graphql_middleware/query/' + body.queryName, {
     params: buildRequestParams(body.params),
@@ -33,12 +17,21 @@ export default defineEventHandler(async (event) => {
       Authorization: `Bearer ${event.context.accessToken}`
     }
   }).then((v: GraphqlResponse) => {
-    cacheStorage.setItem(cacheKey, v.data).catch(() => {})
+    console.log('v', v.data)
     return {
       data: v.data,
       errors: v.errors || []
     }
   })
+}, {
+  group: 'api',
+  name: 'wpContent',
+  getKey: async (event: H3Event) => {
+    const body = await readBody(event)
+    return `${body.queryName}${body.params ? '_' + JSON.stringify(body.params).replaceAll('"', '').replaceAll(':', '_') : ''}`
+  },
+  swr: true,
+  maxAge: 60 * 5 // 5 minutes
 })
 
 /**
