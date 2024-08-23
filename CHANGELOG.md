@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.0.0-edge.12
+
+[compare changes](https://github.com/wpnuxt/wpnuxt-core/compare/v1.0.0-edge.11...v1.0.0-edge.12)
+
+### 🏡 Chore
+
+- Update dependencies - upgrade to nuxt 3.13.0 ([5d9e0cc](https://github.com/wpnuxt/wpnuxt-core/commit/5d9e0cc))
+
+### ❤️ Contributors
+
+- Wouter Vernaillen <wouter@vernaillen.com>
+
 ## v0.5.8
 
 [compare changes](https://github.com/vernaillen/wpnuxt-module/compare/v0.5.7...v0.5.8)
