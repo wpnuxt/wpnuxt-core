@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { existsSync, cpSync, promises as fsp } from 'node:fs'
 import { defineNuxtModule, hasNuxtModule, addComponentsDir, addServerHandler, createResolver, installModule, addTemplate, addTypeTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
 import { join } from 'pathe'
@@ -27,7 +28,7 @@ export default defineNuxtModule<WPNuxtConfig>({
   },
   // Default configuration options of the Nuxt module
   defaults: defaultConfigs,
-  async setup(options, nuxt) {
+  async setup(options: any, nuxt: any) {
     const startTime = new Date().getTime()
     consola.log('::: Starting WPNuxt setup ::: ')
 
@@ -214,14 +215,14 @@ export default defineNuxtModule<WPNuxtConfig>({
       filename: 'wpnuxt/index.d.ts',
       getContents: () => ctx.generateDeclarations?.() || ''
     })
-    nuxt.hook('imports:extend', (autoimports) => {
+    nuxt.hook('imports:extend', (autoimports: any) => {
       autoimports.push(...(ctx.fnImports || []))
     })
 
-    nuxt.hook('nitro:init', async (nitro) => {
+    nuxt.hook('nitro:init', async (nitro: any) => {
       // Remove content cache when nitro starts
       const keys = await nitro.storage.getKeys('cache:api:wpContent')
-      keys.forEach(async (key) => {
+      keys.forEach(async (key: any) => {
         if (key.startsWith('cache:api:wpContent')) await nitro.storage.removeItem(key)
       })
     })
