@@ -17,7 +17,6 @@ export default defineCachedEventHandler(async (event: H3Event) => {
       Authorization: `Bearer ${event.context.accessToken}`
     }
   }).then((v: GraphqlResponse) => {
-    console.log('v', v.data)
     return {
       data: v.data,
       errors: v.errors || []
