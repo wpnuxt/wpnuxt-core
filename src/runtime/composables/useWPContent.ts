@@ -16,7 +16,7 @@ const _useWPContent = async <T>(queryName: string, nodes: string[], fixImagePath
   }
 }
 
-const transformData = (data: unknown, nodes: string[], fixImagePaths: boolean): T => {
+const transformData = <T>(data: unknown, nodes: string[], fixImagePaths: boolean): T => {
   const transformedData = findData(data, nodes)
   if (fixImagePaths && transformedData?.featuredImage?.node?.sourceUrl) {
     transformedData.featuredImage.node.relativePath

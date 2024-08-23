@@ -94,10 +94,6 @@ export default defineNuxtModule<WPNuxtConfig>({
       route: '/api/wpContent',
       handler: resolveRuntimeModule('./server/api/wpContent.post')
     })
-    addServerHandler({
-      route: '/api/purgeCache',
-      handler: resolveRuntimeModule('./server/api/purgeCache.get')
-    })
 
     await installModule('@vueuse/nuxt', {})
 
@@ -223,10 +219,10 @@ export default defineNuxtModule<WPNuxtConfig>({
     })
 
     nuxt.hook('nitro:init', async (nitro) => {
-      // Remove content cache when nitro starts (after a pull or a change)
-      const keys = await nitro.storage.getKeys('cache:content')
+      // Remove content cache when nitro starts
+      const keys = await nitro.storage.getKeys('cache:api:wpContent')
       keys.forEach(async (key) => {
-        if (key.startsWith('cache:content')) await nitro.storage.removeItem(key)
+        if (key.startsWith('cache:api:wpContent')) await nitro.storage.removeItem(key)
       })
     })
 
