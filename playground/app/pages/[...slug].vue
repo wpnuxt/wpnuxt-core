@@ -43,10 +43,10 @@ const staging = await isStaging()
 <template>
   <NuxtLayout>
     <UContainer>
-      <UPage v-if="!isLoading">
+      <UPage v-if="!isLoading && post">
         <UPageHeader :title="post.title" />
         <UPageBody class="prose dark:prose-invert">
-          <WPContent :post="post" />
+          <WPContent :node="post" />
         </UPageBody>
         <template #left>
           <UAside>

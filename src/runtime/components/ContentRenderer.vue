@@ -2,12 +2,12 @@
 import type { NodeWithContentEditorFragment } from '#build/graphql-operations'
 
 defineProps<{
-  post: NodeWithContentEditorFragment
+  node: NodeWithContentEditorFragment
 }>()
 </script>
 
 <template>
   <div
-    v-sanitize="post.content"
+    v-sanitize="node.content"
   />
 </template>
