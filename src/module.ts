@@ -112,8 +112,9 @@ export default defineNuxtModule<WPNuxtConfig>({
         if (m.meta.name === '@wpnuxt/blocks' && m.entryPath) {
           logger.debug('Loading queries from @wpnuxt/blocks')
           let blocksQueriesPath
-          if (m.entryPath.startsWith('../')) {
-            // local development
+          if (m.entryPath == '../src/module') {
+            blocksQueriesPath = join(nuxt.options.rootDir, '../src/runtime/queries/')
+          } else if (m.entryPath.startsWith('../')) {
             blocksQueriesPath = join(nuxt.options.rootDir, '../', m.entryPath, './runtime/queries/')
           } else {
             blocksQueriesPath = join('./node_modules', m.entryPath, 'dist/runtime/queries/')
