@@ -20,7 +20,7 @@ const componentToRender = await findComponentToRender()
 <template>
   <component
     :is="componentToRender"
-    v-if="componentToRender"
+    v-if="componentToRender && node"
     :node="node"
   />
 </template>
