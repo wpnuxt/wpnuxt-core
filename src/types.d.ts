@@ -66,4 +66,5 @@ export type WPNuxtQuery = {
   nodes?: string[]
   fragments: string[]
   params: Record<string, string>
+  operation: OperationTypeNode
 }

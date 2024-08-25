@@ -1,3 +1,4 @@
+import { OperationTypeNode } from 'graphql'
 import { useWPContent } from './useWPContent'
 
 const _usePrevNextPost = async (currentPostSlug: string) => {
@@ -14,7 +15,7 @@ const _usePrevNextPost = async (currentPostSlug: string) => {
 }
 
 const getAllPosts = async () => {
-  const { data: allPosts } = await useWPContent('Posts', ['posts', 'nodes'], false)
+  const { data: allPosts } = await useWPContent(OperationTypeNode.QUERY, 'Posts', ['posts', 'nodes'], false)
   if (allPosts) {
     return {
       slugs: allPosts?.map((post) => {

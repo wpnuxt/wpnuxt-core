@@ -7,6 +7,11 @@ export default createConfigForNuxt({
       commaDangle: 'never',
       braceStyle: '1tbs'
     }
+  },
+  dirs: {
+    src: [
+      './playground'
+    ]
   }
 },
 {
