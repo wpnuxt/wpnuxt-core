@@ -256,3 +256,4 @@ declare module '@nuxt/schema' {
     }
   }
 }
+export type { WPNuxtConfig, WPNuxtConfigQueries, WPNuxtQuery } from './types'
