@@ -17,7 +17,8 @@ const _parseDoc = async (doc: string): Promise<WPNuxtQuery[]> => {
         name: operationDefinition.name.value.trim(),
         nodes: [],
         fragments: [],
-        params: {}
+        params: {},
+        operation: operationDefinition.operation
       }
       processSelections(operationDefinition.selectionSet.selections, 0, query)
       return query

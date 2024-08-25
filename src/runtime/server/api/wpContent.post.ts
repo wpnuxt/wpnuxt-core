@@ -11,8 +11,10 @@ export default defineCachedEventHandler(async (event: H3Event) => {
       'The request must contain a queryName'
     )
   }
-  return $fetch('/api/graphql_middleware/query/' + body.queryName, {
-    params: buildRequestParams(body.params),
+  return $fetch('/api/graphql_middleware/' + (body.operation || 'query') + '/' + body.queryName, {
+    method: body.operation === 'mutation' ? 'POST' : 'GET',
+    params: body.operation === 'query' ? buildRequestParams(body.params) : undefined,
+    body: body.operation === 'mutation' ? body.params : undefined,
     headers: {
       Authorization: `Bearer ${event.context.accessToken}`
     }

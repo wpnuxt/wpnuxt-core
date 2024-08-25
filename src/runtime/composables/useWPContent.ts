@@ -1,11 +1,13 @@
 import type { FetchError } from 'ofetch'
+import type { OperationTypeNode } from 'graphql'
 import { getRelativeImagePath } from '../util/images'
 import type { AsyncData } from '#app'
 
-const _useWPContent = async <T>(queryName: string, nodes: string[], fixImagePaths: boolean, params?: T) => {
+const _useWPContent = async <T>(operation: OperationTypeNode, queryName: string, nodes: string[], fixImagePaths: boolean, params?: T) => {
   const { data, error } = await $fetch<AsyncData<T, FetchError | null>>('/api/wpContent', {
     method: 'POST',
     body: {
+      operation,
       queryName,
       params
     }

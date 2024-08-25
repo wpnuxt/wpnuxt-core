@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { OperationTypeNode } from 'graphql'
 import { useWPUri } from '../composables/useWPUri'
 import { useWPContent } from '../composables'
 import WPNuxtLogo from './WPNuxtLogo.vue'
@@ -27,7 +28,7 @@ if (uri.startsWith('/')) {
 if (uri.endsWith('/')) {
   uri = uri.substring(0, uri.length - 1)
 }
-const { data: post } = await useWPContent('NodeByUri', ['nodeByUri'], false, { uri: uri })
+const { data: post } = await useWPContent(OperationTypeNode.QUERY, 'NodeByUri', ['nodeByUri'], false, { uri: uri })
 
 if (import.meta.client) {
   document.body.style.marginBottom = '40px'
