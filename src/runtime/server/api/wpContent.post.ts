@@ -21,7 +21,7 @@ export default defineCachedEventHandler(async (event: H3Event) => {
   }).then((v: GraphqlResponse) => {
     return {
       data: v.data,
-      errors: v.errors || []
+      error: v.errors || undefined
     }
   })
 }, {
