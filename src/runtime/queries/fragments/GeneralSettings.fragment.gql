@@ -2,10 +2,10 @@ fragment GeneralSettings on GeneralSettings {
   title
   description
   url
-  email
   dateFormat
   language
   startOfWeek
   timezone
   timeFormat
+  email
 }
