@@ -7,7 +7,7 @@ const prefix = useRuntimeConfig().public.wpNuxt.generateComposables?.prefix
 const { data: posts } = await usePosts()
 const { data: postsLimited } = await usePosts({ limit: 1 })
 const { data: postByUri } = await usePostByUri({ uri: 'hello-world' })
-const { data: settings } = await useGeneralSettings()
+const { data: settings, error } = await useGeneralSettings()
 </script>
 
 <template>
@@ -48,6 +48,9 @@ const { data: settings } = await useGeneralSettings()
           <strong>{{ key }}:</strong> {{ value }}
         </li>
       </ul>
+      The email field in GeneralSettings can't be fetched without authentication.<br>
+      The other data (see above) is returned anyway, and an error is thrown about the mail field:<br>
+      <pre>{{ error }}</pre>
     </UContainer>
   </NuxtLayout>
 </template>

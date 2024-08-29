@@ -13,7 +13,7 @@ const _useWPContent = async <T>(operation: OperationTypeNode, queryName: string,
     }
   })
   return {
-    data: error ? undefined : transformData(data, nodes, fixImagePaths),
+    data: transformData(data, nodes, fixImagePaths),
     error
   }
 }
