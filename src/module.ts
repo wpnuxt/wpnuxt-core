@@ -121,7 +121,7 @@ export default defineNuxtModule<WPNuxtConfig>({
         maybeValue: 'T | undefined',
         namingConvention: {
           enumValues: 'change-case-all#upperCaseFirst'
-        },
+        }
       },
       codegenSchemaConfig: {
         urlSchemaOptions: {

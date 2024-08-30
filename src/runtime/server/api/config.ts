@@ -1,5 +1,5 @@
 import { defineCachedEventHandler } from '#internal/nitro'
-import { useRuntimeConfig } from "#imports"
+import { useRuntimeConfig } from '#imports'
 
 export default defineCachedEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
