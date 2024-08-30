@@ -70,7 +70,6 @@ export async function mergeQueries(nuxt: any) {
 function addQueriesFromAddOnModule(addOnModuleName: string, queryOutputPath: string, nuxt: any, resolve: Function) {
   const logger = getLogger()
   if (hasNuxtModule(addOnModuleName)) {
-    console.log('addOnModule found:', addOnModuleName)
     for (const m of nuxt.options._installedModules) {
       if (m.meta.name === addOnModuleName && m.entryPath) {
         logger.debug('Loading queries from ' + addOnModuleName)
@@ -82,7 +81,6 @@ function addQueriesFromAddOnModule(addOnModuleName: string, queryOutputPath: str
         } else {
           blocksQueriesPath = join('./node_modules', m.entryPath, 'dist/runtime/queries/')
         }
-        console.log('blocksQueriesPath', blocksQueriesPath)
         cpSync(blocksQueriesPath, queryOutputPath, { recursive: true })
       }
     }

@@ -106,14 +106,12 @@ export default defineNuxtModule<WPNuxtConfig>({
     await installModule('@vueuse/nuxt', {})
 
     const mergedQueriesFolder = await mergeQueries(nuxt)
-    console.log('mergedQueriesFolder', mergedQueriesFolder)
 
     await installModule('nuxt-graphql-middleware', {
       debug: publicWPNuxtConfig.logLevel ? publicWPNuxtConfig.logLevel > 3 : false,
       graphqlEndpoint: `${publicWPNuxtConfig.wordpressUrl}/graphql`,
       downloadSchema: publicWPNuxtConfig.downloadSchema,
       codegenConfig: {
-        silent: false,
         skipTypename: true,
         useTypeImports: true,
         // inlineFragmentTypes: 'combine',
@@ -121,15 +119,9 @@ export default defineNuxtModule<WPNuxtConfig>({
         onlyOperationTypes: true,
         avoidOptionals: false,
         maybeValue: 'T | undefined',
-        disableOnBuild: false,
-        gqlImport: 'graphql-request#wpnuxt',
         namingConvention: {
           enumValues: 'change-case-all#upperCaseFirst'
         },
-
-        documents: [
-          resolve('!./graphql/**/*')
-        ]
       },
       codegenSchemaConfig: {
         urlSchemaOptions: {
@@ -139,7 +131,7 @@ export default defineNuxtModule<WPNuxtConfig>({
         }
       },
       outputDocuments: true,
-      autoImportPatterns: mergedQueriesFolder,
+      autoImportPatterns: [mergedQueriesFolder],
       includeComposables: true,
       devtools: true
     })
