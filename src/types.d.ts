@@ -38,6 +38,9 @@ export interface WPNuxtConfig {
    * @default true
    */
   downloadSchema?: boolean
+
+  hasBlocksModule?: boolean
+  hasAuthModule?: boolean
 }
 
 export interface WPNuxtConfigQueries {

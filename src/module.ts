@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { defineNuxtModule, addComponentsDir, addServerHandler, createResolver, installModule, addTemplate, addTypeTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
+import { defineNuxtModule, addComponentsDir, addServerHandler, createResolver, installModule, addTemplate, addTypeTemplate, addImports, type Resolver, addPlugin, hasNuxtModule } from '@nuxt/kit'
 import consola from 'consola'
 import { name, version } from '../package.json'
 import type { WPNuxtConfig } from './types'
@@ -14,7 +14,9 @@ const defaultConfigs: WPNuxtConfig = {
   enableCache: true,
   staging: false,
   logLevel: 3,
-  composablesPrefix: 'useWP'
+  composablesPrefix: 'useWP',
+  hasBlocksModule: false,
+  hasAuthModule: false
 }
 
 export default defineNuxtModule<WPNuxtConfig>({
@@ -38,11 +40,14 @@ export default defineNuxtModule<WPNuxtConfig>({
       staging: process.env.WPNUXT_STAGING === 'true' || options.staging!,
       downloadSchema: process.env.WPNUXT_DOWNLOAD_SCHEMA === 'true' || options.downloadSchema,
       logLevel: process.env.WPNUXT_LOG_LEVEL ? Number.parseInt(process.env.WPNUXT_LOG_LEVEL) : options.logLevel,
-      composablesPrefix: process.env.WPNUXT_COMPOSABLES_PREFIX || options.composablesPrefix
+      composablesPrefix: process.env.WPNUXT_COMPOSABLES_PREFIX || options.composablesPrefix,
+      hasBlocksModule: hasNuxtModule('@wpnuxt/blocks'),
+      hasAuthModule: hasNuxtModule('@wpnuxt/auth')
     }
     nuxt.options.runtimeConfig.public.wpNuxt = publicWPNuxtConfig
     validateConfig(publicWPNuxtConfig)
     const logger = initLogger(publicWPNuxtConfig.logLevel)
+    logger.info('config:', publicWPNuxtConfig)
 
     logger.info('Connecting GraphQL to', publicWPNuxtConfig.wordpressUrl)
     logger.info('frontendUrl:', publicWPNuxtConfig.frontendUrl)
@@ -92,6 +97,10 @@ export default defineNuxtModule<WPNuxtConfig>({
     addServerHandler({
       route: '/api/wpContent',
       handler: resolveRuntimeModule('./server/api/wpContent.post')
+    })
+    addServerHandler({
+      route: '/api/config',
+      handler: resolveRuntimeModule('./server/api/config')
     })
 
     await installModule('@vueuse/nuxt', {})
