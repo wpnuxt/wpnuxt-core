@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { existsSync, cpSync, promises as fsp } from 'node:fs'
-import { defineNuxtModule, hasNuxtModule, addComponentsDir, addServerHandler, createResolver, installModule, addTemplate, addTypeTemplate, addImports, type Resolver, addPlugin } from '@nuxt/kit'
-import { join } from 'pathe'
+import { defineNuxtModule, addComponentsDir, addServerHandler, createResolver, installModule, addTemplate, addTypeTemplate, addImports, type Resolver, addPlugin, hasNuxtModule } from '@nuxt/kit'
 import consola from 'consola'
 import { name, version } from '../package.json'
 import type { WPNuxtConfig } from './types'
-import { initLogger, validateConfig } from './utils'
+import { initLogger, mergeQueries, validateConfig } from './utils'
 import { generateWPNuxtComposables } from './generate'
 import type { WPNuxtContext } from './context'
 
@@ -16,7 +14,9 @@ const defaultConfigs: WPNuxtConfig = {
   enableCache: true,
   staging: false,
   logLevel: 3,
-  composablesPrefix: 'useWP'
+  composablesPrefix: 'useWP',
+  hasBlocksModule: false,
+  hasAuthModule: false
 }
 
 export default defineNuxtModule<WPNuxtConfig>({
@@ -40,11 +40,14 @@ export default defineNuxtModule<WPNuxtConfig>({
       staging: process.env.WPNUXT_STAGING === 'true' || options.staging!,
       downloadSchema: process.env.WPNUXT_DOWNLOAD_SCHEMA === 'true' || options.downloadSchema,
       logLevel: process.env.WPNUXT_LOG_LEVEL ? Number.parseInt(process.env.WPNUXT_LOG_LEVEL) : options.logLevel,
-      composablesPrefix: process.env.WPNUXT_COMPOSABLES_PREFIX || options.composablesPrefix
+      composablesPrefix: process.env.WPNUXT_COMPOSABLES_PREFIX || options.composablesPrefix,
+      hasBlocksModule: hasNuxtModule('@wpnuxt/blocks'),
+      hasAuthModule: hasNuxtModule('@wpnuxt/auth')
     }
     nuxt.options.runtimeConfig.public.wpNuxt = publicWPNuxtConfig
     validateConfig(publicWPNuxtConfig)
     const logger = initLogger(publicWPNuxtConfig.logLevel)
+    logger.info('config:', publicWPNuxtConfig)
 
     logger.info('Connecting GraphQL to', publicWPNuxtConfig.wordpressUrl)
     logger.info('frontendUrl:', publicWPNuxtConfig.frontendUrl)
@@ -95,48 +98,15 @@ export default defineNuxtModule<WPNuxtConfig>({
       route: '/api/wpContent',
       handler: resolveRuntimeModule('./server/api/wpContent.post')
     })
+    addServerHandler({
+      route: '/api/config',
+      handler: resolveRuntimeModule('./server/api/config')
+    })
 
     await installModule('@vueuse/nuxt', {})
 
-    const queryOutputPath = resolve((nuxt.options.srcDir || nuxt.options.rootDir) + '/.queries/')
-    await fsp.rm(queryOutputPath, { recursive: true, force: true })
-
-    const userQueryPath = '~/extend/queries/'
-      .replace(/^(~~|@@)/, nuxt.options.rootDir)
-      .replace(/^(~|@)/, nuxt.options.srcDir)
-    const userQueryPathExists = existsSync(userQueryPath)
-    cpSync(resolveRuntimeModule('./queries/'), queryOutputPath, { recursive: true })
-
-    if (hasNuxtModule('@wpnuxt/blocks')) {
-      for (const m of nuxt.options._installedModules) {
-        if (m.meta.name === '@wpnuxt/blocks' && m.entryPath) {
-          logger.debug('Loading queries from @wpnuxt/blocks')
-          let blocksQueriesPath
-          if (m.entryPath == '../src/module') {
-            blocksQueriesPath = join(nuxt.options.rootDir, '../src/runtime/queries/')
-          } else if (m.entryPath.startsWith('../')) {
-            blocksQueriesPath = join(nuxt.options.rootDir, '../', m.entryPath, './runtime/queries/')
-          } else {
-            blocksQueriesPath = join('./node_modules', m.entryPath, 'dist/runtime/queries/')
-          }
-          cpSync(blocksQueriesPath, queryOutputPath, { recursive: true })
-        }
-      }
-    } else {
-      logger.debug('Tip: Install the @wpnuxt/blocks module if you want to render Gutenberg blocks with separate vue components')
-      // TODO: find a way to avoid this hack. (it makes sure the dynamic import in WPContent doesn't throw an error)
-      addTemplate({
-        write: true,
-        filename: 'wpnuxt/blocks.mjs',
-        getContents: () => `export { }`
-      })
-      nuxt.options.alias['#wpnuxt/blocks'] = resolve(nuxt.options.buildDir, 'wpnuxt/blocks')
-    }
-    if (userQueryPathExists) {
-      logger.debug('Extending queries:', userQueryPath)
-      cpSync(resolve(userQueryPath), queryOutputPath, { recursive: true })
-    }
-    logger.debug('Copied merged queries in folder:', queryOutputPath)
+    const mergedQueriesFolder = await mergeQueries(nuxt)
+    console.log('mergedQueriesFolder', mergedQueriesFolder)
 
     await installModule('nuxt-graphql-middleware', {
       debug: publicWPNuxtConfig.logLevel ? publicWPNuxtConfig.logLevel > 3 : false,
@@ -169,7 +139,7 @@ export default defineNuxtModule<WPNuxtConfig>({
         }
       },
       outputDocuments: true,
-      autoImportPatterns: queryOutputPath,
+      autoImportPatterns: mergedQueriesFolder,
       includeComposables: true,
       devtools: true
     })
@@ -204,7 +174,7 @@ export default defineNuxtModule<WPNuxtConfig>({
       fnImports: [],
       composablesPrefix: publicWPNuxtConfig.composablesPrefix
     }
-    await generateWPNuxtComposables(ctx, queryOutputPath, srcResolver)
+    await generateWPNuxtComposables(ctx, mergedQueriesFolder, srcResolver)
 
     addTemplate({
       write: true,
