@@ -136,29 +136,6 @@ export default defineNuxtModule<WPNuxtConfig>({
       devtools: true
     })
 
-    const resolvedPath = resolveRuntimeModule('./app/graphqlMiddleware.serverOptions')
-    const template = addTemplate({
-      filename: 'graphqlMiddleware.serverOptions.ts',
-      write: true,
-      getContents: () => `
-      import type { GraphqlMiddlewareServerOptions } from '#graphql-middleware/types'
-      import serverOptions from '${resolvedPath}'
-      import type { GraphqlServerResponse } from '#graphql-middleware/types'
-      import type { GraphqlMiddlewareResponseUnion } from '#build/nuxt-graphql-middleware'
-
-      type GraphqlResponseAdditions =
-        typeof serverOptions extends GraphqlMiddlewareServerOptions<infer R> ? R : {}
-
-      export type GraphqlResponse<T> = GraphqlServerResponse<T> & GraphqlResponseAdditions
-
-      export type GraphqlResponseTyped = GraphqlResponse<GraphqlMiddlewareResponseUnion>
-
-      export { serverOptions }
-      `
-    })
-    nuxt.options.nitro.externals.inline.push(template.dst)
-    nuxt.options.alias['#graphql-middleware-server-options-build'] = template.dst
-
     logger.trace('Start generating composables')
 
     const ctx: WPNuxtContext = await {
