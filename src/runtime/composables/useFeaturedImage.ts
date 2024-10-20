@@ -1,7 +1,7 @@
 import { getRelativeImagePath } from '../util/images'
-import type { Post, Page } from '#graphql-operations'
+import type { NodeWithFeaturedImage } from '#graphql-operations'
 
-const _useFeaturedImage = (contentNode: Post | Page): string | undefined => {
+const _useFeaturedImage = (contentNode: NodeWithFeaturedImage): string | undefined => {
   const sourceUrl = contentNode?.featuredImage?.node?.sourceUrl
   if (sourceUrl) return getRelativeImagePath(sourceUrl)
   else return undefined
