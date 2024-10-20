@@ -10,19 +10,20 @@ export default defineNuxtConfig({
     '../src/module'
   ],
 
-  wpNuxt: {
-    wordpressUrl: 'https://wordpress.wpnuxt.com',
-    frontendUrl: 'https://demo.wpnuxt.com',
-    enableCache: true,
-    staging: false,
-    logLevel: 4,
-    downloadSchema: true,
-    composablesPrefix: 'use'
+  devtools: { enabled: true },
+
+  ui: {
+    icons: ['heroicons', 'uil', 'mdi']
+  },
+
+  routeRules: {
+    '/wp-content/**': { proxy: { to: 'http://localhost:10004/wp-content/**' } }
   },
 
   future: {
     compatibilityVersion: 4
   },
+  compatibilityDate: '2024-07-09',
 
   eslint: {
     config: {
@@ -37,10 +38,6 @@ export default defineNuxtConfig({
     }
   },
 
-  ui: {
-    icons: ['heroicons', 'uil', 'mdi']
-  },
-
   image: {
     provider: 'twicpics',
     domains: ['wordpress.wpnuxt.com'],
@@ -49,10 +46,13 @@ export default defineNuxtConfig({
     }
   },
 
-  routeRules: {
-    '/wp-content/**': { proxy: { to: 'http://localhost:10004/wp-content/**' } }
-  },
-
-  devtools: { enabled: true },
-  compatibilityDate: '2024-07-09'
+  wpNuxt: {
+    wordpressUrl: 'https://wordpress.wpnuxt.com',
+    frontendUrl: 'https://demo.wpnuxt.com',
+    enableCache: true,
+    staging: false,
+    logLevel: 4,
+    downloadSchema: true,
+    composablesPrefix: 'use'
+  }
 })
