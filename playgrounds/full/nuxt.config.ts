@@ -32,6 +32,10 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2026-01-18',
 
+  nitro: {
+    preset: process.env.NITRO_PRESET || 'vercel-edge'
+  },
+
   // Disable error overlay due to bug with path.join() on errors without path
   graphqlMiddleware: {
     errorOverlay: false
