@@ -1,0 +1,12 @@
+diff --git a/dist/runtime/polyfill/process.mjs b/dist/runtime/polyfill/process.mjs
+index bb96264adfa916a66d98afda1a2fac16638be65f..f33eb9d910fd5c2c989d77baf7080d2ba0b7bb79 100644
+--- a/dist/runtime/polyfill/process.mjs
++++ b/dist/runtime/polyfill/process.mjs
+@@ -5,6 +5,6 @@ globalThis.process = originalProcess ? new Proxy(originalProcess, { get(target,
+ 	if (Reflect.has(target, prop)) {
+ 		return Reflect.get(target, prop, receiver);
+ 	}
+-	return Reflect.get(processModule, prop, receiver);
++	return Reflect.get(processModule, prop, processModule);
+ } }) : processModule;
+ export default globalThis.process;

@@ -41,6 +41,9 @@
       "nuxt": "^4.4.2",
       "@nuxt/kit": "^4.4.2",
       "@nuxt/schema": "^4.4.2"
+    },
+    "patchedDependencies": {
+      "unenv@2.0.0-rc.24": "patches/unenv@2.0.0-rc.24.patch"
     }
   }
 }
