@@ -1,5 +1,5 @@
 import { defineGraphqlClientOptions } from 'nuxt-graphql-middleware/client-options'
-import { useRoute } from 'vue-router'
+import { useRoute } from '#imports'
 
 /**
  * WPNuxt default client options for nuxt-graphql-middleware.
@@ -18,11 +18,13 @@ export default defineGraphqlClientOptions<{
 }>({
   buildClientContext() {
     const route = useRoute()
+    const query = route?.query ?? {}
+    const token = query.token
 
     return {
       // Context values must be strings - use 'true'/'false' instead of boolean
-      preview: route.query.preview === 'true' ? 'true' : undefined,
-      previewToken: route.query.token as string | undefined
+      preview: query.preview === 'true' ? 'true' : undefined,
+      previewToken: typeof token === 'string' ? token : undefined
     }
   }
 })
