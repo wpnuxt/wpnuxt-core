@@ -41,6 +41,13 @@
       "nuxt": "^4.4.6",
       "@nuxt/kit": "^4.4.6",
       "@nuxt/schema": "^4.4.6"
+    },
+    "packageExtensions": {
+      "nuxt-graphql-middleware@5.4.0": {
+        "dependencies": {
+          "h3": "1.15.11"
+        }
+      }
     }
   }
 }
