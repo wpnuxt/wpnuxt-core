@@ -43,7 +43,7 @@ pnpm run release               # Lint, test, build, create changelog, publish, a
 
 **Core Module (`src/module.ts`)**
 - Entry point that configures the WPNuxt module
-- Registers `nuxt-graphql-middleware` and `@radya/nuxt-dompurify` dependencies
+- Registers the `nuxt-graphql-middleware` dependency and adds a built-in HTML sanitization plugin (`runtime/plugins/sanitizeHtml.ts`) that lazy-loads `dompurify` on the client for the `v-sanitize-html` directive
 - Validates configuration (WordPress URL required, no trailing slash)
 - Merges default queries from `src/runtime/queries/` with user queries from `extend/queries/`
 - Triggers composable generation via `src/generate.ts`

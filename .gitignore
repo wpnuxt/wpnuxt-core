@@ -67,6 +67,7 @@ docs/plans/
 .claude/
 .kiro/
 skills-lock.json
+AGENTS.md
 
 # Cloudflare Wrangler (build cache + local config)
 **/.wrangler/

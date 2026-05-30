@@ -202,7 +202,7 @@ The HTML sanitization directive changed:
 <div v-sanitize-html="htmlContent" />
 ```
 
-This change is due to switching from `vue-sanitize-directive` to `@radya/nuxt-dompurify`.
+In v2, HTML sanitization is handled by WPNuxt's built-in `v-sanitize-html` directive — a Nuxt plugin powered by `dompurify` — replacing the `vue-sanitize-directive` used in v1.
 
 ## Query Files
 
