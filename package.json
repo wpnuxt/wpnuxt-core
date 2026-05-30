@@ -38,9 +38,9 @@
     "overrides": {
       "typescript": "^5.9.3",
       "listhen@1.9.1>crossws": "0.4.4",
-      "nuxt": "^4.4.2",
-      "@nuxt/kit": "^4.4.2",
-      "@nuxt/schema": "^4.4.2"
+      "nuxt": "^4.4.6",
+      "@nuxt/kit": "^4.4.6",
+      "@nuxt/schema": "^4.4.6"
     }
   }
 }
