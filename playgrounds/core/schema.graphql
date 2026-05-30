@@ -1551,6 +1551,12 @@ interface Connection {
   pageInfo: PageInfo!
 }
 
+"""The connectors setting type"""
+type ConnectorsSettings {
+  """API key for the Akismet Anti-spam connector."""
+  wordpressApiKey: String
+}
+
 """
 Base interface for content objects like posts, pages, and media items. Provides common fields available across these content types.
 """
@@ -2347,7 +2353,9 @@ type CoreAccordionAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreAccordionAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -2477,7 +2485,9 @@ type CoreAccordionHeading implements BlockWithSupportsAnchor & EditorBlock & Eve
 
 """Attributes of the CoreAccordionHeading Block Type"""
 type CoreAccordionHeadingAttributes implements BlockWithSupportsAnchor {
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreAccordionHeadingAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -2724,11 +2734,6 @@ type CoreAccordionPanelAttributes {
   gradient: String
 
   """
-  The &quot;isSelected&quot; field on the &quot;CoreAccordionPanelAttributes&quot; block or block attributes
-  """
-  isSelected: Boolean!
-
-  """
   The &quot;layout&quot; field on the &quot;CoreAccordionPanelAttributes&quot; block or block attributes
   """
   layout: BlockAttributesObject
@@ -2744,11 +2749,6 @@ type CoreAccordionPanelAttributes {
   metadata: BlockAttributesObject
 
   """
-  The &quot;openByDefault&quot; field on the &quot;CoreAccordionPanelAttributes&quot; block or block attributes
-  """
-  openByDefault: Boolean!
-
-  """
   The &quot;style&quot; field on the &quot;CoreAccordionPanelAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
@@ -2760,7 +2760,10 @@ type CoreAccordionPanelAttributes {
 }
 
 """A block used for editing the site"""
-type CoreArchives implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreArchives implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -2796,11 +2799,16 @@ type CoreArchives implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CoreArchives Block Type"""
-type CoreArchivesAttributes {
+type CoreArchivesAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreArchivesAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreArchivesAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreArchivesAttributes&quot; block or block attributes
@@ -2919,7 +2927,9 @@ type CoreAudioAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreAudioAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -2979,7 +2989,10 @@ type CoreAudioAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
-type CoreAvatar implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreAvatar implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -3015,11 +3028,16 @@ type CoreAvatar implements EditorBlock & EventEditorBlock & PageEditorBlock & Po
 }
 
 """Attributes of the CoreAvatar Block Type"""
-type CoreAvatarAttributes {
+type CoreAvatarAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreAvatarAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreAvatarAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;borderColor&quot; field on the &quot;CoreAvatarAttributes&quot; block or block attributes
@@ -3127,6 +3145,133 @@ type CoreBlockAttributes {
 }
 
 """A block used for editing the site"""
+type CoreBreadcrumbs implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the CoreBreadcrumbs Block Type"""
+  attributes: CoreBreadcrumbsAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+
+  """The (GraphQL) type of the block"""
+  type: String
+}
+
+"""Attributes of the CoreBreadcrumbs Block Type"""
+type CoreBreadcrumbsAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;align&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  anchor: String
+
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  backgroundColor: String
+
+  """
+  The &quot;borderColor&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  borderColor: String
+
+  """
+  The &quot;className&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  className: String
+
+  """
+  The &quot;fontFamily&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  fontFamily: String
+
+  """
+  The &quot;fontSize&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  fontSize: String
+
+  """
+  The &quot;gradient&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  gradient: String
+
+  """
+  The &quot;lock&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  metadata: BlockAttributesObject
+
+  """
+  The &quot;prefersTaxonomy&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  prefersTaxonomy: Boolean!
+
+  """
+  The &quot;separator&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  separator: String!
+
+  """
+  The &quot;showCurrentItem&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  showCurrentItem: Boolean!
+
+  """
+  The &quot;showHomeItem&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  showHomeItem: Boolean!
+
+  """
+  The &quot;showOnHomePage&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  showOnHomePage: Boolean!
+
+  """
+  The &quot;style&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;textColor&quot; field on the &quot;CoreBreadcrumbsAttributes&quot; block or block attributes
+  """
+  textColor: String
+}
+
+"""A block used for editing the site"""
 type CoreButton implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
   """The anchor field for the block."""
   anchor: String
@@ -3167,7 +3312,9 @@ type CoreButton implements BlockWithSupportsAnchor & EditorBlock & EventEditorBl
 
 """Attributes of the CoreButton Block Type"""
 type CoreButtonAttributes implements BlockWithSupportsAnchor {
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreButtonAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -3251,11 +3398,6 @@ type CoreButtonAttributes implements BlockWithSupportsAnchor {
   text: String
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreButtonAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreButtonAttributes&quot; block or block attributes
   """
   textColor: String
@@ -3327,7 +3469,9 @@ type CoreButtonsAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreButtonsAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -3387,7 +3531,10 @@ type CoreButtonsAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
-type CoreCalendar implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCalendar implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -3423,11 +3570,16 @@ type CoreCalendar implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CoreCalendar Block Type"""
-type CoreCalendarAttributes {
+type CoreCalendarAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreCalendarAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCalendarAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCalendarAttributes&quot; block or block attributes
@@ -3481,7 +3633,10 @@ type CoreCalendarAttributes {
 }
 
 """A block used for editing the site"""
-type CoreCategories implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCategories implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -3517,11 +3672,16 @@ type CoreCategories implements EditorBlock & EventEditorBlock & PageEditorBlock 
 }
 
 """Attributes of the CoreCategories Block Type"""
-type CoreCategoriesAttributes {
+type CoreCategoriesAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreCategoriesAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCategoriesAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCategoriesAttributes&quot; block or block attributes
@@ -3660,7 +3820,9 @@ type CoreCodeAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCodeAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -3765,7 +3927,9 @@ type CoreColumn implements BlockWithSupportsAnchor & EditorBlock & EventEditorBl
 
 """Attributes of the CoreColumn Block Type"""
 type CoreColumnAttributes implements BlockWithSupportsAnchor {
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreColumnAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -3885,7 +4049,9 @@ type CoreColumnsAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreColumnsAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -3960,7 +4126,10 @@ type CoreColumnsAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
-type CoreCommentAuthorName implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentAuthorName implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -3996,7 +4165,12 @@ type CoreCommentAuthorName implements EditorBlock & EventEditorBlock & PageEdito
 }
 
 """Attributes of the CoreCommentAuthorName Block Type"""
-type CoreCommentAuthorNameAttributes {
+type CoreCommentAuthorNameAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentAuthorNameAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentAuthorNameAttributes&quot; block or block attributes
   """
@@ -4053,18 +4227,16 @@ type CoreCommentAuthorNameAttributes {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreCommentAuthorNameAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreCommentAuthorNameAttributes&quot; block or block attributes
   """
   textColor: String
 }
 
 """A block used for editing the site"""
-type CoreCommentContent implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentContent implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4100,7 +4272,12 @@ type CoreCommentContent implements EditorBlock & EventEditorBlock & PageEditorBl
 }
 
 """Attributes of the CoreCommentContent Block Type"""
-type CoreCommentContentAttributes {
+type CoreCommentContentAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentContentAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentContentAttributes&quot; block or block attributes
   """
@@ -4147,18 +4324,16 @@ type CoreCommentContentAttributes {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreCommentContentAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreCommentContentAttributes&quot; block or block attributes
   """
   textColor: String
 }
 
 """A block used for editing the site"""
-type CoreCommentDate implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentDate implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4194,7 +4369,12 @@ type CoreCommentDate implements EditorBlock & EventEditorBlock & PageEditorBlock
 }
 
 """Attributes of the CoreCommentDate Block Type"""
-type CoreCommentDateAttributes {
+type CoreCommentDateAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentDateAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentDateAttributes&quot; block or block attributes
   """
@@ -4257,7 +4437,10 @@ type CoreCommentDateAttributes {
 }
 
 """A block used for editing the site"""
-type CoreCommentEditLink implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentEditLink implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4293,7 +4476,12 @@ type CoreCommentEditLink implements EditorBlock & EventEditorBlock & PageEditorB
 }
 
 """Attributes of the CoreCommentEditLink Block Type"""
-type CoreCommentEditLinkAttributes {
+type CoreCommentEditLinkAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentEditLinkAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentEditLinkAttributes&quot; block or block attributes
   """
@@ -4343,15 +4531,13 @@ type CoreCommentEditLinkAttributes {
   The &quot;style&quot; field on the &quot;CoreCommentEditLinkAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
-
-  """
-  The &quot;textAlign&quot; field on the &quot;CoreCommentEditLinkAttributes&quot; block or block attributes
-  """
-  textAlign: String
 }
 
 """A block used for editing the site"""
-type CoreCommentReplyLink implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentReplyLink implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4387,7 +4573,12 @@ type CoreCommentReplyLink implements EditorBlock & EventEditorBlock & PageEditor
 }
 
 """Attributes of the CoreCommentReplyLink Block Type"""
-type CoreCommentReplyLinkAttributes {
+type CoreCommentReplyLinkAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentReplyLinkAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentReplyLinkAttributes&quot; block or block attributes
   """
@@ -4432,15 +4623,13 @@ type CoreCommentReplyLinkAttributes {
   The &quot;style&quot; field on the &quot;CoreCommentReplyLinkAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
-
-  """
-  The &quot;textAlign&quot; field on the &quot;CoreCommentReplyLinkAttributes&quot; block or block attributes
-  """
-  textAlign: String
 }
 
 """A block used for editing the site"""
-type CoreCommentTemplate implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentTemplate implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4476,11 +4665,16 @@ type CoreCommentTemplate implements EditorBlock & EventEditorBlock & PageEditorB
 }
 
 """Attributes of the CoreCommentTemplate Block Type"""
-type CoreCommentTemplateAttributes {
+type CoreCommentTemplateAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreCommentTemplateAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentTemplateAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;borderColor&quot; field on the &quot;CoreCommentTemplateAttributes&quot; block or block attributes
@@ -4519,7 +4713,10 @@ type CoreCommentTemplateAttributes {
 }
 
 """A block used for editing the site"""
-type CoreComments implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreComments implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4555,11 +4752,16 @@ type CoreComments implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CoreComments Block Type"""
-type CoreCommentsAttributes {
+type CoreCommentsAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreCommentsAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentsAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentsAttributes&quot; block or block attributes
@@ -4623,7 +4825,10 @@ type CoreCommentsAttributes {
 }
 
 """A block used for editing the site"""
-type CoreCommentsPagination implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentsPagination implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4659,11 +4864,16 @@ type CoreCommentsPagination implements EditorBlock & EventEditorBlock & PageEdit
 }
 
 """Attributes of the CoreCommentsPagination Block Type"""
-type CoreCommentsPaginationAttributes {
+type CoreCommentsPaginationAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreCommentsPaginationAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentsPaginationAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentsPaginationAttributes&quot; block or block attributes
@@ -4722,7 +4932,10 @@ type CoreCommentsPaginationAttributes {
 }
 
 """A block used for editing the site"""
-type CoreCommentsPaginationNext implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentsPaginationNext implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4758,7 +4971,12 @@ type CoreCommentsPaginationNext implements EditorBlock & EventEditorBlock & Page
 }
 
 """Attributes of the CoreCommentsPaginationNext Block Type"""
-type CoreCommentsPaginationNextAttributes {
+type CoreCommentsPaginationNextAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentsPaginationNextAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentsPaginationNextAttributes&quot; block or block attributes
   """
@@ -4806,7 +5024,10 @@ type CoreCommentsPaginationNextAttributes {
 }
 
 """A block used for editing the site"""
-type CoreCommentsPaginationNumbers implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentsPaginationNumbers implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4842,7 +5063,12 @@ type CoreCommentsPaginationNumbers implements EditorBlock & EventEditorBlock & P
 }
 
 """Attributes of the CoreCommentsPaginationNumbers Block Type"""
-type CoreCommentsPaginationNumbersAttributes {
+type CoreCommentsPaginationNumbersAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentsPaginationNumbersAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentsPaginationNumbersAttributes&quot; block or block attributes
   """
@@ -4885,7 +5111,10 @@ type CoreCommentsPaginationNumbersAttributes {
 }
 
 """A block used for editing the site"""
-type CoreCommentsPaginationPrevious implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentsPaginationPrevious implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -4921,7 +5150,12 @@ type CoreCommentsPaginationPrevious implements EditorBlock & EventEditorBlock & 
 }
 
 """Attributes of the CoreCommentsPaginationPrevious Block Type"""
-type CoreCommentsPaginationPreviousAttributes {
+type CoreCommentsPaginationPreviousAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentsPaginationPreviousAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentsPaginationPreviousAttributes&quot; block or block attributes
   """
@@ -4969,7 +5203,10 @@ type CoreCommentsPaginationPreviousAttributes {
 }
 
 """A block used for editing the site"""
-type CoreCommentsTitle implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreCommentsTitle implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -5005,11 +5242,16 @@ type CoreCommentsTitle implements EditorBlock & EventEditorBlock & PageEditorBlo
 }
 
 """Attributes of the CoreCommentsTitle Block Type"""
-type CoreCommentsTitleAttributes {
+type CoreCommentsTitleAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreCommentsTitleAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCommentsTitleAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreCommentsTitleAttributes&quot; block or block attributes
@@ -5077,11 +5319,6 @@ type CoreCommentsTitleAttributes {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreCommentsTitleAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreCommentsTitleAttributes&quot; block or block attributes
   """
   textColor: String
@@ -5138,7 +5375,9 @@ type CoreCoverAttributes implements BlockWithSupportsAnchor {
   """
   alt: String!
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreCoverAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -5333,7 +5572,9 @@ type CoreDetailsAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreDetailsAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -5413,7 +5654,10 @@ type CoreDetailsAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
-type CoreEmbed implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreEmbed implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -5449,7 +5693,7 @@ type CoreEmbed implements EditorBlock & EventEditorBlock & PageEditorBlock & Pos
 }
 
 """Attributes of the CoreEmbed Block Type"""
-type CoreEmbedAttributes {
+type CoreEmbedAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreEmbedAttributes&quot; block or block attributes
   """
@@ -5459,6 +5703,11 @@ type CoreEmbedAttributes {
   The &quot;allowResponsive&quot; field on the &quot;CoreEmbedAttributes&quot; block or block attributes
   """
   allowResponsive: Boolean!
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreEmbedAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;caption&quot; field on the &quot;CoreEmbedAttributes&quot; block or block attributes
@@ -5557,7 +5806,9 @@ type CoreFileAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreFileAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -5652,7 +5903,10 @@ type CoreFileAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
-type CoreFootnotes implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreFootnotes implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -5688,7 +5942,12 @@ type CoreFootnotes implements EditorBlock & EventEditorBlock & PageEditorBlock &
 }
 
 """Attributes of the CoreFootnotes Block Type"""
-type CoreFootnotesAttributes {
+type CoreFootnotesAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreFootnotesAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreFootnotesAttributes&quot; block or block attributes
   """
@@ -5840,7 +6099,9 @@ type CoreGalleryAttributes implements BlockWithSupportsAnchor {
   """
   allowResize: Boolean!
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreGalleryAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -5922,6 +6183,11 @@ type CoreGalleryAttributes implements BlockWithSupportsAnchor {
   The &quot;metadata&quot; field on the &quot;CoreGalleryAttributes&quot; block or block attributes
   """
   metadata: BlockAttributesObject
+
+  """
+  The &quot;navigationButtonType&quot; field on the &quot;CoreGalleryAttributes&quot; block or block attributes
+  """
+  navigationButtonType: String!
 
   """
   The &quot;randomOrder&quot; field on the &quot;CoreGalleryAttributes&quot; block or block attributes
@@ -6025,7 +6291,9 @@ type CoreGroupAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreGroupAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -6145,7 +6413,9 @@ type CoreHeadingAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreHeadingAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -6219,18 +6489,16 @@ type CoreHeadingAttributes implements BlockWithSupportsAnchor {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreHeadingAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreHeadingAttributes&quot; block or block attributes
   """
   textColor: String
 }
 
 """A block used for editing the site"""
-type CoreHomeLink implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreHomeLink implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -6266,7 +6534,12 @@ type CoreHomeLink implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CoreHomeLink Block Type"""
-type CoreHomeLinkAttributes {
+type CoreHomeLinkAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreHomeLinkAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;className&quot; field on the &quot;CoreHomeLinkAttributes&quot; block or block attributes
   """
@@ -6358,6 +6631,103 @@ type CoreHtmlAttributes {
 }
 
 """A block used for editing the site"""
+type CoreIcon implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the CoreIcon Block Type"""
+  attributes: CoreIconAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+
+  """The (GraphQL) type of the block"""
+  type: String
+}
+
+"""Attributes of the CoreIcon Block Type"""
+type CoreIconAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;align&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  anchor: String
+
+  """
+  The &quot;ariaLabel&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  ariaLabel: String
+
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  backgroundColor: String
+
+  """
+  The &quot;borderColor&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  borderColor: String
+
+  """
+  The &quot;className&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  className: String
+
+  """
+  The &quot;icon&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  icon: String
+
+  """
+  The &quot;lock&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;textColor&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  textColor: String
+}
+
+"""A block used for editing the site"""
 type CoreImage implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
   """The anchor field for the block."""
   anchor: String
@@ -6411,7 +6781,9 @@ type CoreImageAttributes implements BlockWithSupportsAnchor {
   """
   alt: String!
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreImageAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -6443,6 +6815,11 @@ type CoreImageAttributes implements BlockWithSupportsAnchor {
   The &quot;cssClassName&quot; field on the &quot;CoreImageAttributes&quot; block or block attributes
   """
   cssClassName: String
+
+  """
+  The &quot;focalPoint&quot; field on the &quot;CoreImageAttributes&quot; block or block attributes
+  """
+  focalPoint: BlockAttributesObject
 
   """
   The &quot;height&quot; field on the &quot;CoreImageAttributes&quot; block or block attributes
@@ -6531,7 +6908,10 @@ type CoreImageAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
-type CoreLatestComments implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreLatestComments implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -6567,11 +6947,16 @@ type CoreLatestComments implements EditorBlock & EventEditorBlock & PageEditorBl
 }
 
 """Attributes of the CoreLatestComments Block Type"""
-type CoreLatestCommentsAttributes {
+type CoreLatestCommentsAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreLatestCommentsAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreLatestCommentsAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreLatestCommentsAttributes&quot; block or block attributes
@@ -6594,14 +6979,14 @@ type CoreLatestCommentsAttributes {
   displayAvatar: Boolean!
 
   """
+  The &quot;displayContent&quot; field on the &quot;CoreLatestCommentsAttributes&quot; block or block attributes
+  """
+  displayContent: String!
+
+  """
   The &quot;displayDate&quot; field on the &quot;CoreLatestCommentsAttributes&quot; block or block attributes
   """
   displayDate: Boolean!
-
-  """
-  The &quot;displayExcerpt&quot; field on the &quot;CoreLatestCommentsAttributes&quot; block or block attributes
-  """
-  displayExcerpt: Boolean!
 
   """
   The &quot;fontFamily&quot; field on the &quot;CoreLatestCommentsAttributes&quot; block or block attributes
@@ -6640,7 +7025,10 @@ type CoreLatestCommentsAttributes {
 }
 
 """A block used for editing the site"""
-type CoreLatestPosts implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreLatestPosts implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -6676,7 +7064,7 @@ type CoreLatestPosts implements EditorBlock & EventEditorBlock & PageEditorBlock
 }
 
 """Attributes of the CoreLatestPosts Block Type"""
-type CoreLatestPostsAttributes {
+type CoreLatestPostsAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;addLinkToFeaturedImage&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
   """
@@ -6686,6 +7074,11 @@ type CoreLatestPostsAttributes {
   The &quot;align&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
@@ -6885,6 +7278,11 @@ type CoreLegacyWidgetAttributes {
   The &quot;metadata&quot; field on the &quot;CoreLegacyWidgetAttributes&quot; block or block attributes
   """
   metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreLegacyWidgetAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
 }
 
 """A block used for editing the site"""
@@ -6928,7 +7326,9 @@ type CoreList implements BlockWithSupportsAnchor & EditorBlock & EventEditorBloc
 
 """Attributes of the CoreList Block Type"""
 type CoreListAttributes implements BlockWithSupportsAnchor {
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreListAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -7058,7 +7458,9 @@ type CoreListItem implements BlockWithSupportsAnchor & EditorBlock & EventEditor
 
 """Attributes of the CoreListItem Block Type"""
 type CoreListItemAttributes implements BlockWithSupportsAnchor {
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreListItemAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -7123,7 +7525,10 @@ type CoreListItemAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
-type CoreLoginout implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreLoginout implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -7159,7 +7564,12 @@ type CoreLoginout implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CoreLoginout Block Type"""
-type CoreLoginoutAttributes {
+type CoreLoginoutAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreLoginoutAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreLoginoutAttributes&quot; block or block attributes
   """
@@ -7217,7 +7627,10 @@ type CoreLoginoutAttributes {
 }
 
 """A block used for editing the site"""
-type CoreMath implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreMath implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -7253,11 +7666,36 @@ type CoreMath implements EditorBlock & EventEditorBlock & PageEditorBlock & Post
 }
 
 """Attributes of the CoreMath Block Type"""
-type CoreMathAttributes {
+type CoreMathAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
+  """
+  anchor: String
+
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
+  """
+  backgroundColor: String
+
+  """
+  The &quot;borderColor&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
+  """
+  borderColor: String
+
   """
   The &quot;className&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
   """
   className: String
+
+  """
+  The &quot;fontSize&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
+  """
+  fontSize: String
+
+  """
+  The &quot;gradient&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
+  """
+  gradient: String
 
   """
   The &quot;latex&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
@@ -7278,6 +7716,16 @@ type CoreMathAttributes {
   The &quot;metadata&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
   """
   metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;textColor&quot; field on the &quot;CoreMathAttributes&quot; block or block attributes
+  """
+  textColor: String
 }
 
 """A block used for editing the site"""
@@ -7326,7 +7774,9 @@ type CoreMediaTextAttributes implements BlockWithSupportsAnchor {
   """
   align: String!
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreMediaTextAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -7594,7 +8044,10 @@ type CoreMoreAttributes {
 }
 
 """A block used for editing the site"""
-type CoreNavigation implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreNavigation implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -7630,11 +8083,16 @@ type CoreNavigation implements EditorBlock & EventEditorBlock & PageEditorBlock 
 }
 
 """Attributes of the CoreNavigation Block Type"""
-type CoreNavigationAttributes {
+type CoreNavigationAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreNavigationAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreNavigationAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;ariaLabel&quot; field on the &quot;CoreNavigationAttributes&quot; block or block attributes
@@ -7712,9 +8170,9 @@ type CoreNavigationAttributes {
   metadata: BlockAttributesObject
 
   """
-  The &quot;openSubmenusOnClick&quot; field on the &quot;CoreNavigationAttributes&quot; block or block attributes
+  The &quot;overlay&quot; field on the &quot;CoreNavigationAttributes&quot; block or block attributes
   """
-  openSubmenusOnClick: Boolean!
+  overlay: String
 
   """
   The &quot;overlayBackgroundColor&quot; field on the &quot;CoreNavigationAttributes&quot; block or block attributes
@@ -7757,6 +8215,11 @@ type CoreNavigationAttributes {
   style: BlockAttributesObject
 
   """
+  The &quot;submenuVisibility&quot; field on the &quot;CoreNavigationAttributes&quot; block or block attributes
+  """
+  submenuVisibility: String!
+
+  """
   The &quot;textColor&quot; field on the &quot;CoreNavigationAttributes&quot; block or block attributes
   """
   textColor: String
@@ -7768,7 +8231,10 @@ type CoreNavigationAttributes {
 }
 
 """A block used for editing the site"""
-type CoreNavigationLink implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreNavigationLink implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -7804,7 +8270,12 @@ type CoreNavigationLink implements EditorBlock & EventEditorBlock & PageEditorBl
 }
 
 """Attributes of the CoreNavigationLink Block Type"""
-type CoreNavigationLinkAttributes {
+type CoreNavigationLinkAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreNavigationLinkAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;className&quot; field on the &quot;CoreNavigationLinkAttributes&quot; block or block attributes
   """
@@ -7887,7 +8358,99 @@ type CoreNavigationLinkAttributes {
 }
 
 """A block used for editing the site"""
-type CoreNavigationSubmenu implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreNavigationOverlayClose implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the CoreNavigationOverlayClose Block Type"""
+  attributes: CoreNavigationOverlayCloseAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+
+  """The (GraphQL) type of the block"""
+  type: String
+}
+
+"""Attributes of the CoreNavigationOverlayClose Block Type"""
+type CoreNavigationOverlayCloseAttributes {
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  backgroundColor: String
+
+  """
+  The &quot;className&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  className: String
+
+  """
+  The &quot;displayMode&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  displayMode: String!
+
+  """
+  The &quot;fontFamily&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  fontFamily: String
+
+  """
+  The &quot;fontSize&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  fontSize: String
+
+  """
+  The &quot;lock&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;text&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  text: String
+
+  """
+  The &quot;textColor&quot; field on the &quot;CoreNavigationOverlayCloseAttributes&quot; block or block attributes
+  """
+  textColor: String
+}
+
+"""A block used for editing the site"""
+type CoreNavigationSubmenu implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -7923,7 +8486,12 @@ type CoreNavigationSubmenu implements EditorBlock & EventEditorBlock & PageEdito
 }
 
 """Attributes of the CoreNavigationSubmenu Block Type"""
-type CoreNavigationSubmenuAttributes {
+type CoreNavigationSubmenuAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreNavigationSubmenuAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;className&quot; field on the &quot;CoreNavigationSubmenuAttributes&quot; block or block attributes
   """
@@ -8055,7 +8623,10 @@ type CoreNextpageAttributes {
 }
 
 """A block used for editing the site"""
-type CorePageList implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePageList implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -8091,7 +8662,12 @@ type CorePageList implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CorePageList Block Type"""
-type CorePageListAttributes {
+type CorePageListAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePageListAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePageListAttributes&quot; block or block attributes
   """
@@ -8154,7 +8730,10 @@ type CorePageListAttributes {
 }
 
 """A block used for editing the site"""
-type CorePageListItem implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePageListItem implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -8190,7 +8769,12 @@ type CorePageListItem implements EditorBlock & EventEditorBlock & PageEditorBloc
 }
 
 """Attributes of the CorePageListItem Block Type"""
-type CorePageListItemAttributes {
+type CorePageListItemAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePageListItemAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;className&quot; field on the &quot;CorePageListItemAttributes&quot; block or block attributes
   """
@@ -8225,6 +8809,11 @@ type CorePageListItemAttributes {
   The &quot;metadata&quot; field on the &quot;CorePageListItemAttributes&quot; block or block attributes
   """
   metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CorePageListItemAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
 
   """
   The &quot;title&quot; field on the &quot;CorePageListItemAttributes&quot; block or block attributes
@@ -8278,7 +8867,9 @@ type CoreParagraphAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreParagraphAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -8414,10 +9005,18 @@ type CorePatternAttributes {
   The &quot;slug&quot; field on the &quot;CorePatternAttributes&quot; block or block attributes
   """
   slug: String
+
+  """
+  The &quot;style&quot; field on the &quot;CorePatternAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
 }
 
 """A block used for editing the site"""
-type CorePostAuthor implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostAuthor implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -8453,7 +9052,12 @@ type CorePostAuthor implements EditorBlock & EventEditorBlock & PageEditorBlock 
 }
 
 """Attributes of the CorePostAuthor Block Type"""
-type CorePostAuthorAttributes {
+type CorePostAuthorAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostAuthorAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;avatarSize&quot; field on the &quot;CorePostAuthorAttributes&quot; block or block attributes
   """
@@ -8541,7 +9145,10 @@ type CorePostAuthorAttributes {
 }
 
 """A block used for editing the site"""
-type CorePostAuthorBiography implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostAuthorBiography implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -8577,7 +9184,12 @@ type CorePostAuthorBiography implements EditorBlock & EventEditorBlock & PageEdi
 }
 
 """Attributes of the CorePostAuthorBiography Block Type"""
-type CorePostAuthorBiographyAttributes {
+type CorePostAuthorBiographyAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostAuthorBiographyAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostAuthorBiographyAttributes&quot; block or block attributes
   """
@@ -8624,18 +9236,16 @@ type CorePostAuthorBiographyAttributes {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CorePostAuthorBiographyAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CorePostAuthorBiographyAttributes&quot; block or block attributes
   """
   textColor: String
 }
 
 """A block used for editing the site"""
-type CorePostAuthorName implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostAuthorName implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -8671,7 +9281,12 @@ type CorePostAuthorName implements EditorBlock & EventEditorBlock & PageEditorBl
 }
 
 """Attributes of the CorePostAuthorName Block Type"""
-type CorePostAuthorNameAttributes {
+type CorePostAuthorNameAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostAuthorNameAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostAuthorNameAttributes&quot; block or block attributes
   """
@@ -8726,11 +9341,6 @@ type CorePostAuthorNameAttributes {
   The &quot;style&quot; field on the &quot;CorePostAuthorNameAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
-
-  """
-  The &quot;textAlign&quot; field on the &quot;CorePostAuthorNameAttributes&quot; block or block attributes
-  """
-  textAlign: String
 
   """
   The &quot;textColor&quot; field on the &quot;CorePostAuthorNameAttributes&quot; block or block attributes
@@ -8828,7 +9438,10 @@ type CorePostCommentsAttributes {
 }
 
 """A block used for editing the site"""
-type CorePostCommentsCount implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostCommentsCount implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -8864,7 +9477,12 @@ type CorePostCommentsCount implements EditorBlock & EventEditorBlock & PageEdito
 }
 
 """Attributes of the CorePostCommentsCount Block Type"""
-type CorePostCommentsCountAttributes {
+type CorePostCommentsCountAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostCommentsCountAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostCommentsCountAttributes&quot; block or block attributes
   """
@@ -8911,18 +9529,16 @@ type CorePostCommentsCountAttributes {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CorePostCommentsCountAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CorePostCommentsCountAttributes&quot; block or block attributes
   """
   textColor: String
 }
 
 """A block used for editing the site"""
-type CorePostCommentsForm implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostCommentsForm implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -8958,7 +9574,12 @@ type CorePostCommentsForm implements EditorBlock & EventEditorBlock & PageEditor
 }
 
 """Attributes of the CorePostCommentsForm Block Type"""
-type CorePostCommentsFormAttributes {
+type CorePostCommentsFormAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostCommentsFormAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostCommentsFormAttributes&quot; block or block attributes
   """
@@ -9000,18 +9621,16 @@ type CorePostCommentsFormAttributes {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CorePostCommentsFormAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CorePostCommentsFormAttributes&quot; block or block attributes
   """
   textColor: String
 }
 
 """A block used for editing the site"""
-type CorePostCommentsLink implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostCommentsLink implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -9047,7 +9666,12 @@ type CorePostCommentsLink implements EditorBlock & EventEditorBlock & PageEditor
 }
 
 """Attributes of the CorePostCommentsLink Block Type"""
-type CorePostCommentsLinkAttributes {
+type CorePostCommentsLinkAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostCommentsLinkAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostCommentsLinkAttributes&quot; block or block attributes
   """
@@ -9087,15 +9711,13 @@ type CorePostCommentsLinkAttributes {
   The &quot;style&quot; field on the &quot;CorePostCommentsLinkAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
-
-  """
-  The &quot;textAlign&quot; field on the &quot;CorePostCommentsLinkAttributes&quot; block or block attributes
-  """
-  textAlign: String
 }
 
 """A block used for editing the site"""
-type CorePostContent implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostContent implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -9131,11 +9753,16 @@ type CorePostContent implements EditorBlock & EventEditorBlock & PageEditorBlock
 }
 
 """Attributes of the CorePostContent Block Type"""
-type CorePostContentAttributes {
+type CorePostContentAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CorePostContentAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostContentAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostContentAttributes&quot; block or block attributes
@@ -9199,7 +9826,10 @@ type CorePostContentAttributes {
 }
 
 """A block used for editing the site"""
-type CorePostDate implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostDate implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -9235,7 +9865,12 @@ type CorePostDate implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CorePostDate Block Type"""
-type CorePostDateAttributes {
+type CorePostDateAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostDateAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostDateAttributes&quot; block or block attributes
   """
@@ -9308,7 +9943,10 @@ type CorePostDateAttributes {
 }
 
 """A block used for editing the site"""
-type CorePostExcerpt implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostExcerpt implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -9344,7 +9982,12 @@ type CorePostExcerpt implements EditorBlock & EventEditorBlock & PageEditorBlock
 }
 
 """Attributes of the CorePostExcerpt Block Type"""
-type CorePostExcerptAttributes {
+type CorePostExcerptAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostExcerptAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostExcerptAttributes&quot; block or block attributes
   """
@@ -9417,7 +10060,10 @@ type CorePostExcerptAttributes {
 }
 
 """A block used for editing the site"""
-type CorePostFeaturedImage implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostFeaturedImage implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -9453,11 +10099,16 @@ type CorePostFeaturedImage implements EditorBlock & EventEditorBlock & PageEdito
 }
 
 """Attributes of the CorePostFeaturedImage Block Type"""
-type CorePostFeaturedImageAttributes {
+type CorePostFeaturedImageAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CorePostFeaturedImageAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostFeaturedImageAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;aspectRatio&quot; field on the &quot;CorePostFeaturedImageAttributes&quot; block or block attributes
@@ -9556,7 +10207,10 @@ type CorePostFeaturedImageAttributes {
 }
 
 """A block used for editing the site"""
-type CorePostNavigationLink implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostNavigationLink implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -9592,7 +10246,12 @@ type CorePostNavigationLink implements EditorBlock & EventEditorBlock & PageEdit
 }
 
 """Attributes of the CorePostNavigationLink Block Type"""
-type CorePostNavigationLinkAttributes {
+type CorePostNavigationLinkAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostNavigationLinkAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;arrow&quot; field on the &quot;CorePostNavigationLinkAttributes&quot; block or block attributes
   """
@@ -9670,7 +10329,10 @@ type CorePostNavigationLinkAttributes {
 }
 
 """A block used for editing the site"""
-type CorePostTemplate implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostTemplate implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -9706,11 +10368,16 @@ type CorePostTemplate implements EditorBlock & EventEditorBlock & PageEditorBloc
 }
 
 """Attributes of the CorePostTemplate Block Type"""
-type CorePostTemplateAttributes {
+type CorePostTemplateAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CorePostTemplateAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostTemplateAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostTemplateAttributes&quot; block or block attributes
@@ -9769,7 +10436,10 @@ type CorePostTemplateAttributes {
 }
 
 """A block used for editing the site"""
-type CorePostTerms implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostTerms implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -9833,7 +10503,12 @@ type CorePostTerms implements EditorBlock & EventEditorBlock & PageEditorBlock &
 }
 
 """Attributes of the CorePostTerms Block Type"""
-type CorePostTermsAttributes {
+type CorePostTermsAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostTermsAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostTermsAttributes&quot; block or block attributes
   """
@@ -9900,11 +10575,6 @@ type CorePostTermsAttributes {
   term: String
 
   """
-  The &quot;textAlign&quot; field on the &quot;CorePostTermsAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CorePostTermsAttributes&quot; block or block attributes
   """
   textColor: String
@@ -9963,7 +10633,10 @@ type CorePostTermsToTermNodeConnectionPageInfo implements PageInfo & TermNodeCon
 }
 
 """A block used for editing the site"""
-type CorePostTimeToRead implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostTimeToRead implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -9999,7 +10672,12 @@ type CorePostTimeToRead implements EditorBlock & EventEditorBlock & PageEditorBl
 }
 
 """Attributes of the CorePostTimeToRead Block Type"""
-type CorePostTimeToReadAttributes {
+type CorePostTimeToReadAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostTimeToReadAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;averageReadingSpeed&quot; field on the &quot;CorePostTimeToReadAttributes&quot; block or block attributes
   """
@@ -10061,18 +10739,16 @@ type CorePostTimeToReadAttributes {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CorePostTimeToReadAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CorePostTimeToReadAttributes&quot; block or block attributes
   """
   textColor: String
 }
 
 """A block used for editing the site"""
-type CorePostTitle implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CorePostTitle implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -10108,11 +10784,16 @@ type CorePostTitle implements EditorBlock & EventEditorBlock & PageEditorBlock &
 }
 
 """Attributes of the CorePostTitle Block Type"""
-type CorePostTitleAttributes {
+type CorePostTitleAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CorePostTitleAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CorePostTitleAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CorePostTitleAttributes&quot; block or block attributes
@@ -10236,7 +10917,9 @@ type CorePreformatted implements BlockWithSupportsAnchor & EditorBlock & EventEd
 
 """Attributes of the CorePreformatted Block Type"""
 type CorePreformattedAttributes implements BlockWithSupportsAnchor {
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CorePreformattedAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -10341,7 +11024,9 @@ type CorePullquoteAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CorePullquoteAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -10411,7 +11096,10 @@ type CorePullquoteAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
-type CoreQuery implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreQuery implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -10447,11 +11135,16 @@ type CoreQuery implements EditorBlock & EventEditorBlock & PageEditorBlock & Pos
 }
 
 """Attributes of the CoreQuery Block Type"""
-type CoreQueryAttributes {
+type CoreQueryAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreQueryAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreQueryAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;className&quot; field on the &quot;CoreQueryAttributes&quot; block or block attributes
@@ -10494,13 +11187,21 @@ type CoreQueryAttributes {
   queryId: Float
 
   """
+  The &quot;style&quot; field on the &quot;CoreQueryAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
   The &quot;tagName&quot; field on the &quot;CoreQueryAttributes&quot; block or block attributes
   """
   tagName: String!
 }
 
 """A block used for editing the site"""
-type CoreQueryNoResults implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreQueryNoResults implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -10536,11 +11237,16 @@ type CoreQueryNoResults implements EditorBlock & EventEditorBlock & PageEditorBl
 }
 
 """Attributes of the CoreQueryNoResults Block Type"""
-type CoreQueryNoResultsAttributes {
+type CoreQueryNoResultsAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreQueryNoResultsAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreQueryNoResultsAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreQueryNoResultsAttributes&quot; block or block attributes
@@ -10589,7 +11295,10 @@ type CoreQueryNoResultsAttributes {
 }
 
 """A block used for editing the site"""
-type CoreQueryPagination implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreQueryPagination implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -10625,11 +11334,16 @@ type CoreQueryPagination implements EditorBlock & EventEditorBlock & PageEditorB
 }
 
 """Attributes of the CoreQueryPagination Block Type"""
-type CoreQueryPaginationAttributes {
+type CoreQueryPaginationAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreQueryPaginationAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreQueryPaginationAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreQueryPaginationAttributes&quot; block or block attributes
@@ -10693,7 +11407,10 @@ type CoreQueryPaginationAttributes {
 }
 
 """A block used for editing the site"""
-type CoreQueryPaginationNext implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreQueryPaginationNext implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -10729,7 +11446,12 @@ type CoreQueryPaginationNext implements EditorBlock & EventEditorBlock & PageEdi
 }
 
 """Attributes of the CoreQueryPaginationNext Block Type"""
-type CoreQueryPaginationNextAttributes {
+type CoreQueryPaginationNextAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreQueryPaginationNextAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreQueryPaginationNextAttributes&quot; block or block attributes
   """
@@ -10777,7 +11499,10 @@ type CoreQueryPaginationNextAttributes {
 }
 
 """A block used for editing the site"""
-type CoreQueryPaginationNumbers implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreQueryPaginationNumbers implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -10813,7 +11538,12 @@ type CoreQueryPaginationNumbers implements EditorBlock & EventEditorBlock & Page
 }
 
 """Attributes of the CoreQueryPaginationNumbers Block Type"""
-type CoreQueryPaginationNumbersAttributes {
+type CoreQueryPaginationNumbersAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreQueryPaginationNumbersAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreQueryPaginationNumbersAttributes&quot; block or block attributes
   """
@@ -10861,7 +11591,10 @@ type CoreQueryPaginationNumbersAttributes {
 }
 
 """A block used for editing the site"""
-type CoreQueryPaginationPrevious implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreQueryPaginationPrevious implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -10897,7 +11630,12 @@ type CoreQueryPaginationPrevious implements EditorBlock & EventEditorBlock & Pag
 }
 
 """Attributes of the CoreQueryPaginationPrevious Block Type"""
-type CoreQueryPaginationPreviousAttributes {
+type CoreQueryPaginationPreviousAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreQueryPaginationPreviousAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreQueryPaginationPreviousAttributes&quot; block or block attributes
   """
@@ -10945,7 +11683,10 @@ type CoreQueryPaginationPreviousAttributes {
 }
 
 """A block used for editing the site"""
-type CoreQueryTitle implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreQueryTitle implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -10981,11 +11722,16 @@ type CoreQueryTitle implements EditorBlock & EventEditorBlock & PageEditorBlock 
 }
 
 """Attributes of the CoreQueryTitle Block Type"""
-type CoreQueryTitleAttributes {
+type CoreQueryTitleAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreQueryTitleAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreQueryTitleAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreQueryTitleAttributes&quot; block or block attributes
@@ -11069,7 +11815,10 @@ type CoreQueryTitleAttributes {
 }
 
 """A block used for editing the site"""
-type CoreQueryTotal implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreQueryTotal implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -11105,11 +11854,16 @@ type CoreQueryTotal implements EditorBlock & EventEditorBlock & PageEditorBlock 
 }
 
 """Attributes of the CoreQueryTotal Block Type"""
-type CoreQueryTotalAttributes {
+type CoreQueryTotalAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreQueryTotalAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreQueryTotalAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreQueryTotalAttributes&quot; block or block attributes
@@ -11213,7 +11967,9 @@ type CoreQuoteAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreQuoteAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -11293,7 +12049,10 @@ type CoreQuoteAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
-type CoreReadMore implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreReadMore implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -11329,7 +12088,12 @@ type CoreReadMore implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CoreReadMore Block Type"""
-type CoreReadMoreAttributes {
+type CoreReadMoreAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreReadMoreAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreReadMoreAttributes&quot; block or block attributes
   """
@@ -11392,7 +12156,10 @@ type CoreReadMoreAttributes {
 }
 
 """A block used for editing the site"""
-type CoreRss implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreRss implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -11428,11 +12195,16 @@ type CoreRss implements EditorBlock & EventEditorBlock & PageEditorBlock & PostE
 }
 
 """Attributes of the CoreRss Block Type"""
-type CoreRssAttributes {
+type CoreRssAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreRssAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreRssAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreRssAttributes&quot; block or block attributes
@@ -11526,7 +12298,10 @@ type CoreRssAttributes {
 }
 
 """A block used for editing the site"""
-type CoreSearch implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreSearch implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -11562,11 +12337,16 @@ type CoreSearch implements EditorBlock & EventEditorBlock & PageEditorBlock & Po
 }
 
 """Attributes of the CoreSearch Block Type"""
-type CoreSearchAttributes {
+type CoreSearchAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreSearchAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreSearchAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreSearchAttributes&quot; block or block attributes
@@ -11715,7 +12495,9 @@ type CoreSeparatorAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreSeparatorAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -11819,7 +12601,10 @@ type CoreShortcodeAttributes {
 }
 
 """A block used for editing the site"""
-type CoreSiteLogo implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreSiteLogo implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -11855,11 +12640,16 @@ type CoreSiteLogo implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CoreSiteLogo Block Type"""
-type CoreSiteLogoAttributes {
+type CoreSiteLogoAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreSiteLogoAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreSiteLogoAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;className&quot; field on the &quot;CoreSiteLogoAttributes&quot; block or block attributes
@@ -11903,7 +12693,10 @@ type CoreSiteLogoAttributes {
 }
 
 """A block used for editing the site"""
-type CoreSiteTagline implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreSiteTagline implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -11939,11 +12732,16 @@ type CoreSiteTagline implements EditorBlock & EventEditorBlock & PageEditorBlock
 }
 
 """Attributes of the CoreSiteTagline Block Type"""
-type CoreSiteTaglineAttributes {
+type CoreSiteTaglineAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreSiteTaglineAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreSiteTaglineAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreSiteTaglineAttributes&quot; block or block attributes
@@ -12012,7 +12810,10 @@ type CoreSiteTaglineAttributes {
 }
 
 """A block used for editing the site"""
-type CoreSiteTitle implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreSiteTitle implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -12048,11 +12849,16 @@ type CoreSiteTitle implements EditorBlock & EventEditorBlock & PageEditorBlock &
 }
 
 """Attributes of the CoreSiteTitle Block Type"""
-type CoreSiteTitleAttributes {
+type CoreSiteTitleAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreSiteTitleAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreSiteTitleAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreSiteTitleAttributes&quot; block or block attributes
@@ -12131,7 +12937,10 @@ type CoreSiteTitleAttributes {
 }
 
 """A block used for editing the site"""
-type CoreSocialLink implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreSocialLink implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -12167,7 +12976,12 @@ type CoreSocialLink implements EditorBlock & EventEditorBlock & PageEditorBlock 
 }
 
 """Attributes of the CoreSocialLink Block Type"""
-type CoreSocialLinkAttributes {
+type CoreSocialLinkAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreSocialLinkAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;className&quot; field on the &quot;CoreSocialLinkAttributes&quot; block or block attributes
   """
@@ -12197,6 +13011,11 @@ type CoreSocialLinkAttributes {
   The &quot;service&quot; field on the &quot;CoreSocialLinkAttributes&quot; block or block attributes
   """
   service: String
+
+  """
+  The &quot;style&quot; field on the &quot;CoreSocialLinkAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
 
   """
   The &quot;url&quot; field on the &quot;CoreSocialLinkAttributes&quot; block or block attributes
@@ -12250,7 +13069,9 @@ type CoreSocialLinksAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreSocialLinksAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -12380,7 +13201,9 @@ type CoreSpacer implements BlockWithSupportsAnchor & EditorBlock & EventEditorBl
 
 """Attributes of the CoreSpacer Block Type"""
 type CoreSpacerAttributes implements BlockWithSupportsAnchor {
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreSpacerAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -12460,7 +13283,9 @@ type CoreTableAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreTableAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -12675,7 +13500,10 @@ type CoreTableAttributesHeadCells {
 }
 
 """A block used for editing the site"""
-type CoreTagCloud implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreTagCloud implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -12711,11 +13539,16 @@ type CoreTagCloud implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CoreTagCloud Block Type"""
-type CoreTagCloudAttributes {
+type CoreTagCloudAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreTagCloudAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreTagCloudAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;borderColor&quot; field on the &quot;CoreTagCloudAttributes&quot; block or block attributes
@@ -12842,6 +13675,11 @@ type CoreTemplatePartAttributes {
   slug: String
 
   """
+  The &quot;style&quot; field on the &quot;CoreTemplatePartAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
   The &quot;tagName&quot; field on the &quot;CoreTemplatePartAttributes&quot; block or block attributes
   """
   tagName: String
@@ -12853,7 +13691,10 @@ type CoreTemplatePartAttributes {
 }
 
 """A block used for editing the site"""
-type CoreTermCount implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreTermCount implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -12889,7 +13730,12 @@ type CoreTermCount implements EditorBlock & EventEditorBlock & PageEditorBlock &
 }
 
 """Attributes of the CoreTermCount Block Type"""
-type CoreTermCountAttributes {
+type CoreTermCountAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreTermCountAttributes&quot; block or block attributes
+  """
+  anchor: String
+
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreTermCountAttributes&quot; block or block attributes
   """
@@ -12947,7 +13793,10 @@ type CoreTermCountAttributes {
 }
 
 """A block used for editing the site"""
-type CoreTermDescription implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreTermDescription implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -12983,11 +13832,16 @@ type CoreTermDescription implements EditorBlock & EventEditorBlock & PageEditorB
 }
 
 """Attributes of the CoreTermDescription Block Type"""
-type CoreTermDescriptionAttributes {
+type CoreTermDescriptionAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreTermDescriptionAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreTermDescriptionAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreTermDescriptionAttributes&quot; block or block attributes
@@ -13030,18 +13884,16 @@ type CoreTermDescriptionAttributes {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreTermDescriptionAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreTermDescriptionAttributes&quot; block or block attributes
   """
   textColor: String
 }
 
 """A block used for editing the site"""
-type CoreTermName implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreTermName implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -13077,11 +13929,16 @@ type CoreTermName implements EditorBlock & EventEditorBlock & PageEditorBlock & 
 }
 
 """Attributes of the CoreTermName Block Type"""
-type CoreTermNameAttributes {
+type CoreTermNameAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreTermNameAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreTermNameAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreTermNameAttributes&quot; block or block attributes
@@ -13124,6 +13981,11 @@ type CoreTermNameAttributes {
   level: Float!
 
   """
+  The &quot;levelOptions&quot; field on the &quot;CoreTermNameAttributes&quot; block or block attributes
+  """
+  levelOptions: BlockAttributesArray
+
+  """
   The &quot;lock&quot; field on the &quot;CoreTermNameAttributes&quot; block or block attributes
   """
   lock: BlockAttributesObject
@@ -13150,7 +14012,10 @@ type CoreTermNameAttributes {
 }
 
 """A block used for editing the site"""
-type CoreTermTemplate implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreTermTemplate implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -13186,11 +14051,16 @@ type CoreTermTemplate implements EditorBlock & EventEditorBlock & PageEditorBloc
 }
 
 """Attributes of the CoreTermTemplate Block Type"""
-type CoreTermTemplateAttributes {
+type CoreTermTemplateAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreTermTemplateAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreTermTemplateAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;backgroundColor&quot; field on the &quot;CoreTermTemplateAttributes&quot; block or block attributes
@@ -13249,7 +14119,10 @@ type CoreTermTemplateAttributes {
 }
 
 """A block used for editing the site"""
-type CoreTermsQuery implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+type CoreTermsQuery implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
   """The API version of the Gutenberg Block"""
   apiVersion: Int
 
@@ -13285,11 +14158,16 @@ type CoreTermsQuery implements EditorBlock & EventEditorBlock & PageEditorBlock 
 }
 
 """Attributes of the CoreTermsQuery Block Type"""
-type CoreTermsQueryAttributes {
+type CoreTermsQueryAttributes implements BlockWithSupportsAnchor {
   """
   The &quot;align&quot; field on the &quot;CoreTermsQueryAttributes&quot; block or block attributes
   """
   align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreTermsQueryAttributes&quot; block or block attributes
+  """
+  anchor: String
 
   """
   The &quot;className&quot; field on the &quot;CoreTermsQueryAttributes&quot; block or block attributes
@@ -13310,6 +14188,11 @@ type CoreTermsQueryAttributes {
   The &quot;metadata&quot; field on the &quot;CoreTermsQueryAttributes&quot; block or block attributes
   """
   metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreTermsQueryAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
 
   """
   The &quot;tagName&quot; field on the &quot;CoreTermsQueryAttributes&quot; block or block attributes
@@ -13386,6 +14269,11 @@ type CoreTextColumnsAttributes {
   metadata: BlockAttributesObject
 
   """
+  The &quot;style&quot; field on the &quot;CoreTextColumnsAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
   The &quot;width&quot; field on the &quot;CoreTextColumnsAttributes&quot; block or block attributes
   """
   width: String
@@ -13442,7 +14330,9 @@ type CoreVerse implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlo
 
 """Attributes of the CoreVerse Block Type"""
 type CoreVerseAttributes implements BlockWithSupportsAnchor {
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreVerseAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -13496,11 +14386,6 @@ type CoreVerseAttributes implements BlockWithSupportsAnchor {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreVerseAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreVerseAttributes&quot; block or block attributes
   """
   textColor: String
@@ -13552,7 +14437,9 @@ type CoreVideoAttributes implements BlockWithSupportsAnchor {
   """
   align: String
 
-  """The anchor field for the block."""
+  """
+  The &quot;anchor&quot; field on the &quot;CoreVideoAttributes&quot; block or block attributes
+  """
   anchor: String
 
   """
@@ -13688,6 +14575,11 @@ type CoreWidgetGroupAttributes {
   The &quot;metadata&quot; field on the &quot;CoreWidgetGroupAttributes&quot; block or block attributes
   """
   metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreWidgetGroupAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
 
   """
   The &quot;title&quot; field on the &quot;CoreWidgetGroupAttributes&quot; block or block attributes
@@ -16600,6 +17492,19 @@ type GeneralSettings {
   """WordPress locale code."""
   language: String
 
+  """
+  The media item representing the site icon configured in site settings, used as the site&#039;s favicon and app icon.
+  """
+  siteIcon: GeneralSettingsToMediaItemConnectionEdge
+
+  """
+  Site icon URL configured in site settings, used as the site&#039;s favicon and app icon.
+  """
+  siteIconUrl(
+    """Size of the site icon in pixels. Defaults to 512. Max 512."""
+    size: Int
+  ): String
+
   """A day number of the week that the week should start on."""
   startOfWeek: Int
 
@@ -16614,6 +17519,17 @@ type GeneralSettings {
 
   """Site URL."""
   url: String
+}
+
+"""Connection between the GeneralSettings type and the MediaItem type"""
+type GeneralSettingsToMediaItemConnectionEdge implements Edge & MediaItemConnectionEdge & OneToOneConnection {
+  """
+  Opaque reference to the nodes position in the connection. Value can be used with pagination args.
+  """
+  cursor: String
+
+  """The node of the connection, without the edges"""
+  node: MediaItem!
 }
 
 """Input for the generateAuthorizationCode mutation."""
@@ -22960,6 +23876,9 @@ type RootQuery {
     where: RootQueryToCommentConnectionWhereArgs
   ): RootQueryToCommentConnection
 
+  """Fields of the &#039;ConnectorsSettings&#039; settings group"""
+  connectorsSettings: ConnectorsSettings
+
   """A node used to manage content"""
   contentNode(
     """
@@ -26364,6 +27283,9 @@ type SendPasswordResetEmailPayload {
 """All of the registered settings"""
 type Settings {
   """Settings of the the string Settings Group"""
+  connectorsSettingsWordpressApiKey: String
+
+  """Settings of the the string Settings Group"""
   discussionSettingsDefaultCommentStatus: String
 
   """Settings of the the string Settings Group"""
@@ -28629,6 +29551,9 @@ input UpdateSettingsInput {
   """
   clientMutationId: String
 
+  """API key for the Akismet Anti-spam connector."""
+  connectorsSettingsWordpressApiKey: String
+
   """Allow people to submit comments on new posts."""
   discussionSettingsDefaultCommentStatus: String
 
@@ -28695,6 +29620,9 @@ type UpdateSettingsPayload {
   If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
   """
   clientMutationId: String
+
+  """Update the ConnectorsSettings setting."""
+  connectorsSettings: ConnectorsSettings
 
   """Update the DiscussionSettings setting."""
   discussionSettings: DiscussionSettings
@@ -28878,6 +29806,11 @@ type UpdateUserPayload {
 A registered user account. Users can be assigned roles, author content, and have various capabilities within the site.
 """
 type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIdentifiable {
+  """
+  The admin color scheme preference for the user. Possible values include &quot;fresh&quot;, &quot;light&quot;, &quot;blue&quot;, &quot;coffee&quot;, &quot;ectoplasm&quot;, &quot;midnight&quot;, &quot;ocean&quot;, &quot;sunrise&quot;. Default is &quot;fresh&quot;.
+  """
+  adminColor: String
+
   """Headless Login authentication data."""
   auth: AuthenticationData
 
@@ -28990,6 +29923,21 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
   First name of the user. This is equivalent to the WP_User-&gt;user_first_name property.
   """
   firstName: String
+
+  """
+  Whether the user has enabled keyboard shortcuts for comment moderation. Defaults to false.
+  """
+  hasCommentShortcutsEnabled: Boolean
+
+  """
+  Whether the user has enabled the visual editor. When enabled, the WYSIWYG editor is used for content editing. Defaults to true.
+  """
+  hasRichEditingEnabled: Boolean
+
+  """
+  Whether the user has enabled syntax highlighting when editing code within the post editor. Defaults to true.
+  """
+  hasSyntaxHighlightingEnabled: Boolean
 
   """The globally unique identifier for the user object."""
   id: ID!
@@ -30249,6 +31197,11 @@ type YoastFaqBlockAttributes {
   The &quot;questions&quot; field on the &quot;YoastFaqBlockAttributes&quot; block or block attributes
   """
   questions: BlockAttributesArray
+
+  """
+  The &quot;style&quot; field on the &quot;YoastFaqBlockAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
 }
 
 """A block used for editing the site"""
@@ -30355,6 +31308,11 @@ type YoastHowToBlockAttributes {
   steps: BlockAttributesArray
 
   """
+  The &quot;style&quot; field on the &quot;YoastHowToBlockAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
   The &quot;unorderedList&quot; field on the &quot;YoastHowToBlockAttributes&quot; block or block attributes
   """
   unorderedList: Boolean
@@ -30412,4 +31370,9 @@ type YoastSeoBreadcrumbsAttributes {
   The &quot;metadata&quot; field on the &quot;YoastSeoBreadcrumbsAttributes&quot; block or block attributes
   """
   metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;YoastSeoBreadcrumbsAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
 }

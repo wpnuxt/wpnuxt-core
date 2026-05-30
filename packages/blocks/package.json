@@ -42,21 +42,21 @@
   },
   "dependencies": {
     "@nuxt/image": "^2.0.0",
-    "@nuxt/kit": "4.4.2",
+    "@nuxt/kit": "^4.4.6",
     "scule": "^1.3.0"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^1.0.2",
-    "@nuxt/schema": "4.4.2",
-    "@nuxt/test-utils": "^4.0.2",
-    "@types/node": "^25.6.0",
-    "nuxt": "^4.4.2",
-    "vitest": "^4.1.5",
-    "vue-tsc": "^3.2.7"
+    "@nuxt/schema": "^4.4.6",
+    "@nuxt/test-utils": "^4.0.3",
+    "@types/node": "^25.9.1",
+    "nuxt": "^4.4.6",
+    "vitest": "^4.1.7",
+    "vue-tsc": "^3.3.2"
   },
   "peerDependencies": {
     "@nuxt/ui": "^4.0.0",
-    "nuxt": ">=4.0.0"
+    "nuxt": "^4.4.2"
   },
   "peerDependenciesMeta": {
     "@nuxt/ui": {

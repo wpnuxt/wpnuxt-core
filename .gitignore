@@ -61,3 +61,12 @@ socials
 **/.vercel/
 e2e/fixtures/**/schema.graphql
 docs/plans/
+
+# AI agent tooling (local, per-developer)
+.agents/
+.claude/
+.kiro/
+skills-lock.json
+
+# Cloudflare Wrangler (build cache + local config)
+**/.wrangler/

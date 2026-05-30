@@ -56,26 +56,26 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@nuxt/kit": "4.4.2",
+    "@nuxt/kit": "^4.4.6",
     "consola": "^3.4.2",
     "defu": "^6.1.7",
-    "dompurify": "^3.4.0",
-    "graphql": "^16.13.2",
+    "dompurify": "^3.4.7",
+    "graphql": "^16.14.0",
     "nuxt-graphql-middleware": "5.4.0",
     "scule": "^1.3.0",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^3.2.3",
+    "@nuxt/devtools": "4.0.0-alpha.6",
     "@nuxt/module-builder": "^1.0.2",
-    "@nuxt/schema": "4.4.2",
-    "@nuxt/test-utils": "^4.0.2",
-    "@types/node": "^25.6.0",
-    "nuxt": "^4.4.2",
-    "vitest": "^4.1.4",
-    "vue-tsc": "^3.2.6"
+    "@nuxt/schema": "^4.4.6",
+    "@nuxt/test-utils": "^4.0.3",
+    "@types/node": "^25.9.1",
+    "nuxt": "^4.4.6",
+    "vitest": "^4.1.7",
+    "vue-tsc": "^3.3.2"
   },
   "peerDependencies": {
-    "nuxt": ">=4.0.0"
+    "nuxt": "^4.4.2"
   }
 }

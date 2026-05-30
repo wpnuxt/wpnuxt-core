@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wpnuxt-playground-full",
+  "main": ".output/server/index.mjs",
+  "compatibility_date": "2026-01-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".output/public",
+    "binding": "ASSETS"
+  }
+}
