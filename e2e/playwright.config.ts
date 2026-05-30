@@ -6,6 +6,7 @@ const nuxtPorts: Record<string, number> = {
   'nuxt41': 3041,
   'nuxt42': 3042,
   'nuxt43': 3043,
+  'nuxt44': 3045,
   'nuxt-srcdir': 3044
 }
 const nuxtPort = nuxtPorts[nuxtFixture] || 3043

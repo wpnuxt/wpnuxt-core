@@ -120,6 +120,19 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2(typescript@5.9.3)
 
+  e2e/fixtures/nuxt44:
+    dependencies:
+      '@wpnuxt/core':
+        specifier: workspace:*
+        version: link:../../../packages/core
+      nuxt:
+        specifier: ^4.4.6
+        version: 4.4.6(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7))(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.6)(@types/node@25.9.1)(@vitejs/devtools@0.3.1(@netlify/blobs@9.1.2)(crossws@0.4.4(srvx@0.11.16))(db0@0.3.4)(ioredis@5.11.0)(typescript@5.9.3)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.48.0)(yaml@2.9.0)))(@vue/compiler-sfc@3.5.35)(db0@0.3.4)(eslint@10.4.1(jiti@2.7.0))(ioredis@5.11.0)(lightningcss@1.32.0)(magicast@0.5.3)(meow@13.2.0)(optionator@0.9.4)(rollup-plugin-visualizer@7.0.1(rollup@4.60.4))(rollup@4.60.4)(srvx@0.11.16)(terser@5.48.0)(typescript@5.9.3)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.48.0)(yaml@2.9.0))(vue-tsc@3.3.2(typescript@5.9.3))(yaml@2.9.0)
+    devDependencies:
+      vue-tsc:
+        specifier: ^3.3.2
+        version: 3.3.2(typescript@5.9.3)
+
   packages/auth:
     dependencies:
       '@nuxt/kit':

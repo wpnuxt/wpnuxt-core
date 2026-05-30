@@ -1,0 +1,50 @@
+
+name: wp-7.0
+
+services:
+  wordpress:
+    image: wordpress:7.0
+    ports:
+      - "8011:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_TABLE_PREFIX: wp_
+      WP_PORT: 8011
+      WPGRAPHQL_VERSION: ${WPGRAPHQL_VERSION:-latest}
+      WPGRAPHQL_CONTENT_BLOCKS_VERSION: ${WPGRAPHQL_CONTENT_BLOCKS_VERSION:-latest}
+      WPGRAPHQL_HEADLESS_LOGIN_VERSION: ${WPGRAPHQL_HEADLESS_LOGIN_VERSION:-latest}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./setup.sh:/setup.sh
+      - wordpress_data:/var/www/html
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3315:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  wordpress_data:
+  mysql_data:

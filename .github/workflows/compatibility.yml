@@ -6,31 +6,29 @@ on:
       run_all:
         description: 'Run all combinations'
         required: false
-        default: 'true'
+        default: true
         type: boolean
       wp_version:
         description: 'WordPress version'
         required: false
-        default: '6.9'
+        default: '7.0'
         type: choice
         options:
-          - '6.4'
-          - '6.5'
-          - '6.6'
-          - '6.7'
           - '6.8'
           - '6.9'
+          - '7.0'
           - 'beta'
       nuxt_version:
         description: 'Nuxt version'
         required: false
-        default: '4'
+        default: '4.4'
         type: choice
         options:
           - '4.0'
           - '4.1'
           - '4.2'
           - '4.3'
+          - '4.4'
           - 'srcdir'
       wpgraphql_version:
         description: 'WPGraphQL version (default: latest)'
@@ -57,18 +55,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        wp_version: ['6.4', '6.5', '6.6', '6.7', '6.8', '6.9', 'beta']
-        nuxt_version: ['4.0', '4.1', '4.2', '4.3', 'srcdir']
+        wp_version: ['6.8', '6.9', '7.0', 'beta']
+        nuxt_version: ['4.0', '4.1', '4.2', '4.3', '4.4', 'srcdir']
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup WordPress and Run E2E Tests
         uses: ./.github/actions/setup-wp-e2e
         with:
           wp_version: ${{ matrix.wp_version }}
-          nuxt_fixture: ${{ matrix.nuxt_version == '4.0' && 'nuxt40' || matrix.nuxt_version == '4.1' && 'nuxt41' || matrix.nuxt_version == '4.2' && 'nuxt42' || matrix.nuxt_version == 'srcdir' && 'nuxt-srcdir' || 'nuxt43' }}
+          nuxt_fixture: ${{ matrix.nuxt_version == '4.0' && 'nuxt40' || matrix.nuxt_version == '4.1' && 'nuxt41' || matrix.nuxt_version == '4.2' && 'nuxt42' || matrix.nuxt_version == '4.4' && 'nuxt44' || matrix.nuxt_version == 'srcdir' && 'nuxt-srcdir' || 'nuxt43' }}
           wpgraphql_version: ${{ inputs.wpgraphql_version }}
           wpgraphql_content_blocks_version: ${{ inputs.wpgraphql_content_blocks_version }}
           wpgraphql_headless_login_version: ${{ inputs.wpgraphql_headless_login_version }}
@@ -82,13 +80,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup WordPress and Run E2E Tests
         uses: ./.github/actions/setup-wp-e2e
         with:
           wp_version: ${{ inputs.wp_version }}
-          nuxt_fixture: ${{ inputs.nuxt_version == '4.0' && 'nuxt40' || inputs.nuxt_version == '4.1' && 'nuxt41' || inputs.nuxt_version == '4.2' && 'nuxt42' || inputs.nuxt_version == 'srcdir' && 'nuxt-srcdir' || 'nuxt43' }}
+          nuxt_fixture: ${{ inputs.nuxt_version == '4.0' && 'nuxt40' || inputs.nuxt_version == '4.1' && 'nuxt41' || inputs.nuxt_version == '4.2' && 'nuxt42' || inputs.nuxt_version == '4.4' && 'nuxt44' || inputs.nuxt_version == 'srcdir' && 'nuxt-srcdir' || 'nuxt43' }}
           wpgraphql_version: ${{ inputs.wpgraphql_version }}
           wpgraphql_content_blocks_version: ${{ inputs.wpgraphql_content_blocks_version }}
           wpgraphql_headless_login_version: ${{ inputs.wpgraphql_headless_login_version }}

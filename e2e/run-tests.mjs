@@ -3,14 +3,14 @@
 import { execSync } from 'node:child_process'
 import { parseArgs } from 'node:util'
 
-const DEFAULT_WP = '6.9'
-const DEFAULT_NUXT = 'nuxt43'
+const DEFAULT_WP = '7.0'
+const DEFAULT_NUXT = 'nuxt44'
 
-const WP_VERSIONS = ['6.4', '6.5', '6.6', '6.7', '6.8', '6.9', 'beta']
-const NUXT_FIXTURES = ['nuxt40', 'nuxt41', 'nuxt42', 'nuxt43', 'nuxt-srcdir']
+const WP_VERSIONS = ['6.8', '6.9', '7.0', 'beta']
+const NUXT_FIXTURES = ['nuxt40', 'nuxt41', 'nuxt42', 'nuxt43', 'nuxt44', 'nuxt-srcdir']
 
-const WP_PORTS = { 6.4: 8004, 6.5: 8005, 6.6: 8006, 6.7: 8007, 6.8: 8008, 6.9: 8009, beta: 8010 }
-const NUXT_PORTS = { 'nuxt40': 3040, 'nuxt41': 3041, 'nuxt42': 3042, 'nuxt43': 3043, 'nuxt-srcdir': 3044 }
+const WP_PORTS = { '6.8': 8008, '6.9': 8009, '7.0': 8011, 'beta': 8010 }
+const NUXT_PORTS = { 'nuxt40': 3040, 'nuxt41': 3041, 'nuxt42': 3042, 'nuxt43': 3043, 'nuxt44': 3045, 'nuxt-srcdir': 3044 }
 
 const { values } = parseArgs({
   options: {
