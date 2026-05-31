@@ -157,22 +157,13 @@ export const useWPContent = <T>(
   const retryCount = ref(0)
   const isRetrying = ref(false)
 
-  // Timeout configuration (default: disabled, set to e.g. 30000 to enable)
+  // Timeout configuration (default: disabled, set to e.g. 30000 to enable).
+  // Delegated to ofetch's per-request `timeout` (passed via fetchOptions below):
+  // ofetch arms a fresh AbortController + timer for every request — initial
+  // fetch, reactive re-fetch, and retry — and clears it on completion. A single
+  // shared controller created here once would leave re-fetches unprotected and,
+  // once aborted, permanently poison every later request with an abort error.
   const timeoutMs = timeoutOption ?? 0
-
-  // Create AbortController for timeout if enabled
-  let abortController: AbortController | undefined
-  let timeoutId: ReturnType<typeof setTimeout> | undefined
-
-  if (timeoutMs > 0) {
-    abortController = new AbortController()
-    timeoutId = setTimeout(() => {
-      abortController?.abort()
-      if (import.meta.dev) {
-        console.warn(`[wpnuxt] Query "${String(queryName)}" timed out after ${timeoutMs}ms`)
-      }
-    }, timeoutMs)
-  }
 
   // Use stable getCachedData functions to prevent "incompatible options" warnings
   // during hydration (function references must be identical on SSR and client)
@@ -194,11 +185,13 @@ export const useWPContent = <T>(
     getCachedData: getCachedDataFn,
     // Enable graphql caching so the LRU cache is populated for subsequent navigations
     graphqlCaching: { client: clientCache !== false },
-    // Pass abort signal for timeout support
-    ...(abortController && {
+    // Per-request timeout: ofetch creates and tears down a fresh AbortController
+    // + timer for each request, so re-fetches stay protected and a fired timeout
+    // never poisons subsequent requests.
+    ...(timeoutMs > 0 && {
       fetchOptions: {
         ...(restOptions.fetchOptions as Record<string, unknown> ?? {}),
-        signal: abortController.signal
+        timeout: timeoutMs
       }
     })
   }
@@ -216,17 +209,6 @@ export const useWPContent = <T>(
 
   // Transformation error state
   const transformError: Ref<Error | null> = ref(null)
-
-  // Clear timeout when request completes (success or error)
-  // Uses immediate: true to handle cached data where pending starts as false
-  if (timeoutId !== undefined) {
-    vueWatch(pending, (isPending: boolean) => {
-      if (!isPending && timeoutId !== undefined) {
-        clearTimeout(timeoutId)
-        timeoutId = undefined
-      }
-    }, { immediate: true })
-  }
 
   // Automatic retry logic with exponential backoff
   if (maxRetries > 0) {

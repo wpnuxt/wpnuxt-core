@@ -8,7 +8,7 @@ interface MockAsyncGraphqlQueryOptions {
   immediate?: boolean
   getCachedData?: (key: string, app: unknown, ctx: { cause: string }) => unknown
   graphqlCaching?: { client: boolean }
-  fetchOptions?: { signal?: AbortSignal, headers?: Record<string, string> }
+  fetchOptions?: { timeout?: number, headers?: Record<string, string> }
 }
 
 // Mock the #imports module
@@ -157,38 +157,28 @@ describe('useWPContent', () => {
   })
 
   describe('timeout logic', () => {
-    it('should not create AbortController when timeout is 0', async () => {
+    it('should not set a fetch timeout when timeout is 0', async () => {
       const { useWPContent } = await import('../src/runtime/composables/useWPContent')
 
       useWPContent('Posts', ['posts', 'nodes'], false, {}, { timeout: 0 })
 
-      // Verify useAsyncGraphqlQuery was called without abort signal
       expect(mockUseAsyncGraphqlQuery).toHaveBeenCalled()
       const { options: callArgs } = getCallArgs()
-      expect(callArgs.fetchOptions?.signal).toBeUndefined()
+      expect(callArgs.fetchOptions?.timeout).toBeUndefined()
     })
 
-    it('should create AbortController when timeout is specified', async () => {
+    it('should pass a per-request fetch timeout when timeout is specified', async () => {
       const { useWPContent } = await import('../src/runtime/composables/useWPContent')
 
       useWPContent('Posts', ['posts', 'nodes'], false, {}, { timeout: 5000 })
 
-      // Verify useAsyncGraphqlQuery was called with abort signal
+      // ofetch's `timeout` arms a fresh AbortController + timer per request, so
+      // re-fetches stay protected and a fired timeout never poisons later
+      // requests (#273). We assert the option is forwarded; the per-request
+      // lifecycle itself is ofetch's responsibility.
       expect(mockUseAsyncGraphqlQuery).toHaveBeenCalled()
       const { options: callArgs } = getCallArgs()
-      expect(callArgs.fetchOptions?.signal).toBeDefined()
-      expect(callArgs.fetchOptions?.signal).toBeInstanceOf(AbortSignal)
-    })
-
-    it('should set up watch to clear timeout when request completes', async () => {
-      const { useWPContent } = await import('../src/runtime/composables/useWPContent')
-
-      useWPContent('Posts', ['posts', 'nodes'], false, {}, { timeout: 5000 })
-
-      // Verify watch was called with immediate: true for timeout cleanup
-      const watchCalls = mockWatch.mock.calls
-      const timeoutWatchCall = watchCalls.find(call => call[2]?.immediate === true)
-      expect(timeoutWatchCall).toBeDefined()
+      expect(callArgs.fetchOptions?.timeout).toBe(5000)
     })
   })
 
@@ -298,7 +288,7 @@ describe('useWPContent', () => {
       expect(callArgs.immediate).toBe(false)
     })
 
-    it('should merge custom fetchOptions with timeout signal', async () => {
+    it('should merge custom fetchOptions with the timeout option', async () => {
       const { useWPContent } = await import('../src/runtime/composables/useWPContent')
 
       useWPContent('Posts', ['posts', 'nodes'], false, {}, {
@@ -307,7 +297,7 @@ describe('useWPContent', () => {
       })
 
       const { options: callArgs } = getCallArgs()
-      expect(callArgs.fetchOptions?.signal).toBeInstanceOf(AbortSignal)
+      expect(callArgs.fetchOptions?.timeout).toBe(5000)
       expect(callArgs.fetchOptions?.headers).toEqual({ 'X-Custom': 'value' })
     })
   })
