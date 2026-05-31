@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@playwright/test": "^1.60.0",
-    "@wpnuxt/core": "workspace:*"
+    "@wpnuxt/core": "file:../packages/core"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

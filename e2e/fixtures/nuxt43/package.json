@@ -7,7 +7,7 @@
     "test:serve": "PORT=3043 nuxt preview"
   },
   "dependencies": {
-    "@wpnuxt/core": "workspace:*",
+    "@wpnuxt/core": "file:../../../packages/core",
     "nuxt": "4.3.1"
   },
   "devDependencies": {

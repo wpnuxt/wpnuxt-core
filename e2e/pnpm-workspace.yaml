@@ -1,7 +1,5 @@
 packages:
-  - packages/*
-  - playgrounds/*
-  - docs
+  - fixtures/*
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
