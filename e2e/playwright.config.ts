@@ -2,7 +2,6 @@ import { defineConfig, devices } from '@playwright/test'
 
 const nuxtFixture = process.env.NUXT_FIXTURE || 'nuxt43'
 const nuxtPorts: Record<string, number> = {
-  'nuxt40': 3040,
   'nuxt41': 3041,
   'nuxt42': 3042,
   'nuxt43': 3043,
@@ -53,7 +52,7 @@ export default defineConfig({
     ? {}
     : {
         webServer: {
-          command: `cd fixtures/${nuxtFixture} && npx nuxi build && pnpm run test:serve`,
+          command: `cd fixtures/${nuxtFixture} && rm -rf .output .nuxt && npx nuxi build && pnpm run test:serve`,
           url: `http://localhost:${nuxtPort}`,
           reuseExistingServer: !process.env.CI,
           timeout: 180 * 1000

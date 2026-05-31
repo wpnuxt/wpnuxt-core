@@ -24,7 +24,6 @@ on:
         default: '4.4'
         type: choice
         options:
-          - '4.0'
           - '4.1'
           - '4.2'
           - '4.3'
@@ -56,7 +55,7 @@ jobs:
       fail-fast: false
       matrix:
         wp_version: ['6.8', '6.9', '7.0', 'beta']
-        nuxt_version: ['4.0', '4.1', '4.2', '4.3', '4.4', 'srcdir']
+        nuxt_version: ['4.1', '4.2', '4.3', '4.4', 'srcdir']
 
     steps:
       - name: Checkout
@@ -66,7 +65,7 @@ jobs:
         uses: ./.github/actions/setup-wp-e2e
         with:
           wp_version: ${{ matrix.wp_version }}
-          nuxt_fixture: ${{ matrix.nuxt_version == '4.0' && 'nuxt40' || matrix.nuxt_version == '4.1' && 'nuxt41' || matrix.nuxt_version == '4.2' && 'nuxt42' || matrix.nuxt_version == '4.4' && 'nuxt44' || matrix.nuxt_version == 'srcdir' && 'nuxt-srcdir' || 'nuxt43' }}
+          nuxt_fixture: ${{ matrix.nuxt_version == '4.1' && 'nuxt41' || matrix.nuxt_version == '4.2' && 'nuxt42' || matrix.nuxt_version == '4.4' && 'nuxt44' || matrix.nuxt_version == 'srcdir' && 'nuxt-srcdir' || 'nuxt43' }}
           wpgraphql_version: ${{ inputs.wpgraphql_version }}
           wpgraphql_content_blocks_version: ${{ inputs.wpgraphql_content_blocks_version }}
           wpgraphql_headless_login_version: ${{ inputs.wpgraphql_headless_login_version }}
@@ -74,7 +73,7 @@ jobs:
   # Single combination - if manually specified
   single:
     runs-on: ubuntu-latest
-    name: WP ${{ inputs.wp_version }} + Nuxt ${{ inputs.nuxt_version }}
+    name: Single combination (manual)
     if: (!inputs.run_all) && inputs.wp_version != ''
     needs: []
 
@@ -86,7 +85,7 @@ jobs:
         uses: ./.github/actions/setup-wp-e2e
         with:
           wp_version: ${{ inputs.wp_version }}
-          nuxt_fixture: ${{ inputs.nuxt_version == '4.0' && 'nuxt40' || inputs.nuxt_version == '4.1' && 'nuxt41' || inputs.nuxt_version == '4.2' && 'nuxt42' || inputs.nuxt_version == '4.4' && 'nuxt44' || inputs.nuxt_version == 'srcdir' && 'nuxt-srcdir' || 'nuxt43' }}
+          nuxt_fixture: ${{ inputs.nuxt_version == '4.1' && 'nuxt41' || inputs.nuxt_version == '4.2' && 'nuxt42' || inputs.nuxt_version == '4.4' && 'nuxt44' || inputs.nuxt_version == 'srcdir' && 'nuxt-srcdir' || 'nuxt43' }}
           wpgraphql_version: ${{ inputs.wpgraphql_version }}
           wpgraphql_content_blocks_version: ${{ inputs.wpgraphql_content_blocks_version }}
           wpgraphql_headless_login_version: ${{ inputs.wpgraphql_headless_login_version }}

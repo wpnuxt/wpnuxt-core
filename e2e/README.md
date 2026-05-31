@@ -52,10 +52,10 @@ node run-tests.mjs
 
 | Fixture | Nuxt Version | Dev Port |
 |---------|-------------|----------|
-| `nuxt40` | 4.0 | 3040 |
 | `nuxt41` | 4.1 | 3041 |
 | `nuxt42` | 4.2 | 3042 |
 | `nuxt43` | 4.3 | 3043 |
+| `nuxt44` | 4.4 | 3045 |
 | `nuxt-srcdir` | 4.x (srcDir layout) | 3044 |
 
 ### Examples
@@ -113,7 +113,7 @@ e2e/
 │   ├── wordpress.spec.ts  # Tests against WordPress directly (GraphQL API)
 │   └── nuxt.spec.ts       # Tests against Nuxt app (SSR, pages, composables)
 ├── fixtures/              # Nuxt app fixtures (one per version)
-│   ├── nuxt40/ ... nuxt43/
+│   ├── nuxt41/ ... nuxt44/
 │   └── nuxt-srcdir/
 └── docker/
     ├── setup.sh           # WordPress setup script (plugins, test content)

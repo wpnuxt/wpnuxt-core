@@ -42,9 +42,6 @@ runs:
         fi
         echo "port=$PORT" >> "$GITHUB_OUTPUT"
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
     - name: Start WordPress ${{ inputs.wp_version }}
       working-directory: e2e/docker
       shell: bash
@@ -85,17 +82,26 @@ runs:
       run: corepack enable
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
-        node-version: 20
+        node-version: 24
         cache: 'pnpm'
 
     - name: Install dependencies
       shell: bash
       run: pnpm install --frozen-lockfile
 
+    - name: Prepare module
+      shell: bash
+      run: pnpm run dev:prepare
+
+    - name: Install e2e dependencies
+      working-directory: e2e
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
     - name: Cache Playwright browsers
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.cache/ms-playwright
         key: playwright-${{ runner.os }}-${{ hashFiles('e2e/package.json') }}
@@ -104,10 +110,6 @@ runs:
       working-directory: e2e
       shell: bash
       run: pnpm exec playwright install --with-deps
-
-    - name: Prepare module
-      shell: bash
-      run: pnpm run dev:prepare
 
     - name: Run E2E tests
       shell: bash
