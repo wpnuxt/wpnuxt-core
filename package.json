@@ -40,7 +40,9 @@
       "listhen@1.9.1>crossws": "0.4.4",
       "nuxt": "^4.4.6",
       "@nuxt/kit": "^4.4.6",
-      "@nuxt/schema": "^4.4.6"
+      "@nuxt/schema": "^4.4.6",
+      "vue": "^3.5.35",
+      "@vue/server-renderer": "^3.5.35"
     },
     "packageExtensions": {
       "nuxt-graphql-middleware@5.4.0": {
