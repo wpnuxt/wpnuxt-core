@@ -104,7 +104,7 @@ runs:
       run: pnpm install --frozen-lockfile
 
     - name: Cache Playwright browsers
-      uses: actions/cache@v6
+      uses: actions/cache@v5
       with:
         path: ~/.cache/ms-playwright
         key: playwright-${{ runner.os }}-${{ hashFiles('e2e/package.json') }}
