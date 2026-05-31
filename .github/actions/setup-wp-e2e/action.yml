@@ -42,9 +42,6 @@ runs:
         fi
         echo "port=$PORT" >> "$GITHUB_OUTPUT"
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
     - name: Start WordPress ${{ inputs.wp_version }}
       working-directory: e2e/docker
       shell: bash
@@ -87,7 +84,7 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@v6
       with:
-        node-version: 20
+        node-version: 24
         cache: 'pnpm'
 
     - name: Install dependencies

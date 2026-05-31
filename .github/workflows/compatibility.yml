@@ -73,7 +73,7 @@ jobs:
   # Single combination - if manually specified
   single:
     runs-on: ubuntu-latest
-    name: WP ${{ inputs.wp_version }} + Nuxt ${{ inputs.nuxt_version }}
+    name: Single combination (manual)
     if: (!inputs.run_all) && inputs.wp_version != ''
     needs: []
 
