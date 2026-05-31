@@ -25,6 +25,16 @@ describe('links', () => {
       expect(isInternalLink('https://other.example.com/page/', wordpressUrl)).toBe(false)
     })
 
+    it('should return false for the same host on a different port (#275)', () => {
+      const wpWithPort = 'http://example.com:8080'
+      expect(isInternalLink('http://example.com:3000/foo', wpWithPort)).toBe(false)
+    })
+
+    it('should return true for the same host and matching port', () => {
+      const wpWithPort = 'http://example.com:8080'
+      expect(isInternalLink('http://example.com:8080/foo', wpWithPort)).toBe(true)
+    })
+
     it('should return true for already-relative paths', () => {
       expect(isInternalLink('/hello-world/', wordpressUrl)).toBe(true)
     })

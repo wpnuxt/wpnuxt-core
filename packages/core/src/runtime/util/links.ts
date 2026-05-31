@@ -32,7 +32,11 @@ function isInternalLink(url: string, wordpressUrl: string): boolean {
     const parsedUrl = new URL(fullUrl)
     const parsedWp = new URL(wordpressUrl)
 
-    return parsedUrl.hostname === parsedWp.hostname
+    // Compare `host` (includes the port) rather than `hostname` so a different
+    // port on the same host (e.g. example.com:3000 vs example.com:8080) is
+    // correctly treated as external. Default ports (80/443) are omitted by the
+    // URL parser, so standard https links are unaffected.
+    return parsedUrl.host === parsedWp.host
   } catch {
     return false
   }
