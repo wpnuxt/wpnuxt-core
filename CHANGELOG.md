@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.3.2](https://github.com/wpnuxt/wpnuxt/compare/v2.3.1...v2.3.2) (2026-06-01)
+
+### Bug Fixes
+
+* **core:** compare host (with port) in isInternalLink ([#275](https://github.com/wpnuxt/wpnuxt/issues/275)) ([d616434](https://github.com/wpnuxt/wpnuxt/commit/d6164341778a821fc9c6c4723070ae47958e63bd))
+* **core:** drop redundant execute() in usePrevNextPost ([#274](https://github.com/wpnuxt/wpnuxt/issues/274)) ([44a914c](https://github.com/wpnuxt/wpnuxt/commit/44a914c15f9c08540e56b2d979322adbef95ee8a))
+* **core:** make useWPContent timeout per-request ([#273](https://github.com/wpnuxt/wpnuxt/issues/273)) ([f3bfbf0](https://github.com/wpnuxt/wpnuxt/commit/f3bfbf014333972dd8f64f7a60c3d6af19c60e38))
+* **deps:** widen nuxt peerDependency to ^4.1.0 to match the compatibility matrix ([e2981f2](https://github.com/wpnuxt/wpnuxt/commit/e2981f2c214637a71326e9e53d20a4c0138160e0))
+* make graphql client context prerender safe ([d70f5d1](https://github.com/wpnuxt/wpnuxt/commit/d70f5d1c6b084fdd4f5c834e14258e72b6474bfb))
+* pin h3 for graphql middleware ([6774d22](https://github.com/wpnuxt/wpnuxt/commit/6774d22ec2af36fcf4e55c04e91ce0b5ba9629bf))
+
+### Maintenance
+
+* **deps:** update Nuxt dependencies to version 4.4.6 ([1fdeb32](https://github.com/wpnuxt/wpnuxt/commit/1fdeb32b3b5eca6ffa91f494c2718b60d27a2a20))
+* update dependencies and improve .gitignore ([09ff0a1](https://github.com/wpnuxt/wpnuxt/commit/09ff0a13d2a1f03fb9e65e42ebfff7283a6eb7d6))
+* update documentation and .gitignore ([b070bd9](https://github.com/wpnuxt/wpnuxt/commit/b070bd9ce791a878f1d8cfbca9a04cf496ba8564))
+* update e2e fixtures for Nuxt 4.4 and WordPress 7.0 ([b51164e](https://github.com/wpnuxt/wpnuxt/commit/b51164e44e4ab64958b04005f0e1d86c0371e685))
+
 ## [2.3.1](https://github.com/wpnuxt/wpnuxt/compare/v2.3.0...v2.3.1) (2026-04-24)
 
 ### Bug Fixes
