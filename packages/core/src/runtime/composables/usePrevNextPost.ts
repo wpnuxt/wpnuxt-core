@@ -33,12 +33,11 @@ interface PrevNextResult {
  * ```
  */
 export async function usePrevNextPost(currentSlug: string, limit: number = 1000): Promise<PrevNextResult> {
-  // Fetch all posts using WPNuxt's content composable (cached automatically)
-  // The Posts query returns posts sorted by date DESC by default
-  const { data, execute } = useWPContent<{ limit: number }>('Posts', ['posts', 'nodes'], false, { limit })
-
-  // Ensure data is fetched (execute returns a promise)
-  await execute()
+  // Fetch all posts using WPNuxt's content composable (cached automatically).
+  // The Posts query returns posts sorted by date DESC by default.
+  // useWPContent is a thenable that resolves once the initial fetch completes,
+  // so awaiting it yields the data without a second, cache-bypassing execute().
+  const { data } = await useWPContent<{ limit: number }>('Posts', ['posts', 'nodes'], false, { limit })
 
   // data is a computed ref - get the value
   const allPosts = (data.value as PostNode[] | undefined) || []

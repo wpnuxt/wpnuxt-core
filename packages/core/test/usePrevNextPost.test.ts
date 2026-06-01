@@ -72,6 +72,15 @@ describe('usePrevNextPost', () => {
     expect(result.next).toEqual({ slug: 'newest', uri: '/newest/', title: 'Newest Post' })
   })
 
+  it('should fetch once via the immediate request without a redundant execute() (#274)', async () => {
+    const { usePrevNextPost } = await import('../src/runtime/composables/usePrevNextPost')
+    await usePrevNextPost('middle')
+
+    expect(mockUseAsyncGraphqlQuery).toHaveBeenCalledTimes(1)
+    const queryResult = mockUseAsyncGraphqlQuery.mock.results[0]!.value as { execute: ReturnType<typeof vi.fn> }
+    expect(queryResult.execute).not.toHaveBeenCalled()
+  })
+
   it('should return null prev for the oldest post', async () => {
     const { usePrevNextPost } = await import('../src/runtime/composables/usePrevNextPost')
     const result = await usePrevNextPost('oldest')
