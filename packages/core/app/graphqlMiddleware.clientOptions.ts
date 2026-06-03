@@ -1,5 +1,10 @@
 import { defineGraphqlClientOptions } from 'nuxt-graphql-middleware/client-options'
-import { useRoute } from '#imports'
+// IMPORTANT: import useRoute from 'vue-router', NOT '#imports'.
+// nuxt-graphql-middleware loads this file via its client-options loader, which
+// pulls it into the server (Nitro) typecheck context where '#imports' resolves
+// to nitro-imports and does NOT export useRoute -> TS2305 at typecheck.
+// This has regressed twice already (see #269/#271). Do not "simplify" back to '#imports'.
+import { useRoute } from 'vue-router'
 
 /**
  * WPNuxt default client options for nuxt-graphql-middleware.

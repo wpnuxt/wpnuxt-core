@@ -8,7 +8,7 @@
     "generate": "nuxi generate",
     "dev:prepare": "nuxi prepare",
     "nuxt:prepare": "nuxi prepare",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit && vue-tsc --noEmit -p .nuxt/tsconfig.server.json"
   },
   "dependencies": {
     "@wpnuxt/core": "workspace:*",
