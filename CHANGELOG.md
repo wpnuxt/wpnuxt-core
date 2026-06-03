@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.3.3](https://github.com/wpnuxt/wpnuxt/compare/v2.3.2...v2.3.3) (2026-06-03)
+
+### Bug Fixes
+
+* **core:** import useRoute from vue-router in clientOptions (3rd regression) ([b988c1b](https://github.com/wpnuxt/wpnuxt/commit/b988c1b359b82c3c99c52fe22fda73af0a7579a9))
+
+### Maintenance
+
+* **deps:** update dependencies to latest versions across packages ([fa98e4e](https://github.com/wpnuxt/wpnuxt/commit/fa98e4e9dc01f35b7b80563e54bf62c223b29aa1))
+
 ## [2.3.2](https://github.com/wpnuxt/wpnuxt/compare/v2.3.1...v2.3.2) (2026-06-01)
 
 ### Bug Fixes
