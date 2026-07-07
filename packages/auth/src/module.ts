@@ -1,17 +1,17 @@
-import { existsSync, cpSync } from 'node:fs'
 import { join } from 'node:path'
 import { defineNuxtModule, addPlugin, createResolver, addImports, addServerHandler, useLogger } from '@nuxt/kit'
 import type { WPNuxtAuthConfig } from './runtime/types'
 import { validateAuthSchema } from './utils/schemaDetection'
 
-/**
- * Helper type for accessing WPNuxt config from Nuxt options.
- * This is needed because @wpnuxt/auth may be installed without @wpnuxt/core types.
- */
-interface WPNuxtQueriesConfig {
-  queries?: {
-    mergedOutputFolder?: string
-    extendFolder?: string
+declare module '@nuxt/schema' {
+  interface NuxtHooks {
+    /**
+     * Contribute additional GraphQL query folders to WPNuxt's merged queries.
+     * Declared here because @wpnuxt/core's type augmentation isn't importable
+     * (its exports map only exposes dist/). Must stay in sync with
+     * packages/core/src/types/nuxt-augment.d.ts.
+     */
+    'wpnuxt:queries:folders': (folders: string[]) => void | Promise<void>
   }
 }
 
@@ -63,23 +63,14 @@ export default defineNuxtModule<WPNuxtAuthConfig>({
 
     const resolver = createResolver(import.meta.url)
 
-    // Extend queries with auth-specific fragments
-    const baseDir = nuxt.options.srcDir || nuxt.options.rootDir
-    const { resolve } = createResolver(baseDir)
-    const wpNuxtConfig = (nuxt.options as { wpNuxt?: WPNuxtQueriesConfig }).wpNuxt
-    const mergedQueriesPath = resolve(wpNuxtConfig?.queries?.mergedOutputFolder || '.queries/')
-    const userQueryPath = resolve(wpNuxtConfig?.queries?.extendFolder || 'extend/queries/')
-    const authQueriesPath = resolver.resolve('./runtime/queries')
-
-    // Copy auth queries (overrides core defaults)
-    if (existsSync(authQueriesPath)) {
-      cpSync(authQueriesPath, mergedQueriesPath, { recursive: true })
-    }
-
-    // Re-copy user queries to ensure they still override auth
-    if (existsSync(userQueryPath)) {
-      cpSync(userQueryPath, mergedQueriesPath, { recursive: true })
-    }
+    // Contribute auth queries (Login/RefreshToken mutations, Viewer override)
+    // to @wpnuxt/core's merged queries folder. Core collects these at
+    // modules:done and merges them into its configured mergedOutputFolder
+    // with the right precedence (defaults < contributions < user extends),
+    // so module order doesn't matter and custom output folders are respected.
+    nuxt.hook('wpnuxt:queries:folders', (folders) => {
+      folders.push(resolver.resolve('./runtime/queries'))
+    })
 
     // Merge OAuth config with defaults
     const oauthConfig = {

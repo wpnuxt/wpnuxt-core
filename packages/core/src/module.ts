@@ -134,6 +134,22 @@ export default defineNuxtModule<WPNuxtConfig>({
 
     const mergedQueriesFolder = await mergeQueries(nuxt, wpNuxtConfig, resolver, schemaPath)
 
+    // Collect query folders contributed by sibling modules (e.g. @wpnuxt/blocks)
+    // via the `wpnuxt:queries:folders` hook. Collected at modules:done so it
+    // works regardless of module order in nuxt.config. Registered BEFORE
+    // registerModules() so this handler runs before nuxt-graphql-middleware's
+    // own modules:done handler scans the merged folder.
+    nuxt.hook('modules:done', async () => {
+      const contributedFolders: string[] = []
+      await nuxt.callHook('wpnuxt:queries:folders', contributedFolders)
+      if (contributedFolders.length) {
+        logger.debug(`Re-merging queries with ${contributedFolders.length} contributed folder(s)`)
+        // Suppress the override warning: the setup-time merge already emitted it
+        const remergeConfig = { ...wpNuxtConfig, queries: { ...wpNuxtConfig.queries, warnOnOverride: false } }
+        await mergeQueries(nuxt, remergeConfig, resolver, schemaPath, contributedFolders)
+      }
+    })
+
     await registerModules(nuxt, resolver, wpNuxtConfig, mergedQueriesFolder)
 
     // Customize the nuxt-graphql-middleware devtools tab for WPNuxt branding

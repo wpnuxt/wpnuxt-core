@@ -83,7 +83,8 @@ export async function mergeQueries(
   nuxt: Nuxt,
   wpNuxtConfig: WPNuxtConfig,
   resolver: Resolver,
-  schemaPath?: string
+  schemaPath?: string,
+  contributedFolders: string[] = []
 ) {
   const logger = getLogger()
 
@@ -115,6 +116,17 @@ export async function mergeQueries(
     }
     if (cpts.length) {
       logger.debug(`Auto-generated fragments + queries for CPTs: ${cpts.map(c => c.typeName).join(', ')}`)
+    }
+  }
+
+  // Apply query folders contributed by sibling modules (e.g. @wpnuxt/blocks)
+  // via the `wpnuxt:queries:folders` hook. Applied after defaults + CPT
+  // generation but BEFORE user extend queries, so users can still override
+  // any contributed fragment.
+  for (const folder of contributedFolders) {
+    if (existsSync(folder)) {
+      logger.debug('Merging contributed queries:', folder)
+      copyGraphqlFiles(folder, queryOutputPath)
     }
   }
 
