@@ -111,7 +111,8 @@ Make sure WPGraphQL plugin is installed and activated on your WordPress site.`
 URL: ${fullUrl}
 Error: ${error.stderr?.toString() || error.message}
 
-Make sure WPGraphQL plugin is installed and activated on your WordPress site.`
+Make sure WPGraphQL plugin is installed and activated on your WordPress site.`,
+          { cause: err }
         )
       }
     }
@@ -131,7 +132,8 @@ Make sure WPGraphQL plugin is installed and activated on your WordPress site.`
 
 URL: ${fullUrl}
 
-The server did not respond in time. Check if the WordPress site is accessible.`
+The server did not respond in time. Check if the WordPress site is accessible.`,
+        { cause: error }
       )
     }
 
@@ -146,7 +148,8 @@ The domain could not be resolved. Please check:
 - The domain exists and is properly configured
 - Your network connection is working
 
-Check your wpNuxt.wordpressUrl configuration in nuxt.config.ts`
+Check your wpNuxt.wordpressUrl configuration in nuxt.config.ts`,
+        { cause: error }
       )
     }
 
@@ -156,7 +159,8 @@ Check your wpNuxt.wordpressUrl configuration in nuxt.config.ts`
 
 URL: ${fullUrl}
 
-The server is not accepting connections. Check if the WordPress site is running.`
+The server is not accepting connections. Check if the WordPress site is running.`,
+        { cause: error }
       )
     }
 
@@ -167,7 +171,8 @@ The server is not accepting connections. Check if the WordPress site is running.
 URL: ${fullUrl}
 Error: ${err.message || 'Unknown error'}
 
-Check your wpNuxt.wordpressUrl configuration in nuxt.config.ts`
+Check your wpNuxt.wordpressUrl configuration in nuxt.config.ts`,
+      { cause: error }
     )
   }
 }

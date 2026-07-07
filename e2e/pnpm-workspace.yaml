@@ -9,3 +9,17 @@ onlyBuiltDependencies:
   - sharp
   - unrs-resolver
   - vue-demi
+
+# Mirror the root workspace's hoisting. The e2e folder is its own pnpm
+# workspace, so the root config does NOT apply here. Without public hoisting,
+# packages like vue are absent from e2e/node_modules and Node resolution from
+# the fixtures escapes up into the git root's node_modules — mixing the root
+# workspace's dependency versions into fixture builds (e.g. two different vue
+# copies, which breaks nitro's server output tracing).
+hoistPattern:
+  - '*'
+publicHoistPattern:
+  - '*'
+  - '!nuxt'
+  - '!@nuxt/nitro-server'
+  - '!@nuxt/vite-builder'

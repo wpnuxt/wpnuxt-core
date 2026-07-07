@@ -15163,8 +15163,17 @@ input DateInput {
   """Day of the month (from 1 to 31)"""
   day: Int
 
+  """Hour of the day (from 0 to 23)"""
+  hour: Int
+
+  """Minute of the hour (from 0 to 59)"""
+  minute: Int
+
   """Month number (from 1 to 12)"""
   month: Int
+
+  """Second of the minute (from 0 to 59)"""
+  second: Int
 
   """4 digit year (e.g. 2017)"""
   year: Int
