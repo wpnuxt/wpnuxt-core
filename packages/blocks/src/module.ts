@@ -1,8 +1,19 @@
-import { promises as fsp, existsSync, cpSync } from 'node:fs'
-import { join } from 'node:path'
+import { promises as fsp } from 'node:fs'
 import { defineNuxtModule, installModule, createResolver, addComponentsDir, addTemplate, hasNuxtModule, useLogger } from '@nuxt/kit'
 
 const logger = useLogger('@wpnuxt/blocks')
+
+declare module '@nuxt/schema' {
+  interface NuxtHooks {
+    /**
+     * Contribute additional GraphQL query folders to WPNuxt's merged queries.
+     * Declared here because @wpnuxt/core's type augmentation isn't importable
+     * (its exports map only exposes dist/). Must stay in sync with
+     * packages/core/src/types/nuxt-augment.d.ts.
+     */
+    'wpnuxt:queries:folders': (folders: string[]) => void | Promise<void>
+  }
+}
 
 export interface WPNuxtBlocksConfig {
   /**
@@ -108,15 +119,14 @@ export default defineNuxtModule<WPNuxtBlocksConfig>({
       }
     }
 
-    // Copy block queries to the merged queries folder
-    // @wpnuxt/core creates .queries in srcDir (which is 'app/' in Nuxt 4)
-    const blocksQueriesPath = resolveRuntimeModule('./queries')
-    const mergedQueriesFolder = join(nuxt.options.srcDir, '.queries')
-
-    // Copy block queries synchronously to ensure they're available
-    if (existsSync(mergedQueriesFolder) && existsSync(blocksQueriesPath)) {
-      cpSync(blocksQueriesPath, mergedQueriesFolder, { recursive: true })
-    }
+    // Contribute block fragments to @wpnuxt/core's merged queries folder.
+    // Core collects these at modules:done and merges them into its configured
+    // mergedOutputFolder, so module order doesn't matter and custom output
+    // folders are respected. If core isn't installed the hook is never
+    // called — graceful no-op.
+    nuxt.hook('wpnuxt:queries:folders', (folders) => {
+      folders.push(resolveRuntimeModule('./queries'))
+    })
 
     // Register module block components
     addComponentsDir({

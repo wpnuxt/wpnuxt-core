@@ -59,6 +59,32 @@ declare module '@nuxt/schema' {
       status: 'success' | 'error'
       error?: Error
     }) => void | Promise<void>
+    /**
+     * Contribute additional GraphQL query folders to WPNuxt's merged queries.
+     *
+     * Called by @wpnuxt/core at `modules:done`, so modules can register this
+     * hook during their own setup regardless of module order in nuxt.config.
+     * Push absolute folder paths; `.gql`/`.graphql` files are copied
+     * recursively into the merged output folder.
+     *
+     * Precedence: core defaults < CPT auto-generation < contributed folders
+     * < user `extend/queries/`. Same-named files override earlier ones, so a
+     * contributed `Post.fragment.gql` replaces the default, while users can
+     * still override contributed fragments.
+     *
+     * Note: contributed folders are intended for fragments. Contributed
+     * queries are sent to nuxt-graphql-middleware but do NOT get generated
+     * `use*()` composables (composable generation runs before this hook).
+     *
+     * @example
+     * ```ts
+     * // in a sibling module's setup()
+     * nuxt.hook('wpnuxt:queries:folders', (folders) => {
+     *   folders.push(resolve('./runtime/queries'))
+     * })
+     * ```
+     */
+    'wpnuxt:queries:folders': (folders: string[]) => void | Promise<void>
   }
 }
 
