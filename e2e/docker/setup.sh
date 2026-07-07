@@ -36,21 +36,63 @@ echo "Waiting for database..."
 sleep 5
 
 # --- Plugin install/update helper ---
+
+# Retry helper: wordpress.org intermittently rejects requests from shared CI
+# runner IPs ("An unexpected error occurred..."), especially when parallel
+# matrix jobs hit it simultaneously. Retry with backoff before giving up.
+retry() {
+    local attempts=3 delay=10 i
+    for i in $(seq 1 $attempts); do
+        "$@" && return 0
+        if [ "$i" -lt "$attempts" ]; then
+            echo "Attempt $i failed, retrying in ${delay}s..."
+            sleep $delay
+            delay=$((delay * 2))
+        fi
+    done
+    return 1
+}
+
+# Find the newest wp-graphql core release zip on GitHub. The wp-graphql repo
+# hosts releases for multiple plugins (wp-graphql-ide, wp-graphql-acf, ...),
+# so releases/latest is unreliable — filter for wp-graphql/vX.Y.Z tags.
+latest_wpgraphql_github_zip() {
+    local tag
+    tag=$(curl -s "https://api.github.com/repos/wp-graphql/wp-graphql/releases?per_page=15" \
+        | grep -o '"tag_name": *"wp-graphql/v[0-9.]*"' \
+        | head -1 \
+        | sed 's/.*"\(wp-graphql\/v[0-9.]*\)"/\1/') || true
+    if [ -n "$tag" ]; then
+        echo "https://github.com/wp-graphql/wp-graphql/releases/download/${tag}/wp-graphql.zip"
+    fi
+}
+
 install_or_update_plugins() {
     echo "Installing/updating plugins..."
 
-    # WPGraphQL (available on wordpress.org)
+    # WPGraphQL — required, so failure is fatal. wordpress.org first (with
+    # retries), GitHub release zip as fallback.
     if [ "$WPGRAPHQL_VERSION" = "latest" ]; then
-        wp plugin install wp-graphql --activate --force --allow-root
+        if ! retry wp plugin install wp-graphql --activate --force --allow-root; then
+            echo "wordpress.org failed, trying GitHub release..."
+            GITHUB_ZIP=$(latest_wpgraphql_github_zip)
+            if [ -z "$GITHUB_ZIP" ] || ! wp plugin install "$GITHUB_ZIP" --activate --force --allow-root; then
+                echo "ERROR: Could not install WPGraphQL from wordpress.org or GitHub"
+                exit 1
+            fi
+        fi
     else
         echo "Installing WPGraphQL v${WPGRAPHQL_VERSION}..."
-        wp plugin install wp-graphql --version="$WPGRAPHQL_VERSION" --activate --force --allow-root
+        # Deterministic GitHub release URL first, wordpress.org as fallback
+        wp plugin install "https://github.com/wp-graphql/wp-graphql/releases/download/wp-graphql/v${WPGRAPHQL_VERSION}/wp-graphql.zip" --activate --force --allow-root || \
+        retry wp plugin install wp-graphql --version="$WPGRAPHQL_VERSION" --activate --force --allow-root || \
+        { echo "ERROR: Could not install WPGraphQL v${WPGRAPHQL_VERSION}"; exit 1; }
     fi
 
     # WPGraphQL Content Blocks (GitHub releases)
     if [ "$WPGRAPHQL_CONTENT_BLOCKS_VERSION" = "latest" ]; then
         wp plugin install https://github.com/wpengine/wp-graphql-content-blocks/releases/latest/download/wp-graphql-content-blocks.zip --activate --force --allow-root || \
-        wp plugin install wp-graphql-content-blocks --activate --force --allow-root || \
+        retry wp plugin install wp-graphql-content-blocks --activate --force --allow-root || \
         echo "Warning: Could not install WPGraphQL Content Blocks"
     else
         echo "Installing WPGraphQL Content Blocks v${WPGRAPHQL_CONTENT_BLOCKS_VERSION}..."
