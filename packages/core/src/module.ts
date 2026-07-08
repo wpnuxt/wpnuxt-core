@@ -150,7 +150,7 @@ export default defineNuxtModule<WPNuxtConfig>({
       }
     })
 
-    await registerModules(nuxt, resolver, wpNuxtConfig, mergedQueriesFolder)
+    await registerModules(nuxt, resolver, wpNuxtConfig, mergedQueriesFolder, schemaPath)
 
     // Customize the nuxt-graphql-middleware devtools tab for WPNuxt branding
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -521,7 +521,7 @@ function configureVercelSettings(nuxt: Nuxt, logger: ReturnType<typeof getLogger
 // Module Registration
 // =============================================================================
 
-async function registerModules(nuxt: Nuxt, resolver: Resolver, wpNuxtConfig: WPNuxtConfig, mergedQueriesFolder: string) {
+async function registerModules(nuxt: Nuxt, resolver: Resolver, wpNuxtConfig: WPNuxtConfig, mergedQueriesFolder: string, schemaPath: string) {
   const logger = getLogger()
   async function registerModule(name: string, key: string, options: Record<string, unknown>) {
     if (!hasNuxtModule(name)) {
@@ -536,7 +536,13 @@ async function registerModules(nuxt: Nuxt, resolver: Resolver, wpNuxtConfig: WPN
     graphqlEndpoint: `${wpNuxtConfig.wordpressUrl}${wpNuxtConfig.graphqlEndpoint}`,
     autoImportPatterns: [mergedQueriesFolder],
     includeComposables: true,
-    downloadSchema: wpNuxtConfig.downloadSchema ?? true,
+    // WPNuxt already downloads and validates the schema (with a cached
+    // fallback on outage) before installing the middleware — see setup().
+    // Let the middleware read that file instead of downloading a second
+    // time: one network hop per build, and transient WordPress outages
+    // can't fail the build when a cached/committed schema exists.
+    downloadSchema: false,
+    schemaPath,
     enableFileUploads: true,
     // Use WPNuxt-branded API route prefix
     serverApiPrefix: '/api/wpnuxt',
@@ -557,15 +563,10 @@ async function registerModules(nuxt: Nuxt, resolver: Resolver, wpNuxtConfig: WPN
       // fields) usable without manual type assertions. See: #245
       output: {
         emptyObject: 'Record<string, unknown>'
-      },
-      // Pass auth headers for schema download when token is configured
-      ...(wpNuxtConfig.schemaAuthToken && {
-        urlSchemaOptions: {
-          headers: {
-            Authorization: `Bearer ${wpNuxtConfig.schemaAuthToken}`
-          }
-        }
-      })
+      }
+      // Note: no urlSchemaOptions auth headers needed — the middleware never
+      // downloads the schema (downloadSchema: false above). WPNuxt's own
+      // download handles schemaAuthToken in validateWordPressEndpoint().
     },
     experimental: {
       // Use improved query parameter encoding for better URL handling

@@ -1,7 +1,6 @@
-import { readFileSync, writeFileSync } from 'node:fs'
-import { execSync } from 'node:child_process'
-import { parse, visit, print } from 'graphql'
-import type { InterfaceTypeDefinitionNode, ObjectTypeDefinitionNode } from 'graphql'
+import { getIntrospectionQuery, buildClientSchema, lexicographicSortSchema, printSchema } from 'graphql'
+import type { IntrospectionQuery } from 'graphql'
+import { atomicWriteFile } from './index'
 
 /**
  * Validate that the WordPress GraphQL endpoint is reachable.
@@ -90,26 +89,22 @@ Make sure WPGraphQL plugin is installed and activated on your WordPress site.`
     // If it's missing, the WPGraphQL version is too old for WPNuxt v2
     await checkWPGraphQLVersion(fullUrl, headers)
 
-    // If schemaPath is provided, (re)download it using get-graphql-schema.
+    // If schemaPath is provided, (re)download the schema via introspection.
     // Re-downloading each time keeps the file fresh so CPT discovery and
     // codegen see newly-registered WordPress types; callers that want a
-    // cached schema should skip passing schemaPath.
+    // cached schema should skip passing schemaPath. The file is the single
+    // schema source for the whole build: nuxt-graphql-middleware reads it
+    // from disk instead of downloading its own copy.
     if (options.schemaPath) {
       try {
-        const authFlag = options.authToken ? ` -h "Authorization=Bearer ${options.authToken}"` : ''
-        execSync(`npx get-graphql-schema "${fullUrl}"${authFlag} > "${options.schemaPath}"`, {
-          stdio: 'pipe',
-          timeout: 60000 // 60 second timeout
-        })
-        // Patch the schema to fix WPGraphQL interface issues
-        patchWPGraphQLSchema(options.schemaPath)
+        await downloadSchemaFromEndpoint(fullUrl, headers, options.schemaPath)
       } catch (err) {
-        const error = err as Error & { stderr?: Buffer }
+        const error = err as Error
         throw new Error(
           `[wpnuxt:core] Failed to download GraphQL schema.
 
 URL: ${fullUrl}
-Error: ${error.stderr?.toString() || error.message}
+Error: ${error.message}
 
 Make sure WPGraphQL plugin is installed and activated on your WordPress site.`,
           { cause: err }
@@ -261,55 +256,48 @@ Download: https://wordpress.org/plugins/wp-graphql/`
 }
 
 /**
- * Interfaces whose `implements` clauses should be removed from the schema.
+ * Download the GraphQL schema via introspection and write it to disk as SDL.
  *
- * WPGraphQL uses interfaces like Connection and Edge with generic return types (Node),
- * but implementing types use more specific types (ContentNode, TermNode, etc.).
- * This is technically valid according to GraphQL spec (covariant return types),
- * but graphql-js validates strictly.
+ * Uses graphql-js directly (introspection query → buildClientSchema →
+ * printSchema) instead of the legacy `get-graphql-schema` CLI, whose output
+ * predates interfaces-implementing-interfaces and silently dropped those
+ * `implements` relationships — breaking interface fragment spreads (e.g.
+ * `...NodeWithEditorBlocks` on Post) when the file is consumed for document
+ * validation. The schema is sorted to match nuxt-graphql-middleware's
+ * schema-ast output, keeping committed schema.graphql diffs stable.
+ *
+ * @param fullUrl - The full GraphQL endpoint URL
+ * @param headers - Request headers (including auth if needed)
+ * @param schemaPath - Destination path for the SDL file
  */
-const PROBLEMATIC_INTERFACES = new Set([
-  'Connection',
-  'Edge',
-  'OneToOneConnection',
-  'NodeWithEditorBlocks'
-])
+async function downloadSchemaFromEndpoint(
+  fullUrl: string,
+  headers: Record<string, string>,
+  schemaPath: string
+): Promise<void> {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 60000) // 60 second timeout
 
-/**
- * Remove problematic interface implementations from a GraphQL schema string.
- *
- * Uses the GraphQL AST to safely filter out interfaces that cause graphql-js
- * validation errors due to covariant return types in WPGraphQL.
- *
- * @param schemaText - Raw GraphQL schema string
- * @returns Patched schema string with problematic interfaces removed
- */
-export function patchSchemaText(schemaText: string): string {
-  const ast = parse(schemaText)
+  try {
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ query: getIntrospectionQuery() }),
+      signal: controller.signal
+    })
 
-  function filterInterfaces(node: ObjectTypeDefinitionNode | InterfaceTypeDefinitionNode) {
-    if (!node.interfaces?.length) return undefined
-    const filtered = node.interfaces.filter(
-      iface => !PROBLEMATIC_INTERFACES.has(iface.name.value)
-    )
-    if (filtered.length === node.interfaces.length) return undefined
-    return { ...node, interfaces: filtered }
+    if (!response.ok) {
+      throw new Error(`Introspection request returned HTTP ${response.status}`)
+    }
+
+    const result = await response.json() as { data?: IntrospectionQuery, errors?: Array<{ message: string }> }
+    if (!result.data) {
+      throw new Error(result.errors?.[0]?.message || 'Introspection response contained no data')
+    }
+
+    const schema = lexicographicSortSchema(buildClientSchema(result.data))
+    await atomicWriteFile(schemaPath, printSchema(schema) + '\n')
+  } finally {
+    clearTimeout(timeout)
   }
-
-  const patched = visit(ast, {
-    ObjectTypeDefinition: filterInterfaces,
-    InterfaceTypeDefinition: filterInterfaces
-  })
-
-  return print(patched)
-}
-
-/**
- * Patch the WPGraphQL schema file to fix interface implementation issues.
- *
- * @param schemaPath - Path to the schema.graphql file
- */
-function patchWPGraphQLSchema(schemaPath: string): void {
-  const schema = readFileSync(schemaPath, 'utf-8')
-  writeFileSync(schemaPath, patchSchemaText(schema))
 }
