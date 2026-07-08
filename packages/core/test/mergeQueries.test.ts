@@ -1,4 +1,5 @@
-import { describe, it, expect, beforeAll, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeAll, beforeEach, afterEach, vi } from 'vitest'
+import type { ConsolaInstance } from 'consola'
 import { mkdirSync, writeFileSync, readFileSync, existsSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { createResolver } from '@nuxt/kit'
@@ -37,12 +38,21 @@ function runMergeQueries(contributedFolders: string[] = []) {
   return mergeQueries(nuxt, config, createResolver(PACKAGE_DIR), undefined, contributedFolders)
 }
 
+function runMergeQueriesWithWarnings(contributedFolders: string[] = []) {
+  const warningConfig = { ...config, queries: { ...config.queries, warnOnOverride: true } } as WPNuxtConfig
+  return mergeQueries(nuxt, warningConfig, createResolver(PACKAGE_DIR), undefined, contributedFolders)
+}
+
 describe('mergeQueries', () => {
+  let logger: ConsolaInstance
+
   beforeAll(() => {
-    initLogger(false)
+    logger = initLogger(false)
+    logger.mockTypes(() => vi.fn())
   })
 
   beforeEach(() => {
+    (logger.warn as unknown as ReturnType<typeof vi.fn>).mockClear()
     mkdirSync(join(DEFAULTS_DIR, 'fragments'), { recursive: true })
     writeFileSync(join(DEFAULTS_DIR, 'Posts.gql'), 'query Posts {\n  posts {\n    nodes {\n      ...Post\n    }\n  }\n}\n')
     writeFileSync(join(DEFAULTS_DIR, 'fragments', 'Post.fragment.gql'), DEFAULT_POST_FRAGMENT)
@@ -105,5 +115,26 @@ describe('mergeQueries', () => {
     await runMergeQueries([join(TEST_DIR, 'does-not-exist')])
 
     expect(readOutput('fragments/Post.fragment.gql')).toBe(DEFAULT_POST_FRAGMENT)
+  })
+
+  it('warns when user files override shipped default queries', async () => {
+    mkdirSync(join(USER_DIR, 'fragments'), { recursive: true })
+    writeFileSync(join(USER_DIR, 'fragments', 'Post.fragment.gql'), USER_POST_FRAGMENT)
+
+    await runMergeQueriesWithWarnings()
+
+    expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining('fragments/Post.fragment.gql'))
+  })
+
+  it('does not warn when user files override contributed queries', async () => {
+    mkdirSync(join(CONTRIB_DIR, 'fragments'), { recursive: true })
+    writeFileSync(join(CONTRIB_DIR, 'fragments', 'EditorBlock.fragment.gql'), 'fragment EditorBlock on EditorBlock {\n  name\n}\n')
+    mkdirSync(join(USER_DIR, 'fragments'), { recursive: true })
+    writeFileSync(join(USER_DIR, 'fragments', 'EditorBlock.fragment.gql'), 'fragment EditorBlock on EditorBlock {\n  name\n  clientId\n}\n')
+
+    await runMergeQueriesWithWarnings([CONTRIB_DIR])
+
+    expect(logger.warn).not.toHaveBeenCalled()
+    expect(readOutput('fragments/EditorBlock.fragment.gql')).toContain('clientId')
   })
 })
