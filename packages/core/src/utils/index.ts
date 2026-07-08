@@ -133,10 +133,7 @@ export async function mergeQueries(
   // Detect conflicts between default and user queries
   const conflicts = findConflicts(userQueryPath, queryOutputPath)
   if (conflicts.length && wpNuxtConfig.queries.warnOnOverride) {
-    logger.warn('The following user query files will override default queries:')
-    for (const file of conflicts) {
-      logger.warn(` - ${file}`)
-    }
+    logger.warn(`User query files overriding default queries: ${conflicts.join(', ')}`)
   }
 
   // Extend with user queries if they exist (only copy .gql/.graphql files)
