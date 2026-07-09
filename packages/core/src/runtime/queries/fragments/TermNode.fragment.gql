@@ -1,0 +1,10 @@
+fragment TermNode on TermNode {
+  id
+  databaseId
+  name
+  slug
+  uri
+  description
+  count
+  taxonomyName
+}

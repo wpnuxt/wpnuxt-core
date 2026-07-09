@@ -112,7 +112,13 @@ export async function mergeQueries(
   // Auto-generate fragments + queries for Custom Post Types discovered in
   // the downloaded schema. Runs BEFORE the user override copy so users can
   // still override any generated file by dropping one in extend/queries/.
-  const cptSpreads: ContentTypeFragment[] = []
+  // Category/Tag are seeded here too: they implement Node like CPTs do, so
+  // their fragments hit the same "Fragment X is never used" bundling issue
+  // unless spread into NodeByUri (see addCustomFragmentsToNodeQuery).
+  const cptSpreads: ContentTypeFragment[] = [
+    { name: 'Category', type: 'Category' },
+    { name: 'Tag', type: 'Tag' }
+  ]
   if (schemaPath && wpNuxtConfig.cpt?.enabled !== false) {
     const cpts = discoverCpts(schemaPath, {
       exclude: wpNuxtConfig.cpt?.exclude,

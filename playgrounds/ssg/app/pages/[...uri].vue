@@ -4,6 +4,14 @@ const route = useRoute()
 const uri = route.path.endsWith('/') ? route.path : `${route.path}/`
 
 const { data: node } = await useNodeByUri({ uri })
+
+// nodeByUri can also resolve to a Category/Tag archive, which has `name`
+// instead of `title` and no `content` field.
+const title = computed(() => {
+  if (!node.value) return undefined
+  return 'title' in node.value ? node.value.title : ('name' in node.value ? node.value.name : undefined)
+})
+const content = computed(() => (node.value && 'content' in node.value) ? node.value.content : undefined)
 </script>
 
 <template>
@@ -17,10 +25,10 @@ const { data: node } = await useNodeByUri({ uri })
     >
       Back
     </UButton>
-    <UPageHeader :title="node.title" />
+    <UPageHeader :title="title" />
     <div
-      v-if="node.content"
-      v-sanitize-html="node.content"
+      v-if="content"
+      v-sanitize-html="content"
       class="prose prose-lg dark:prose-invert max-w-none"
     />
   </article>
