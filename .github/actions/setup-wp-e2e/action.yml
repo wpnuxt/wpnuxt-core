@@ -109,7 +109,13 @@ runs:
     - name: Install Playwright browsers
       working-directory: e2e
       shell: bash
-      run: pnpm exec playwright install --with-deps
+      run: |
+        for i in 1 2 3; do
+          pnpm exec playwright install --with-deps && break
+          if [ "$i" = "3" ]; then echo "playwright install failed after 3 attempts"; exit 1; fi
+          echo "playwright install failed (attempt $i), retrying in 15s..."
+          sleep 15
+        done
 
     - name: Run E2E tests
       shell: bash
