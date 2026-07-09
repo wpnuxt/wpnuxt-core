@@ -1,0 +1,11 @@
+fragment Category on Category {
+  id
+  databaseId
+  name
+  slug
+  uri
+  description
+  count
+  parentId
+  parentDatabaseId
+}

@@ -1,0 +1,9 @@
+fragment Tag on Tag {
+  id
+  databaseId
+  name
+  slug
+  uri
+  description
+  count
+}

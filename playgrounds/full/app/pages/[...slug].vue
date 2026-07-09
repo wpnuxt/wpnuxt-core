@@ -1,10 +1,14 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const { data: post, pending, refresh, clear } = await useNodeByUri(
+const { data: node, pending, refresh, clear } = await useNodeByUri(
   { uri: route.path },
   { watch: [() => route.path] }
 )
+
+// nodeByUri can also resolve to a Category/Tag archive, which this page
+// doesn't render — narrow to content types (Page/Post/CPTs) only.
+const post = computed(() => (node.value && 'contentTypeName' in node.value) ? node.value : undefined)
 
 // Fetch all posts once for prev/next navigation (cached)
 const { data: allPosts } = await usePosts({ limit: 100 })

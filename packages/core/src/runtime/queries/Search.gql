@@ -1,0 +1,19 @@
+query Search($term: String!, $first: Int = 10, $after: String) {
+  contentNodes(first: $first, after: $after, where: { search: $term }) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      endCursor
+      startCursor
+    }
+    nodes {
+      ...ContentNode
+      ... on NodeWithTitle {
+        title
+      }
+      ... on NodeWithExcerpt {
+        ...NodeWithExcerpt
+      }
+    }
+  }
+}

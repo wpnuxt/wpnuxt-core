@@ -13,7 +13,7 @@ const { data: node, pending } = await useNodeByUri(
       Fetching data for {{ $route.path }}...
     </p>
     <div v-else-if="node">
-      <h1>{{ node.title }}</h1>
+      <h1>{{ ('title' in node ? node.title : undefined) ?? ('name' in node ? node.name : undefined) }}</h1>
       <WPContent :node="node" />
     </div>
   </div>

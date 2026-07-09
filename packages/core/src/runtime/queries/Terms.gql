@@ -1,0 +1,13 @@
+query Terms($taxonomies: [TaxonomyEnum], $first: Int = 100, $after: String) {
+  terms(first: $first, after: $after, where: { taxonomies: $taxonomies }) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      endCursor
+      startCursor
+    }
+    nodes {
+      ...TermNode
+    }
+  }
+}

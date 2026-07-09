@@ -1,5 +1,5 @@
 interface ContentNode {
-  contentTypeName: string
+  contentTypeName?: string
   [key: string]: unknown
 }
 

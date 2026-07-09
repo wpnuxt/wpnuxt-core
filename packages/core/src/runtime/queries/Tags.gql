@@ -1,0 +1,13 @@
+query Tags($first: Int = 100, $after: String, $where: RootQueryToTagConnectionWhereArgs) {
+  tags(first: $first, after: $after, where: $where) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      endCursor
+      startCursor
+    }
+    nodes {
+      ...Tag
+    }
+  }
+}
