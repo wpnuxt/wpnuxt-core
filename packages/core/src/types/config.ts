@@ -41,10 +41,12 @@ export interface WPNuxtConfig {
   }
 
   /**
-   * Whether to download the schema from the WordPress site and save it to disk
+   * Whether to download the schema from the WordPress site and save it to disk.
    * If downloadSchema is false, the file must be present at './schema.graphql' in order to generate types.
    *
-   * https://nuxt-graphql-middleware.dulnan.net/configuration/module.html#downloadschema-boolean
+   * WPNuxt downloads the schema once per build (with a fallback to the cached
+   * schema.graphql when WordPress is temporarily unreachable) and passes the
+   * file to nuxt-graphql-middleware, which never downloads it itself.
    *
    * @default true
    */
@@ -56,7 +58,7 @@ export interface WPNuxtConfig {
    * Required when your WordPress GraphQL endpoint has public introspection disabled.
    * The token is sent as an `Authorization: Bearer <token>` header during:
    * - Endpoint validation (introspection query)
-   * - Schema download (get-graphql-schema)
+   * - Schema download (introspection query)
    *
    * Can also be set via `WPNUXT_SCHEMA_AUTH_TOKEN` environment variable.
    *

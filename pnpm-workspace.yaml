@@ -3,6 +3,18 @@ packages:
   - playgrounds/*
   - docs
 
+# Moved from the package.json "pnpm" field, which pnpm 10 no longer reads
+overrides:
+  typescript: ^5.9.3
+  listhen@1.9.1>crossws: 0.4.4
+  vue: ^3.5.35
+  '@vue/server-renderer': ^3.5.35
+
+packageExtensions:
+  nuxt-graphql-middleware@5.4.0:
+    dependencies:
+      h3: 1.15.11
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@tailwindcss/oxide'

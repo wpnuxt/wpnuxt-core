@@ -101,6 +101,14 @@ export async function mergeQueries(
   // Copy default queries
   cpSync(defaultQueriesPath, queryOutputPath, { recursive: true })
 
+  // Detect user files shadowing WPNuxt's shipped default queries. Checked
+  // BEFORE CPT auto-generation and module contributions land, because
+  // overriding those is the documented workflow and shouldn't warn.
+  const conflicts = findConflicts(userQueryPath, queryOutputPath)
+  if (conflicts.length && wpNuxtConfig.queries.warnOnOverride) {
+    logger.warn(`User query files overriding default queries: ${conflicts.join(', ')}`)
+  }
+
   // Auto-generate fragments + queries for Custom Post Types discovered in
   // the downloaded schema. Runs BEFORE the user override copy so users can
   // still override any generated file by dropping one in extend/queries/.
@@ -127,15 +135,6 @@ export async function mergeQueries(
     if (existsSync(folder)) {
       logger.debug('Merging contributed queries:', folder)
       copyGraphqlFiles(folder, queryOutputPath)
-    }
-  }
-
-  // Detect conflicts between default and user queries
-  const conflicts = findConflicts(userQueryPath, queryOutputPath)
-  if (conflicts.length && wpNuxtConfig.queries.warnOnOverride) {
-    logger.warn('The following user query files will override default queries:')
-    for (const file of conflicts) {
-      logger.warn(` - ${file}`)
     }
   }
 

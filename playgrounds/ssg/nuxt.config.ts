@@ -19,7 +19,7 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  compatibilityDate: '2026-01-18',
+  compatibilityDate: '2026-07-08',
 
   nitro: {
     preset: 'static',
