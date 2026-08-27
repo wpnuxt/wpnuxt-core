@@ -15,7 +15,7 @@ End-to-end tests for WPNuxt using Playwright. Tests run against real WordPress i
 pnpm install
 pnpm run dev:prepare
 
-# Run default tests (WP 6.9 + Nuxt 4.3)
+# Run default tests (WP 7.1 + Nuxt 4.4)
 cd e2e
 node run-tests.mjs
 ```
@@ -28,8 +28,8 @@ node run-tests.mjs
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--wp=VERSION` | WordPress version | `6.9` |
-| `--nuxt=FIXTURE` | Nuxt fixture | `nuxt43` |
+| `--wp=VERSION` | WordPress version | `7.1` |
+| `--nuxt=FIXTURE` | Nuxt fixture | `nuxt44` |
 | `--wp-only` | Run only WordPress tests (skips Nuxt web server) | `false` |
 | `--nuxt-only` | Run only Nuxt tests | `false` |
 | `--all` | Run full matrix (all WP × Nuxt combinations) | `false` |
@@ -40,13 +40,13 @@ node run-tests.mjs
 
 | Version | Docker Port |
 |---------|-------------|
-| `6.4` | 8004 |
-| `6.5` | 8005 |
-| `6.6` | 8006 |
-| `6.7` | 8007 |
-| `6.8` | 8008 |
 | `6.9` | 8009 |
+| `7.0` | 8011 |
+| `7.1` | 8012 |
 | `beta` | 8010 |
+
+Compose files for older versions (6.4-6.8) are still in `docker/`, but only the
+versions above are accepted by the runner and covered by the CI matrix.
 
 ### Nuxt Fixtures
 
@@ -62,19 +62,19 @@ node run-tests.mjs
 
 ```bash
 # Test a specific WordPress version
-node run-tests.mjs --wp=6.7
+node run-tests.mjs --wp=7.0
 
 # WordPress-only tests (faster, no Nuxt build)
-node run-tests.mjs --wp-only --wp=6.9
+node run-tests.mjs --wp-only --wp=7.1
 
 # Nuxt-only tests with a specific fixture
-node run-tests.mjs --nuxt-only --nuxt=nuxt3
+node run-tests.mjs --nuxt-only --nuxt=nuxt41
 
 # Full compatibility matrix (all WP × Nuxt combinations)
 node run-tests.mjs --all
 
 # Skip Docker (if WordPress is already running)
-node run-tests.mjs --no-docker --wp=6.9
+node run-tests.mjs --no-docker --wp=7.1
 ```
 
 ## Plugin Version Pinning
@@ -89,16 +89,16 @@ By default, the WordPress setup installs the latest versions of WPGraphQL, WPGra
 
 ```bash
 # Pin WPGraphQL to a specific version
-WPGRAPHQL_VERSION=2.7.0 node run-tests.mjs --wp=6.9 --wp-only
+WPGRAPHQL_VERSION=2.7.0 node run-tests.mjs --wp=7.1 --wp-only
 
 # Pin all plugins
 WPGRAPHQL_VERSION=2.7.0 \
 WPGRAPHQL_CONTENT_BLOCKS_VERSION=4.9.0 \
 WPGRAPHQL_HEADLESS_LOGIN_VERSION=0.3.1 \
-node run-tests.mjs --wp=6.9
+node run-tests.mjs --wp=7.1
 
 # Mix pinned and latest
-WPGRAPHQL_VERSION=2.6.0 node run-tests.mjs --wp=6.8
+WPGRAPHQL_VERSION=2.6.0 node run-tests.mjs --wp=7.0
 ```
 
 Installed plugin versions are always logged at the end of WordPress setup, regardless of pinning.

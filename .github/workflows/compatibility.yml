@@ -11,12 +11,12 @@ on:
       wp_version:
         description: 'WordPress version'
         required: false
-        default: '7.0'
+        default: '7.1'
         type: choice
         options:
-          - '6.8'
           - '6.9'
           - '7.0'
+          - '7.1'
           - 'beta'
       nuxt_version:
         description: 'Nuxt version'
@@ -54,7 +54,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        wp_version: ['6.8', '6.9', '7.0', 'beta']
+        wp_version: ['6.9', '7.0', '7.1', 'beta']
         nuxt_version: ['4.1', '4.2', '4.3', '4.4', 'srcdir']
 
     steps:

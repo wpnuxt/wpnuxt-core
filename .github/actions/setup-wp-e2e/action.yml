@@ -33,13 +33,18 @@ runs:
     - name: Determine WordPress port
       id: wp-port
       shell: bash
+      working-directory: e2e/docker
       run: |
-        if [ "${{ inputs.wp_version }}" = "beta" ]; then
-          PORT=8010
-        else
-          MINOR=$(echo "${{ inputs.wp_version }}" | cut -d. -f2)
-          PORT=$((8000 + MINOR))
+        # Read the published port straight from the compose file so this can
+        # never drift from WP_PORTS in run-tests.mjs. The old 8000 + minor
+        # arithmetic silently broke for 7.x (7.0 -> 8000, not 8011).
+        COMPOSE=docker-compose.wp-${{ inputs.wp_version }}.yml
+        PORT=$(sed -n 's/.*"\([0-9]\{1,\}\):80"/\1/p' "$COMPOSE" | head -1)
+        if [ -z "$PORT" ]; then
+          echo "Could not determine WordPress port from $COMPOSE" >&2
+          exit 1
         fi
+        echo "Using port $PORT for WordPress ${{ inputs.wp_version }}"
         echo "port=$PORT" >> "$GITHUB_OUTPUT"
 
     - name: Start WordPress ${{ inputs.wp_version }}

@@ -141,10 +141,10 @@ jobs:
       - name: Build module
         run: pnpm run build
 
-  # E2E tests on every commit - latest WP (7.0) + Nuxt 4.4 using Docker
+  # E2E tests on every commit - latest WP (7.1) + Nuxt 4.4 using Docker
   e2e:
     runs-on: ubuntu-latest
-    name: E2E (WP 7.0 + Nuxt 4.4)
+    name: E2E (WP 7.1 + Nuxt 4.4)
     needs: [build]
     steps:
       - name: Checkout
@@ -153,5 +153,5 @@ jobs:
       - name: Setup WordPress and Run E2E Tests
         uses: ./.github/actions/setup-wp-e2e
         with:
-          wp_version: '7.0'
+          wp_version: '7.1'
           nuxt_fixture: nuxt44
