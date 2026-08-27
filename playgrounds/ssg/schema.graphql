@@ -213,6 +213,9 @@ type Category implements DatabaseIdentifier & HierarchicalNode & HierarchicalTer
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -232,6 +235,9 @@ type Category implements DatabaseIdentifier & HierarchicalNode & HierarchicalTer
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -613,6 +619,11 @@ input CategoryToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -650,6 +661,9 @@ input CategoryToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -755,6 +769,11 @@ input CategoryToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -810,6 +829,9 @@ input CategoryToPostConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -1552,7 +1574,10 @@ interface Connection {
 }
 
 """The connectors setting type"""
-type ConnectorsSettings {
+type ConnectorsSettings implements Node {
+  """The globally unique identifier of the settings group."""
+  id: ID!
+
   """API key for the Akismet Anti-spam connector."""
   wordpressApiKey: String
 }
@@ -1607,6 +1632,9 @@ interface ContentNode implements Node & UniformResourceIdentifiable {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -1628,6 +1656,9 @@ interface ContentNode implements Node & UniformResourceIdentifiable {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
@@ -1843,6 +1874,16 @@ type ContentNodeToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConn
 }
 
 """
+Arguments for filtering the ContentNodeToEnqueuedScriptConnection connection
+"""
+input ContentNodeToEnqueuedScriptConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
+}
+
+"""
 Connection between the ContentNode type and the EnqueuedStylesheet type
 """
 type ContentNodeToEnqueuedStylesheetConnection implements Connection & EnqueuedStylesheetConnection {
@@ -1886,11 +1927,29 @@ type ContentNodeToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyles
 }
 
 """
+Arguments for filtering the ContentNodeToEnqueuedStylesheetConnection connection
+"""
+input ContentNodeToEnqueuedStylesheetConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
+}
+
+"""
 A layout pattern that can help inform how content might be structured and displayed. Templates can define specialized layouts for different types of content.
 """
 interface ContentTemplate {
   """The name of the template"""
   templateName: String
+}
+
+"""
+The templates that can be assigned to content. Used to filter a connection by the template its content uses.
+"""
+enum ContentTemplateEnum {
+  """The default template, applied when no specific template is assigned."""
+  DEFAULT_TEMPLATE
 }
 
 """An Post Type object"""
@@ -2200,6 +2259,11 @@ input ContentTypeToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -2237,6 +2301,9 @@ input ContentTypeToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -3416,11 +3483,6 @@ type CoreButtonAttributes implements BlockWithSupportsAnchor {
   The &quot;url&quot; field on the &quot;CoreButtonAttributes&quot; block or block attributes
   """
   url: String
-
-  """
-  The &quot;width&quot; field on the &quot;CoreButtonAttributes&quot; block or block attributes
-  """
-  width: Float
 }
 
 """A block used for editing the site"""
@@ -5371,6 +5433,11 @@ type CoreCoverAttributes implements BlockWithSupportsAnchor {
   align: String
 
   """
+  The &quot;allowedVideoProviders&quot; field on the &quot;CoreCoverAttributes&quot; block or block attributes
+  """
+  allowedVideoProviders: BlockAttributesArray!
+
+  """
   The &quot;alt&quot; field on the &quot;CoreCoverAttributes&quot; block or block attributes
   """
   alt: String!
@@ -6135,6 +6202,11 @@ type CoreGalleryAttributes implements BlockWithSupportsAnchor {
   columns: Float
 
   """
+  The &quot;dynamicContent&quot; field on the &quot;CoreGalleryAttributes&quot; block or block attributes
+  """
+  dynamicContent: BlockAttributesObject
+
+  """
   The &quot;fixedHeight&quot; field on the &quot;CoreGalleryAttributes&quot; block or block attributes
   """
   fixedHeight: Boolean!
@@ -6546,6 +6618,11 @@ type CoreHomeLinkAttributes implements BlockWithSupportsAnchor {
   className: String
 
   """
+  The &quot;description&quot; field on the &quot;CoreHomeLinkAttributes&quot; block or block attributes
+  """
+  description: String
+
+  """
   The &quot;fontFamily&quot; field on the &quot;CoreHomeLinkAttributes&quot; block or block attributes
   """
   fontFamily: String
@@ -6569,6 +6646,11 @@ type CoreHomeLinkAttributes implements BlockWithSupportsAnchor {
   The &quot;metadata&quot; field on the &quot;CoreHomeLinkAttributes&quot; block or block attributes
   """
   metadata: BlockAttributesObject
+
+  """
+  The &quot;opensInNewTab&quot; field on the &quot;CoreHomeLinkAttributes&quot; block or block attributes
+  """
+  opensInNewTab: Boolean!
 
   """
   The &quot;style&quot; field on the &quot;CoreHomeLinkAttributes&quot; block or block attributes
@@ -6702,6 +6784,16 @@ type CoreIconAttributes implements BlockWithSupportsAnchor {
   className: String
 
   """
+  The &quot;flipHorizontal&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  flipHorizontal: Boolean!
+
+  """
+  The &quot;flipVertical&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  flipVertical: Boolean!
+
+  """
   The &quot;icon&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
   """
   icon: String
@@ -6715,6 +6807,11 @@ type CoreIconAttributes implements BlockWithSupportsAnchor {
   The &quot;metadata&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
   """
   metadata: BlockAttributesObject
+
+  """
+  The &quot;rotation&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
+  """
+  rotation: Float!
 
   """
   The &quot;style&quot; field on the &quot;CoreIconAttributes&quot; block or block attributes
@@ -6835,6 +6932,11 @@ type CoreImageAttributes implements BlockWithSupportsAnchor {
   The &quot;id&quot; field on the &quot;CoreImageAttributes&quot; block or block attributes
   """
   id: Float
+
+  """
+  The &quot;isDecorative&quot; field on the &quot;CoreImageAttributes&quot; block or block attributes
+  """
+  isDecorative: Boolean!
 
   """
   The &quot;lightbox&quot; field on the &quot;CoreImageAttributes&quot; block or block attributes
@@ -7101,11 +7203,6 @@ type CoreLatestPostsAttributes implements BlockWithSupportsAnchor {
   className: String
 
   """
-  The &quot;columns&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
-  """
-  columns: Float!
-
-  """
   The &quot;displayAuthor&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
   """
   displayAuthor: Boolean!
@@ -7171,6 +7268,11 @@ type CoreLatestPostsAttributes implements BlockWithSupportsAnchor {
   gradient: String
 
   """
+  The &quot;layout&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
+  """
+  layout: BlockAttributesObject
+
+  """
   The &quot;lock&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
   """
   lock: BlockAttributesObject
@@ -7189,11 +7291,6 @@ type CoreLatestPostsAttributes implements BlockWithSupportsAnchor {
   The &quot;orderBy&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
   """
   orderBy: String!
-
-  """
-  The &quot;postLayout&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
-  """
-  postLayout: String!
 
   """
   The &quot;postsToShow&quot; field on the &quot;CoreLatestPostsAttributes&quot; block or block attributes
@@ -8518,6 +8615,11 @@ type CoreNavigationSubmenuAttributes implements BlockWithSupportsAnchor {
   id: Float
 
   """
+  The &quot;isParentSubmenu&quot; field on the &quot;CoreNavigationSubmenuAttributes&quot; block or block attributes
+  """
+  isParentSubmenu: Boolean!
+
+  """
   The &quot;isTopLevelItem&quot; field on the &quot;CoreNavigationSubmenuAttributes&quot; block or block attributes
   """
   isTopLevelItem: Boolean
@@ -8697,11 +8799,6 @@ type CorePageListAttributes implements BlockWithSupportsAnchor {
   The &quot;gradient&quot; field on the &quot;CorePageListAttributes&quot; block or block attributes
   """
   gradient: String
-
-  """
-  The &quot;isNested&quot; field on the &quot;CorePageListAttributes&quot; block or block attributes
-  """
-  isNested: Boolean!
 
   """
   The &quot;lock&quot; field on the &quot;CorePageListAttributes&quot; block or block attributes
@@ -9010,6 +9107,282 @@ type CorePatternAttributes {
   The &quot;style&quot; field on the &quot;CorePatternAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
+}
+
+"""A block used for editing the site"""
+type CorePlaylist implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the CorePlaylist Block Type"""
+  attributes: CorePlaylistAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+
+  """The (GraphQL) type of the block"""
+  type: String
+}
+
+"""Attributes of the CorePlaylist Block Type"""
+type CorePlaylistAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;align&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  anchor: String
+
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  backgroundColor: String
+
+  """
+  The &quot;borderColor&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  borderColor: String
+
+  """
+  The &quot;caption&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  caption: String
+
+  """
+  The &quot;className&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  className: String
+
+  """
+  The &quot;fontSize&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  fontSize: String
+
+  """
+  The &quot;gradient&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  gradient: String
+
+  """
+  The &quot;lock&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  metadata: BlockAttributesObject
+
+  """
+  The &quot;order&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  order: String!
+
+  """
+  The &quot;showArtists&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  showArtists: Boolean!
+
+  """
+  The &quot;showImages&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  showImages: Boolean!
+
+  """
+  The &quot;showNumbers&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  showNumbers: Boolean!
+
+  """
+  The &quot;showPlayButtonArtwork&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  showPlayButtonArtwork: Boolean!
+
+  """
+  The &quot;showTrackLength&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  showTrackLength: Boolean!
+
+  """
+  The &quot;showTracklist&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  showTracklist: Boolean!
+
+  """
+  The &quot;style&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;textColor&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  textColor: String
+
+  """
+  The &quot;type&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  type: String!
+
+  """
+  The &quot;waveformBackgroundColor&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  waveformBackgroundColor: String
+
+  """
+  The &quot;waveformBackgroundGradient&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  waveformBackgroundGradient: String
+
+  """
+  The &quot;waveformColor&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  waveformColor: String
+
+  """
+  The &quot;waveformGradient&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  waveformGradient: String
+
+  """
+  The &quot;waveformStyle&quot; field on the &quot;CorePlaylistAttributes&quot; block or block attributes
+  """
+  waveformStyle: String!
+}
+
+"""A block used for editing the site"""
+type CorePlaylistTrack implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the CorePlaylistTrack Block Type"""
+  attributes: CorePlaylistTrackAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+
+  """The (GraphQL) type of the block"""
+  type: String
+}
+
+"""Attributes of the CorePlaylistTrack Block Type"""
+type CorePlaylistTrackAttributes {
+  """
+  The &quot;album&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  album: String
+
+  """
+  The &quot;artist&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  artist: String
+
+  """
+  The &quot;blob&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  blob: String
+
+  """
+  The &quot;className&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  className: String
+
+  """
+  The &quot;id&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  id: Float
+
+  """
+  The &quot;image&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  image: String
+
+  """
+  The &quot;imageAlt&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  imageAlt: String
+
+  """
+  The &quot;length&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  length: String
+
+  """
+  The &quot;lock&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  metadata: BlockAttributesObject
+
+  """
+  The &quot;src&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  src: String
+
+  """
+  The &quot;style&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;title&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  title: String
+
+  """
+  The &quot;type&quot; field on the &quot;CorePlaylistTrackAttributes&quot; block or block attributes
+  """
+  type: String!
 }
 
 """A block used for editing the site"""
@@ -9932,11 +10305,6 @@ type CorePostDateAttributes implements BlockWithSupportsAnchor {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CorePostDateAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CorePostDateAttributes&quot; block or block attributes
   """
   textColor: String
@@ -10047,11 +10415,6 @@ type CorePostExcerptAttributes implements BlockWithSupportsAnchor {
   The &quot;style&quot; field on the &quot;CorePostExcerptAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
-
-  """
-  The &quot;textAlign&quot; field on the &quot;CorePostExcerptAttributes&quot; block or block attributes
-  """
-  textAlign: String
 
   """
   The &quot;textColor&quot; field on the &quot;CorePostExcerptAttributes&quot; block or block attributes
@@ -10311,11 +10674,6 @@ type CorePostNavigationLinkAttributes implements BlockWithSupportsAnchor {
   The &quot;taxonomy&quot; field on the &quot;CorePostNavigationLinkAttributes&quot; block or block attributes
   """
   taxonomy: String!
-
-  """
-  The &quot;textAlign&quot; field on the &quot;CorePostNavigationLinkAttributes&quot; block or block attributes
-  """
-  textAlign: String
 
   """
   The &quot;textColor&quot; field on the &quot;CorePostNavigationLinkAttributes&quot; block or block attributes
@@ -10856,6 +11214,11 @@ type CorePostTitleAttributes implements BlockWithSupportsAnchor {
   metadata: BlockAttributesObject
 
   """
+  The &quot;placeholder&quot; field on the &quot;CorePostTitleAttributes&quot; block or block attributes
+  """
+  placeholder: String
+
+  """
   The &quot;rel&quot; field on the &quot;CorePostTitleAttributes&quot; block or block attributes
   """
   rel: String!
@@ -10864,11 +11227,6 @@ type CorePostTitleAttributes implements BlockWithSupportsAnchor {
   The &quot;style&quot; field on the &quot;CorePostTitleAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
-
-  """
-  The &quot;textAlign&quot; field on the &quot;CorePostTitleAttributes&quot; block or block attributes
-  """
-  textAlign: String
 
   """
   The &quot;textColor&quot; field on the &quot;CorePostTitleAttributes&quot; block or block attributes
@@ -11078,11 +11436,6 @@ type CorePullquoteAttributes implements BlockWithSupportsAnchor {
   The &quot;style&quot; field on the &quot;CorePullquoteAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
-
-  """
-  The &quot;textAlign&quot; field on the &quot;CorePullquoteAttributes&quot; block or block attributes
-  """
-  textAlign: String
 
   """
   The &quot;textColor&quot; field on the &quot;CorePullquoteAttributes&quot; block or block attributes
@@ -11799,11 +12152,6 @@ type CoreQueryTitleAttributes implements BlockWithSupportsAnchor {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreQueryTitleAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreQueryTitleAttributes&quot; block or block attributes
   """
   textColor: String
@@ -12394,11 +12742,6 @@ type CoreSearchAttributes implements BlockWithSupportsAnchor {
   gradient: String
 
   """
-  The &quot;isSearchFieldHidden&quot; field on the &quot;CoreSearchAttributes&quot; block or block attributes
-  """
-  isSearchFieldHidden: Boolean!
-
-  """
   The &quot;label&quot; field on the &quot;CoreSearchAttributes&quot; block or block attributes
   """
   label: String
@@ -12432,6 +12775,11 @@ type CoreSearchAttributes implements BlockWithSupportsAnchor {
   The &quot;style&quot; field on the &quot;CoreSearchAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
+
+  """
+  The &quot;tagName&quot; field on the &quot;CoreSearchAttributes&quot; block or block attributes
+  """
+  tagName: String!
 
   """
   The &quot;textColor&quot; field on the &quot;CoreSearchAttributes&quot; block or block attributes
@@ -12799,11 +13147,6 @@ type CoreSiteTaglineAttributes implements BlockWithSupportsAnchor {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreSiteTaglineAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreSiteTaglineAttributes&quot; block or block attributes
   """
   textColor: String
@@ -12924,11 +13267,6 @@ type CoreSiteTitleAttributes implements BlockWithSupportsAnchor {
   The &quot;style&quot; field on the &quot;CoreSiteTitleAttributes&quot; block or block attributes
   """
   style: BlockAttributesObject
-
-  """
-  The &quot;textAlign&quot; field on the &quot;CoreSiteTitleAttributes&quot; block or block attributes
-  """
-  textAlign: String
 
   """
   The &quot;textColor&quot; field on the &quot;CoreSiteTitleAttributes&quot; block or block attributes
@@ -13238,6 +13576,296 @@ type CoreSpacerAttributes implements BlockWithSupportsAnchor {
 }
 
 """A block used for editing the site"""
+type CoreTabList implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the CoreTabList Block Type"""
+  attributes: CoreTabListAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+
+  """The (GraphQL) type of the block"""
+  type: String
+}
+
+"""Attributes of the CoreTabList Block Type"""
+type CoreTabListAttributes {
+  """
+  The &quot;ariaLabel&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  ariaLabel: String
+
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  backgroundColor: String
+
+  """
+  The &quot;borderColor&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  borderColor: String
+
+  """
+  The &quot;className&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  className: String
+
+  """
+  The &quot;fontFamily&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  fontFamily: String
+
+  """
+  The &quot;fontSize&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  fontSize: String
+
+  """
+  The &quot;layout&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  layout: BlockAttributesObject
+
+  """
+  The &quot;lock&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;tabs&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  tabs: [CoreTabListAttributesTabs]!
+
+  """
+  The &quot;textColor&quot; field on the &quot;CoreTabListAttributes&quot; block or block attributes
+  """
+  textColor: String
+}
+
+"""
+The &quot;CoreTabListAttributesTabs&quot; field on the &quot;CoreTabListAttributes&quot; block attribute field
+"""
+type CoreTabListAttributesTabs {
+  """
+  The &quot;label&quot; field on the &quot;CoreTabListAttributesTabs&quot; block attribute field
+  """
+  label: String
+}
+
+"""A block used for editing the site"""
+type CoreTabPanel implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the CoreTabPanel Block Type"""
+  attributes: CoreTabPanelAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+
+  """The (GraphQL) type of the block"""
+  type: String
+}
+
+"""Attributes of the CoreTabPanel Block Type"""
+type CoreTabPanelAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;anchor&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  anchor: String
+
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  backgroundColor: String
+
+  """
+  The &quot;className&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  className: String
+
+  """
+  The &quot;fontFamily&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  fontFamily: String
+
+  """
+  The &quot;fontSize&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  fontSize: String
+
+  """
+  The &quot;label&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  label: String!
+
+  """
+  The &quot;layout&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  layout: BlockAttributesObject
+
+  """
+  The &quot;lock&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;textColor&quot; field on the &quot;CoreTabPanelAttributes&quot; block or block attributes
+  """
+  textColor: String
+}
+
+"""A block used for editing the site"""
+type CoreTabPanels implements EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the CoreTabPanels Block Type"""
+  attributes: CoreTabPanelsAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+
+  """The (GraphQL) type of the block"""
+  type: String
+}
+
+"""Attributes of the CoreTabPanels Block Type"""
+type CoreTabPanelsAttributes {
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CoreTabPanelsAttributes&quot; block or block attributes
+  """
+  backgroundColor: String
+
+  """
+  The &quot;borderColor&quot; field on the &quot;CoreTabPanelsAttributes&quot; block or block attributes
+  """
+  borderColor: String
+
+  """
+  The &quot;className&quot; field on the &quot;CoreTabPanelsAttributes&quot; block or block attributes
+  """
+  className: String
+
+  """
+  The &quot;fontFamily&quot; field on the &quot;CoreTabPanelsAttributes&quot; block or block attributes
+  """
+  fontFamily: String
+
+  """
+  The &quot;fontSize&quot; field on the &quot;CoreTabPanelsAttributes&quot; block or block attributes
+  """
+  fontSize: String
+
+  """
+  The &quot;lock&quot; field on the &quot;CoreTabPanelsAttributes&quot; block or block attributes
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;CoreTabPanelsAttributes&quot; block or block attributes
+  """
+  metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreTabPanelsAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;textColor&quot; field on the &quot;CoreTabPanelsAttributes&quot; block or block attributes
+  """
+  textColor: String
+}
+
+"""A block used for editing the site"""
 type CoreTable implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
   """The anchor field for the block."""
   anchor: String
@@ -13497,6 +14125,113 @@ type CoreTableAttributesHeadCells {
   The &quot;tag&quot; field on the &quot;CoreTableAttributesHeadCells&quot; block attribute field
   """
   tag: String!
+}
+
+"""A block used for editing the site"""
+type CoreTabs implements BlockWithSupportsAnchor & EditorBlock & EventEditorBlock & PageEditorBlock & PostEditorBlock & SponsorEditorBlock {
+  """The anchor field for the block."""
+  anchor: String
+
+  """The API version of the Gutenberg Block"""
+  apiVersion: Int
+
+  """Attributes of the CoreTabs Block Type"""
+  attributes: CoreTabsAttributes
+
+  """The name of the category the Block belongs to"""
+  blockEditorCategoryName: String
+
+  """The id of the Block"""
+  clientId: String
+
+  """CSS Classnames to apply to the block"""
+  cssClassNames: [String]
+
+  """The inner blocks of the Block"""
+  innerBlocks: [EditorBlock]
+
+  """Whether the block is Dynamic (server rendered)"""
+  isDynamic: Boolean!
+
+  """The name of the block"""
+  name: String
+
+  """The parent id of the Block"""
+  parentClientId: String
+
+  """The rendered HTML for the block"""
+  renderedHtml: String
+
+  """The (GraphQL) type of the block"""
+  type: String
+}
+
+"""Attributes of the CoreTabs Block Type"""
+type CoreTabsAttributes implements BlockWithSupportsAnchor {
+  """
+  The &quot;activeTabIndex&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  activeTabIndex: Float!
+
+  """
+  The &quot;align&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  align: String
+
+  """
+  The &quot;anchor&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  anchor: String
+
+  """
+  The &quot;backgroundColor&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  backgroundColor: String
+
+  """
+  The &quot;className&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  className: String
+
+  """
+  The &quot;editorActiveTabIndex&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  editorActiveTabIndex: Float
+
+  """
+  The &quot;fontFamily&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  fontFamily: String
+
+  """
+  The &quot;fontSize&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  fontSize: String
+
+  """
+  The &quot;layout&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  layout: BlockAttributesObject
+
+  """
+  The &quot;lock&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  lock: BlockAttributesObject
+
+  """
+  The &quot;metadata&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  metadata: BlockAttributesObject
+
+  """
+  The &quot;style&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  style: BlockAttributesObject
+
+  """
+  The &quot;textColor&quot; field on the &quot;CoreTabsAttributes&quot; block or block attributes
+  """
+  textColor: String
 }
 
 """A block used for editing the site"""
@@ -14001,11 +14736,6 @@ type CoreTermNameAttributes implements BlockWithSupportsAnchor {
   style: BlockAttributesObject
 
   """
-  The &quot;textAlign&quot; field on the &quot;CoreTermNameAttributes&quot; block or block attributes
-  """
-  textAlign: String
-
-  """
   The &quot;textColor&quot; field on the &quot;CoreTermNameAttributes&quot; block or block attributes
   """
   textColor: String
@@ -14468,6 +15198,11 @@ type CoreVideoAttributes implements BlockWithSupportsAnchor {
   controls: Boolean!
 
   """
+  The &quot;height&quot; field on the &quot;CoreVideoAttributes&quot; block or block attributes
+  """
+  height: Float
+
+  """
   The &quot;id&quot; field on the &quot;CoreVideoAttributes&quot; block or block attributes
   """
   id: Float
@@ -14521,6 +15256,11 @@ type CoreVideoAttributes implements BlockWithSupportsAnchor {
   The &quot;tracks&quot; field on the &quot;CoreVideoAttributes&quot; block or block attributes
   """
   tracks: [BlockAttributesObject]!
+
+  """
+  The &quot;width&quot; field on the &quot;CoreVideoAttributes&quot; block or block attributes
+  """
+  width: Float
 }
 
 """A block used for editing the site"""
@@ -15548,7 +16288,7 @@ type DeleteUserPayload {
 }
 
 """The discussion setting type"""
-type DiscussionSettings {
+type DiscussionSettings implements Node {
   """Allow people to submit comments on new posts."""
   defaultCommentStatus: String
 
@@ -15556,6 +16296,9 @@ type DiscussionSettings {
   Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.
   """
   defaultPingStatus: String
+
+  """The globally unique identifier of the settings group."""
+  id: ID!
 }
 
 """
@@ -15928,6 +16671,9 @@ type Event implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -15949,6 +16695,9 @@ type Event implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """Connection between the Event type and the EventCategory type"""
@@ -16240,6 +16989,9 @@ type EventCategory implements DatabaseIdentifier & HierarchicalNode & Hierarchic
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -16259,6 +17011,9 @@ type EventCategory implements DatabaseIdentifier & HierarchicalNode & Hierarchic
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The id field matches the WP_Post-&gt;ID field."""
@@ -16523,6 +17278,11 @@ input EventCategoryToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -16560,6 +17320,9 @@ input EventCategoryToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -16750,6 +17513,11 @@ input EventCategoryToEventConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -16787,6 +17555,9 @@ input EventCategoryToEventConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -17171,10 +17942,10 @@ type EventToEventConnection implements Connection & EventConnection {
 """An edge in a connection"""
 type EventToEventConnectionEdge implements Edge & EventConnectionEdge {
   """A cursor for use in pagination"""
-  cursor: String @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+  cursor: String
 
   """The item at the end of the edge"""
-  node: Event! @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+  node: Event!
 }
 
 """
@@ -17205,7 +17976,7 @@ type EventToParentConnectionEdge implements Edge & EventConnectionEdge & OneToOn
   cursor: String
 
   """The node of the connection, without the edges"""
-  node: Event! @deprecated(reason: "This content type is not hierarchical and typically will not have a parent")
+  node: Event!
 }
 
 """Connection between the Event type and the Event type"""
@@ -17276,6 +18047,11 @@ input EventToRevisionConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -17313,6 +18089,9 @@ input EventToRevisionConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -17488,7 +18267,7 @@ type FacebookLoginOptions implements LoginOptions {
 }
 
 """The general setting type"""
-type GeneralSettings {
+type GeneralSettings implements Node {
   """A date format for all date strings."""
   dateFormat: String
 
@@ -17497,6 +18276,14 @@ type GeneralSettings {
 
   """This address is used for admin purposes, like new user notification."""
   email: String
+
+  """
+  The address at which visitors reach the site&#039;s front end. Can differ from the `url` field when the front end and the content management backend are served from different addresses, such as on headless or decoupled installs.
+  """
+  homeUrl: String
+
+  """The globally unique identifier of the settings group."""
+  id: ID!
 
   """WordPress locale code."""
   language: String
@@ -17779,6 +18566,9 @@ interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -17800,6 +18590,9 @@ interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
@@ -17949,6 +18742,11 @@ input HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -17986,6 +18784,9 @@ input HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -18057,6 +18858,11 @@ input HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -18094,6 +18900,9 @@ input HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -18160,6 +18969,9 @@ interface HierarchicalTermNode implements DatabaseIdentifier & HierarchicalNode 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -18179,6 +18991,9 @@ interface HierarchicalTermNode implements DatabaseIdentifier & HierarchicalNode 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -18640,6 +19455,9 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -18661,6 +19479,9 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
@@ -20383,6 +21204,9 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -20404,6 +21228,9 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
@@ -20894,6 +21721,11 @@ input PageToRevisionConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -20932,6 +21764,9 @@ input PageToRevisionConnectionWhereArgs {
   """Show posts with a specific status."""
   status: PostStatusEnum
 
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
+
   """Title of the object"""
   title: String
 }
@@ -20957,6 +21792,21 @@ input PasswordProviderResponseInput {
 
   """The WordPress username to authenticate ass"""
   username: String!
+}
+
+"""The permalink setting type"""
+type PermalinkSettings implements Node {
+  """The prefix used in the URLs of category archive pages."""
+  categoryBase: String
+
+  """The globally unique identifier of the settings group."""
+  id: ID!
+
+  """The structure used to build the URLs for content on the site."""
+  structure: String
+
+  """The prefix used in the URLs of tag archive pages."""
+  tagBase: String
 }
 
 """An plugin object"""
@@ -21208,6 +22058,9 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -21229,6 +22082,9 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The excerpt of the post."""
@@ -21626,6 +22482,9 @@ type PostFormat implements DatabaseIdentifier & MenuItemLinkable & Node & TermNo
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -21645,6 +22504,9 @@ type PostFormat implements DatabaseIdentifier & MenuItemLinkable & Node & TermNo
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -21855,6 +22717,11 @@ input PostFormatToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -21892,6 +22759,9 @@ input PostFormatToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -21986,6 +22856,11 @@ input PostFormatToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -22041,6 +22916,9 @@ input PostFormatToPostConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -22542,7 +23420,7 @@ type PostToParentConnectionEdge implements Edge & OneToOneConnection & PostConne
   cursor: String
 
   """The node of the connection, without the edges"""
-  node: Post! @deprecated(reason: "This content type is not hierarchical and typically will not have a parent")
+  node: Post!
 }
 
 """Connection between the post type and the post type"""
@@ -22560,10 +23438,10 @@ type PostToPostConnection implements Connection & PostConnection {
 """An edge in a connection"""
 type PostToPostConnectionEdge implements Edge & PostConnectionEdge {
   """A cursor for use in pagination"""
-  cursor: String @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+  cursor: String
 
   """The item at the end of the edge"""
-  node: Post! @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+  node: Post!
 }
 
 """
@@ -22815,6 +23693,11 @@ input PostToRevisionConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -22870,6 +23753,9 @@ input PostToRevisionConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -23213,6 +24099,12 @@ type PostTypeLabelDetails {
 
 type PostTypeSEO {
   """"""
+  analysis: SEOAnalysis
+
+  """"""
+  breadcrumbTitle: String
+
+  """"""
   breadcrumbs: [SEOPostTypeBreadcrumbs]
 
   """"""
@@ -23228,6 +24120,12 @@ type PostTypeSEO {
   fullHead: String
 
   """"""
+  head: SEOHead
+
+  """"""
+  language: String
+
+  """"""
   metaDesc: String
 
   """"""
@@ -23240,13 +24138,28 @@ type PostTypeSEO {
   metaRobotsNoindex: String
 
   """"""
+  objectLastModified: String
+
+  """"""
+  objectPublishedAt: String
+
+  """"""
   opengraphAuthor: String
 
   """"""
   opengraphDescription: String
 
   """"""
+  opengraphEnabled: Boolean
+
+  """"""
+  opengraphFbAppId: String
+
+  """"""
   opengraphImage: MediaItem
+
+  """"""
+  opengraphLocale: String
 
   """"""
   opengraphModifiedTime: String
@@ -23273,16 +24186,37 @@ type PostTypeSEO {
   readingTime: Float
 
   """"""
+  region: String
+
+  """"""
+  relNext: String
+
+  """"""
+  relPrev: String
+
+  """"""
+  robots: SEORobots
+
+  """"""
   schema: SEOPostTypeSchema
 
   """"""
   title: String
 
   """"""
+  twitterCardType: String
+
+  """"""
+  twitterCreator: String
+
+  """"""
   twitterDescription: String
 
   """"""
   twitterImage: MediaItem
+
+  """"""
+  twitterSite: String
 
   """"""
   twitterTitle: String
@@ -23303,7 +24237,10 @@ interface Previewable {
 }
 
 """The reading setting type"""
-type ReadingSettings {
+type ReadingSettings implements Node {
+  """The globally unique identifier of the settings group."""
+  id: ID!
+
   """The ID of the page that should display the latest posts"""
   pageForPosts: Int
 
@@ -24245,6 +25182,9 @@ type RootQuery {
     where: RootQueryToPageConnectionWhereArgs
   ): RootQueryToPageConnection
 
+  """Fields of the &#039;PermalinkSettings&#039; settings group"""
+  permalinkSettings: PermalinkSettings
+
   """A WordPress plugin"""
   plugin(
     """The globally unique identifier of the plugin."""
@@ -24375,6 +25315,9 @@ type RootQuery {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: RootQueryToEnqueuedScriptConnectionWhereArgs
   ): RootQueryToEnqueuedScriptConnection
 
   """Connection between the RootQuery type and the EnqueuedStylesheet type"""
@@ -24394,6 +25337,9 @@ type RootQuery {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: RootQueryToEnqueuedStylesheetConnectionWhereArgs
   ): RootQueryToEnqueuedStylesheetConnection
 
   """Connection between the RootQuery type and the ContentNode type"""
@@ -24986,6 +25932,11 @@ input RootQueryToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -25023,6 +25974,9 @@ input RootQueryToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -25110,6 +26064,16 @@ type RootQueryToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConnec
   startCursor: String
 }
 
+"""
+Arguments for filtering the RootQueryToEnqueuedScriptConnection connection
+"""
+input RootQueryToEnqueuedScriptConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
+}
+
 """Connection between the RootQuery type and the EnqueuedStylesheet type"""
 type RootQueryToEnqueuedStylesheetConnection implements Connection & EnqueuedStylesheetConnection {
   """Edges for the RootQueryToEnqueuedStylesheetConnection connection"""
@@ -25149,6 +26113,16 @@ type RootQueryToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyleshe
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""
+Arguments for filtering the RootQueryToEnqueuedStylesheetConnection connection
+"""
+input RootQueryToEnqueuedStylesheetConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
 }
 
 """Connection between the RootQuery type and the EventCategory type"""
@@ -25339,6 +26313,11 @@ input RootQueryToEventConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -25376,6 +26355,9 @@ input RootQueryToEventConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -25454,6 +26436,11 @@ input RootQueryToMediaItemConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -25491,6 +26478,9 @@ input RootQueryToMediaItemConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -25678,6 +26668,11 @@ input RootQueryToPageConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -25715,6 +26710,9 @@ input RootQueryToPageConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -25862,6 +26860,11 @@ input RootQueryToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -25917,6 +26920,9 @@ input RootQueryToPostConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -26108,6 +27114,11 @@ input RootQueryToRevisionsConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -26145,6 +27156,9 @@ input RootQueryToRevisionsConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -26207,6 +27221,11 @@ input RootQueryToSponsorConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -26244,6 +27263,9 @@ input RootQueryToSponsorConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -26736,6 +27758,54 @@ type RootQueryToUserRoleConnectionPageInfo implements PageInfo & UserRoleConnect
   startCursor: String
 }
 
+"""The Yoast SEO advanced site configuration"""
+type SEOAdvanced {
+  """"""
+  contentAnalysisActive: Boolean
+
+  """"""
+  environmentType: String
+
+  """"""
+  hasMultipleAuthors: Boolean
+
+  """"""
+  inclusiveLanguageAnalysisActive: Boolean
+
+  """"""
+  indexNowEnabled: Boolean
+
+  """"""
+  indexNowKey: String
+
+  """"""
+  keywordAnalysisActive: Boolean
+
+  """"""
+  siteType: String
+
+  """"""
+  xmlSitemapEnabled: Boolean
+}
+
+"""The Yoast SEO analysis scores and link counts"""
+type SEOAnalysis {
+  """"""
+  inclusiveLanguageScore: Int
+
+  """"""
+  incomingLinkCount: Int
+
+  """"""
+  keywordScore: Int
+
+  """"""
+  linkCount: Int
+
+  """"""
+  readabilityScore: Int
+}
+
 """The Yoast SEO breadcrumb config"""
 type SEOBreadcrumbs {
   """"""
@@ -26778,6 +27848,9 @@ enum SEOCardType {
 """The Yoast SEO site level configuration data"""
 type SEOConfig {
   """"""
+  advanced: SEOAdvanced
+
+  """"""
   breadcrumbs: SEOBreadcrumbs
 
   """"""
@@ -26799,6 +27872,9 @@ type SEOConfig {
   social: SEOSocial
 
   """"""
+  taxonomyArchives: SEOTaxonomyTypes
+
+  """"""
   webmaster: SEOWebmaster
 }
 
@@ -26806,6 +27882,9 @@ type SEOConfig {
 type SEOContentType {
   """"""
   archive: SEOContentTypeArchive
+
+  """"""
+  articleType: String
 
   """"""
   metaDesc: String
@@ -26838,6 +27917,9 @@ type SEOContentTypeArchive {
   hasArchive: Boolean
 
   """"""
+  head: SEOHead
+
+  """"""
   metaDesc: String
 
   """"""
@@ -26851,6 +27933,9 @@ type SEOContentTypeArchive {
 
   """"""
   metaRobotsNoindex: Boolean
+
+  """"""
+  social: SEOSocialArchive
 
   """"""
   title: String
@@ -26890,6 +27975,9 @@ type SEOGlobalMeta {
 
   """"""
   notFound: SEOGlobalMeta404
+
+  """"""
+  search: SEOGlobalMetaSearch
 }
 
 """The Yoast SEO meta 404 data"""
@@ -26907,6 +27995,15 @@ type SEOGlobalMetaAuthor {
   description: String
 
   """"""
+  noindex: Boolean
+
+  """"""
+  noindexNoPosts: Boolean
+
+  """"""
+  social: SEOSocialArchive
+
+  """"""
   title: String
 }
 
@@ -26922,6 +28019,12 @@ type SEOGlobalMetaDate {
   description: String
 
   """"""
+  noindex: Boolean
+
+  """"""
+  social: SEOSocialArchive
+
+  """"""
   title: String
 }
 
@@ -26934,10 +28037,28 @@ type SEOGlobalMetaHome {
   title: String
 }
 
+"""The Yoast SEO search results data"""
+type SEOGlobalMetaSearch {
+  """"""
+  title: String
+}
+
+"""The Yoast SEO head output as structured HTML and JSON"""
+type SEOHead {
+  """"""
+  html: String
+
+  """"""
+  json: String
+}
+
 """The Open Graph data"""
 type SEOOpenGraph {
   """"""
   defaultImage: MediaItem
+
+  """"""
+  enabled: Boolean
 
   """"""
   frontPage: SEOOpenGraphFrontPage
@@ -27002,6 +28123,24 @@ type SEORedirect {
   type: Int
 }
 
+"""The Yoast SEO robots directives"""
+type SEORobots {
+  """"""
+  noarchive: Boolean
+
+  """"""
+  nofollow: String
+
+  """"""
+  noimageindex: Boolean
+
+  """"""
+  noindex: String
+
+  """"""
+  nosnippet: Boolean
+}
+
 """The Yoast SEO schema data"""
 type SEOSchema {
   """"""
@@ -27050,6 +28189,9 @@ type SEOSocial {
   linkedIn: SEOSocialLinkedIn
 
   """"""
+  mastodon: SEOSocialMastodon
+
+  """"""
   mySpace: SEOSocialMySpace
 
   """"""
@@ -27068,6 +28210,18 @@ type SEOSocial {
   youTube: SEOSocialYoutube
 }
 
+"""The Yoast SEO Premium social settings for an archive"""
+type SEOSocialArchive {
+  """"""
+  description: String
+
+  """"""
+  image: MediaItem
+
+  """"""
+  title: String
+}
+
 type SEOSocialFacebook {
   """"""
   defaultImage: MediaItem
@@ -27082,6 +28236,11 @@ type SEOSocialInstagram {
 }
 
 type SEOSocialLinkedIn {
+  """"""
+  url: String
+}
+
+type SEOSocialMastodon {
   """"""
   url: String
 }
@@ -27104,6 +28263,9 @@ type SEOSocialTwitter {
   cardType: SEOCardType
 
   """"""
+  enabled: Boolean
+
+  """"""
   username: String
 }
 
@@ -27123,7 +28285,46 @@ type SEOTaxonomySchema {
   raw: String
 }
 
+"""The Yoast SEO search appearance Taxonomy types fields"""
+type SEOTaxonomyType {
+  """"""
+  archive: SEOTaxonomyTypeArchive
+}
+
+"""The Yoast SEO search appearance Taxonomy types fields"""
+type SEOTaxonomyTypeArchive {
+  """"""
+  metaDesc: String
+
+  """"""
+  metaRobotsNoindex: Boolean
+
+  """"""
+  social: SEOSocialArchive
+
+  """"""
+  title: String
+}
+
+"""The Yoast SEO archive configuration data for taxonomies"""
+type SEOTaxonomyTypes {
+  """"""
+  category: SEOTaxonomyType
+
+  """"""
+  eventCategory: SEOTaxonomyType
+
+  """"""
+  postFormat: SEOTaxonomyType
+
+  """"""
+  tag: SEOTaxonomyType
+}
+
 type SEOUser {
+  """"""
+  analysis: SEOAnalysis
+
   """"""
   breadcrumbTitle: String
 
@@ -27132,6 +28333,9 @@ type SEOUser {
 
   """"""
   fullHead: String
+
+  """"""
+  head: SEOHead
 
   """"""
   language: String
@@ -27149,13 +28353,31 @@ type SEOUser {
   opengraphDescription: String
 
   """"""
+  opengraphEnabled: Boolean
+
+  """"""
+  opengraphFbAppId: String
+
+  """"""
   opengraphImage: MediaItem
+
+  """"""
+  opengraphLocale: String
 
   """"""
   opengraphTitle: String
 
   """"""
   region: String
+
+  """"""
+  relNext: String
+
+  """"""
+  relPrev: String
+
+  """"""
+  robots: SEORobots
 
   """"""
   schema: SEOUserSchema
@@ -27167,10 +28389,16 @@ type SEOUser {
   title: String
 
   """"""
+  twitterCreator: String
+
+  """"""
   twitterDescription: String
 
   """"""
   twitterImage: MediaItem
+
+  """"""
+  twitterSite: String
 
   """"""
   twitterTitle: String
@@ -27197,6 +28425,9 @@ type SEOUserSocial {
 
   """"""
   linkedIn: String
+
+  """"""
+  mastodon: String
 
   """"""
   mySpace: String
@@ -27291,61 +28522,73 @@ type SendPasswordResetEmailPayload {
 
 """All of the registered settings"""
 type Settings {
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   connectorsSettingsWordpressApiKey: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   discussionSettingsDefaultCommentStatus: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   discussionSettingsDefaultPingStatus: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsDateFormat: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsDescription: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsEmail: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
+  generalSettingsHomeUrl: String
+
+  """Settings of the string Settings Group"""
   generalSettingsLanguage: String
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the integer Settings Group"""
   generalSettingsStartOfWeek: Int
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsTimeFormat: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsTimezone: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsTitle: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsUrl: String
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the string Settings Group"""
+  permalinkSettingsCategoryBase: String
+
+  """Settings of the string Settings Group"""
+  permalinkSettingsStructure: String
+
+  """Settings of the string Settings Group"""
+  permalinkSettingsTagBase: String
+
+  """Settings of the integer Settings Group"""
   readingSettingsPageForPosts: Int
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the integer Settings Group"""
   readingSettingsPageOnFront: Int
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the integer Settings Group"""
   readingSettingsPostsPerPage: Int
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   readingSettingsShowOnFront: String
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the integer Settings Group"""
   writingSettingsDefaultCategory: Int
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   writingSettingsDefaultPostFormat: String
 
-  """Settings of the the boolean Settings Group"""
+  """Settings of the boolean Settings Group"""
   writingSettingsUseSmilies: Boolean
 }
 
@@ -27442,6 +28685,9 @@ type Sponsor implements ContentNode & DatabaseIdentifier & MenuItemLinkable & No
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -27463,6 +28709,9 @@ type Sponsor implements ContentNode & DatabaseIdentifier & MenuItemLinkable & No
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The excerpt of the post."""
@@ -27718,7 +28967,7 @@ type SponsorToParentConnectionEdge implements Edge & OneToOneConnection & Sponso
   cursor: String
 
   """The node of the connection, without the edges"""
-  node: Sponsor! @deprecated(reason: "This content type is not hierarchical and typically will not have a parent")
+  node: Sponsor!
 }
 
 """Connection between the Sponsor type and the Sponsor type"""
@@ -27789,6 +29038,11 @@ input SponsorToRevisionConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -27827,6 +29081,9 @@ input SponsorToRevisionConnectionWhereArgs {
   """Show posts with a specific status."""
   status: PostStatusEnum
 
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
+
   """Title of the object"""
   title: String
 }
@@ -27846,10 +29103,10 @@ type SponsorToSponsorConnection implements Connection & SponsorConnection {
 """An edge in a connection"""
 type SponsorToSponsorConnectionEdge implements Edge & SponsorConnectionEdge {
   """A cursor for use in pagination"""
-  cursor: String @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+  cursor: String
 
   """The item at the end of the edge"""
-  node: Sponsor! @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+  node: Sponsor!
 }
 
 """
@@ -27927,6 +29184,9 @@ type Tag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Un
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -27946,6 +29206,9 @@ type Tag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Un
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -28154,6 +29417,11 @@ input TagToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -28191,6 +29459,9 @@ input TagToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -28285,6 +29556,11 @@ input TagToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -28340,6 +29616,9 @@ input TagToPostConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -28547,6 +29826,12 @@ enum TaxonomyIdTypeEnum {
 
 type TaxonomySEO {
   """"""
+  analysis: SEOAnalysis
+
+  """"""
+  breadcrumbTitle: String
+
+  """"""
   breadcrumbs: [SEOPostTypeBreadcrumbs]
 
   """"""
@@ -28562,6 +29847,12 @@ type TaxonomySEO {
   fullHead: String
 
   """"""
+  head: SEOHead
+
+  """"""
+  language: String
+
+  """"""
   metaDesc: String
 
   """"""
@@ -28574,13 +29865,28 @@ type TaxonomySEO {
   metaRobotsNoindex: String
 
   """"""
+  objectLastModified: String
+
+  """"""
+  objectPublishedAt: String
+
+  """"""
   opengraphAuthor: String
 
   """"""
   opengraphDescription: String
 
   """"""
+  opengraphEnabled: Boolean
+
+  """"""
+  opengraphFbAppId: String
+
+  """"""
   opengraphImage: MediaItem
+
+  """"""
+  opengraphLocale: String
 
   """"""
   opengraphModifiedTime: String
@@ -28604,16 +29910,37 @@ type TaxonomySEO {
   opengraphUrl: String
 
   """"""
+  region: String
+
+  """"""
+  relNext: String
+
+  """"""
+  relPrev: String
+
+  """"""
+  robots: SEORobots
+
+  """"""
   schema: SEOTaxonomySchema
 
   """"""
   title: String
 
   """"""
+  twitterCardType: String
+
+  """"""
+  twitterCreator: String
+
+  """"""
   twitterDescription: String
 
   """"""
   twitterImage: MediaItem
+
+  """"""
+  twitterSite: String
 
   """"""
   twitterTitle: String
@@ -28734,6 +30061,9 @@ interface TermNode implements Node & UniformResourceIdentifiable {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -28753,6 +30083,9 @@ interface TermNode implements Node & UniformResourceIdentifiable {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -28911,6 +30244,16 @@ type TermNodeToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConnect
   startCursor: String
 }
 
+"""
+Arguments for filtering the TermNodeToEnqueuedScriptConnection connection
+"""
+input TermNodeToEnqueuedScriptConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
+}
+
 """Connection between the TermNode type and the EnqueuedStylesheet type"""
 type TermNodeToEnqueuedStylesheetConnection implements Connection & EnqueuedStylesheetConnection {
   """Edges for the TermNodeToEnqueuedStylesheetConnection connection"""
@@ -28950,6 +30293,16 @@ type TermNodeToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyleshee
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""
+Arguments for filtering the TermNodeToEnqueuedStylesheetConnection connection
+"""
+input TermNodeToEnqueuedStylesheetConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
 }
 
 """
@@ -29595,9 +30948,6 @@ input UpdateSettingsInput {
   """Site title."""
   generalSettingsTitle: String
 
-  """Site URL."""
-  generalSettingsUrl: String
-
   """The ID of the page that should display the latest posts"""
   readingSettingsPageForPosts: Int
 
@@ -29638,6 +30988,9 @@ type UpdateSettingsPayload {
 
   """Update the GeneralSettings setting."""
   generalSettings: GeneralSettings
+
+  """Update the PermalinkSettings setting."""
+  permalinkSettings: PermalinkSettings
 
   """Update the ReadingSettings setting."""
   readingSettings: ReadingSettings
@@ -29902,6 +31255,9 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: UserToEnqueuedScriptConnectionWhereArgs
   ): UserToEnqueuedScriptConnection
 
   """Connection between the User type and the EnqueuedStylesheet type"""
@@ -29921,6 +31277,9 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: UserToEnqueuedStylesheetConnectionWhereArgs
   ): UserToEnqueuedStylesheetConnection
 
   """
@@ -30281,16 +31640,25 @@ interface UserRoleConnectionPageInfo implements PageInfo & WPPageInfo {
 Permission levels for user accounts. Defines the standard access levels that control what actions users can perform within the system.
 """
 enum UserRoleEnum {
-  """User role with specific capabilities"""
+  """Full system access with ability to manage all aspects of the site."""
   ADMINISTRATOR
 
-  """User role with specific capabilities"""
+  """Can publish and manage their own content."""
   AUTHOR
 
   """User role with specific capabilities"""
-  CONTRIBUTOR
+  BACKWPUP_ADMIN
 
   """User role with specific capabilities"""
+  BACKWPUP_JOBS_CHECKER
+
+  """User role with specific capabilities"""
+  BACKWPUP_JOBS_FUNCTIONS
+
+  """Can write and manage their own content but cannot publish."""
+  CONTRIBUTOR
+
+  """Content management access without administrative capabilities."""
   EDITOR
 
   """User role with specific capabilities"""
@@ -30299,7 +31667,7 @@ enum UserRoleEnum {
   """User role with specific capabilities"""
   SEO_MANAGER
 
-  """User role with specific capabilities"""
+  """Can only manage their profile and read content."""
   SUBSCRIBER
 }
 
@@ -30483,6 +31851,14 @@ type UserToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConnectionP
   startCursor: String
 }
 
+"""Arguments for filtering the UserToEnqueuedScriptConnection connection"""
+input UserToEnqueuedScriptConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
+}
+
 """Connection between the User type and the EnqueuedStylesheet type"""
 type UserToEnqueuedStylesheetConnection implements Connection & EnqueuedStylesheetConnection {
   """Edges for the UserToEnqueuedStylesheetConnection connection"""
@@ -30522,6 +31898,16 @@ type UserToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStylesheetCon
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""
+Arguments for filtering the UserToEnqueuedStylesheetConnection connection
+"""
+input UserToEnqueuedStylesheetConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
 }
 
 """Connection between the User type and the mediaItem type"""
@@ -30597,6 +31983,11 @@ input UserToMediaItemConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -30634,6 +32025,9 @@ input UserToMediaItemConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -30712,6 +32106,11 @@ input UserToPageConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -30749,6 +32148,9 @@ input UserToPageConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -30843,6 +32245,11 @@ input UserToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -30898,6 +32305,9 @@ input UserToPostConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -30963,6 +32373,11 @@ input UserToRevisionsConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -31000,6 +32415,9 @@ input UserToRevisionsConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -31133,12 +32551,15 @@ interface WithAcfEventDetails {
 }
 
 """The writing setting type"""
-type WritingSettings {
+type WritingSettings implements Node {
   """Default post category."""
   defaultCategory: Int
 
   """Default post format."""
   defaultPostFormat: String
+
+  """The globally unique identifier of the settings group."""
+  id: ID!
 
   """Convert emoticons like :-) and :-P to graphics on display."""
   useSmilies: Boolean

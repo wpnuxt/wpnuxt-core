@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     'vue-json-pretty/lib/styles.css'
   ],
 
-  compatibilityDate: '2026-07-08',
+  compatibilityDate: '2026-08-27',
 
   // Disable error overlay due to bug with path.join() on errors without path
   graphqlMiddleware: {

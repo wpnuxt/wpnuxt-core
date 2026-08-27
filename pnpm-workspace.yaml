@@ -3,8 +3,23 @@ packages:
   - playgrounds/*
   - docs
 
+# Moved from .npmrc, which pnpm 11 no longer reads these settings from
+hoistPattern:
+  - '*'
+publicHoistPattern:
+  - '*'
+  - '!nuxt'
+  - '!@nuxt/nitro-server'
+  - '!@nuxt/vite-builder'
+strictPeerDependencies: false
+
 # Moved from the package.json "pnpm" field, which pnpm 10 no longer reads
 overrides:
+  # Follow whatever nuxt-graphql-middleware peers on: 5.4.0 wants graphql ^16.0.0 and its
+  # graphql-typescript-deluxe hard-deps ^16.12.0. graphql 17 loads a second instance, every
+  # instanceof check fails, and type gen dies with a misleading "Cannot build selection set
+  # for type: X". Re-check this pin whenever nuxt-graphql-middleware is updated.
+  graphql: ^16
   typescript: ^5.9.3
   listhen@1.9.1>crossws: 0.4.4
   vue: ^3.5.35
@@ -23,3 +38,10 @@ onlyBuiltDependencies:
   - sharp
   - unrs-resolver
   - vue-demi
+
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  vue-demi: true
