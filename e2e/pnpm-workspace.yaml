@@ -10,6 +10,15 @@ onlyBuiltDependencies:
   - unrs-resolver
   - vue-demi
 
+# pnpm 11 gates build scripts on allowBuilds and errors out on anything ignored,
+# so this must mirror the root workspace's block.
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  vue-demi: true
+
 # Mirror the root workspace's hoisting. The e2e folder is its own pnpm
 # workspace, so the root config does NOT apply here. Without public hoisting,
 # packages like vue are absent from e2e/node_modules and Node resolution from
