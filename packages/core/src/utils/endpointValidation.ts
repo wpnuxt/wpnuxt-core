@@ -256,6 +256,39 @@ Download: https://wordpress.org/plugins/wp-graphql/`
 }
 
 /**
+ * Run an introspection query against the endpoint and return its result.
+ *
+ * @param fullUrl - The full GraphQL endpoint URL
+ * @param headers - Request headers (including auth if needed)
+ * @param signal - Abort signal for the request timeout
+ * @param options - Options forwarded to `getIntrospectionQuery()`
+ */
+async function introspect(
+  fullUrl: string,
+  headers: Record<string, string>,
+  signal: AbortSignal,
+  options: Parameters<typeof getIntrospectionQuery>[0]
+): Promise<IntrospectionQuery> {
+  const response = await fetch(fullUrl, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ query: getIntrospectionQuery(options) }),
+    signal
+  })
+
+  if (!response.ok) {
+    throw new Error(`Introspection request returned HTTP ${response.status}`)
+  }
+
+  const result = await response.json() as { data?: IntrospectionQuery, errors?: Array<{ message: string }> }
+  if (!result.data) {
+    throw new Error(result.errors?.[0]?.message || 'Introspection response contained no data')
+  }
+
+  return result.data
+}
+
+/**
  * Download the GraphQL schema via introspection and write it to disk as SDL.
  *
  * Uses graphql-js directly (introspection query → buildClientSchema →
@@ -279,23 +312,18 @@ async function downloadSchemaFromEndpoint(
   const timeout = setTimeout(() => controller.abort(), 60000) // 60 second timeout
 
   try {
-    const response = await fetch(fullUrl, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ query: getIntrospectionQuery() }),
-      signal: controller.signal
-    })
-
-    if (!response.ok) {
-      throw new Error(`Introspection request returned HTTP ${response.status}`)
+    let data: IntrospectionQuery
+    try {
+      // Deprecated input values (WPGraphQL's asPreview, for one) are omitted from
+      // a default introspection, so documents that still use them fail local
+      // validation even though the server accepts them.
+      data = await introspect(fullUrl, headers, controller.signal, { inputValueDeprecation: true })
+    } catch {
+      // graphql-php < 15 rejects includeDeprecated on args/inputFields.
+      data = await introspect(fullUrl, headers, controller.signal, {})
     }
 
-    const result = await response.json() as { data?: IntrospectionQuery, errors?: Array<{ message: string }> }
-    if (!result.data) {
-      throw new Error(result.errors?.[0]?.message || 'Introspection response contained no data')
-    }
-
-    const schema = lexicographicSortSchema(buildClientSchema(result.data))
+    const schema = lexicographicSortSchema(buildClientSchema(data))
     await atomicWriteFile(schemaPath, printSchema(schema) + '\n')
   } finally {
     clearTimeout(timeout)

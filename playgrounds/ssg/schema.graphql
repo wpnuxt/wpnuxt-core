@@ -137,7 +137,7 @@ type Category implements DatabaseIdentifier & HierarchicalNode & HierarchicalTer
     last: Int
   ): CategoryToAncestorsCategoryConnection
 
-  """The id field matches the WP_Post-&gt;ID field."""
+  """The unique numeric identifier for the term."""
   categoryId: Int @deprecated(reason: "Deprecated in favor of databaseId")
 
   """Connection between the category type and its children categories."""
@@ -553,6 +553,9 @@ input CategoryToCategoryConnectionWhereArgs {
   slug: [String]
 
   """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
+
+  """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
 
   """Whether to prime meta caches for matched terms. Default true."""
@@ -852,22 +855,16 @@ type CategoryToTaxonomyConnectionEdge implements Edge & OneToOneConnection & Tax
 A response or reaction to content submitted by users. Comments are typically associated with a specific content entry.
 """
 type Comment implements DatabaseIdentifier & Node & UniformResourceIdentifiable {
-  """
-  User agent used to post the comment. This field is equivalent to WP_Comment-&gt;comment_agent and the value matching the &quot;comment_agent&quot; column in SQL.
-  """
+  """User agent (browser or client) used to post the comment."""
   agent: String
 
-  """
-  The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL.
-  """
+  """The approval status of the comment."""
   approved: Boolean @deprecated(reason: "Deprecated in favor of the `status` field")
 
   """The author of the comment"""
   author: CommentToCommenterConnectionEdge
 
-  """
-  IP address for the author at the time of commenting. This field is equivalent to WP_Comment-&gt;comment_author_IP and the value matching the &quot;comment_author_IP&quot; column in SQL.
-  """
+  """IP address for the author at the time of commenting."""
   authorIp: String @deprecated(reason: "Use the ipAddress field on the edge between the comment and author")
 
   """ID for the comment, unique among comments."""
@@ -879,9 +876,7 @@ type Comment implements DatabaseIdentifier & Node & UniformResourceIdentifiable 
   """"""
   conditionalTags: ConditionalTags @deprecated(reason: "Deprecated in favor of using Next.js pages")
 
-  """
-  Content of the comment. This field is equivalent to WP_Comment-&gt;comment_content and the value matching the &quot;comment_content&quot; column in SQL.
-  """
+  """Content of the comment."""
   content(
     """Format of the field output"""
     format: PostObjectFieldFormatEnum
@@ -890,14 +885,10 @@ type Comment implements DatabaseIdentifier & Node & UniformResourceIdentifiable 
   """The unique identifier stored in the database"""
   databaseId: Int!
 
-  """
-  Date the comment was posted in local time. This field is equivalent to WP_Comment-&gt;date and the value matching the &quot;date&quot; column in SQL.
-  """
+  """Date the comment was posted in local time."""
   date: String
 
-  """
-  Date the comment was posted in GMT. This field is equivalent to WP_Comment-&gt;date_gmt and the value matching the &quot;date_gmt&quot; column in SQL.
-  """
+  """Date the comment was posted in GMT."""
   dateGmt: String
 
   """The globally unique identifier for the comment object"""
@@ -921,9 +912,7 @@ type Comment implements DatabaseIdentifier & Node & UniformResourceIdentifiable 
   """Whether the node is a Term"""
   isTermNode: Boolean!
 
-  """
-  Karma value for the comment. This field is equivalent to WP_Comment-&gt;comment_karma and the value matching the &quot;comment_karma&quot; column in SQL.
-  """
+  """Karma value for the comment."""
   karma: Int
 
   """The permalink of the comment"""
@@ -965,17 +954,13 @@ type Comment implements DatabaseIdentifier & Node & UniformResourceIdentifiable 
     where: CommentToCommentConnectionWhereArgs
   ): CommentToCommentConnection
 
-  """
-  The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL.
-  """
+  """The approval status of the comment."""
   status: CommentStatusEnum
 
   """"""
   templates: [String]
 
-  """
-  Type of comment. This field is equivalent to WP_Comment-&gt;comment_type and the value matching the &quot;comment_type&quot; column in SQL.
-  """
+  """Type of comment."""
   type: String
 
   """The unique resource identifier path"""
@@ -1230,6 +1215,9 @@ input CommentToCommentConnectionWhereArgs {
   """Search term(s) to retrieve matching comments for."""
   search: String
 
+  """Comment status to limit results by."""
+  status: String @deprecated(reason: "Deprecated in favor of statusIn which accepts a list of one or more CommentStatusEnum values instead of a string")
+
   """One or more Comment Statuses to limit results by"""
   statusIn: [CommentStatusEnum]
 
@@ -1247,9 +1235,7 @@ type CommentToCommenterConnectionEdge implements CommenterConnectionEdge & Edge 
   """Email address representing the author for this particular comment"""
   email: String
 
-  """
-  IP address of the author at the time of making this comment. This field is equivalent to WP_Comment-&gt;comment_author_IP and the value matching the &quot;comment_author_IP&quot; column in SQL.
-  """
+  """IP address of the author at the time of making this comment."""
   ipAddress: String
 
   """The display name of the comment author for this particular comment"""
@@ -1376,6 +1362,9 @@ input CommentToParentCommentConnectionWhereArgs {
 
   """Search term(s) to retrieve matching comments for."""
   search: String
+
+  """Comment status to limit results by."""
+  status: String @deprecated(reason: "Deprecated in favor of statusIn which accepts a list of one or more CommentStatusEnum values instead of a string")
 
   """One or more Comment Statuses to limit results by"""
   statusIn: [CommentStatusEnum]
@@ -1662,7 +1651,7 @@ interface ContentNode implements Node & UniformResourceIdentifiable {
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
-  The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+  The global unique identifier for this content node. This is a stable, unique identifier for the node that does not change even if the node is moved or its url changes.
   """
   guid: String
 
@@ -1709,14 +1698,14 @@ interface ContentNode implements Node & UniformResourceIdentifiable {
   """The database id of the preview node"""
   previewRevisionDatabaseId: Int
 
-  """Whether the object is a node in the preview state"""
+  """The globally unique ID of the preview node"""
   previewRevisionId: ID
 
   """The Yoast SEO data of the ContentNode"""
   seo: PostTypeSEO
 
   """
-  The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+  The URL-friendly, human-readable identifier for the content node, used in its permalink.
   """
   slug: String
 
@@ -15372,6 +15361,9 @@ type CreateCategoryPayload {
 
 """Input for the createComment mutation."""
 input CreateCommentInput {
+  """The approval status of the comment."""
+  approved: String @deprecated(reason: "Deprecated in favor of the status field")
+
   """The name of the comment's author."""
   author: String
 
@@ -16725,7 +16717,7 @@ type Event implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   """Fields of the EventDetails ACF Field Group"""
   eventDetails: EventDetails
 
-  """The id field matches the WP_Post-&gt;ID field."""
+  """The unique numeric identifier for the content node."""
   eventId: Int! @deprecated(reason: "Deprecated in favor of the databaseId field")
 
   """The excerpt of the post."""
@@ -16748,7 +16740,7 @@ type Event implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   featuredImageId: ID
 
   """
-  The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+  The global unique identifier for this content node. This is a stable, unique identifier for the node that does not change even if the node is moved or its url changes.
   """
   guid: String
 
@@ -16844,7 +16836,7 @@ type Event implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   seo: PostTypeSEO
 
   """
-  The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+  The URL-friendly, human-readable identifier for the content node, used in its permalink.
   """
   slug: String
 
@@ -17016,7 +17008,7 @@ type EventCategory implements DatabaseIdentifier & HierarchicalNode & Hierarchic
     where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
-  """The id field matches the WP_Post-&gt;ID field."""
+  """The unique numeric identifier for the term."""
   eventCategoryId: Int @deprecated(reason: "Deprecated in favor of databaseId")
 
   """Connection between the EventCategory type and the Event type"""
@@ -17448,6 +17440,9 @@ input EventCategoryToEventCategoryConnectionWhereArgs {
 
   """Array of slugs to return term(s) for. Default empty."""
   slug: [String]
+
+  """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
 
   """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
@@ -17921,6 +17916,9 @@ input EventToEventCategoryConnectionWhereArgs {
   slug: [String]
 
   """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
+
+  """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
 
   """Whether to prime meta caches for matched terms. Default true."""
@@ -18218,6 +18216,9 @@ input EventToTermNodeConnectionWhereArgs {
 
   """The Taxonomy to filter terms by"""
   taxonomies: [TaxonomyEnum]
+
+  """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
 
   """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
@@ -18596,7 +18597,7 @@ interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & 
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
-  The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+  The global unique identifier for this content node. This is a stable, unique identifier for the node that does not change even if the node is moved or its url changes.
   """
   guid: String
 
@@ -18652,14 +18653,14 @@ interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & 
   """The database id of the preview node"""
   previewRevisionDatabaseId: Int
 
-  """Whether the object is a node in the preview state"""
+  """The globally unique ID of the preview node"""
   previewRevisionId: ID
 
   """The Yoast SEO data of the ContentNode"""
   seo: PostTypeSEO
 
   """
-  The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+  The URL-friendly, human-readable identifier for the content node, used in its permalink.
   """
   slug: String
 
@@ -19505,7 +19506,7 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
   ): Int
 
   """
-  The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+  The global unique identifier for this content node. This is a stable, unique identifier for the node that does not change even if the node is moved or its url changes.
   """
   guid: String
 
@@ -19545,7 +19546,7 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
   """Details about the mediaItem"""
   mediaDetails: MediaDetails
 
-  """The id field matches the WP_Post-&gt;ID field."""
+  """The unique numeric identifier for the content node."""
   mediaItemId: Int! @deprecated(reason: "Deprecated in favor of the databaseId field")
 
   """Url of the mediaItem"""
@@ -19582,7 +19583,7 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
   """The database id of the preview node"""
   previewRevisionDatabaseId: Int
 
-  """Whether the object is a node in the preview state"""
+  """The globally unique ID of the preview node"""
   previewRevisionId: ID
 
   """The Yoast SEO data of the ContentNode"""
@@ -19595,7 +19596,7 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
   ): String
 
   """
-  The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+  The URL-friendly, human-readable identifier for the content node, used in its permalink.
   """
   slug: String
 
@@ -19925,6 +19926,9 @@ input MediaItemToCommentConnectionWhereArgs {
   """Search term(s) to retrieve matching comments for."""
   search: String
 
+  """Comment status to limit results by."""
+  status: String @deprecated(reason: "Deprecated in favor of statusIn which accepts a list of one or more CommentStatusEnum values instead of a string")
+
   """One or more Comment Statuses to limit results by"""
   statusIn: [CommentStatusEnum]
 
@@ -20003,10 +20007,10 @@ type Menu implements DatabaseIdentifier & Node {
     where: MenuToMenuItemConnectionWhereArgs
   ): MenuToMenuItemConnection
 
-  """Display name of the menu. Equivalent to WP_Term-&gt;name."""
+  """Display name of the menu."""
   name: String
 
-  """The url friendly name of the menu. Equivalent to WP_Term-&gt;slug"""
+  """The url friendly name of the menu."""
   slug: String
 }
 
@@ -21247,7 +21251,7 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
   featuredImageId: ID
 
   """
-  The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+  The global unique identifier for this content node. This is a stable, unique identifier for the node that does not change even if the node is moved or its url changes.
   """
   guid: String
 
@@ -21305,7 +21309,7 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
   """
   modifiedGmt: String
 
-  """The id field matches the WP_Post-&gt;ID field."""
+  """The unique numeric identifier for the content node."""
   pageId: Int! @deprecated(reason: "Deprecated in favor of the databaseId field")
 
   """The parent of the node. The parent object can be of various types"""
@@ -21326,7 +21330,7 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
   """The database id of the preview node"""
   previewRevisionDatabaseId: Int
 
-  """Whether the object is a node in the preview state"""
+  """The globally unique ID of the preview node"""
   previewRevisionId: ID
 
   """
@@ -21360,7 +21364,7 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
   seo: PostTypeSEO
 
   """
-  The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+  The URL-friendly, human-readable identifier for the content node, used in its permalink.
   """
   slug: String
 
@@ -21629,6 +21633,9 @@ input PageToCommentConnectionWhereArgs {
 
   """Search term(s) to retrieve matching comments for."""
   search: String
+
+  """Comment status to limit results by."""
+  status: String @deprecated(reason: "Deprecated in favor of statusIn which accepts a list of one or more CommentStatusEnum values instead of a string")
 
   """One or more Comment Statuses to limit results by"""
   statusIn: [CommentStatusEnum]
@@ -22107,7 +22114,7 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
   featuredImageId: ID
 
   """
-  The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+  The global unique identifier for this content node. This is a stable, unique identifier for the node that does not change even if the node is moved or its url changes.
   """
   guid: String
 
@@ -22194,7 +22201,7 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
     where: PostToPostFormatConnectionWhereArgs
   ): PostToPostFormatConnection
 
-  """The id field matches the WP_Post-&gt;ID field."""
+  """The unique numeric identifier for the content node."""
   postId: Int! @deprecated(reason: "Deprecated in favor of the databaseId field")
 
   """Connection between the post type and the post type"""
@@ -22237,7 +22244,7 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
   seo: PostTypeSEO
 
   """
-  The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+  The URL-friendly, human-readable identifier for the content node, used in its permalink.
   """
   slug: String
 
@@ -22536,7 +22543,7 @@ type PostFormat implements DatabaseIdentifier & MenuItemLinkable & Node & TermNo
   """The human friendly name of the object."""
   name: String
 
-  """The id field matches the WP_Post-&gt;ID field."""
+  """The unique numeric identifier for the term."""
   postFormatId: Int @deprecated(reason: "Deprecated in favor of databaseId")
 
   """Connection between the PostFormat type and the post type"""
@@ -23267,6 +23274,9 @@ input PostToCategoryConnectionWhereArgs {
   slug: [String]
 
   """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
+
+  """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
 
   """Whether to prime meta caches for matched terms. Default true."""
@@ -23404,6 +23414,9 @@ input PostToCommentConnectionWhereArgs {
 
   """Search term(s) to retrieve matching comments for."""
   search: String
+
+  """Comment status to limit results by."""
+  status: String @deprecated(reason: "Deprecated in favor of statusIn which accepts a list of one or more CommentStatusEnum values instead of a string")
 
   """One or more Comment Statuses to limit results by"""
   statusIn: [CommentStatusEnum]
@@ -23585,6 +23598,9 @@ input PostToPostFormatConnectionWhereArgs {
 
   """Array of slugs to return term(s) for. Default empty."""
   slug: [String]
+
+  """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
 
   """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
@@ -23884,6 +23900,9 @@ input PostToTagConnectionWhereArgs {
   slug: [String]
 
   """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
+
+  """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
 
   """Whether to prime meta caches for matched terms. Default true."""
@@ -24011,6 +24030,9 @@ input PostToTermNodeConnectionWhereArgs {
 
   """The Taxonomy to filter terms by"""
   taxonomies: [TaxonomyEnum]
+
+  """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
 
   """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
@@ -24830,7 +24852,7 @@ type RootQuery {
     """
     Whether to return the Preview Node instead of the Published Node. When the ID of a Node is provided along with asPreview being set to true, the preview node with un-published changes will be returned instead of the published node. If no preview node exists or the requester doesn't have proper capabilities to preview, no node will be returned. If the ID provided is a URI and has a preview query arg, it will be used as a fallback if the "asPreview" argument is not explicitly provided as an argument.
     """
-    asPreview: Boolean
+    asPreview: Boolean @deprecated(reason: "Use the request-level preview context instead: send the `X-GraphQL-Preview` request header (or a `preview` object in the request `extensions`). When a request carries preview context, the context is applied and `asPreview` is ignored. This argument is planned for removal in a future major version.")
 
     """
     The content type the node is used for. Required when idType is set to "name" or "slug"
@@ -24906,7 +24928,7 @@ type RootQuery {
     """
     Whether to return the Preview Node instead of the Published Node. When the ID of a Node is provided along with asPreview being set to true, the preview node with un-published changes will be returned instead of the published node. If no preview node exists or the requester doesn't have proper capabilities to preview, no node will be returned. If the ID provided is a URI and has a preview query arg, it will be used as a fallback if the "asPreview" argument is not explicitly provided as an argument.
     """
-    asPreview: Boolean
+    asPreview: Boolean @deprecated(reason: "Use the request-level preview context instead: send the `X-GraphQL-Preview` request header (or a `preview` object in the request `extensions`). When a request carries preview context, the context is applied and `asPreview` is ignored. This argument is planned for removal in a future major version.")
 
     """The globally unique identifier of the object."""
     id: ID!
@@ -25008,7 +25030,7 @@ type RootQuery {
     """
     Whether to return the Preview Node instead of the Published Node. When the ID of a Node is provided along with asPreview being set to true, the preview node with un-published changes will be returned instead of the published node. If no preview node exists or the requester doesn't have proper capabilities to preview, no node will be returned. If the ID provided is a URI and has a preview query arg, it will be used as a fallback if the "asPreview" argument is not explicitly provided as an argument.
     """
-    asPreview: Boolean
+    asPreview: Boolean @deprecated(reason: "Use the request-level preview context instead: send the `X-GraphQL-Preview` request header (or a `preview` object in the request `extensions`). When a request carries preview context, the context is applied and `asPreview` is ignored. This argument is planned for removal in a future major version.")
 
     """The globally unique identifier of the object."""
     id: ID!
@@ -25139,7 +25161,7 @@ type RootQuery {
     """
     Whether to return the Preview Node instead of the Published Node. When the ID of a Node is provided along with asPreview being set to true, the preview node with un-published changes will be returned instead of the published node. If no preview node exists or the requester doesn't have proper capabilities to preview, no node will be returned. If the ID provided is a URI and has a preview query arg, it will be used as a fallback if the "asPreview" argument is not explicitly provided as an argument.
     """
-    asPreview: Boolean
+    asPreview: Boolean @deprecated(reason: "Use the request-level preview context instead: send the `X-GraphQL-Preview` request header (or a `preview` object in the request `extensions`). When a request carries preview context, the context is applied and `asPreview` is ignored. This argument is planned for removal in a future major version.")
 
     """The globally unique identifier of the object."""
     id: ID!
@@ -25218,7 +25240,7 @@ type RootQuery {
     """
     Whether to return the Preview Node instead of the Published Node. When the ID of a Node is provided along with asPreview being set to true, the preview node with un-published changes will be returned instead of the published node. If no preview node exists or the requester doesn't have proper capabilities to preview, no node will be returned. If the ID provided is a URI and has a preview query arg, it will be used as a fallback if the "asPreview" argument is not explicitly provided as an argument.
     """
-    asPreview: Boolean
+    asPreview: Boolean @deprecated(reason: "Use the request-level preview context instead: send the `X-GraphQL-Preview` request header (or a `preview` object in the request `extensions`). When a request carries preview context, the context is applied and `asPreview` is ignored. This argument is planned for removal in a future major version.")
 
     """The globally unique identifier of the object."""
     id: ID!
@@ -25372,7 +25394,7 @@ type RootQuery {
     """
     Whether to return the Preview Node instead of the Published Node. When the ID of a Node is provided along with asPreview being set to true, the preview node with un-published changes will be returned instead of the published node. If no preview node exists or the requester doesn't have proper capabilities to preview, no node will be returned. If the ID provided is a URI and has a preview query arg, it will be used as a fallback if the "asPreview" argument is not explicitly provided as an argument.
     """
-    asPreview: Boolean
+    asPreview: Boolean @deprecated(reason: "Use the request-level preview context instead: send the `X-GraphQL-Preview` request header (or a `preview` object in the request `extensions`). When a request carries preview context, the context is applied and `asPreview` is ignored. This argument is planned for removal in a future major version.")
 
     """The globally unique identifier of the object."""
     id: ID!
@@ -25725,6 +25747,9 @@ input RootQueryToCategoryConnectionWhereArgs {
   slug: [String]
 
   """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
+
+  """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
 
   """Whether to prime meta caches for matched terms. Default true."""
@@ -25862,6 +25887,9 @@ input RootQueryToCommentConnectionWhereArgs {
 
   """Search term(s) to retrieve matching comments for."""
   search: String
+
+  """Comment status to limit results by."""
+  status: String @deprecated(reason: "Deprecated in favor of statusIn which accepts a list of one or more CommentStatusEnum values instead of a string")
 
   """One or more Comment Statuses to limit results by"""
   statusIn: [CommentStatusEnum]
@@ -26245,6 +26273,9 @@ input RootQueryToEventCategoryConnectionWhereArgs {
 
   """Array of slugs to return term(s) for. Default empty."""
   slug: [String]
+
+  """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
 
   """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
@@ -27048,6 +27079,9 @@ input RootQueryToPostFormatConnectionWhereArgs {
   slug: [String]
 
   """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
+
+  """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
 
   """Whether to prime meta caches for matched terms. Default true."""
@@ -27391,6 +27425,9 @@ input RootQueryToTagConnectionWhereArgs {
   slug: [String]
 
   """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
+
+  """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
 
   """Whether to prime meta caches for matched terms. Default true."""
@@ -27559,6 +27596,9 @@ input RootQueryToTermNodeConnectionWhereArgs {
 
   """The Taxonomy to filter terms by"""
   taxonomies: [TaxonomyEnum]
+
+  """Array of term taxonomy IDs, to match when querying terms."""
+  termTaxonomId: [ID] @deprecated(reason: "Use `termTaxonomyId` instead. This will be removed in the next major version of WPGraphQL.")
 
   """Array of term taxonomy IDs, to match when querying terms."""
   termTaxonomyId: [ID]
@@ -28734,7 +28774,7 @@ type Sponsor implements ContentNode & DatabaseIdentifier & MenuItemLinkable & No
   featuredImageId: ID
 
   """
-  The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+  The global unique identifier for this content node. This is a stable, unique identifier for the node that does not change even if the node is moved or its url changes.
   """
   guid: String
 
@@ -28830,11 +28870,11 @@ type Sponsor implements ContentNode & DatabaseIdentifier & MenuItemLinkable & No
   seo: PostTypeSEO
 
   """
-  The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+  The URL-friendly, human-readable identifier for the content node, used in its permalink.
   """
   slug: String
 
-  """The id field matches the WP_Post-&gt;ID field."""
+  """The unique numeric identifier for the content node."""
   sponsorId: Int! @deprecated(reason: "Deprecated in favor of the databaseId field")
 
   """The current status of the object"""
@@ -29266,7 +29306,7 @@ type Tag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Un
   """An alphanumeric identifier for the object unique to its type."""
   slug: String
 
-  """The id field matches the WP_Post-&gt;ID field."""
+  """The unique numeric identifier for the term."""
   tagId: Int @deprecated(reason: "Deprecated in favor of databaseId")
 
   """Connection between the Tag type and the Taxonomy type"""
@@ -29675,9 +29715,7 @@ type Taxonomy implements Node {
     last: Int
   ): TaxonomyToTermNodeConnection
 
-  """
-  Description of the taxonomy. This field is equivalent to WP_Taxonomy-&gt;description
-  """
+  """Description of the taxonomy."""
   description: String
 
   """The plural name of the post type within the GraphQL Schema."""
@@ -29698,9 +29736,7 @@ type Taxonomy implements Node {
   """Name of the taxonomy shown in the menu. Usually plural."""
   label: String
 
-  """
-  The display name of the taxonomy. This field is equivalent to WP_Taxonomy-&gt;label
-  """
+  """The display name of the taxonomy."""
   name: String
 
   """Whether the taxonomy is publicly queryable"""
@@ -29714,9 +29750,7 @@ type Taxonomy implements Node {
   """The REST Controller class assigned to handling this content type."""
   restControllerClass: String
 
-  """
-  Whether to show the taxonomy as part of a tag cloud widget. This field is equivalent to WP_Taxonomy-&gt;show_tagcloud
-  """
+  """Whether to show the taxonomy as part of a tag cloud widget."""
   showCloud: Boolean
 
   """
@@ -30333,19 +30367,13 @@ enum TermObjectsConnectionOrderbyEnum {
 
 """A theme object"""
 type Theme implements Node {
-  """
-  Name of the theme author(s), could also be a company name. This field is equivalent to WP_Theme-&gt;get( &quot;Author&quot; ).
-  """
+  """Name of the theme author(s), could also be a company name."""
   author: String
 
-  """
-  URI for the author/company website. This field is equivalent to WP_Theme-&gt;get( &quot;AuthorURI&quot; ).
-  """
+  """URI for the author/company website."""
   authorUri: String
 
-  """
-  The description of the theme. This field is equivalent to WP_Theme-&gt;get( &quot;Description&quot; ).
-  """
+  """The description of the theme."""
   description: String
 
   """The globally unique identifier of the theme object."""
@@ -30354,34 +30382,30 @@ type Theme implements Node {
   """Whether the object is restricted from the current viewer"""
   isRestricted: Boolean
 
-  """
-  Display name of the theme. This field is equivalent to WP_Theme-&gt;get( &quot;Name&quot; ).
-  """
+  """Display name of the theme."""
   name: String
 
   """
-  The URL of the screenshot for the theme. The screenshot is intended to give an overview of what the theme looks like. This field is equivalent to WP_Theme-&gt;get_screenshot().
+  The URL of the screenshot for the theme. The screenshot is intended to give an overview of what the theme looks like.
   """
   screenshot: String
 
   """
-  The theme slug is used to internally match themes. Theme slugs can have subdirectories like: my-theme/sub-theme. This field is equivalent to WP_Theme-&gt;get_stylesheet().
+  The theme slug is used to internally match themes. Theme slugs can have subdirectories like: my-theme/sub-theme.
   """
   slug: String
 
   """
-  URI for the author/company website. This field is equivalent to WP_Theme-&gt;get( &quot;Tags&quot; ).
+  A list of tags associated with the theme, typically describing its features (e.g. custom-logo, accessibility-ready, full-site-editing).
   """
   tags: [String]
 
   """
-  A URI if the theme has a website associated with it. The Theme URI is handy for directing users to a theme site for support etc. This field is equivalent to WP_Theme-&gt;get( &quot;ThemeURI&quot; ).
+  A URI if the theme has a website associated with it. The Theme URI is handy for directing users to a theme site for support etc.
   """
   themeUri: String
 
-  """
-  The current version of the theme. This field is equivalent to WP_Theme-&gt;get( &quot;Version&quot; ).
-  """
+  """The current version of the theme."""
   version: String
 }
 
@@ -30514,6 +30538,9 @@ type UpdateCategoryPayload {
 
 """Input for the updateComment mutation."""
 input UpdateCommentInput {
+  """The approval status of the comment."""
+  approved: String @deprecated(reason: "Deprecated in favor of the status field")
+
   """The name of the comment's author."""
   author: String
 
@@ -30948,6 +30975,9 @@ input UpdateSettingsInput {
   """Site title."""
   generalSettingsTitle: String
 
+  """Site URL."""
+  generalSettingsUrl: String @deprecated(reason: "The site URL is read-only and cannot be changed through the API.")
+
   """The ID of the page that should display the latest posts"""
   readingSettingsPageForPosts: Int
 
@@ -31233,9 +31263,7 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
   """Description of the user."""
   description: String
 
-  """
-  Email address of the user. This is equivalent to the WP_User-&gt;user_email property.
-  """
+  """Email address of the user."""
   email: String
 
   """Connection between the User type and the EnqueuedScript type"""
@@ -31283,13 +31311,11 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
   ): UserToEnqueuedStylesheetConnection
 
   """
-  A complete list of capabilities including capabilities inherited from a role. This is equivalent to the array keys of WP_User-&gt;allcaps.
+  A complete list of capabilities including capabilities inherited from a role.
   """
   extraCapabilities: [String]
 
-  """
-  First name of the user. This is equivalent to the WP_User-&gt;user_first_name property.
-  """
+  """First name of the user."""
   firstName: String
 
   """
@@ -31328,9 +31354,7 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
   """Whether the node is a Term"""
   isTermNode: Boolean!
 
-  """
-  Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property.
-  """
+  """Last name of the user."""
   lastName: String
 
   """
@@ -31360,13 +31384,11 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
     where: UserToMediaItemConnectionWhereArgs
   ): UserToMediaItemConnection
 
-  """
-  Display name of the user. This is equivalent to the WP_User-&gt;display_name property.
-  """
+  """Display name of the user."""
   name: String
 
   """
-  The nicename for the user. This field is equivalent to WP_User-&gt;user_nicename
+  The url friendly name for the user, used to reference the user in a public url.
   """
   nicename: String
 
@@ -31474,9 +31496,7 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
   """"""
   shouldShowFaustToolbar: Boolean
 
-  """
-  The slug for the user. This field is equivalent to WP_User-&gt;user_nicename
-  """
+  """The url friendly identifier for the user."""
   slug: String
 
   """"""
@@ -31488,11 +31508,11 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
   """A website url that is associated with the user."""
   url: String
 
-  """The Id of the user. Equivalent to WP_User-&gt;ID"""
+  """The unique numeric identifier for the user."""
   userId: Int @deprecated(reason: "Deprecated in favor of the databaseId field")
 
   """
-  Username for the user. This field is equivalent to WP_User-&gt;user_login.
+  Username for the user. This is the unique identifier the user provides to log in.
   """
   username: String
 }
@@ -31802,6 +31822,9 @@ input UserToCommentConnectionWhereArgs {
 
   """Search term(s) to retrieve matching comments for."""
   search: String
+
+  """Comment status to limit results by."""
+  status: String @deprecated(reason: "Deprecated in favor of statusIn which accepts a list of one or more CommentStatusEnum values instead of a string")
 
   """One or more Comment Statuses to limit results by"""
   statusIn: [CommentStatusEnum]
