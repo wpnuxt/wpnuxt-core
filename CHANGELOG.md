@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.4.0](https://github.com/wpnuxt/wpnuxt/compare/v2.3.3...v2.4.0) (2026-09-07)
+
+### Features
+
+* **core:** add default queries for search, categories, tags, and terms ([#289](https://github.com/wpnuxt/wpnuxt/issues/289)) ([d5066f4](https://github.com/wpnuxt/wpnuxt/commit/d5066f47c62250630a470889049d4bcf9e459773))
+
+### Bug Fixes
+
+* add wpnuxt:queries:folders hook so modules stop hardcoding the merged queries path ([#279](https://github.com/wpnuxt/wpnuxt/issues/279)) ([a76ec72](https://github.com/wpnuxt/wpnuxt/commit/a76ec72d02bde21a96da04387786dff3cc8e1971)), closes [#278](https://github.com/wpnuxt/wpnuxt/issues/278), references [#278](https://github.com/wpnuxt/wpnuxt/issues/278)
+* **ci:** retry playwright install to survive transient apt-mirror failures ([#288](https://github.com/wpnuxt/wpnuxt/issues/288)) ([788ab6e](https://github.com/wpnuxt/wpnuxt/commit/788ab6eb595d439d70bf0017af55a5d9e7aad574)), closes [#286](https://github.com/wpnuxt/wpnuxt/issues/286)
+* **core:** download schema once and let nuxt-graphql-middleware read it from disk ([#287](https://github.com/wpnuxt/wpnuxt/issues/287)) ([ba21e9e](https://github.com/wpnuxt/wpnuxt/commit/ba21e9e47971b58b5abb999093022bd039bc63ab)), closes [#282](https://github.com/wpnuxt/wpnuxt/issues/282)
+* **core:** replace the deprecated asPreview argument with the X-GraphQL-Preview header ([11dd8d2](https://github.com/wpnuxt/wpnuxt/commit/11dd8d20788600f769cef375e84ecc15668d36c3)), closes [#299](https://github.com/wpnuxt/wpnuxt/issues/299), references [#300](https://github.com/wpnuxt/wpnuxt/issues/300)
+* **deps:** pin vue to an exact version to stop duplicate runtime copies ([96b1e14](https://github.com/wpnuxt/wpnuxt/commit/96b1e14b761818d598b04cc89780f53a05df0d7a))
+* **e2e:** retry + GitHub release fallback for wp-graphql install in compatibility tests ([#281](https://github.com/wpnuxt/wpnuxt/issues/281)) ([caf2da2](https://github.com/wpnuxt/wpnuxt/commit/caf2da269b1b88414934e913f5384d9ca02e0592))
+
+### Maintenance
+
+* **deps:** bump nuxt to 4.4.8 and update dev tooling ([#284](https://github.com/wpnuxt/wpnuxt/issues/284)) ([c0e0ddf](https://github.com/wpnuxt/wpnuxt/commit/c0e0ddf443d258968c1955d170e628179e513da0)), closes [#283](https://github.com/wpnuxt/wpnuxt/issues/283)
+* **deps:** update dependencies and pin graphql to 16 ([#291](https://github.com/wpnuxt/wpnuxt/issues/291)) ([17d78dd](https://github.com/wpnuxt/wpnuxt/commit/17d78dd356d187f667fb52a98515a8421671b052))
+
+### CI/CD
+
+* **e2e:** test against WordPress 7.1 and fix the CI port lookup ([#292](https://github.com/wpnuxt/wpnuxt/issues/292)) ([6359a25](https://github.com/wpnuxt/wpnuxt/commit/6359a25acc0703a8bd12fca0d672548c0ad4a0b6))
+
 ## [2.3.3](https://github.com/wpnuxt/wpnuxt/compare/v2.3.2...v2.3.3) (2026-06-03)
 
 ### Bug Fixes
